@@ -1,0 +1,12 @@
+[package]
+name = "rn-gpui-openpgp"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rn-gpui-module = { version = "0.1" }
+pgp = "0.21"
+rand = "0.8"
+
+[build-dependencies]
+rn-gpui-module-build = { version = "0.1" }

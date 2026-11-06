@@ -1,0 +1,20 @@
+{
+  "name": "@react-native-gpui/openpgp",
+  "version": "0.0.1",
+  "description": "OpenPGP key generation, encryption and decryption for React Native GPUI apps on rPGP",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "files": [
+    "src",
+    "desktop",
+    "react-native.config.js"
+  ],
+  "codegenConfig": {
+    "name": "RNGpuiOpenPGPSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  },
+  "peerDependencies": {
+    "react-native": "0.87.x"
+  }
+}
