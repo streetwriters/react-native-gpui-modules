@@ -102,7 +102,7 @@ const quickSQLite: ModuleChecks = {
       async () => {
         const db = open({ name: `html-${suffix}.db` });
         await db.executeAsync(
-          "CREATE VIRTUAL TABLE docs USING fts5(content, tokenize = 'html')"
+          "CREATE VIRTUAL TABLE docs USING fts5(content, tokenize = 'html unicode61 remove_diacritics 1')"
         );
         await db.executeAsync(
           "INSERT INTO docs VALUES ('<p>hello <b>world</b></p>')"
