@@ -1,0 +1,11 @@
+{
+  "name": "gpui-modules",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Desktop adapters for third-party React Native libraries on react-native-gpui",
+  "license": "MIT",
+  "workspaces": [
+    "modules/*",
+    "example"
+  ]
+}
