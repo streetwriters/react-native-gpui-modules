@@ -1,0 +1,20 @@
+{
+  "name": "@react-native-gpui/crypto",
+  "version": "0.1.0",
+  "description": "crypto.getRandomValues and crypto.randomUUID for React Native GPUI apps",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "files": [
+    "src",
+    "desktop",
+    "react-native.config.js"
+  ],
+  "codegenConfig": {
+    "name": "RNGpuiCryptoSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  },
+  "peerDependencies": {
+    "react-native": "0.87.x"
+  }
+}

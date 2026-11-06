@@ -5,7 +5,7 @@ import {
   type DesktopApp,
 } from '@react-native-gpui/testing';
 
-const modules = ['quick-sqlite', 'sodium', 'mmkv', 'gzip'];
+const modules = ['quick-sqlite', 'sodium', 'mmkv', 'gzip', 'crypto'];
 
 let app: DesktopApp;
 

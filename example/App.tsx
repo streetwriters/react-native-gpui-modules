@@ -7,8 +7,9 @@ import quickSQLite from './src/checks/quick-sqlite';
 import sodium from './src/checks/sodium';
 import mmkv from './src/checks/mmkv';
 import gzip from './src/checks/gzip';
+import crypto from './src/checks/crypto';
 
-const modules: ModuleChecks[] = [gzip, mmkv, sodium, quickSQLite];
+const modules: ModuleChecks[] = [crypto, gzip, mmkv, sodium, quickSQLite];
 
 function App() {
   const [selected, setSelected] = useState(modules[0].name);
