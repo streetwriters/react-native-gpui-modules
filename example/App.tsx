@@ -4,8 +4,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ModulePage } from './src/ModulePage';
 import type { ModuleChecks } from './src/checks/types';
 import quickSQLite from './src/checks/quick-sqlite';
+import sodium from './src/checks/sodium';
 
-const modules: ModuleChecks[] = [quickSQLite];
+const modules: ModuleChecks[] = [sodium, quickSQLite];
 
 function App() {
   const [selected, setSelected] = useState(modules[0].name);

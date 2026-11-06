@@ -19,6 +19,7 @@
     "@react-native/new-app-screen": "0.87.1",
     "react": "19.2.3",
     "react-native": "0.87.1",
+    "@ammarahmed/react-native-sodium": "file:../tgz/ammarahmed-react-native-sodium-2.0.0-alpha.2.tgz",
     "react-native-quick-sqlite": "file:../tgz/react-native-quick-sqlite-8.2.7.tgz",
     "react-native-safe-area-context": "~5.10.0"
   },
