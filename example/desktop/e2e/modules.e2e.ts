@@ -5,6 +5,8 @@ import {
   type DesktopApp,
 } from '@react-native-gpui/testing';
 
+const modules = ['quick-sqlite'];
+
 let app: DesktopApp;
 
 beforeAll(async () => {
@@ -19,6 +21,7 @@ afterAll(async () => {
   await app.close();
 });
 
-test('every module check passes', async () => {
+test.each(modules)('%s: every check passes', async name => {
+  await app.getByTestId(`nav-${name}`).click();
   await desktopExpect(app.getByTestId('summary')).toHaveText('PASS');
 });
