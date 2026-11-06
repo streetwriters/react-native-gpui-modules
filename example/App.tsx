@@ -5,8 +5,9 @@ import { ModulePage } from './src/ModulePage';
 import type { ModuleChecks } from './src/checks/types';
 import quickSQLite from './src/checks/quick-sqlite';
 import sodium from './src/checks/sodium';
+import mmkv from './src/checks/mmkv';
 
-const modules: ModuleChecks[] = [sodium, quickSQLite];
+const modules: ModuleChecks[] = [mmkv, sodium, quickSQLite];
 
 function App() {
   const [selected, setSelected] = useState(modules[0].name);
