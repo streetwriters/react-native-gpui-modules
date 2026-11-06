@@ -10,8 +10,9 @@ import gzip from './src/checks/gzip';
 import crypto from './src/checks/crypto';
 import keychain from './src/checks/keychain';
 import netinfo from './src/checks/netinfo';
+import deviceInfo from './src/checks/device-info';
 
-const modules: ModuleChecks[] = [netinfo, mmkv, keychain, crypto, gzip, sodium, quickSQLite];
+const modules: ModuleChecks[] = [deviceInfo, netinfo, mmkv, keychain, crypto, gzip, sodium, quickSQLite];
 
 function App() {
   const [selected, setSelected] = useState(modules[0].name);

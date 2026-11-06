@@ -1,0 +1,13 @@
+[package]
+name = "rn-gpui-device-info"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rn-gpui-module = { version = "0.1" }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+libc = "0.2"
+
+[build-dependencies]
+rn-gpui-module-build = { version = "0.1" }

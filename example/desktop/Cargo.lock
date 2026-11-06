@@ -5632,11 +5632,21 @@ name = "rn-gpui-autolink"
 version = "0.1.0"
 dependencies = [
  "react-native-gpui",
+ "rn-gpui-device-info",
  "rn-gpui-gzip",
  "rn-gpui-keychain",
  "rn-gpui-mmkv-secure",
  "rn-gpui-netinfo",
  "rn-gpui-sodium",
+]
+
+[[package]]
+name = "rn-gpui-device-info"
+version = "0.1.0"
+dependencies = [
+ "libc",
+ "rn-gpui-module",
+ "rn-gpui-module-build",
 ]
 
 [[package]]

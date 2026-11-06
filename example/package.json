@@ -24,6 +24,8 @@
     "@react-native-gpui/keychain": "file:../tgz/react-native-gpui-keychain-0.0.1.tgz",
     "@react-native-community/netinfo": "11.4.1",
     "@react-native-gpui/netinfo": "file:../tgz/react-native-gpui-netinfo-0.0.1.tgz",
+    "@react-native-gpui/device-info": "file:../tgz/react-native-gpui-device-info-0.0.1.tgz",
+    "react-native-device-info": "14.1.1",
     "react-native-gzip": "file:../tgz/react-native-gzip-1.1.0.tgz",
     "react-native-keychain": "11.0.0",
     "react-native-mmkv-storage": "file:../tgz/react-native-mmkv-storage-13.0.1.tgz",

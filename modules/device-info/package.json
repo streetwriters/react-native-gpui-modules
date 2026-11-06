@@ -1,0 +1,22 @@
+{
+  "name": "@react-native-gpui/device-info",
+  "version": "0.0.1",
+  "description": "Desktop native module for react-native-device-info",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "files": [
+    "src",
+    "desktop",
+    "react-native.config.js",
+    "patches"
+  ],
+  "codegenConfig": {
+    "name": "RNDeviceInfoSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  },
+  "peerDependencies": {
+    "react-native": "0.87.x",
+    "react-native-device-info": "14.x"
+  }
+}

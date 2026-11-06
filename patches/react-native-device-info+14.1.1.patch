@@ -1,0 +1,32 @@
+diff --git a/node_modules/react-native-device-info/src/internal/nativeInterface.ts b/node_modules/react-native-device-info/src/internal/nativeInterface.ts
+index 0e47d75..5091fd1 100644
+--- a/node_modules/react-native-device-info/src/internal/nativeInterface.ts
++++ b/node_modules/react-native-device-info/src/internal/nativeInterface.ts
+@@ -8,6 +8,13 @@ if (Platform.OS === 'web' || Platform.OS === 'dom') {
+   RNDeviceInfo = require('../web');
+ }
+ 
++if (RNDeviceInfo && typeof (RNDeviceInfo as any).getConstants === 'function') {
++  RNDeviceInfo = Object.assign(
++    { addListener() {}, removeListeners() {} },
++    (RNDeviceInfo as any).getConstants()
++  ) as any;
++}
++
+ if (!RNDeviceInfo) {
+   // Produce an error if we don't have the native module
+   if (
+diff --git a/node_modules/react-native-device-info/src/internal/supported-platform-info.ts b/node_modules/react-native-device-info/src/internal/supported-platform-info.ts
+index a5b4e8d..248806b 100644
+--- a/node_modules/react-native-device-info/src/internal/supported-platform-info.ts
++++ b/node_modules/react-native-device-info/src/internal/supported-platform-info.ts
+@@ -31,6 +31,9 @@ function getSupportedFunction<T>(
+   supportedPlatforms
+     .filter((key) => Platform.OS == key)
+     .forEach((key) => (supportedMap[key] = getter));
++  if (supportedPlatforms.includes('windows')) {
++    supportedMap.desktop = getter;
++  }
+   return Platform.select({
+     ...supportedMap,
+     default: defaultGetter,
