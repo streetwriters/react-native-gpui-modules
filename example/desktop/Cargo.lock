@@ -5555,7 +5555,18 @@ name = "rn-gpui-autolink"
 version = "0.1.0"
 dependencies = [
  "react-native-gpui",
+ "rn-gpui-gzip",
  "rn-gpui-sodium",
+]
+
+[[package]]
+name = "rn-gpui-gzip"
+version = "0.1.0"
+dependencies = [
+ "base64 0.22.1",
+ "flate2",
+ "rn-gpui-module",
+ "rn-gpui-module-build",
 ]
 
 [[package]]

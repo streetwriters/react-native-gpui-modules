@@ -20,6 +20,7 @@
     "react": "19.2.3",
     "react-native": "0.87.1",
     "@ammarahmed/react-native-sodium": "file:../tgz/ammarahmed-react-native-sodium-2.0.0-alpha.2.tgz",
+    "react-native-gzip": "file:../tgz/react-native-gzip-1.1.0.tgz",
     "react-native-mmkv-storage": "file:../tgz/react-native-mmkv-storage-13.0.1.tgz",
     "react-native-quick-sqlite": "file:../tgz/react-native-quick-sqlite-8.2.7.tgz",
     "react-native-safe-area-context": "~5.10.0"
