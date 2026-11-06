@@ -1,0 +1,13 @@
+[package]
+name = "rn-gpui-clipboard"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rn-gpui-module = { version = "0.1" }
+arboard = "3"
+png = "0.17"
+base64 = "0.22"
+
+[build-dependencies]
+rn-gpui-module-build = { version = "0.1" }
