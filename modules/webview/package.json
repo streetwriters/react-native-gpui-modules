@@ -1,0 +1,22 @@
+{
+  "name": "@react-native-gpui/webview",
+  "version": "0.0.1",
+  "description": "Desktop native component and module for react-native-webview",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "files": [
+    "src",
+    "desktop",
+    "patches",
+    "react-native.config.js"
+  ],
+  "codegenConfig": {
+    "name": "RNGpuiWebViewSpec",
+    "type": "all",
+    "jsSrcsDir": "src"
+  },
+  "peerDependencies": {
+    "react-native": "0.87.x",
+    "react-native-webview": "13.x"
+  }
+}

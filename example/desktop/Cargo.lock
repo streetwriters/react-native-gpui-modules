@@ -6461,6 +6461,7 @@ dependencies = [
  "rn-gpui-netinfo",
  "rn-gpui-openpgp",
  "rn-gpui-sodium",
+ "rn-gpui-webview",
 ]
 
 [[package]]
@@ -6561,6 +6562,18 @@ dependencies = [
  "cxx-build",
  "log",
  "rn-gpui-module",
+ "serde_json",
+]
+
+[[package]]
+name = "rn-gpui-webview"
+version = "0.1.0"
+dependencies = [
+ "gpui",
+ "log",
+ "react-native-gpui",
+ "rn-gpui-module",
+ "rn-gpui-module-build",
  "serde_json",
 ]
 

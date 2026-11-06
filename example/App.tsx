@@ -13,8 +13,9 @@ import netinfo from './src/checks/netinfo';
 import deviceInfo from './src/checks/device-info';
 import clipboard from './src/checks/clipboard';
 import openpgp from './src/checks/openpgp';
+import webview from './src/checks/webview';
 
-const modules: ModuleChecks[] = [openpgp, clipboard, deviceInfo, netinfo, mmkv, keychain, crypto, gzip, sodium, quickSQLite];
+const modules: ModuleChecks[] = [webview, openpgp, clipboard, deviceInfo, netinfo, mmkv, keychain, crypto, gzip, sodium, quickSQLite];
 
 function App() {
   const [selected, setSelected] = useState(modules[0].name);

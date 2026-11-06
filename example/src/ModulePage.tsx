@@ -4,7 +4,7 @@ import type { ModuleChecks } from './checks/types';
 
 type Outcome = 'pending' | 'ok' | string;
 
-export function ModulePage({ name, checks }: ModuleChecks) {
+export function ModulePage({ name, checks, view }: ModuleChecks) {
   const [results, setResults] = useState<Record<string, Outcome>>({});
 
   useEffect(() => {
@@ -43,6 +43,7 @@ export function ModulePage({ name, checks }: ModuleChecks) {
       <Text testID="summary" style={[styles.text, styles.summary]}>
         {!done ? 'RUNNING' : failed ? 'FAIL' : 'PASS'}
       </Text>
+      {view}
       {checks.map(([label]) => {
         const outcome = results[label];
         return (

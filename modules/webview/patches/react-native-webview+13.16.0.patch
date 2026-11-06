@@ -1,0 +1,10 @@
+diff --git a/node_modules/react-native-webview/src/WebView.desktop.tsx b/node_modules/react-native-webview/src/WebView.desktop.tsx
+new file mode 100644
+index 0000000..10707ed
+--- /dev/null
++++ b/node_modules/react-native-webview/src/WebView.desktop.tsx
+@@ -0,0 +1,4 @@
++import WebView from './WebView.ios';
++
++export { WebView };
++export default WebView;
