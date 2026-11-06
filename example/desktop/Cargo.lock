@@ -5624,6 +5624,7 @@ dependencies = [
  "react-native-gpui",
  "rn-gpui-gzip",
  "rn-gpui-keychain",
+ "rn-gpui-mmkv-secure",
  "rn-gpui-sodium",
 ]
 
@@ -5645,6 +5646,13 @@ dependencies = [
  "rn-gpui-module",
  "rn-gpui-module-build",
  "serde_json",
+]
+
+[[package]]
+name = "rn-gpui-mmkv-secure"
+version = "0.1.0"
+dependencies = [
+ "keyring",
 ]
 
 [[package]]

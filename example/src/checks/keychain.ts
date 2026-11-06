@@ -14,11 +14,11 @@ const keychain: ModuleChecks = {
       "stores, reads and removes internet credentials",
       async () => {
         const server = `example-${suffix}`;
-        assert(!(await Keychain.hasInternetCredentials(server)), "exists early");
+        assert(!(await Keychain.hasInternetCredentials({ server })), "exists early");
         await Keychain.setInternetCredentials(server, "user", "secret", {
           accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY
         });
-        assert(await Keychain.hasInternetCredentials(server), "not stored");
+        assert(await Keychain.hasInternetCredentials({ server }), "not stored");
         const credentials = await Keychain.getInternetCredentials(server);
         assert(
           credentials &&
@@ -26,8 +26,11 @@ const keychain: ModuleChecks = {
             credentials.password === "secret",
           "credentials differ"
         );
-        await Keychain.resetInternetCredentials(server);
-        assert(!(await Keychain.hasInternetCredentials(server)), "not removed");
+        await Keychain.resetInternetCredentials({ server });
+        assert(
+          !(await Keychain.hasInternetCredentials({ server })),
+          "not removed"
+        );
       }
     ],
     [
@@ -41,18 +44,18 @@ const keychain: ModuleChecks = {
           credentials && credentials.username === "b" && credentials.password === "2",
           "not overwritten"
         );
-        await Keychain.resetInternetCredentials(server);
+        await Keychain.resetInternetCredentials({ server });
       }
     ],
     [
       "stores and reads a generic password",
       async () => {
         const service = `generic-${suffix}`;
-        await Keychain.setGenericPassword("user", "secret", service);
-        const found = await Keychain.getGenericPassword(service);
+        await Keychain.setGenericPassword("user", "secret", { service });
+        const found = await Keychain.getGenericPassword({ service });
         assert(found && found.password === "secret", "generic differs");
-        await Keychain.resetGenericPassword(service);
-        assert((await Keychain.getGenericPassword(service)) === false, "kept");
+        await Keychain.resetGenericPassword({ service });
+        assert((await Keychain.getGenericPassword({ service })) === false, "kept");
       }
     ],
     [

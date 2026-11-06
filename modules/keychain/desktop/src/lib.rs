@@ -48,20 +48,104 @@ fn credentials(service: &str, found: Option<(String, String)>) -> Value {
             ("server", Value::String(service.to_string())),
             ("username", Value::String(username)),
             ("password", Value::String(password)),
+            ("storage", Value::String("keychain".to_string())),
         ]),
         None => Value::Bool(false),
     }
 }
 
-fn service_name(service: Option<String>) -> String {
-    service
-        .filter(|s| !s.is_empty())
+fn saved(service: &str) -> Value {
+    Value::object([
+        ("service", Value::String(service.to_string())),
+        ("storage", Value::String("keychain".to_string())),
+    ])
+}
+
+fn field_string(options: &Value, name: &str) -> Option<String> {
+    match options {
+        Value::Object(fields) => fields.iter().find_map(|(key, value)| match value {
+            Value::String(text) if key == name => Some(text.clone()),
+            _ => None,
+        }),
+        _ => None,
+    }
+}
+
+fn unsupported(method: &str) -> ModuleError {
+    ModuleError::with_code("E_KEYCHAIN", format!("{method} is not supported on desktop"))
+}
+
+fn service_name(options: &Option<Value>) -> String {
+    options
+        .as_ref()
+        .and_then(|options| field_string(options, "service"))
+        .filter(|service| !service.is_empty())
         .unwrap_or_else(|| DEFAULT_SERVICE.to_string())
 }
 
-impl NativeRNKeychainManagerSpec for Keychain {
-    fn new(_events: NativeRNKeychainManagerEvents) -> Self {
+fn server_name(options: &Value) -> Result<String, ModuleError> {
+    field_string(options, "server")
+        .filter(|server| !server.is_empty())
+        .ok_or_else(|| ModuleError::new("options.server is required"))
+}
+
+impl NativeKeychainManagerSpec for Keychain {
+    fn new(_events: NativeKeychainManagerEvents) -> Self {
         Self
+    }
+
+    async fn set_generic_password_for_options(
+        &self,
+        options: Option<Value>,
+        username: String,
+        password: String,
+    ) -> Result<Option<Value>, ModuleError> {
+        let service = service_name(&options);
+        store(&service, GENERIC_ACCOUNT, &username, &password)?;
+        Ok(Some(saved(&service)))
+    }
+
+    async fn get_generic_password_for_options(
+        &self,
+        options: Option<Value>,
+    ) -> Result<Value, ModuleError> {
+        let service = service_name(&options);
+        Ok(credentials(&service, load(&service, GENERIC_ACCOUNT)?))
+    }
+
+    async fn has_generic_password_for_options(
+        &self,
+        options: Option<Value>,
+    ) -> Result<bool, ModuleError> {
+        Ok(load(&service_name(&options), GENERIC_ACCOUNT)?.is_some())
+    }
+
+    async fn reset_generic_password_for_options(
+        &self,
+        options: Option<Value>,
+    ) -> Result<bool, ModuleError> {
+        remove(&service_name(&options), GENERIC_ACCOUNT)
+    }
+
+    async fn get_all_generic_password_services(
+        &self,
+        _options: Option<Value>,
+    ) -> Result<Vec<String>, ModuleError> {
+        Err(unsupported("getAllGenericPasswordServices"))
+    }
+
+    async fn get_all_internet_credential_servers(
+        &self,
+        _options: Option<Value>,
+    ) -> Result<Vec<String>, ModuleError> {
+        Err(unsupported("getAllInternetCredentialServers"))
+    }
+
+    async fn has_internet_credentials_for_options(
+        &self,
+        options: Value,
+    ) -> Result<bool, ModuleError> {
+        Ok(load(&server_name(&options)?, INTERNET_ACCOUNT)?.is_some())
     }
 
     async fn set_internet_credentials_for_server(
@@ -69,14 +153,10 @@ impl NativeRNKeychainManagerSpec for Keychain {
         server: String,
         username: String,
         password: String,
-        _security_level: Option<String>,
         _options: Option<Value>,
-    ) -> Result<bool, ModuleError> {
-        store(&server, INTERNET_ACCOUNT, &username, &password)
-    }
-
-    async fn has_internet_credentials_for_server(&self, server: String) -> Result<bool, ModuleError> {
-        Ok(load(&server, INTERNET_ACCOUNT)?.is_some())
+    ) -> Result<Option<Value>, ModuleError> {
+        store(&server, INTERNET_ACCOUNT, &username, &password)?;
+        Ok(Some(saved(&server)))
     }
 
     async fn get_internet_credentials_for_server(
@@ -87,40 +167,14 @@ impl NativeRNKeychainManagerSpec for Keychain {
         Ok(credentials(&server, load(&server, INTERNET_ACCOUNT)?))
     }
 
-    async fn reset_internet_credentials_for_server(
+    async fn reset_internet_credentials_for_options(
         &self,
-        server: String,
-        _options: Option<Value>,
+        options: Value,
     ) -> Result<bool, ModuleError> {
-        remove(&server, INTERNET_ACCOUNT)
-    }
-
-    async fn set_generic_password_for_options(
-        &self,
-        service: Option<String>,
-        username: String,
-        password: String,
-        _security_level: Option<String>,
-    ) -> Result<bool, ModuleError> {
-        store(&service_name(service), GENERIC_ACCOUNT, &username, &password)
-    }
-
-    async fn get_generic_password_for_options(
-        &self,
-        service: Option<String>,
-    ) -> Result<Value, ModuleError> {
-        let service = service_name(service);
-        Ok(credentials(&service, load(&service, GENERIC_ACCOUNT)?))
-    }
-
-    async fn reset_generic_password_for_options(
-        &self,
-        service: Option<String>,
-    ) -> Result<bool, ModuleError> {
-        remove(&service_name(service), GENERIC_ACCOUNT)
+        remove(&server_name(&options)?, INTERNET_ACCOUNT)
     }
 }
 
 pub fn rn_gpui_register() {
-    rn_gpui_module::register(native_rn_keychain_manager_module::<Keychain>());
+    rn_gpui_module::register(native_keychain_manager_module::<Keychain>());
 }
