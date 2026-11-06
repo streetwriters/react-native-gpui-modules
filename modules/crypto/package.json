@@ -1,6 +1,6 @@
 {
   "name": "@react-native-gpui/crypto",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "crypto.getRandomValues and crypto.randomUUID for React Native GPUI apps",
   "license": "MIT",
   "main": "src/index.ts",
