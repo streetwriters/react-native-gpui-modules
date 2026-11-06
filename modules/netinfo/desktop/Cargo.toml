@@ -1,0 +1,11 @@
+[package]
+name = "rn-gpui-netinfo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rn-gpui-module = { version = "0.1" }
+if-addrs = "0.13"
+
+[build-dependencies]
+rn-gpui-module-build = { version = "0.1" }
