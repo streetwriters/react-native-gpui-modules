@@ -6577,6 +6577,7 @@ version = "0.1.0"
 dependencies = [
  "react-native-gpui",
  "rn-gpui-clipboard",
+ "rn-gpui-crypto",
  "rn-gpui-device-info",
  "rn-gpui-documents-picker",
  "rn-gpui-file-uploader",
@@ -6600,6 +6601,22 @@ dependencies = [
  "png 0.17.16",
  "rn-gpui-module",
  "rn-gpui-module-build",
+]
+
+[[package]]
+name = "rn-gpui-crypto"
+version = "0.1.0"
+dependencies = [
+ "aes",
+ "aes-gcm",
+ "aes-kw",
+ "hkdf",
+ "hmac",
+ "pbkdf2",
+ "rn-gpui-module",
+ "rn-gpui-module-build",
+ "sha1",
+ "sha2",
 ]
 
 [[package]]

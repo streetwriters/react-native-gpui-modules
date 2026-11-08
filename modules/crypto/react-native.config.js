@@ -4,6 +4,7 @@ module.exports = {
       desktop: {
         cmake: 'desktop',
         cppProvider: 'create_crypto_module',
+        crate: 'rn-gpui-crypto',
       },
     },
   },
