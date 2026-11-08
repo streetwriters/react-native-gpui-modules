@@ -1,7 +1,10 @@
 import {
+  getApplicationName,
   getBrand,
   getBuildNumber,
+  getBundleId,
   getModel,
+  getReadableVersion,
   getSystemVersion,
   getVersion,
   isTablet
@@ -33,6 +36,25 @@ const deviceInfo: ModuleChecks = {
       () => {
         assert(getVersion() !== "unknown", "version unknown");
         assert(getBuildNumber() !== "unknown", "build number unknown");
+      }
+    ],
+    [
+      "returns the application name, bundle id and readable version",
+      () => {
+        assert(getApplicationName() !== "unknown" && getApplicationName() !== "", `name is ${getApplicationName()}`);
+        assert(getBundleId() !== "unknown" && getBundleId() !== "", `bundle id is ${getBundleId()}`);
+        assert(
+          getReadableVersion() === `${getVersion()}.${getBuildNumber()}`,
+          `readable version is ${getReadableVersion()}`
+        );
+      }
+    ],
+    [
+      "returns the values the native module reports",
+      () => {
+        assert(getVersion() === "0.0.0" || /^\d+\.\d+/.test(getVersion()), `version is ${getVersion()}`);
+        assert(/^\d+$/.test(getBuildNumber()), `build number is ${getBuildNumber()}`);
+        assert(getBrand() === "Apple", `brand is ${getBrand()}`);
       }
     ],
     [

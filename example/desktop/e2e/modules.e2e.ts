@@ -5,7 +5,7 @@ import {
   type DesktopApp,
 } from '@react-native-gpui/testing';
 
-const modules = ['documents-picker', 'quick-sqlite', 'sodium', 'mmkv', 'gzip', 'crypto', 'keychain'];
+const modules = ['device-info', 'documents-picker', 'quick-sqlite', 'sodium', 'mmkv', 'gzip', 'crypto', 'keychain'];
 
 let app: DesktopApp;
 

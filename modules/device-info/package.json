@@ -8,7 +8,8 @@
     "src",
     "desktop",
     "react-native.config.js",
-    "patches"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "codegenConfig": {
     "name": "RNDeviceInfoSpec",
