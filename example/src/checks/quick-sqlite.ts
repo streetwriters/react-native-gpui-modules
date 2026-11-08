@@ -1,3 +1,4 @@
+import { getApplicationName } from "react-native-device-info";
 import { open } from "react-native-quick-sqlite";
 import type { ModuleChecks } from "./types";
 
@@ -25,6 +26,35 @@ const quickSQLite: ModuleChecks = {
         assert(select.rows?._array[0]?.v === "hello", "row not found");
         db.close();
         db.delete();
+      }
+    ],
+    [
+      "creates databases in the app's own folder by default",
+      async () => {
+        const db = open({ name: `where-${suffix}.db` });
+        const list = await db.executeAsync("PRAGMA database_list");
+        const file: string = list.rows?._array[0]?.file ?? "";
+        db.close();
+        db.delete();
+        assert(
+          file.includes(`/${getApplicationName()}/databases/where-${suffix}.db`),
+          `database is at ${file}`
+        );
+        assert(!file.includes("/QuickSQLite/"), `database is at ${file}`);
+      }
+    ],
+    [
+      "resolves an explicit location against the databases folder",
+      async () => {
+        const db = open({ name: `located-${suffix}.db`, location: ".." });
+        const list = await db.executeAsync("PRAGMA database_list");
+        const file: string = list.rows?._array[0]?.file ?? "";
+        db.close();
+        db.delete();
+        assert(
+          file.endsWith(`/${getApplicationName()}/located-${suffix}.db`),
+          `database is at ${file}`
+        );
       }
     ],
     [
