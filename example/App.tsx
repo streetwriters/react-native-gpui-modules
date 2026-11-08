@@ -15,10 +15,12 @@ import clipboard from './src/checks/clipboard';
 import openpgp from './src/checks/openpgp';
 import webview from './src/checks/webview';
 import documentsPicker from './src/checks/documents-picker';
+import upload, { setUploadConfig, type UploadConfig } from './src/checks/upload';
 
-const modules: ModuleChecks[] = [documentsPicker, webview, openpgp, clipboard, deviceInfo, netinfo, mmkv, keychain, crypto, gzip, sodium, quickSQLite];
+const modules: ModuleChecks[] = [documentsPicker, upload, webview, openpgp, clipboard, deviceInfo, netinfo, mmkv, keychain, crypto, gzip, sodium, quickSQLite];
 
-function App() {
+function App(props: { upload?: UploadConfig }) {
+  setUploadConfig(props.upload);
   const [selected, setSelected] = useState(modules[0].name);
   const module = modules.find(({ name }) => name === selected) ?? modules[0];
 

@@ -29,6 +29,7 @@
     "@react-native-clipboard/clipboard": "1.16.3",
     "@react-native-gpui/clipboard": "file:../tgz/react-native-gpui-clipboard-0.0.1.tgz",
     "@react-native-gpui/openpgp": "file:../tgz/react-native-gpui-openpgp-0.0.1.tgz",
+    "@ammarahmed/react-native-upload": "file:../tgz/ammarahmed-react-native-upload-7.0.0-alpha.0.tgz",
     "@react-native-documents/picker": "11.0.4",
     "@react-native-gpui/documents-picker": "file:../tgz/react-native-gpui-documents-picker-11.0.0.tgz",
     "@react-native-gpui/webview": "file:../tgz/react-native-gpui-webview-0.0.1.tgz",
