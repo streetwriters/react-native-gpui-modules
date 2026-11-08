@@ -9,5 +9,9 @@ arboard = "3"
 png = "0.17"
 base64 = "0.22"
 
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "NSPasteboard"] }
+objc2-foundation = { version = "0.3", default-features = false, features = ["std", "NSString"] }
+
 [build-dependencies]
 rn-gpui-module-build = { version = "0.1" }

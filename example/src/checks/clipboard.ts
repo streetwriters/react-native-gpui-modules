@@ -1,4 +1,5 @@
 import Clipboard from "@react-native-clipboard/clipboard";
+import { setRich } from "@react-native-gpui/clipboard";
 import type { ModuleChecks } from "./types";
 
 const assert = (condition: unknown, message: string) => {
@@ -40,6 +41,18 @@ const clipboard: ModuleChecks = {
       "reports whether an image is on the clipboard",
       async () => {
         assert(typeof (await Clipboard.hasImage()) === "boolean", "not a boolean");
+      }
+    ],
+    [
+      "writes plain text, HTML and Markdown as one item",
+      async () => {
+        setRich({
+          "text/plain": "Title rich ✓",
+          "text/html": "<h1>Title</h1><p>rich ✓</p>",
+          "text/markdown": "# Title\n\nrich ✓"
+        });
+        await wait(100);
+        assert((await Clipboard.getString()) === "Title rich ✓", "plain text differs");
       }
     ]
   ]

@@ -6595,6 +6595,8 @@ version = "0.1.0"
 dependencies = [
  "arboard",
  "base64 0.22.1",
+ "objc2-app-kit 0.3.2",
+ "objc2-foundation 0.3.2",
  "png 0.17.16",
  "rn-gpui-module",
  "rn-gpui-module-build",

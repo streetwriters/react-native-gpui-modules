@@ -44,6 +44,44 @@ fn png() -> Result<String, ModuleError> {
     Ok(STANDARD.encode(bytes))
 }
 
+/// Puts every given flavour on the clipboard as one item.
+#[cfg(target_os = "macos")]
+fn write_rich(plain: &str, html: Option<&str>, markdown: Option<&str>) -> Result<(), ModuleError> {
+    use objc2_app_kit::{NSPasteboard, NSPasteboardTypeHTML, NSPasteboardTypeString};
+    use objc2_foundation::NSString;
+
+    let pasteboard = NSPasteboard::generalPasteboard();
+    pasteboard.clearContents();
+    let mut stored = unsafe {
+        pasteboard.setString_forType(&NSString::from_str(plain), NSPasteboardTypeString)
+    };
+    if let Some(html) = html {
+        stored &= unsafe { pasteboard.setString_forType(&NSString::from_str(html), NSPasteboardTypeHTML) };
+    }
+    if let Some(markdown) = markdown {
+        stored &= pasteboard.setString_forType(
+            &NSString::from_str(markdown),
+            &NSString::from_str("net.daringfireball.markdown"),
+        );
+    }
+    if stored {
+        Ok(())
+    } else {
+        Err(ModuleError::with_code("E_CLIPBOARD", "the clipboard refused the content"))
+    }
+}
+
+/// Markdown has no flavour here: it is dropped, and the text and HTML are kept.
+#[cfg(not(target_os = "macos"))]
+fn write_rich(plain: &str, html: Option<&str>, _markdown: Option<&str>) -> Result<(), ModuleError> {
+    let mut clipboard = system()?;
+    match html {
+        Some(html) => clipboard.set_html(html, Some(plain)),
+        None => clipboard.set_text(plain),
+    }
+    .map_err(failure)
+}
+
 impl NativeClipboardModuleSpec for Clipboard {
     fn new(_events: NativeClipboardModuleEvents) -> Self {
         Self
@@ -85,6 +123,12 @@ impl NativeClipboardModuleSpec for Clipboard {
             system().and_then(|mut s| s.set_html(html, Some(content)).map_err(failure))
         {
             eprintln!("clipboard setHTML failed: {}", error.message);
+        }
+    }
+
+    fn set_rich(&self, plain: String, html: Option<String>, markdown: Option<String>) {
+        if let Err(error) = write_rich(&plain, html.as_deref(), markdown.as_deref()) {
+            eprintln!("clipboard setRich failed: {}", error.message);
         }
     }
 

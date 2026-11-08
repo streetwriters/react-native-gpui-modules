@@ -10,6 +10,7 @@ export interface Spec extends TurboModule {
   getImage(): Promise<string>;
   setString(content: string): void;
   setHTML(html: string, content: string): void;
+  setRich(plain: string, html: string | null, markdown: string | null): void;
   getHTML(): Promise<string>;
   setStrings(content: string[]): void;
   hasString(): Promise<boolean>;
