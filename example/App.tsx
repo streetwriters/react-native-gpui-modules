@@ -15,10 +15,10 @@ import clipboard from './src/checks/clipboard';
 import openpgp from './src/checks/openpgp';
 import webview from './src/checks/webview';
 import documentsPicker from './src/checks/documents-picker';
-import eventsource, { setEventSourceConfig, type EventSourceConfig } from './src/checks/eventsource';
+import eventsource, { churn as eventsourceChurn, setEventSourceConfig, type EventSourceConfig } from './src/checks/eventsource';
 import upload, { setUploadConfig, type UploadConfig } from './src/checks/upload';
 
-const modules: ModuleChecks[] = [documentsPicker, upload, eventsource, webview, openpgp, clipboard, deviceInfo, netinfo, mmkv, keychain, crypto, gzip, sodium, quickSQLite];
+const modules: ModuleChecks[] = [documentsPicker, upload, eventsource, eventsourceChurn, webview, openpgp, clipboard, deviceInfo, netinfo, mmkv, keychain, crypto, gzip, sodium, quickSQLite];
 
 function App(props: { upload?: UploadConfig; eventsource?: EventSourceConfig }) {
   setUploadConfig(props.upload);

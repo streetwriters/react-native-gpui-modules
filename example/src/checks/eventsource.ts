@@ -33,6 +33,7 @@ async function state() {
   return response.json() as Promise<{
     seen: { path: string; authorization?: string; lastEventId?: string }[];
     open: number;
+    quiet: number;
     sent: number;
   }>;
 }
@@ -148,6 +149,29 @@ const eventsource: ModuleChecks = {
         }
         assert(closed, "the connection stayed open after close");
         assert(messages.length === count, "messages arrived after close");
+      }
+    ]
+  ]
+};
+
+export const churn: ModuleChecks = {
+  name: "eventsource-churn",
+  checks: [
+    [
+      "releases 50 closed connections to a quiet server",
+      async () => {
+        const sources = Array.from({ length: 50 }, () => new EventSource(`${server()}/quiet`, {}));
+        const end = Date.now() + 10000;
+        while ((await state()).quiet < 50) {
+          if (Date.now() > end) throw new Error(`server saw ${(await state()).quiet} connections`);
+          await wait(50);
+        }
+        sources.forEach((source) => source.close());
+        const released = Date.now() + 2000;
+        while ((await state()).quiet > 0) {
+          if (Date.now() > released) throw new Error(`${(await state()).quiet} connections still open after close`);
+          await wait(50);
+        }
       }
     ]
   ]

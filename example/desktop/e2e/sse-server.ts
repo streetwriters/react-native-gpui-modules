@@ -8,6 +8,7 @@ export async function startSseServer() {
   let dropped = 0;
   let flaky = 0;
   let open = 0;
+  let quiet = 0;
   let sent = 0;
   const sockets = new Set<import('node:net').Socket>();
 
@@ -29,7 +30,7 @@ export async function startSseServer() {
     switch (url.pathname) {
       case '/state':
         response.writeHead(200, { 'Content-Type': 'application/json' });
-        response.end(JSON.stringify({ seen, open, sent }));
+        response.end(JSON.stringify({ seen, open, quiet, sent }));
         return;
       case '/stream': {
         if (authorization !== 'Bearer secret') {
@@ -65,6 +66,15 @@ export async function startSseServer() {
         }
         stream();
         response.write('data: recovered\n\n');
+        return;
+      }
+      case '/quiet': {
+        stream();
+        response.write(': quiet\n\n');
+        quiet += 1;
+        response.on('close', () => {
+          quiet -= 1;
+        });
         return;
       }
       case '/ticks': {
