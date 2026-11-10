@@ -1,7 +1,7 @@
 {
   "name": "@react-native-gpui/svg",
   "version": "15.15.0-alpha.0",
-  "description": "GPUI Fabric renderer adapter for react-native-svg",
+  "description": "Adapter for react-native-svg (MIT): draws SVG elements with the desktop renderer",
   "license": "MIT",
   "repository": {
     "type": "git",

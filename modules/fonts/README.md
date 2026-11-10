@@ -1,6 +1,6 @@
 # @react-native-gpui/fonts
 
-Loads custom fonts at run time in desktop apps.
+Our own module: loads custom fonts at run time in desktop apps.
 
 Part of [react-native-gpui](https://github.com/streetwriters/react-native-gpui), React Native for macOS, Windows and Linux.
 

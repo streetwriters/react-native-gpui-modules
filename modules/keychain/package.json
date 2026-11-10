@@ -1,7 +1,7 @@
 {
   "name": "@react-native-gpui/keychain",
   "version": "11.0.0",
-  "description": "Desktop native module for react-native-keychain on the OS credential store, with secure storage extras",
+  "description": "Adapter for react-native-keychain (MIT): stores secrets in the operating system's credential store, and adds encrypted strings and namespaced items on top",
   "license": "MIT",
   "main": "src/index.ts",
   "files": [

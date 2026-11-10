@@ -1,7 +1,7 @@
 {
   "name": "@react-native-gpui/screens",
   "version": "4.28.0-alpha.1",
-  "description": "GPUI platform integration for react-native-screens",
+  "description": "Adapter for react-native-screens (MIT): draws native stacks and screens, as used by React Navigation",
   "license": "MIT",
   "repository": {
     "type": "git",

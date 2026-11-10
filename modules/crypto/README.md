@@ -4,7 +4,7 @@
 
 ## About
 
-This is our own module; it has no upstream library.
+This is our own module. It builds on the [RustCrypto](https://github.com/RustCrypto) crates (MIT or Apache-2.0) and has no upstream React Native library.
 
 ## Install
 

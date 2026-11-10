@@ -1,6 +1,6 @@
 # @react-native-gpui/netinfo
 
-Desktop native module for [`@react-native-community/netinfo`](https://github.com/react-native-netinfo/react-native-netinfo) on react-native-gpui. The library's JavaScript runs unchanged: `fetch`, `addEventListener` and `useNetInfo` report the state of the machine's network interfaces.
+Adapter for [`@react-native-community/netinfo`](https://github.com/react-native-netinfo/react-native-netinfo) (MIT): reports the connection state of the machine.
 
 ## About
 

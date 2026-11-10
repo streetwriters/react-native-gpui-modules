@@ -4,7 +4,7 @@ EmbedPDF's PDF engine for React Native GPUI apps. It runs [EmbedPDF](https://git
 
 ## About
 
-This is our own module; it has no upstream library.
+This is our own module. It builds on [EmbedPDF](https://github.com/embedpdf/embed-pdf-viewer) (MIT), whose `@embedpdf/engine` it runs unchanged, and on EmbedPDF's native runtime of [PDFium](https://pdfium.googlesource.com/pdfium/) (BSD-3-Clause and Apache-2.0). It has no upstream React Native library.
 
 ## Install
 

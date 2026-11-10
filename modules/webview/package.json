@@ -1,7 +1,7 @@
 {
   "name": "@react-native-gpui/webview",
   "version": "13.16.0",
-  "description": "Desktop native component and module for react-native-webview on react-native-gpui",
+  "description": "Adapter for react-native-webview (MIT): shows web content in the operating system's web view",
   "license": "MIT",
   "main": "src/index.ts",
   "files": [

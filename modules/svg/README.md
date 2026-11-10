@@ -1,6 +1,6 @@
 # @react-native-gpui/svg
 
-Desktop support for [`react-native-svg`](https://github.com/software-mansion/react-native-svg): SVG elements drawn by the desktop renderer.
+Adapter for [`react-native-svg`](https://github.com/software-mansion/react-native-svg) (MIT): draws SVG elements with the desktop renderer.
 
 Part of [react-native-gpui](https://github.com/streetwriters/react-native-gpui), React Native for macOS, Windows and Linux.
 

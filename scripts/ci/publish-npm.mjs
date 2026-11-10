@@ -83,14 +83,20 @@ export function dependencyOrder(packages) {
 function upstreamPeer(manifest) {
   const short = manifest.name.split('/').pop();
   const name = `react-native-${short}`;
-  const range = manifest.peerDependencies?.[name];
-  return range === undefined ? undefined : { name, range };
+  const peers = manifest.peerDependencies ?? {};
+  if (peers[name] !== undefined) return { name, range: peers[name] };
+  const others = Object.keys(peers).filter(
+    peer => peer !== 'react-native' && !peer.startsWith('@react-native-gpui/'),
+  );
+  return others.length === 1
+    ? { name: others[0], range: peers[others[0]] }
+    : undefined;
 }
 
 /**
  * The problems with the packages' versions, as readable lines.
  *
- * - A module that adapts a library (it has a `react-native-<module>` peer) takes
+ * - A module that adapts a library (it has a peer that is the library) takes
  *   that library's `<major>.<minor>`.
  * - Any other module is standalone and is `0.0.<patch>[-alpha.N]`.
  * - A dependency on another of our packages is exactly that package's version.
@@ -145,6 +151,16 @@ export function versionProblems(packages) {
     }
   }
   return problems;
+}
+
+/** Every module has a row in the root README's table. */
+export function readmeProblems(packages, root = repoRoot) {
+  const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
+  return packages
+    .filter(({ dir }) => !readme.includes(`](modules/${path.basename(dir)})`))
+    .map(
+      ({ manifest }) => `${manifest.name}: no row in the root README's table`,
+    );
 }
 
 const REPOSITORY = 'streetwriters/react-native-gpui-modules';
@@ -390,6 +406,7 @@ function main(argv) {
     ...versionProblems(packages),
     ...metadataProblems(packages),
     ...changelogProblems(packages),
+    ...readmeProblems(packages),
   ];
   for (const { dir, manifest } of packages) {
     problems.push(

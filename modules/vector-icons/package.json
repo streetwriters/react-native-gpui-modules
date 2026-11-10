@@ -1,7 +1,7 @@
 {
   "name": "@react-native-gpui/vector-icons",
-  "version": "0.0.1-alpha.0",
-  "description": "Vector icon rasterization for React Native GPUI apps",
+  "version": "11.0.0-alpha.0",
+  "description": "Adapter for @react-native-vector-icons/common (MIT): rasterizes icon font glyphs with the desktop renderer",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -27,7 +27,8 @@
     "!**/*.test.cjs"
   ],
   "peerDependencies": {
-    "react-native": "0.87.x"
+    "react-native": "0.87.x",
+    "@react-native-vector-icons/common": "11.0.x"
   },
   "codegenConfig": {
     "name": "GPUIVectorIconsSpec",

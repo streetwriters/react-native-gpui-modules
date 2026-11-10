@@ -1,6 +1,6 @@
 # @react-native-gpui/worklets
 
-Desktop support for [`react-native-worklets`](https://github.com/software-mansion/react-native-reanimated/tree/main/packages/react-native-worklets): worklets run on desktop, driven by the renderer's frame clock.
+Adapter for [`react-native-worklets`](https://github.com/software-mansion/react-native-reanimated/tree/main/packages/react-native-worklets) (MIT): runs worklets on desktop, driven by the renderer's frame clock.
 
 Part of [react-native-gpui](https://github.com/streetwriters/react-native-gpui), React Native for macOS, Windows and Linux.
 

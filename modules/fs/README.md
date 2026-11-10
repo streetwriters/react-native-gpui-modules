@@ -1,6 +1,6 @@
 # @react-native-gpui/fs
 
-A file system API for desktop apps, shaped like Node's `node:fs`, with file dialogs and the operating system's well-known folders.
+Our own module: a file system API for desktop apps, shaped like Node's `node:fs`, with file dialogs and the operating system's well-known folders.
 
 Part of [react-native-gpui](https://github.com/streetwriters/react-native-gpui), React Native for macOS, Windows and Linux.
 

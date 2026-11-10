@@ -1,7 +1,7 @@
 {
   "name": "@react-native-gpui/clipboard",
   "version": "1.16.0",
-  "description": "Desktop native module for @react-native-clipboard/clipboard on react-native-gpui",
+  "description": "Adapter for @react-native-clipboard/clipboard (MIT): reads and writes the system clipboard on desktop",
   "license": "MIT",
   "main": "src/index.ts",
   "files": [

@@ -1,6 +1,6 @@
 # @react-native-gpui/safe-area-context
 
-Desktop support for [`react-native-safe-area-context`](https://github.com/AppAndFlow/react-native-safe-area-context): safe area insets for desktop windows, including windows with a custom title bar.
+Adapter for [`react-native-safe-area-context`](https://github.com/AppAndFlow/react-native-safe-area-context) (MIT): reports safe area insets for desktop windows, including windows with a custom title bar.
 
 Part of [react-native-gpui](https://github.com/streetwriters/react-native-gpui), React Native for macOS, Windows and Linux.
 

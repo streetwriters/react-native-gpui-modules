@@ -1,7 +1,7 @@
 {
   "name": "@react-native-gpui/netinfo",
   "version": "11.4.0",
-  "description": "Desktop native module for @react-native-community/netinfo on react-native-gpui",
+  "description": "Adapter for @react-native-community/netinfo (MIT): reports the connection state of the machine",
   "license": "MIT",
   "main": "src/index.ts",
   "files": [

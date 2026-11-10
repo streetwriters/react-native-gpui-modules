@@ -1,6 +1,6 @@
 # @react-native-gpui/clipboard
 
-Desktop native module for [`@react-native-clipboard/clipboard`](https://github.com/react-native-clipboard/clipboard) on react-native-gpui. The library's JavaScript API is unchanged.
+Adapter for [`@react-native-clipboard/clipboard`](https://github.com/react-native-clipboard/clipboard) (MIT): reads and writes the system clipboard on desktop.
 
 ## About
 

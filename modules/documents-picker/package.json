@@ -1,7 +1,7 @@
 {
   "name": "@react-native-gpui/documents-picker",
   "version": "11.0.0",
-  "description": "Desktop native module for @react-native-documents/picker on react-native-gpui",
+  "description": "Adapter for @react-native-documents/picker (MIT): opens the operating system file and folder pickers",
   "license": "MIT",
   "repository": {
     "type": "git",

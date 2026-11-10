@@ -1,6 +1,6 @@
 # @react-native-gpui/documents-picker
 
-Desktop native module for [`@react-native-documents/picker`](https://github.com/react-native-documents/document-picker) on react-native-gpui. The library's JavaScript runs unchanged, so an app uses the same import on mobile and desktop.
+Adapter for [`@react-native-documents/picker`](https://github.com/react-native-documents/document-picker) (MIT): opens the operating system file and folder pickers.
 
 ## About
 

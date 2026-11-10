@@ -1,6 +1,6 @@
 # @react-native-gpui/gesture-handler
 
-Desktop support for [`react-native-gesture-handler`](https://github.com/software-mansion/react-native-gesture-handler): gestures from the mouse, trackpad and touch screen.
+Adapter for [`react-native-gesture-handler`](https://github.com/software-mansion/react-native-gesture-handler) (MIT): recognizes gestures from the mouse, trackpad and touch screen.
 
 Part of [react-native-gpui](https://github.com/streetwriters/react-native-gpui), React Native for macOS, Windows and Linux.
 

@@ -1,6 +1,6 @@
 # @react-native-gpui/keychain
 
-Desktop native module for [`react-native-keychain`](https://github.com/oblador/react-native-keychain) on the operating system's credential store (the macOS Keychain, Windows Credential Manager and the Linux Secret Service). The library's JavaScript runs unchanged, so an app uses the same import on mobile and desktop. The package adds desktop-only extras on top: secrets kept under the app's own namespace, and strings encrypted with a key that never leaves the credential store, as Electron's `safeStorage` does.
+Adapter for [`react-native-keychain`](https://github.com/oblador/react-native-keychain) (MIT): stores secrets in the operating system's credential store, and adds encrypted strings and namespaced items on top.
 
 ## About
 

@@ -1,6 +1,6 @@
 # @react-native-gpui/reanimated
 
-Desktop support for [`react-native-reanimated`](https://github.com/software-mansion/react-native-reanimated): animations, layout animations and CSS animations.
+Adapter for [`react-native-reanimated`](https://github.com/software-mansion/react-native-reanimated) (MIT): runs animations, layout animations and CSS animations on the desktop renderer.
 
 Part of [react-native-gpui](https://github.com/streetwriters/react-native-gpui), React Native for macOS, Windows and Linux.
 

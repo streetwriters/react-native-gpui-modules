@@ -4,7 +4,7 @@ OpenPGP key generation, encryption and decryption for react-native-gpui apps, on
 
 ## About
 
-This is our own module; it has no upstream library.
+This is our own module. It builds on [rPGP](https://github.com/rpgp/rpgp) (MIT or Apache-2.0) and has no upstream React Native library.
 
 ## Install
 

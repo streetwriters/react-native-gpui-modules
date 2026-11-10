@@ -1,6 +1,6 @@
 # @react-native-gpui/webview
 
-Desktop native component and module for [`react-native-webview`](https://github.com/react-native-webview/react-native-webview) on react-native-gpui, on the operating system's web view. The library's JavaScript runs unchanged.
+Adapter for [`react-native-webview`](https://github.com/react-native-webview/react-native-webview) (MIT): shows web content in the operating system's web view.
 
 ## About
 

@@ -1,6 +1,6 @@
 # @react-native-gpui/screens
 
-Desktop support for [`react-native-screens`](https://github.com/software-mansion/react-native-screens): native stacks and screens, as used by React Navigation.
+Adapter for [`react-native-screens`](https://github.com/software-mansion/react-native-screens) (MIT): draws native stacks and screens, as used by React Navigation.
 
 Part of [react-native-gpui](https://github.com/streetwriters/react-native-gpui), React Native for macOS, Windows and Linux.
 

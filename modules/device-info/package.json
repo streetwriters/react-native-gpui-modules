@@ -1,7 +1,7 @@
 {
   "name": "@react-native-gpui/device-info",
   "version": "14.1.0",
-  "description": "Desktop native module for react-native-device-info on react-native-gpui",
+  "description": "Adapter for react-native-device-info (MIT): reports the device, system and app details of the machine it runs on",
   "license": "MIT",
   "main": "src/index.ts",
   "files": [

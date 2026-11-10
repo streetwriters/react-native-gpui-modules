@@ -1,6 +1,6 @@
 # @react-native-gpui/device-info
 
-Desktop native module for [`react-native-device-info`](https://github.com/react-native-device-info/react-native-device-info) on react-native-gpui. The library's JavaScript API is unchanged.
+Adapter for [`react-native-device-info`](https://github.com/react-native-device-info/react-native-device-info) (MIT): reports the device, system and app details of the machine it runs on.
 
 ## About
 
