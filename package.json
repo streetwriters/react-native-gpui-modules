@@ -1,5 +1,5 @@
 {
-  "name": "gpui-modules",
+  "name": "react-native-gpui-modules",
   "private": true,
   "version": "0.0.0",
   "description": "Modules for react-native-gpui: adapters for third-party React Native libraries and our own desktop modules",
