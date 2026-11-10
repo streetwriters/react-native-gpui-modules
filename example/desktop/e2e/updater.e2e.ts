@@ -7,7 +7,11 @@ import type { AddressInfo } from 'node:net';
 import { execFileSync } from 'node:child_process';
 import { PNG } from 'pngjs';
 import { afterAll, expect, test } from 'vitest';
-import { expect as desktopExpect, launchApp } from '@react-native-gpui/testing';
+import {
+  expect as desktopExpect,
+  launchApp,
+  type DesktopApp,
+} from '@react-native-gpui/testing';
 import { closeApp, launch } from './launch';
 
 let app: Awaited<ReturnType<typeof launch>>;
@@ -16,6 +20,7 @@ afterAll(async () => {
   await closeApp();
 });
 
+type Channel = {
   version?: string;
   file?: string;
   body?: Buffer;
