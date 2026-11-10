@@ -45,7 +45,7 @@ Every module lives in `modules/<name>` and has:
 
 - Every module is exercised in the example app (`example/`): a page or fixture per module, and an e2e spec in `example/desktop/e2e`.
 - Run only the specs your change affects. Do not run the whole suite unless asked.
-- Unit tests of a module run with `npm run test:unit`; Rust tests with `npm run test:rust`; `npm run lint`, `npm run typecheck` and `npm run check:versions` cover the rest.
+- Unit tests of a module run with `npm run test:unit`; Rust tests with `npm run test:rust`; `npm run lint`, `npm run typecheck` and `npm run check:versions` cover the rest. `scripts/ci/clean-install.mjs` builds a fresh app from the packed modules; it runs in CI only, never locally.
 
 ## Pull requests
 
