@@ -1,5 +1,8 @@
 rn_gpui_module::include_specs!();
 
+mod crypto;
+mod secure;
+
 use keyring::Entry;
 use rn_gpui_module::{ModuleError, Value};
 
@@ -177,4 +180,5 @@ impl NativeKeychainManagerSpec for Keychain {
 
 pub fn rn_gpui_register() {
     rn_gpui_module::register(native_keychain_manager_module::<Keychain>());
+    rn_gpui_module::register(native_secure_storage_module::<secure::SecureStorage>());
 }
