@@ -9,10 +9,14 @@ import { name as appName } from './app.json';
 AppRegistry.registerComponent(appName, () => App);
 
 const fixtures = {
-  GPUINotificationsFixture: () => require('./src/fixtures/NotificationsFixture').NotificationsFixture,
-  GPUISpellcheckFixture: () => require('./src/fixtures/SpellcheckFixture').SpellcheckFixture,
-  GPUIWebauthnFixture: () => require('./src/fixtures/WebauthnFixture').WebauthnFixture,
-  GPUIImageManipulatorFixture: () => require('./src/fixtures/ImageManipulatorFixture').ImageManipulatorFixture,
+  GPUINotificationsFixture: () =>
+    require('./src/fixtures/NotificationsFixture').NotificationsFixture,
+  GPUISpellcheckFixture: () =>
+    require('./src/fixtures/SpellcheckFixture').SpellcheckFixture,
+  GPUIWebauthnFixture: () =>
+    require('./src/fixtures/WebauthnFixture').WebauthnFixture,
+  GPUIImageManipulatorFixture: () =>
+    require('./src/fixtures/ImageManipulatorFixture').ImageManipulatorFixture,
   PdfTileFixture: () => require('./src/fixtures/PdfTileFixture').default,
   PdfViewerFixture: () => require('./src/fixtures/PdfViewerFixture').default,
 };
@@ -20,9 +24,16 @@ for (const [name, load] of Object.entries(fixtures)) {
   AppRegistry.registerComponent(name, load);
 }
 
+AppRegistry.registerComponent(
+  'SystemPanel',
+  () => require('./src/fixtures/SystemFixture').SystemPanel,
+);
+
 const fsFixtures = {
-  GPUISystemFixture: () => require('./src/fixtures/SystemFixture').SystemFixture,
-  GPUIUpdaterFixture: () => require('./src/fixtures/UpdaterFixture').UpdaterFixture,
+  GPUISystemFixture: () =>
+    require('./src/fixtures/SystemFixture').SystemFixture,
+  GPUIUpdaterFixture: () =>
+    require('./src/fixtures/UpdaterFixture').UpdaterFixture,
 };
 for (const [name, load] of Object.entries(fsFixtures)) {
   AppRegistry.registerComponent(name, () => {

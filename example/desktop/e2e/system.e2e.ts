@@ -2,7 +2,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { afterAll, expect, test } from 'vitest';
 import { expect as desktopExpect, launchApp } from '@react-native-gpui/testing';
-import { closeApp, launch } from './launch';
+import { bundle, closeApp, launch } from './launch';
 
 let app: Awaited<ReturnType<typeof launch>>;
 
@@ -84,7 +84,6 @@ test('an app started with --hidden opens without showing its window', async () =
         { encoding: 'utf8' },
       ).trim(),
     );
-  const bundle = (process.env.RN_GPUI_TEST_BUNDLE as string);
   const start = async (args: string[]) =>
     launchApp({
       bundle,

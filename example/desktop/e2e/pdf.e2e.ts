@@ -9,10 +9,16 @@ import {
 
 let app: DesktopApp;
 
+const bundle =
+  process.env.RN_GPUI_TEST_BUNDLE ?? path.resolve('desktop/build/index.bundle');
+
 async function launch() {
   app = await launchApp({
+    bundle,
     env: {
       RN_GPUI_MODULE: 'PdfTileFixture',
+      RN_GPUI_BUNDLE: bundle,
+      RN_GPUI_DEV_PORT: '1',
       RN_GPUI_WINDOW_STATE: path.resolve('.local/e2e-pdf-default.json'),
     },
     initialProps: {},
@@ -53,9 +59,12 @@ async function launchViewer(
   await app?.close();
   await new Promise(resolve => setTimeout(resolve, 1000));
   app = await launchApp({
+    bundle,
     env: {
       RN_GPUI_MODULE: 'PdfViewerFixture',
       ...(process.env.PDFMEM_ENV ? JSON.parse(process.env.PDFMEM_ENV) : {}),
+      RN_GPUI_BUNDLE: bundle,
+      RN_GPUI_DEV_PORT: '1',
       RN_GPUI_WINDOW_STATE: path.resolve(
         `.local/e2e-pdf-viewer-${process.pid}-${Date.now()}.json`,
       ),

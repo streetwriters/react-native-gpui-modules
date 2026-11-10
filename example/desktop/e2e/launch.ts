@@ -3,6 +3,9 @@ import { launchApp, type DesktopApp } from '@react-native-gpui/testing';
 
 let current: DesktopApp | undefined;
 
+export const bundle =
+  process.env.RN_GPUI_TEST_BUNDLE ?? path.resolve('desktop/build/index.bundle');
+
 export async function launch(
   module: string,
   scenario?: string,
@@ -11,8 +14,11 @@ export async function launch(
 ) {
   if (current) await current.close();
   current = await launchApp({
+    bundle,
     env: {
       RN_GPUI_MODULE: module,
+      RN_GPUI_BUNDLE: bundle,
+      RN_GPUI_DEV_PORT: '1',
       RN_GPUI_WINDOW_STATE: path.resolve(
         `.local/e2e-${module}-${scenario ?? 'default'}.json`,
       ),

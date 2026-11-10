@@ -14,6 +14,7 @@
   "dependencies": {
     "@react-native-gpui/codegen": "~0.87.0-alpha.0",
     "@react-native-gpui/core": "~0.87.0-alpha.0",
+    "@react-native-gpui/fs": "0.0.1-alpha.0",
     "@react-native-gpui/hermes": "~0.87.0-alpha.0",
     "@react-native-gpui/safe-area-context": "~5.10.0-alpha.0",
     "@react-native/new-app-screen": "0.87.1",

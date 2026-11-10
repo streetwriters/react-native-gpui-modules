@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { DesktopWindow } from '@react-native-gpui/core/desktop';
 import fs, { paths } from '@react-native-gpui/fs';
 import {
@@ -15,6 +15,14 @@ import {
   setJumpList,
   setLaunchAtLogin,
 } from '@react-native-gpui/system';
+
+export function SystemPanel() {
+  return (
+    <View style={{ flex: 1, backgroundColor: '#0f172a' }}>
+      <Text style={{ color: '#e2e8f0' }}>panel</Text>
+    </View>
+  );
+}
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -44,7 +52,7 @@ export function SystemFixture({
         if (!cancelled) setLines([...out]);
       };
 
-      const agent = `${paths.home}/Library/LaunchAgents/rn-gpui-tester.plist`;
+      const agent = `${paths.home}/Library/LaunchAgents/react-native-gpui-example.plist`;
       try {
         record(
           `loginOff ${(await getLaunchAtLogin()) === false ? 'ok' : 'BAD'}`,
@@ -52,7 +60,14 @@ export function SystemFixture({
         await setLaunchAtLogin(true, { hidden: true, args: ['--extra'] });
         const plist = await fs.promises.readFile(agent, 'utf8');
         record(
-          `loginOn ${(await getLaunchAtLogin()) && plist.includes('<string>--hidden</string>') && plist.includes('<string>--extra</string>') && plist.includes('<key>RunAtLoad</key>') ? 'ok' : 'BAD'}`,
+          `loginOn ${
+            (await getLaunchAtLogin()) &&
+            plist.includes('<string>--hidden</string>') &&
+            plist.includes('<string>--extra</string>') &&
+            plist.includes('<key>RunAtLoad</key>')
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
         await setLaunchAtLogin(true);
         const replaced = await fs.promises.readFile(agent, 'utf8');
@@ -76,12 +91,14 @@ export function SystemFixture({
       }
 
       record(
-        `protectionOff ${(await isContentProtected()) === false ? 'ok' : 'BAD'}`,
+        `protectionOff ${
+          (await isContentProtected()) === false ? 'ok' : 'BAD'
+        }`,
       );
       await setContentProtected(true);
       record(`protectionOn ${(await isContentProtected()) ? 'ok' : 'BAD'}`);
       const opened = await DesktopWindow.open({
-        component: 'EmbeddedPanel',
+        component: 'SystemPanel',
         props: { name: 'later' },
         width: 300,
         height: 200,
@@ -91,7 +108,9 @@ export function SystemFixture({
       await opened.close();
       await setContentProtected(false);
       record(
-        `protectionOffAgain ${(await isContentProtected()) === false ? 'ok' : 'BAD'}`,
+        `protectionOffAgain ${
+          (await isContentProtected()) === false ? 'ok' : 'BAD'
+        }`,
       );
       const idleBefore = await getIdleTime();
       await wait(1200);
@@ -111,7 +130,9 @@ export function SystemFixture({
       await setBadge(null);
       const cleared = await getBadge();
       record(
-        `badge ${shown === '7' && cleared === null ? 'ok' : `BAD ${shown} ${cleared}`}`,
+        `badge ${
+          shown === '7' && cleared === null ? 'ok' : `BAD ${shown} ${cleared}`
+        }`,
       );
       await requestAttention();
       await cancelAttention();
