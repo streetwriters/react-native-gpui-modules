@@ -1,0 +1,41 @@
+{
+  "name": "@react-native-gpui/vector-icons",
+  "version": "0.0.1-alpha.0",
+  "description": "Vector icon rasterization for React Native GPUI apps",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/vector-icons"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/vector-icons#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
+  },
+  "main": "src/index.ts",
+  "react-native": "src/index.ts",
+  "files": [
+    "desktop",
+    "react-native.config.js",
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "!**/*.test.js",
+    "!**/*.test.mjs",
+    "!**/*.test.ts",
+    "!**/*.test.cjs"
+  ],
+  "peerDependencies": {
+    "react-native": "0.87.x"
+  },
+  "codegenConfig": {
+    "name": "GPUIVectorIconsSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@react-native-gpui/fonts",
+  "version": "0.0.1-alpha.0",
+  "description": "Custom font loading for React Native GPUI apps",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/fonts"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/fonts#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
+  },
+  "main": "src/index.ts",
+  "react-native": "src/index.ts",
+  "codegenConfig": {
+    "name": "GPUIFontLoaderSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "files": [
+    "desktop",
+    "react-native.config.js",
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "!**/*.test.js",
+    "!**/*.test.mjs",
+    "!**/*.test.ts",
+    "!**/*.test.cjs"
+  ],
+  "peerDependencies": {
+    "react-native": "0.87.x"
+  }
+}
