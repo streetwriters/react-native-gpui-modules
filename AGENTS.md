@@ -31,6 +31,11 @@ Every module lives in `modules/<name>` and has:
 - A standalone module: its own version, starting at `0.0.1`.
 - Dependencies between our packages, and on `@react-native-gpui/*` runtime packages, use the exact version.
 
+## The gpui pin
+
+- The modules build against the same gpui-fast revision as the runtime ([react-native-gpui](https://github.com/streetwriters/react-native-gpui), `packages/core/ReactGpui/GPUI_PIN.md`). Autolink writes it into the `[patch.crates-io]` block of `example/desktop/Cargo.toml` and of each module crate that is its own workspace root.
+- When the runtime's pin changes, update the core packages the example uses, run `npx react-native-gpui autolink` in `example` and `npm run test:rust`, and commit the manifests they rewrite, in the same sitting.
+
 ## Code
 
 - Few comments, technical only. No references to plans, tickets or history.
@@ -40,7 +45,7 @@ Every module lives in `modules/<name>` and has:
 
 - Every module is exercised in the example app (`example/`): a page or fixture per module, and an e2e spec in `example/desktop/e2e`.
 - Run only the specs your change affects. Do not run the whole suite unless asked.
-- Unit tests of a module run with `npm run test:unit`.
+- Unit tests of a module run with `npm run test:unit`; Rust tests with `npm run test:rust`; `npm run lint`, `npm run typecheck` and `npm run check:versions` cover the rest.
 
 ## Pull requests
 

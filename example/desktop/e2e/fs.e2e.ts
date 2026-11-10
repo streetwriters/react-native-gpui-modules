@@ -1,7 +1,10 @@
 import http from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { afterAll, expect, test } from 'vitest';
-import { expect as desktopExpect, type DesktopApp } from '@react-native-gpui/testing';
+import {
+  expect as desktopExpect,
+  type DesktopApp,
+} from '@react-native-gpui/testing';
 import { closeApp, launch as start } from './launch';
 
 let app: DesktopApp;

@@ -1,0 +1,47 @@
+name: publish-npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Check and pack everything, publish nothing
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: npm ci --ignore-scripts
+      - name: CI is green on this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          runs="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow ci.yml --commit "$GITHUB_SHA" --json status,conclusion --jq '[.[] | select(.status == "completed")]')"
+          [ "$(echo "$runs" | jq 'length')" -gt 0 ]
+          [ "$(echo "$runs" | jq '[.[] | select(.conclusion != "success")] | length')" = "0" ]
+      - name: Versions, metadata, tarballs and releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/ci/publish-npm.mjs --check-only
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            node scripts/ci/publish-npm.mjs --dry-run
+          else
+            node scripts/ci/publish-npm.mjs
+          fi

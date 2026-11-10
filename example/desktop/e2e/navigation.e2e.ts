@@ -12,7 +12,10 @@ import { bundle } from './launch';
 
 let app: DesktopApp;
 
-const heldIdle = new Set<{ response: http.ServerResponse; timer: NodeJS.Timeout }>();
+const heldIdle = new Set<{
+  response: http.ServerResponse;
+  timer: NodeJS.Timeout;
+}>();
 
 function finishIdle(response: http.ServerResponse) {
   for (const held of heldIdle) {
@@ -38,7 +41,9 @@ const idleServer = http.createServer((request, response) => {
 });
 
 beforeAll(async () => {
-  await new Promise<void>(resolve => idleServer.listen(43181, '127.0.0.1', resolve));
+  await new Promise<void>(resolve =>
+    idleServer.listen(43181, '127.0.0.1', resolve),
+  );
   const executable = process.env.RN_GPUI_TEST_BINARY;
   if (!executable)
     throw new Error('RN_GPUI_TEST_BINARY must point to the built test app');

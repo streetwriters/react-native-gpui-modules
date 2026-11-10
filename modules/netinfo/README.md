@@ -20,7 +20,9 @@ The module is autolinked on desktop.
 import NetInfo, { useNetInfo } from '@react-native-community/netinfo';
 
 const state = await NetInfo.fetch();
-const unsubscribe = NetInfo.addEventListener(next => console.log(next.isConnected));
+const unsubscribe = NetInfo.addEventListener(next =>
+  console.log(next.isConnected),
+);
 ```
 
 ## Platforms

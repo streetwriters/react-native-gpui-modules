@@ -31,14 +31,25 @@ test('eventsource: every check passes', async () => {
 }, 90000);
 
 function threads(pid: number) {
-  const lines = execFileSync('ps', ['-M', '-p', String(pid)]).toString().trim().split('\n');
+  const lines = execFileSync('ps', ['-M', '-p', String(pid)])
+    .toString()
+    .trim()
+    .split('\n');
   return lines.length - 1;
 }
 
 function sockets(pid: number) {
   try {
-    const output = execFileSync('lsof', ['-nP', '-a', '-p', String(pid), '-iTCP']).toString();
-    return output.split('\n').filter(line => line.includes(`:${new URL(server.url).port}`)).length;
+    const output = execFileSync('lsof', [
+      '-nP',
+      '-a',
+      '-p',
+      String(pid),
+      '-iTCP',
+    ]).toString();
+    return output
+      .split('\n')
+      .filter(line => line.includes(`:${new URL(server.url).port}`)).length;
   } catch {
     return 0;
   }

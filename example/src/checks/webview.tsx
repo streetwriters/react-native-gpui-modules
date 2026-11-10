@@ -1,6 +1,6 @@
-import { createRef } from "react";
-import { WebView } from "react-native-webview";
-import type { ModuleChecks } from "./types";
+import { createRef } from 'react';
+import { WebView } from 'react-native-webview';
+import type { ModuleChecks } from './types';
 
 const assert = (condition: unknown, message: string) => {
   if (!condition) throw new Error(message);
@@ -25,9 +25,9 @@ const next = (timeout = 5000) =>
     if (queued !== undefined) return resolve(queued);
     const timer = setTimeout(() => {
       waiting = undefined;
-      reject(new Error("no message from the page"));
+      reject(new Error('no message from the page'));
     }, timeout);
-    waiting = (data) => {
+    waiting = data => {
       clearTimeout(timer);
       resolve(data);
     };
@@ -38,8 +38,10 @@ const view = (
     ref={ref}
     source={{ html }}
     style={{ height: 160 }}
-    injectedJavaScript={'window.ReactNativeWebView.postMessage("injected"); true;'}
-    onMessage={(event) => {
+    injectedJavaScript={
+      'window.ReactNativeWebView.postMessage("injected"); true;'
+    }
+    onMessage={event => {
       const data = event.nativeEvent.data;
       if (waiting) {
         const resolve = waiting;
@@ -53,38 +55,38 @@ const view = (
 );
 
 const webview: ModuleChecks = {
-  name: "webview",
+  name: 'webview',
   view,
   checks: [
     [
-      "receives a message posted by the page",
+      'receives a message posted by the page',
       async () => {
-        assert((await next()) === "hello from page", "wrong message");
-      }
+        assert((await next()) === 'hello from page', 'wrong message');
+      },
     ],
     [
-      "runs injectedJavaScript after the page loads",
+      'runs injectedJavaScript after the page loads',
       async () => {
-        assert((await next()) === "injected", "wrong message");
-      }
+        assert((await next()) === 'injected', 'wrong message');
+      },
     ],
     [
-      "runs injectJavaScript on demand",
+      'runs injectJavaScript on demand',
       async () => {
         ref.current?.injectJavaScript(
-          'window.ReactNativeWebView.postMessage(String(40 + 2)); true;'
+          'window.ReactNativeWebView.postMessage(String(40 + 2)); true;',
         );
-        assert((await next()) === "42", "wrong result");
-      }
+        assert((await next()) === '42', 'wrong result');
+      },
     ],
     [
-      "delivers postMessage to the page",
+      'delivers postMessage to the page',
       async () => {
-        ref.current?.postMessage("ping");
-        assert((await next()) === "echo:ping", "wrong echo");
-      }
-    ]
-  ]
+        ref.current?.postMessage('ping');
+        assert((await next()) === 'echo:ping', 'wrong echo');
+      },
+    ],
+  ],
 };
 
 export default webview;

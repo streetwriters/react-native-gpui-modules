@@ -3,3 +3,7 @@ tgz
 *.log
 .DS_Store
 .local/
+target/
+/ci-out/
+# Cargo ignores a dependency crate's lockfile, so a tracked one only goes stale.
+modules/*/desktop/Cargo.lock

@@ -2,12 +2,7 @@ import NativeSubtle from './NativeSubtle';
 
 type BufferSource = ArrayBuffer | ArrayBufferView;
 type KeyUsage =
-  | 'encrypt'
-  | 'decrypt'
-  | 'wrapKey'
-  | 'unwrapKey'
-  | 'deriveKey'
-  | 'deriveBits';
+  'encrypt' | 'decrypt' | 'wrapKey' | 'unwrapKey' | 'deriveKey' | 'deriveBits';
 type KeyFormat = 'raw' | 'jwk' | 'spki' | 'pkcs8';
 type AlgorithmIdentifier = string | { name: string; [key: string]: unknown };
 
@@ -60,10 +55,15 @@ function nameOf(algorithm: AlgorithmIdentifier): string {
 
 function hashOf(hash: unknown): string {
   const given =
-    typeof hash === 'string' ? hash : (hash as { name?: string } | undefined)?.name;
+    typeof hash === 'string'
+      ? hash
+      : (hash as { name?: string } | undefined)?.name;
   const name = typeof given === 'string' ? given.toUpperCase() : '';
   if (!['SHA-1', 'SHA-256', 'SHA-384', 'SHA-512'].includes(name)) {
-    return fail('NotSupportedError', `The hash ${String(given)} is not supported`);
+    return fail(
+      'NotSupportedError',
+      `The hash ${String(given)} is not supported`,
+    );
   }
   return name;
 }
@@ -178,22 +178,26 @@ async function deriveBitsFrom(
   }
   requireUsage(baseKey, 'deriveBits', name);
   if (name === 'PBKDF2') {
-    return native(NativeSubtle.pbkdf2(
-      hashOf(params.hash),
-      bytesOf(baseKey),
-      copy(params.salt as BufferSource),
-      Number(params.iterations),
-      length / 8,
-    ));
+    return native(
+      NativeSubtle.pbkdf2(
+        hashOf(params.hash),
+        bytesOf(baseKey),
+        copy(params.salt as BufferSource),
+        Number(params.iterations),
+        length / 8,
+      ),
+    );
   }
   if (name === 'HKDF') {
-    return native(NativeSubtle.hkdf(
-      hashOf(params.hash),
-      bytesOf(baseKey),
-      copy(params.salt as BufferSource),
-      copy(params.info as BufferSource),
-      length / 8,
-    ));
+    return native(
+      NativeSubtle.hkdf(
+        hashOf(params.hash),
+        bytesOf(baseKey),
+        copy(params.salt as BufferSource),
+        copy(params.info as BufferSource),
+        length / 8,
+      ),
+    );
   }
   return fail('NotSupportedError', `The algorithm ${name} cannot derive`);
 }
@@ -220,7 +224,12 @@ export const subtle = {
       fail('NotSupportedError', `The algorithm ${name} cannot generate keys`);
     }
     const length = aesLength(algorithm);
-    return makeKey(generateBytes(length), { name, length }, extractable, usages);
+    return makeKey(
+      generateBytes(length),
+      { name, length },
+      extractable,
+      usages,
+    );
   },
 
   async importKey(
@@ -295,11 +304,9 @@ export const subtle = {
     if (format !== 'raw') {
       fail('NotSupportedError', `The key format ${format} is not supported`);
     }
-    const bytes = await native(NativeSubtle.aesKw(
-      false,
-      bytesOf(unwrappingKey),
-      copy(wrappedKey),
-    ));
+    const bytes = await native(
+      NativeSubtle.aesKw(false, bytesOf(unwrappingKey), copy(wrappedKey)),
+    );
     return importRaw(bytes, unwrappedKeyAlgorithm, extractable, usages);
   },
 
@@ -326,13 +333,9 @@ export const subtle = {
     requireUsage(baseKey, 'deriveKey', nameOf(algorithm));
     const bits = await deriveBitsFrom(
       algorithm,
-      new CryptoKey(
-        CREATE,
-        bytesOf(baseKey),
-        baseKey.algorithm,
-        false,
-        ['deriveBits'],
-      ),
+      new CryptoKey(CREATE, bytesOf(baseKey), baseKey.algorithm, false, [
+        'deriveBits',
+      ]),
       length,
     );
     return makeKey(bits, { name, length }, extractable, usages);
@@ -353,11 +356,15 @@ async function gcmWith(
   if (params.tagLength !== undefined && params.tagLength !== 128) {
     fail('NotSupportedError', 'Only a 128 bit tag is supported');
   }
-  return native(NativeSubtle.aesGcm(
-    encrypt,
-    bytesOf(key),
-    copy(params.iv as BufferSource),
-    params.additionalData ? copy(params.additionalData as BufferSource) : new ArrayBuffer(0),
-    copy(data),
-  ));
+  return native(
+    NativeSubtle.aesGcm(
+      encrypt,
+      bytesOf(key),
+      copy(params.iv as BufferSource),
+      params.additionalData
+        ? copy(params.additionalData as BufferSource)
+        : new ArrayBuffer(0),
+      copy(data),
+    ),
+  );
 }

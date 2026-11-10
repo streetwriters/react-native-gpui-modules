@@ -10,7 +10,11 @@ export interface Spec extends TurboModule {
     additionalData: ArrayBuffer,
     data: ArrayBuffer,
   ): Promise<ArrayBuffer>;
-  aesKw(wrap: boolean, key: ArrayBuffer, data: ArrayBuffer): Promise<ArrayBuffer>;
+  aesKw(
+    wrap: boolean,
+    key: ArrayBuffer,
+    data: ArrayBuffer,
+  ): Promise<ArrayBuffer>;
   pbkdf2(
     hash: string,
     password: ArrayBuffer,

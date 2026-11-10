@@ -124,13 +124,13 @@ const { status, headers } = await fs.upload(url, `${paths.temp}/part-1`, {
 });
 ```
 
-| Option       | Description                                                         |
-| ------------ | ------------------------------------------------------------------- |
-| `method`     | `PUT` unless set.                                                   |
-| `headers`    | Request headers. `Content-Length` is set from the range.            |
-| `offset`     | Where in the file the body starts. Zero unless set.                 |
-| `length`     | How many bytes to send. Everything from `offset` unless set.        |
-| `onProgress` | `(sent, total)`.                                                    |
+| Option       | Description                                                          |
+| ------------ | -------------------------------------------------------------------- |
+| `method`     | `PUT` unless set.                                                    |
+| `headers`    | Request headers. `Content-Length` is set from the range.             |
+| `offset`     | Where in the file the body starts. Zero unless set.                  |
+| `length`     | How many bytes to send. Everything from `offset` unless set.         |
+| `onProgress` | `(sent, total)`.                                                     |
 | `signal`     | Aborting rejects with an `AbortError` within a fraction of a second. |
 
 The promise resolves with the final `status`, the response `headers` (lower-cased) and the first 2 KiB of the response `body`, whatever the status is, so a caller can read an `ETag` or an error document. A range past the end of the file rejects. Certificates are checked against the operating system's store.

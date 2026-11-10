@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 export type Check = [label: string, run: () => Promise<void> | void];
 

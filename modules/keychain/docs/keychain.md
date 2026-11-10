@@ -10,8 +10,6 @@ npm install react-native-keychain @react-native-gpui/keychain
 
 The library's own calls (`setGenericPassword`, `getInternetCredentials` and the rest) store items under the service the caller names, as react-native-keychain does. The functions below always use the app's namespace.
 
-
-
 ```js
 import {
   isEncryptionAvailable,
@@ -34,10 +32,7 @@ Every item belongs to the app. The credential store service is built natively as
 ## Encrypting strings
 
 ```js
-import {
-  encryptString,
-  decryptString,
-} from '@react-native-gpui/keychain';
+import { encryptString, decryptString } from '@react-native-gpui/keychain';
 
 const data = await encryptString('com.example.app', 'a secret'); // Uint8Array
 const text = await decryptString('com.example.app', data);

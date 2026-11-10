@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["react", "node"]
+  },
+  "include": [
+    "types/**/*.d.ts",
+    "modules/*/src/**/*.ts",
+    "modules/*/src/**/*.tsx"
+  ],
+  "exclude": ["node_modules", "**/node_modules", "target", "**/*.test.ts"]
+}

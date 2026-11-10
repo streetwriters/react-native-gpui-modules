@@ -25,12 +25,12 @@ export function clearMemo() {
 function getSupportedFunction<T>(
   supportedPlatforms: PlatformArray,
   getter: Getter<T>,
-  defaultGetter: Getter<T>
+  defaultGetter: Getter<T>,
 ): Getter<T> {
   let supportedMap: any = {};
   supportedPlatforms
-    .filter((key) => Platform.OS == key)
-    .forEach((key) => (supportedMap[key] = getter));
+    .filter(key => Platform.OS == key)
+    .forEach(key => (supportedMap[key] = getter));
   // Every desktop system takes the Windows column of a library's support table.
   if (supportedPlatforms.includes('windows')) {
     supportedMap.desktop = getter;
@@ -54,7 +54,11 @@ export function getSupportedPlatformInfoSync<T>({
   if (memoKey && memo[memoKey] != undefined) {
     return memo[memoKey];
   } else {
-    const output = getSupportedFunction(supportedPlatforms, getter, () => defaultValue)();
+    const output = getSupportedFunction(
+      supportedPlatforms,
+      getter,
+      () => defaultValue,
+    )();
     if (memoKey) {
       memo[memoKey] = output;
     }
@@ -76,7 +80,7 @@ export async function getSupportedPlatformInfoAsync<T>({
     return memo[memoKey];
   } else {
     const output = await getSupportedFunction(supportedPlatforms, getter, () =>
-      Promise.resolve(defaultValue)
+      Promise.resolve(defaultValue),
     )();
     if (memoKey) {
       memo[memoKey] = output;
@@ -93,11 +97,20 @@ export async function getSupportedPlatformInfoAsync<T>({
 export function getSupportedPlatformInfoFunctions<T>({
   syncGetter,
   ...asyncParams
-}: GetSupportedPlatformInfoFunctionsParams<T>): [Getter<Promise<T>>, Getter<T>] {
+}: GetSupportedPlatformInfoFunctionsParams<T>): [
+  Getter<Promise<T>>,
+  Getter<T>,
+] {
   return [
     (...args: any[]) =>
-      getSupportedPlatformInfoAsync({ ...asyncParams, getter: () => asyncParams.getter(...args) }),
+      getSupportedPlatformInfoAsync({
+        ...asyncParams,
+        getter: () => asyncParams.getter(...args),
+      }),
     (...args: any[]) =>
-      getSupportedPlatformInfoSync({ ...asyncParams, getter: () => syncGetter(...args) }),
+      getSupportedPlatformInfoSync({
+        ...asyncParams,
+        getter: () => syncGetter(...args),
+      }),
   ];
 }

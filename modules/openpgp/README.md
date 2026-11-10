@@ -19,7 +19,10 @@ The module is autolinked on desktop.
 ```js
 import OpenPGP from '@react-native-gpui/openpgp';
 
-const { publicKey, privateKey } = await OpenPGP.generate({ name: 'Ada', email: 'ada@example.com' });
+const { publicKey, privateKey } = await OpenPGP.generate({
+  name: 'Ada',
+  email: 'ada@example.com',
+});
 const encrypted = await OpenPGP.encrypt('hello', publicKey);
 const message = await OpenPGP.decrypt(encrypted, privateKey, 'passphrase');
 ```

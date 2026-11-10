@@ -9,10 +9,25 @@
     "example"
   ],
   "scripts": {
-    "test:unit": "vitest run"
+    "lint": "eslint .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -p tsconfig.json",
+    "test:unit": "vitest run",
+    "test:e2e": "npm run test:e2e --workspace example",
+    "test:rust": "node scripts/run-rust-tests.mjs",
+    "check:versions": "node scripts/ci/publish-npm.mjs --check-only --skip-ci"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^1.4.1",
+    "@react-native/eslint-config": "^0.87.1",
+    "@types/react": "^19.3.0",
+    "eslint": "^9.39.5",
+    "prettier": "^3.9.9",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
   }
 }

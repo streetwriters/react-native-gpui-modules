@@ -93,7 +93,6 @@ async function serveFeed(channels: Record<string, Channel>) {
   };
 }
 
-
 test('the updater checks, downloads and verifies updates', async () => {
   const body = crypto.randomBytes(3 * 1024 * 1024);
   const feed = await serveFeed({
@@ -181,7 +180,7 @@ test.skipIf(process.platform !== 'darwin')(
         body: fs.readFileSync(archive),
       },
     });
-    const bundle = (process.env.RN_GPUI_TEST_BUNDLE as string);
+    const bundle = process.env.RN_GPUI_TEST_BUNDLE as string;
     let running: DesktopApp | undefined;
     try {
       running = await launchApp({

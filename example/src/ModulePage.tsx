@@ -52,8 +52,8 @@ export function ModulePage({ name, checks, view }: ModuleChecks) {
               {outcome === 'ok'
                 ? 'ok'
                 : outcome && outcome !== 'pending'
-                ? 'FAIL'
-                : '...'}
+                  ? 'FAIL'
+                  : '...'}
               {' - '}
               {label}
               {outcome && outcome !== 'ok' && outcome !== 'pending'

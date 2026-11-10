@@ -5,7 +5,19 @@ import {
   type DesktopApp,
 } from '@react-native-gpui/testing';
 
-const modules = ['device-info', 'netinfo', 'openpgp', 'webview', 'documents-picker', 'quick-sqlite', 'sodium', 'mmkv', 'gzip', 'crypto', 'keychain'];
+const modules = [
+  'device-info',
+  'netinfo',
+  'openpgp',
+  'webview',
+  'documents-picker',
+  'quick-sqlite',
+  'sodium',
+  'mmkv',
+  'gzip',
+  'crypto',
+  'keychain',
+];
 
 let app: DesktopApp;
 

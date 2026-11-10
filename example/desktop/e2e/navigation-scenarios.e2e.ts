@@ -1,6 +1,9 @@
 import { PNG } from 'pngjs';
 import { afterAll, expect, test } from 'vitest';
-import { expect as desktopExpect, type DesktopApp } from '@react-native-gpui/testing';
+import {
+  expect as desktopExpect,
+  type DesktopApp,
+} from '@react-native-gpui/testing';
 import { closeApp, launch as start } from './launch';
 
 let app: DesktopApp;
@@ -16,11 +19,6 @@ async function launch(
 }
 
 afterAll(closeApp);
-
-async function expectCaptureSmoke() {
-  if (!app.captureSupported) return;
-  expect((await app.screenshot()).length).toBeGreaterThan(1000);
-}
 
 test.each(['stack', 'native-stack'])(
   '%s supports consecutive pushes and BackHandler pops',

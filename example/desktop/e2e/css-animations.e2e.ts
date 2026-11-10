@@ -1,4 +1,3 @@
-import path from 'node:path';
 import { PNG } from 'pngjs';
 import { afterAll, beforeAll, expect, test } from 'vitest';
 import {
@@ -23,9 +22,7 @@ beforeAll(async () => {
     offscreen: true,
   });
   await app.setWindowSize(1024, 768);
-  await desktopExpect(
-    app.getByTestId('css-animations-screen'),
-  ).toBeVisible();
+  await desktopExpect(app.getByTestId('css-animations-screen')).toBeVisible();
 });
 
 afterAll(() => app?.close());
