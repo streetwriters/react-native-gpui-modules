@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@react-native-gpui/device-info` are listed here.
+All notable changes to `@react-native-gpui/device-info` are listed here. Each version's section becomes the notes of its GitHub release.
 
 ## Unreleased
 

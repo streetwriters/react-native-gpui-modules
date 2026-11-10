@@ -1,13 +1,16 @@
 {
   "name": "@react-native-gpui/netinfo",
-  "version": "0.0.1",
-  "description": "Desktop native module for @react-native-community/netinfo",
+  "version": "11.4.0",
+  "description": "Desktop native module for @react-native-community/netinfo on react-native-gpui",
   "license": "MIT",
   "main": "src/index.ts",
   "files": [
     "src",
     "desktop",
-    "react-native.config.js"
+    "react-native.config.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "codegenConfig": {
     "name": "RNCNetInfoSpec",
@@ -16,6 +19,15 @@
   },
   "peerDependencies": {
     "react-native": "0.87.x",
-    "@react-native-community/netinfo": "11.x"
+    "@react-native-community/netinfo": "11.4.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/netinfo"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/netinfo#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
   }
 }

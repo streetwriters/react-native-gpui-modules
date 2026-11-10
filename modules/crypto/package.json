@@ -9,7 +9,8 @@
     "desktop",
     "react-native.config.js",
     "README.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "codegenConfig": {
     "name": "RNGpuiCryptoSpec",
@@ -18,5 +19,14 @@
   },
   "peerDependencies": {
     "react-native": "0.87.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/crypto"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/crypto#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
   }
 }

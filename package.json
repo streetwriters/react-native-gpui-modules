@@ -2,10 +2,17 @@
   "name": "gpui-modules",
   "private": true,
   "version": "0.0.0",
-  "description": "Desktop adapters for third-party React Native libraries on react-native-gpui",
+  "description": "Modules for react-native-gpui: adapters for third-party React Native libraries and our own desktop modules",
   "license": "MIT",
   "workspaces": [
     "modules/*",
     "example"
-  ]
+  ],
+  "scripts": {
+    "test:unit": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git"
+  }
 }

@@ -2,6 +2,10 @@
 
 Desktop native module for [`@react-native-clipboard/clipboard`](https://github.com/react-native-clipboard/clipboard) on react-native-gpui. The library's JavaScript API is unchanged.
 
+## About
+
+This package is the desktop adapter for [`@react-native-clipboard/clipboard`](https://github.com/react-native-clipboard/clipboard) 1.16. Install the original library next to it; the library's JavaScript runs unchanged. The upstream library is licensed under the MIT license.
+
 ## Install
 
 ```sh
@@ -26,6 +30,14 @@ setRich({
 
 Writes the flavours as one clipboard item, so a paste target takes the richest form it understands. `text/plain` is required. `text/markdown` is stored on macOS (`net.daringfireball.markdown`) and dropped elsewhere.
 
+## Platforms
+
+macOS is tested. Windows and Linux are not tested yet.
+
+## Limitations
+
+`setImage`, `getImageJPG` and `getHTML` reject, `hasURL`, `hasNumber` and `hasWebURL` are `false`, and `setStrings` writes only the first string. The `text/markdown` flavour of `setRich` is stored on macOS only.
+
 ## License
 
-MIT.
+MIT. See [LICENSE](LICENSE). The upstream library, [`@react-native-clipboard/clipboard`](https://github.com/react-native-clipboard/clipboard), is MIT licensed.

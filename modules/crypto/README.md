@@ -2,6 +2,10 @@
 
 `crypto.getRandomValues`, `crypto.randomUUID` and a WebCrypto `crypto.subtle` for react-native-gpui apps.
 
+## About
+
+This is our own module; it has no upstream library.
+
 ## Install
 
 ```sh
@@ -36,6 +40,14 @@ A `CryptoKey` holds its bytes out of reach of JavaScript. `extractable` and `usa
 
 Data crosses to native code as `ArrayBuffer`s and is copied, so very large buffers are better processed in chunks.
 
+## Platforms
+
+macOS is tested. Windows and Linux are not tested yet.
+
+## Limitations
+
+Only the algorithms and operations listed under SubtleCrypto are implemented; others reject with `NotSupportedError`.
+
 ## License
 
-MIT. See [LICENSE](LICENSE). It includes the RustCrypto crates `aes`, `aes-gcm`, `aes-kw`, `hkdf`, `hmac`, `pbkdf2`, `sha1` and `sha2`, which are MIT or Apache-2.0.
+MIT. See [LICENSE](LICENSE).

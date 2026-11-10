@@ -1,11 +1,11 @@
 {
   "name": "@react-native-gpui/documents-picker",
   "version": "11.0.0",
-  "description": "Desktop native module for @react-native-documents/picker",
+  "description": "Desktop native module for @react-native-documents/picker on react-native-gpui",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/streetwriters/gpui-modules.git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
     "directory": "modules/documents-picker"
   },
   "main": "src/index.ts",
@@ -14,7 +14,8 @@
     "desktop",
     "react-native.config.js",
     "README.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "codegenConfig": {
     "name": "RNGpuiDocumentPickerSpec",
@@ -24,5 +25,9 @@
   "peerDependencies": {
     "react-native": "0.87.x",
     "@react-native-documents/picker": "11.0.x"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/documents-picker#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
   }
 }

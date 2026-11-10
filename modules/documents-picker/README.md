@@ -2,6 +2,10 @@
 
 Desktop native module for [`@react-native-documents/picker`](https://github.com/react-native-documents/document-picker) on react-native-gpui. The library's JavaScript runs unchanged, so an app uses the same import on mobile and desktop.
 
+## About
+
+This package is the desktop adapter for [`@react-native-documents/picker`](https://github.com/react-native-documents/document-picker) 11.0. Install the original library next to it; the library's JavaScript runs unchanged. The upstream library is licensed under the MIT license.
+
 ## Install
 
 ```sh
@@ -46,6 +50,14 @@ try {
 - `releaseSecureAccess` and `releaseLongTermAccess` succeed without doing anything. `requestLongTermAccess` returns no bookmark, as desktop paths stay valid.
 - `presentationStyle`, `transitionStyle` and `allowVirtualFiles` are ignored. Panels are not attached to the app window.
 
+## Platforms
+
+macOS is tested. Windows and Linux are not tested yet.
+
+## Limitations
+
+Options that only exist on mobile (iCloud, persistable URI permissions) are ignored; see Behaviour on desktop.
+
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE). The upstream library, [`@react-native-documents/picker`](https://github.com/react-native-documents/document-picker), is MIT licensed.

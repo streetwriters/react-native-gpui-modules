@@ -1,14 +1,17 @@
 {
   "name": "@react-native-gpui/webview",
-  "version": "0.0.1",
-  "description": "Desktop native component and module for react-native-webview",
+  "version": "13.16.0",
+  "description": "Desktop native component and module for react-native-webview on react-native-gpui",
   "license": "MIT",
   "main": "src/index.ts",
   "files": [
     "src",
     "desktop",
     "patches",
-    "react-native.config.js"
+    "react-native.config.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "codegenConfig": {
     "name": "RNGpuiWebViewSpec",
@@ -17,6 +20,15 @@
   },
   "peerDependencies": {
     "react-native": "0.87.x",
-    "react-native-webview": "13.x"
+    "react-native-webview": "13.16.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/webview"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/webview#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
   }
 }
