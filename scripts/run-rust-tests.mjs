@@ -27,7 +27,7 @@ if (!fs.existsSync(autolinkRecord)) {
 const record = JSON.parse(fs.readFileSync(autolinkRecord, 'utf8'));
 
 /// Crates whose tests cannot run, each with the reason, printed on every run.
-const SKIPPED = new Map();
+const SKIPPED = new Map([['rn-gpui-webview', 'it has no tests']]);
 
 const moduleCrates = (record.rustCrates ?? [])
   .filter(crate => {
