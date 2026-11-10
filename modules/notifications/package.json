@@ -1,0 +1,37 @@
+{
+  "name": "@react-native-gpui/notifications",
+  "version": "0.0.1",
+  "description": "Desktop notifications and scheduled reminders for React Native GPUI apps",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/notifications"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/notifications#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
+  },
+  "main": "src/index.ts",
+  "files": [
+    "src",
+    "desktop",
+    "react-native.config.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "docs"
+  ],
+  "codegenConfig": {
+    "name": "RNGpuiNotificationsSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  },
+  "peerDependencies": {
+    "react-native": "0.87.x"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  }
+}

@@ -39,7 +39,14 @@
     "react-native-keychain": "11.0.0",
     "react-native-mmkv-storage": "file:../tgz/react-native-mmkv-storage-13.0.1.tgz",
     "react-native-quick-sqlite": "file:../tgz/react-native-quick-sqlite-8.2.7.tgz",
-    "react-native-safe-area-context": "~5.10.0"
+    "react-native-safe-area-context": "~5.10.0",
+    "@react-native-gpui/image-manipulator": "*",
+    "@react-native-gpui/notifications": "*",
+    "@react-native-gpui/pdf": "*",
+    "@react-native-gpui/spellcheck": "*",
+    "@react-native-gpui/system": "*",
+    "@react-native-gpui/updater": "*",
+    "@react-native-gpui/webauthn": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
