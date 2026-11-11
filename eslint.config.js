@@ -25,6 +25,7 @@ module.exports = [
       '**/*.config.js',
       '**/react-native.config.js',
       'modules/*/desktop/**/*.js',
+      'modules/*/src/**/*.js',
     ],
     languageOptions: {
       sourceType: 'module',

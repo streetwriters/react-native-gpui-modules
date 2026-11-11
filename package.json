@@ -15,7 +15,7 @@
     "test:unit": "vitest run",
     "test:e2e": "npm run test:e2e --workspace example",
     "test:rust": "node scripts/run-rust-tests.mjs",
-    "check:versions": "node scripts/ci/publish-npm.mjs --check-only --skip-ci"
+    "check:versions": "node scripts/ci/publish-npm.mjs --check-only --skip-ci --allow-unreleased"
   },
   "repository": {
     "type": "git",

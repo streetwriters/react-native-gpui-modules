@@ -3,7 +3,7 @@
 // packages to npm and creates a GitHub release for each.
 //
 //   node scripts/ci/publish-npm.mjs [--check-only | --dry-run] [--local] [--stage]
-//     [--skip-ci]
+//     [--skip-ci] [--allow-unreleased]
 //
 // --check-only runs the checks; --dry-run also packs and runs `npm publish
 // --dry-run`. --local publishes from a developer machine, without npm
@@ -13,7 +13,9 @@
 // --stage after approval to create them. Packages are published in dependency
 // order. A rerun skips what is already on
 // npm, already staged and already released. --skip-ci publishes without a
-// green CI run on HEAD.
+// green CI run on HEAD. --allow-unreleased accepts a changelog whose entries
+// for the next version are still under `## Unreleased`, for checks between
+// releases.
 //
 // An adapter for a library takes that library's `<major>.<minor>`; a standalone
 // module is `0.0.<patch>`. Dependencies between our packages are exact.
@@ -349,13 +351,20 @@ function readChangelog(dir) {
 }
 
 /** Every package needs a CHANGELOG.md with a section for its version. */
-export function changelogProblems(packages, read = readChangelog) {
+export function changelogProblems(
+  packages,
+  read = readChangelog,
+  { allowUnreleased = false } = {},
+) {
   const problems = [];
   for (const { dir, manifest } of packages) {
     const text = read(dir);
     if (text === undefined) {
       problems.push(`${manifest.name}: no CHANGELOG.md`);
-    } else if (changelogSection(text, manifest.version) === undefined) {
+    } else if (
+      changelogSection(text, manifest.version) === undefined &&
+      !(allowUnreleased && changelogSection(text, 'Unreleased') !== undefined)
+    ) {
       problems.push(
         `${manifest.name}: CHANGELOG.md has no entries for ${manifest.version}`,
       );
@@ -397,6 +406,7 @@ function main(argv) {
   const local = argv.includes('--local');
   const stage = argv.includes('--stage');
   const skipCi = argv.includes('--skip-ci');
+  const allowUnreleased = argv.includes('--allow-unreleased');
   const packages = publishOrder(publishablePackages());
   const sha = run('git', ['rev-parse', 'HEAD']).stdout;
 
@@ -405,7 +415,7 @@ function main(argv) {
     ...(skipCi ? [] : ciProblems(sha)),
     ...versionProblems(packages),
     ...metadataProblems(packages),
-    ...changelogProblems(packages),
+    ...changelogProblems(packages, undefined, { allowUnreleased }),
     ...readmeProblems(packages),
   ];
   for (const { dir, manifest } of packages) {
