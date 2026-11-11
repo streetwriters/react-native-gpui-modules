@@ -20,12 +20,14 @@ import eventsource, {
   setEventSourceConfig,
   type EventSourceConfig,
 } from './src/checks/eventsource';
+import gpuiKit from './src/checks/gpui-kit';
 import upload, {
   setUploadConfig,
   type UploadConfig,
 } from './src/checks/upload';
 
 const modules: ModuleChecks[] = [
+  gpuiKit,
   documentsPicker,
   upload,
   eventsource,

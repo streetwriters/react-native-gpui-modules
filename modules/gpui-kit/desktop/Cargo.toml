@@ -1,0 +1,24 @@
+[package]
+name = "rn-gpui-gpui-kit"
+version = "0.9.0"
+edition = "2021"
+
+[features]
+default = ["primitives", "inputs", "overlays", "data", "layout", "charts"]
+primitives = []
+inputs = []
+overlays = []
+data = []
+layout = []
+charts = []
+
+[dependencies]
+rn-gpui-module = "0.1"
+react-native-gpui = "0.1"
+gpui = "0.2"
+gpui-base = "=0.9.1"
+gpui-component = "=0.9.1"
+gpui-kit-assets = "=0.9.1"
+
+[build-dependencies]
+rn-gpui-module-build = "0.1"

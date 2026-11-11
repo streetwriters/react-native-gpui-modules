@@ -1,0 +1,38 @@
+[
+  {
+    "component": "Kbd",
+    "reason": "its constructor takes a Keystroke parsed from a 'static string; needs a keystroke cache"
+  },
+  {
+    "component": "Marker",
+    "reason": "takes element-valued icon and content arguments (slots)"
+  },
+  {
+    "component": "AvatarGroup",
+    "reason": "its children are Avatar elements (slots)"
+  },
+  {
+    "component": "ToggleGroup",
+    "reason": "its children are Toggle elements (slots)"
+  },
+  {
+    "component": "ButtonGroup",
+    "reason": "its children are Button elements (slots)"
+  },
+  {
+    "component": "DropdownButton",
+    "reason": "builds its menu from a closure over a PopupMenu (overlays batch)"
+  },
+  {
+    "component": "GroupBox",
+    "reason": "title and footer are elements (slots)"
+  },
+  {
+    "component": "DescriptionList",
+    "reason": "items are element pairs (slots)"
+  },
+  {
+    "component": "Empty",
+    "reason": "header and content are elements (slots)"
+  }
+]

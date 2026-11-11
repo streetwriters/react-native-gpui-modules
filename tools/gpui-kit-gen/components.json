@@ -1,0 +1,383 @@
+[
+  {
+    "path": "gpui_component::button::button::Button",
+    "tag": "GpuiKitButton",
+    "group": "primitives",
+    "events": {
+      "on_click": "press",
+      "on_hover": "hoverChange"
+    },
+    "skip": {
+      "track_focus": "takes a FocusHandle",
+      "tooltip_with_action": "takes a trait object (&dyn Action)",
+      "role": "takes a RoleOverride value that has no string mapping yet"
+    },
+    "props": {},
+    "layout": {
+      "kind": "inline-label",
+      "labelProp": "label",
+      "iconProp": "icon",
+      "heights": {
+        "xsmall": 20,
+        "small": 24,
+        "medium": 32,
+        "large": 32
+      },
+      "charWidth": 7.5,
+      "padding": 22,
+      "iconWidth": 20
+    },
+    "container": {
+      "insets": {
+        "xsmall": [
+          0,
+          4,
+          0,
+          4
+        ],
+        "small": [
+          0,
+          8,
+          0,
+          8
+        ],
+        "medium": [
+          0,
+          10,
+          0,
+          10
+        ],
+        "large": [
+          0,
+          12,
+          0,
+          12
+        ]
+      }
+    }
+  },
+  {
+    "path": "gpui_component::input::input::Input",
+    "tag": "GpuiKitInput",
+    "group": "inputs",
+    "skip": {
+      "token": "takes a closure that builds an element",
+      "on_token_click": "takes an inline token event",
+      "on_token_hover": "takes an inline token event",
+      "prefix": "takes an element (RN slot, later)",
+      "suffix": "takes an element (RN slot, later)",
+      "context_menu": "takes a closure that builds a menu",
+      "on_paste": "takes a closure that decides on the paste",
+      "id": "the id comes from the node tag",
+      "h": "layout comes from React Native",
+      "h_full": "layout comes from React Native",
+      "aria_label": "alias of accessibility_label"
+    },
+    "state": {
+      "path": "gpui_base::input::input::InputState",
+      "ctor": "InputState::new(window, cx)",
+      "skipSetters": [
+        "set_value",
+        "set_selected_range",
+        "set_cursor_position",
+        "set_scroll_offset",
+        "set_highlighter",
+        "set_selection_focus",
+        "set_text_align",
+        "set_tab_size",
+        "set_mask_pattern",
+        "set_pattern",
+        "set_validator",
+        "set_context_menu_enabled",
+        "set_accessibility"
+      ],
+      "controlled": {
+        "prop": "value",
+        "setter": "set_value",
+        "event": "Change",
+        "valueExpr": "text.clone()"
+      },
+      "commands": {
+        "focus": {},
+        "select_all": {},
+        "unselect": {},
+        "clean": {},
+        "insert": {
+          "text": "string"
+        },
+        "replace_all": {
+          "text": "string"
+        }
+      },
+      "events": {
+        "Change": {
+          "name": "change",
+          "pattern": "InputEvent::Change",
+          "before": "let text = state.read(cx).value().to_string();",
+          "fields": [
+            {
+              "name": "text",
+              "ts": "string",
+              "rust": "text"
+            }
+          ]
+        },
+        "PressEnter": {
+          "name": "submit",
+          "pattern": "InputEvent::PressEnter { secondary, shift }",
+          "fields": [
+            {
+              "name": "secondary",
+              "ts": "boolean",
+              "rust": "*secondary"
+            },
+            {
+              "name": "shift",
+              "ts": "boolean",
+              "rust": "*shift"
+            }
+          ]
+        },
+        "Focus": {
+          "name": "focus",
+          "pattern": "InputEvent::Focus",
+          "fields": []
+        },
+        "Blur": {
+          "name": "blur",
+          "pattern": "InputEvent::Blur",
+          "fields": []
+        }
+      }
+    }
+  },
+  {
+    "path": "gpui_component::label::Label",
+    "tag": "GpuiKitLabel",
+    "group": "primitives",
+    "ctor": "Label::new(props.text().to_string())",
+    "extraProps": [
+      {
+        "name": "text",
+        "kind": "string"
+      }
+    ],
+    "skip": {
+      "highlights": "takes a HighlightsMatch value"
+    },
+    "layout": {
+      "height": 20,
+      "text": {
+        "prop": "text",
+        "charWidth": 7.5,
+        "padding": 0
+      }
+    }
+  },
+  {
+    "path": "gpui_component::icon::Icon",
+    "tag": "GpuiKitIcon",
+    "group": "primitives",
+    "ctor": "Icon::new(crate::generated::icons::parse(props.name()).unwrap_or(gpui_component::IconName::Info))",
+    "extraProps": [
+      {
+        "name": "name",
+        "kind": "icon"
+      }
+    ],
+    "skip": {
+      "path": "takes an asset path",
+      "data": "takes raw bytes",
+      "transform": "takes a gpui Transformation",
+      "rotate": "takes Radians"
+    },
+    "layout": {
+      "heights": {
+        "xsmall": 12,
+        "small": 14,
+        "medium": 16,
+        "large": 24
+      },
+      "square": true
+    }
+  },
+  {
+    "path": "gpui_component::badge::Badge",
+    "tag": "GpuiKitBadge",
+    "group": "primitives",
+    "skip": {},
+    "layout": {
+      "height": 16,
+      "width": 16
+    }
+  },
+  {
+    "path": "gpui_component::tag::Tag",
+    "tag": "GpuiKitTag",
+    "group": "primitives",
+    "extraProps": [
+      {
+        "name": "label",
+        "kind": "string"
+      }
+    ],
+    "childText": "label",
+    "skip": {
+      "rounded": "takes an AbsoluteLength"
+    },
+    "layout": {
+      "height": 22,
+      "text": {
+        "prop": "label",
+        "charWidth": 7.0,
+        "padding": 16
+      }
+    }
+  },
+  {
+    "path": "gpui_component::avatar::avatar::Avatar",
+    "tag": "GpuiKitAvatar",
+    "group": "primitives",
+    "skip": {
+      "src": "takes an ImageSource"
+    },
+    "layout": {
+      "heights": {
+        "xsmall": 20,
+        "small": 24,
+        "medium": 32,
+        "large": 48
+      },
+      "square": true
+    }
+  },
+  {
+    "path": "gpui_component::spinner::Spinner",
+    "tag": "GpuiKitSpinner",
+    "group": "primitives",
+    "skip": {},
+    "layout": {
+      "heights": {
+        "xsmall": 12,
+        "small": 14,
+        "medium": 16,
+        "large": 24
+      },
+      "square": true
+    }
+  },
+  {
+    "path": "gpui_component::skeleton::Skeleton",
+    "tag": "GpuiKitSkeleton",
+    "group": "primitives",
+    "fill": true,
+    "skip": {}
+  },
+  {
+    "path": "gpui_component::link::Link",
+    "tag": "GpuiKitLink",
+    "group": "primitives",
+    "extraProps": [
+      {
+        "name": "text",
+        "kind": "string"
+      }
+    ],
+    "childText": "text",
+    "events": {
+      "on_click": "press"
+    },
+    "skip": {},
+    "layout": {
+      "height": 20,
+      "text": {
+        "prop": "text",
+        "charWidth": 7.5,
+        "padding": 0
+      }
+    }
+  },
+  {
+    "path": "gpui_component::progress::progress::Progress",
+    "tag": "GpuiKitProgress",
+    "group": "primitives",
+    "skip": {},
+    "fill": true
+  },
+  {
+    "path": "gpui_component::progress::progress_circle::ProgressCircle",
+    "tag": "GpuiKitProgressCircle",
+    "group": "primitives",
+    "skip": {},
+    "fill": true
+  },
+  {
+    "path": "gpui_component::button::toggle::Toggle",
+    "tag": "GpuiKitToggle",
+    "group": "primitives",
+    "events": {
+      "on_click": "change"
+    },
+    "skip": {
+      "tooltip": "set later with the Tooltip batch"
+    },
+    "layout": {
+      "kind": "inline-label",
+      "labelProp": "label",
+      "iconProp": "icon",
+      "heights": {
+        "xsmall": 20,
+        "small": 24,
+        "medium": 32,
+        "large": 32
+      },
+      "charWidth": 7.5,
+      "padding": 22,
+      "iconWidth": 20
+    }
+  },
+  {
+    "path": "gpui_component::alert::Alert",
+    "tag": "GpuiKitAlert",
+    "group": "primitives",
+    "ctor": "Alert::new(SharedString::from(self.id.clone()), props.message().to_string())",
+    "extraProps": [
+      {
+        "name": "message",
+        "kind": "string"
+      }
+    ],
+    "events": {
+      "on_close": "close"
+    },
+    "skip": {},
+    "layout": {
+      "height": 44
+    }
+  },
+  {
+    "path": "gpui_component::shimmer::ShimmerText",
+    "tag": "GpuiKitShimmerText",
+    "group": "primitives",
+    "ctor": "ShimmerText::new(props.text().to_string())",
+    "extraProps": [
+      {
+        "name": "text",
+        "kind": "string"
+      }
+    ],
+    "skip": {
+      "id": "the id comes from the node tag",
+      "with_shimmer_style": "takes a ShimmerStyle value",
+      "spread": "takes a ShimmerSpread value"
+    },
+    "layout": {
+      "height": 20,
+      "text": {
+        "prop": "text",
+        "charWidth": 7.5,
+        "padding": 0
+      }
+    }
+  }
+]

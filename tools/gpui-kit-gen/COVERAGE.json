@@ -1,0 +1,1613 @@
+{
+  "counts": {
+    "skipped": 55,
+    "generated": 142,
+    "aliased": 44
+  },
+  "items": [
+    {
+      "component": "Button",
+      "item": "Button::role",
+      "outcome": "skipped",
+      "reason": "takes a RoleOverride value that has no string mapping yet"
+    },
+    {
+      "component": "Button",
+      "item": "Button::outline",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "outline"
+    },
+    {
+      "component": "Button",
+      "item": "Button::rounded",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "rounded"
+    },
+    {
+      "component": "Button",
+      "item": "Button::label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "label"
+    },
+    {
+      "component": "Button",
+      "item": "Button::accessibility_id",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "accessibilityId"
+    },
+    {
+      "component": "Button",
+      "item": "Button::accessibility_label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "Button",
+      "item": "Button::icon",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "icon"
+    },
+    {
+      "component": "Button",
+      "item": "Button::tooltip",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltip"
+    },
+    {
+      "component": "Button",
+      "item": "Button::tooltip_placement",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltipPlacement"
+    },
+    {
+      "component": "Button",
+      "item": "Button::tooltip_show_delay",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltipShowDelay"
+    },
+    {
+      "component": "Button",
+      "item": "Button::tooltip_with_action",
+      "outcome": "skipped",
+      "reason": "takes a trait object (&dyn Action)"
+    },
+    {
+      "component": "Button",
+      "item": "Button::loading",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "loading"
+    },
+    {
+      "component": "Button",
+      "item": "Button::compact",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "compact"
+    },
+    {
+      "component": "Button",
+      "item": "Button::loading_icon",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "loadingIcon"
+    },
+    {
+      "component": "Button",
+      "item": "Button::track_focus",
+      "outcome": "skipped",
+      "reason": "takes a FocusHandle"
+    },
+    {
+      "component": "Button",
+      "item": "Button::tab_index",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tabIndex"
+    },
+    {
+      "component": "Button",
+      "item": "Button::tab_stop",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tabStop"
+    },
+    {
+      "component": "Button",
+      "item": "Button::dropdown_caret",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "dropdownCaret"
+    },
+    {
+      "component": "Button",
+      "item": "Button::toggled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "toggled"
+    },
+    {
+      "component": "Button",
+      "item": "Button::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "Button",
+      "item": "Button::focus_ring",
+      "outcome": "skipped",
+      "reason": "from FocusableExt, not a component property"
+    },
+    {
+      "component": "Button",
+      "item": "Button::selected",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "selected"
+    },
+    {
+      "component": "Button",
+      "item": "Button::secondary_selected",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "secondarySelected"
+    },
+    {
+      "component": "Button",
+      "item": "Button::open",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "open"
+    },
+    {
+      "component": "Button",
+      "item": "Button::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Button",
+      "item": "Button::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Button",
+      "item": "Button::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Button",
+      "item": "Button::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Button",
+      "item": "Button::with_variant",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "variant"
+    },
+    {
+      "component": "Button",
+      "item": "Button::primary",
+      "outcome": "aliased",
+      "reason": "covered by with_variant",
+      "prop": "variant"
+    },
+    {
+      "component": "Button",
+      "item": "Button::secondary",
+      "outcome": "aliased",
+      "reason": "covered by with_variant",
+      "prop": "variant"
+    },
+    {
+      "component": "Button",
+      "item": "Button::danger",
+      "outcome": "aliased",
+      "reason": "covered by with_variant",
+      "prop": "variant"
+    },
+    {
+      "component": "Button",
+      "item": "Button::warning",
+      "outcome": "aliased",
+      "reason": "covered by with_variant",
+      "prop": "variant"
+    },
+    {
+      "component": "Button",
+      "item": "Button::success",
+      "outcome": "aliased",
+      "reason": "covered by with_variant",
+      "prop": "variant"
+    },
+    {
+      "component": "Button",
+      "item": "Button::info",
+      "outcome": "aliased",
+      "reason": "covered by with_variant",
+      "prop": "variant"
+    },
+    {
+      "component": "Button",
+      "item": "Button::ghost",
+      "outcome": "aliased",
+      "reason": "covered by with_variant",
+      "prop": "variant"
+    },
+    {
+      "component": "Button",
+      "item": "Button::link",
+      "outcome": "aliased",
+      "reason": "covered by with_variant",
+      "prop": "variant"
+    },
+    {
+      "component": "Button",
+      "item": "Button::text",
+      "outcome": "aliased",
+      "reason": "covered by with_variant",
+      "prop": "variant"
+    },
+    {
+      "component": "Button",
+      "item": "Button::custom",
+      "outcome": "skipped",
+      "reason": "unsupported: the type ButtonCustomVariant has no mapping"
+    },
+    {
+      "component": "Button",
+      "item": "Button::on_click",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "onPress"
+    },
+    {
+      "component": "Button",
+      "item": "Button::on_hover",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "onHoverChange"
+    },
+    {
+      "component": "Button",
+      "item": "Button::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Input",
+      "item": "Input::id",
+      "outcome": "skipped",
+      "reason": "the id comes from the node tag"
+    },
+    {
+      "component": "Input",
+      "item": "Input::accessibility_id",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "accessibilityId"
+    },
+    {
+      "component": "Input",
+      "item": "Input::aria_label",
+      "outcome": "skipped",
+      "reason": "alias of accessibility_label"
+    },
+    {
+      "component": "Input",
+      "item": "Input::prefix",
+      "outcome": "skipped",
+      "reason": "takes an element (RN slot, later)"
+    },
+    {
+      "component": "Input",
+      "item": "Input::suffix",
+      "outcome": "skipped",
+      "reason": "takes an element (RN slot, later)"
+    },
+    {
+      "component": "Input",
+      "item": "Input::h_full",
+      "outcome": "skipped",
+      "reason": "layout comes from React Native"
+    },
+    {
+      "component": "Input",
+      "item": "Input::h",
+      "outcome": "skipped",
+      "reason": "layout comes from React Native"
+    },
+    {
+      "component": "Input",
+      "item": "Input::appearance",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "appearance"
+    },
+    {
+      "component": "Input",
+      "item": "Input::bordered",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "bordered"
+    },
+    {
+      "component": "Input",
+      "item": "Input::focus_bordered",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "focusBordered"
+    },
+    {
+      "component": "Input",
+      "item": "Input::cleanable",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "cleanable"
+    },
+    {
+      "component": "Input",
+      "item": "Input::mask_toggle",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "maskToggle"
+    },
+    {
+      "component": "Input",
+      "item": "Input::content_type",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "contentType"
+    },
+    {
+      "component": "Input",
+      "item": "Input::role",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "role"
+    },
+    {
+      "component": "Input",
+      "item": "Input::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "Input",
+      "item": "Input::readonly",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "readonly"
+    },
+    {
+      "component": "Input",
+      "item": "Input::tab_index",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tabIndex"
+    },
+    {
+      "component": "Input",
+      "item": "Input::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Input",
+      "item": "Input::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Input",
+      "item": "Input::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Input",
+      "item": "Input::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Input",
+      "item": "Input::selected",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "selected"
+    },
+    {
+      "component": "Input",
+      "item": "Input::secondary_selected",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "secondarySelected"
+    },
+    {
+      "component": "Input",
+      "item": "Input::open",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "open"
+    },
+    {
+      "component": "Input",
+      "item": "Input::focus_ring",
+      "outcome": "skipped",
+      "reason": "from FocusableExt, not a component property"
+    },
+    {
+      "component": "Input",
+      "item": "Input::token",
+      "outcome": "skipped",
+      "reason": "event not listed in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "Input::on_token_click",
+      "outcome": "skipped",
+      "reason": "event not listed in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "Input::on_token_hover",
+      "outcome": "skipped",
+      "reason": "event not listed in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "Input::context_menu",
+      "outcome": "skipped",
+      "reason": "event not listed in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "Input::on_paste",
+      "outcome": "skipped",
+      "reason": "event not listed in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_search_query",
+      "outcome": "skipped",
+      "reason": "unsupported: takes 2 data arguments"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_text_align",
+      "outcome": "skipped",
+      "reason": "excluded in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_selection_focus",
+      "outcome": "skipped",
+      "reason": "excluded in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_context_menu_enabled",
+      "outcome": "skipped",
+      "reason": "excluded in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_highlighter",
+      "outcome": "skipped",
+      "reason": "excluded in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_highlighter_factory",
+      "outcome": "skipped",
+      "reason": "unsupported: the type InputHighlighterFactory has no mapping"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_editor_style",
+      "outcome": "skipped",
+      "reason": "unsupported: the type InputEditorStyle has no mapping"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_fold_placeholder_renderer",
+      "outcome": "skipped",
+      "reason": "unsupported: the type FoldPlaceholderRenderer has no mapping"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_fold_background",
+      "outcome": "skipped",
+      "reason": "unsupported: an optional value has no unset sentinel"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_accessibility",
+      "outcome": "skipped",
+      "reason": "excluded in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_scrollbar_renderer",
+      "outcome": "skipped",
+      "reason": "unsupported: the type crate::input::EditorScrollbarRenderer has no mapping"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_placeholder",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "placeholder"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_value",
+      "outcome": "generated",
+      "reason": "controlled value",
+      "prop": "value"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_disabled",
+      "outcome": "skipped",
+      "reason": "the disabled prop comes from the element"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_readonly",
+      "outcome": "skipped",
+      "reason": "the readonly prop comes from the element"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_clean_on_escape",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "cleanOnEscape"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_submit_on_enter",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "submitOnEnter"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_show_whitespaces",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "showWhitespaces"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_scroll_beyond_last_line",
+      "outcome": "skipped",
+      "reason": "unsupported: an optional value has no unset sentinel"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_cursor_surrounding_lines",
+      "outcome": "skipped",
+      "reason": "unsupported: an optional value has no unset sentinel"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_cursor_position",
+      "outcome": "skipped",
+      "reason": "excluded in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_scroll_offset",
+      "outcome": "skipped",
+      "reason": "excluded in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_selected_range",
+      "outcome": "skipped",
+      "reason": "excluded in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_selected_range_with_direction",
+      "outcome": "skipped",
+      "reason": "unsupported: takes 2 data arguments"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_mask_pattern",
+      "outcome": "skipped",
+      "reason": "excluded in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_masked",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "masked"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_pattern",
+      "outcome": "skipped",
+      "reason": "excluded in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_validator",
+      "outcome": "skipped",
+      "reason": "excluded in components.json"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_step",
+      "outcome": "skipped",
+      "reason": "unsupported: the type NumberStep has no mapping"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_min",
+      "outcome": "skipped",
+      "reason": "unsupported: an optional value has no unset sentinel"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_max",
+      "outcome": "skipped",
+      "reason": "unsupported: an optional value has no unset sentinel"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::set_loading",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "loading"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::focus",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "focus"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::select_all",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "select_all"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::unselect",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "unselect"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::clean",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "clean"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::insert",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "insert"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::replace_all",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "replace_all"
+    },
+    {
+      "component": "Input",
+      "item": "InputEvent::Change",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onChange"
+    },
+    {
+      "component": "Input",
+      "item": "InputEvent::PressEnter",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onSubmit"
+    },
+    {
+      "component": "Input",
+      "item": "InputEvent::Focus",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onFocus"
+    },
+    {
+      "component": "Input",
+      "item": "InputEvent::Blur",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onBlur"
+    },
+    {
+      "component": "Input",
+      "item": "Input::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Label",
+      "item": "Label::secondary",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "secondary"
+    },
+    {
+      "component": "Label",
+      "item": "Label::masked",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "masked"
+    },
+    {
+      "component": "Label",
+      "item": "Label::highlights",
+      "outcome": "skipped",
+      "reason": "takes a HighlightsMatch value"
+    },
+    {
+      "component": "Label",
+      "item": "Label (prop text)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "text"
+    },
+    {
+      "component": "Label",
+      "item": "Label::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon::path",
+      "outcome": "skipped",
+      "reason": "takes an asset path"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon::data",
+      "outcome": "skipped",
+      "reason": "takes raw bytes"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon::transform",
+      "outcome": "skipped",
+      "reason": "takes a gpui Transformation"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon::rotate",
+      "outcome": "skipped",
+      "reason": "takes Radians"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon (prop name)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "name"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon::view",
+      "outcome": "skipped",
+      "reason": "not a builder (takes self by reference or returns another type)"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon::empty",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::dot",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "dot"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::count",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "count"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::icon",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "icon"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::max",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "max"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::color",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "color"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::with_variant",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "withVariant"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::outline",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "outline"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::rounded",
+      "outcome": "skipped",
+      "reason": "takes an AbsoluteLength"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::rounded_full",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "roundedFull"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag (prop label)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "label"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::primary",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::secondary",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::danger",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::success",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::warning",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::info",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::custom",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::color",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Avatar",
+      "item": "Avatar::src",
+      "outcome": "skipped",
+      "reason": "takes an ImageSource"
+    },
+    {
+      "component": "Avatar",
+      "item": "Avatar::name",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "name"
+    },
+    {
+      "component": "Avatar",
+      "item": "Avatar::placeholder",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "placeholder"
+    },
+    {
+      "component": "Avatar",
+      "item": "Avatar::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Avatar",
+      "item": "Avatar::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Avatar",
+      "item": "Avatar::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Avatar",
+      "item": "Avatar::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Avatar",
+      "item": "Avatar::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Spinner",
+      "item": "Spinner::icon",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "icon"
+    },
+    {
+      "component": "Spinner",
+      "item": "Spinner::color",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "color"
+    },
+    {
+      "component": "Spinner",
+      "item": "Spinner::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Spinner",
+      "item": "Spinner::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Spinner",
+      "item": "Spinner::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Spinner",
+      "item": "Spinner::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Spinner",
+      "item": "Spinner::ease",
+      "outcome": "skipped",
+      "reason": "event not listed in components.json"
+    },
+    {
+      "component": "Spinner",
+      "item": "Spinner::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Skeleton",
+      "item": "Skeleton::secondary",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "secondary"
+    },
+    {
+      "component": "Skeleton",
+      "item": "Skeleton::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Link",
+      "item": "Link::href",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "href"
+    },
+    {
+      "component": "Link",
+      "item": "Link::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "Link",
+      "item": "Link (prop text)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "text"
+    },
+    {
+      "component": "Link",
+      "item": "Link::on_click",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "onPress"
+    },
+    {
+      "component": "Link",
+      "item": "Link::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Progress",
+      "item": "Progress::loading",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "loading"
+    },
+    {
+      "component": "Progress",
+      "item": "Progress::color",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "color"
+    },
+    {
+      "component": "Progress",
+      "item": "Progress::value",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "value"
+    },
+    {
+      "component": "Progress",
+      "item": "Progress::accessibility_label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "Progress",
+      "item": "Progress::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Progress",
+      "item": "Progress::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Progress",
+      "item": "Progress::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Progress",
+      "item": "Progress::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Progress",
+      "item": "Progress::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "ProgressCircle",
+      "item": "ProgressCircle::loading",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "loading"
+    },
+    {
+      "component": "ProgressCircle",
+      "item": "ProgressCircle::color",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "color"
+    },
+    {
+      "component": "ProgressCircle",
+      "item": "ProgressCircle::value",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "value"
+    },
+    {
+      "component": "ProgressCircle",
+      "item": "ProgressCircle::accessibility_label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "ProgressCircle",
+      "item": "ProgressCircle::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "ProgressCircle",
+      "item": "ProgressCircle::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "ProgressCircle",
+      "item": "ProgressCircle::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "ProgressCircle",
+      "item": "ProgressCircle::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "ProgressCircle",
+      "item": "ProgressCircle::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::tooltip",
+      "outcome": "skipped",
+      "reason": "set later with the Tooltip batch"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::tooltip_show_delay",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltipShowDelay"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "label"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::icon",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "icon"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::checked",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "checked"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::with_variant",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "variant"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::ghost",
+      "outcome": "aliased",
+      "reason": "covered by with_variant",
+      "prop": "variant"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::outline",
+      "outcome": "aliased",
+      "reason": "covered by with_variant",
+      "prop": "variant"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::on_click",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "onChange"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::with_variant",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "withVariant"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::icon",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "icon"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::title",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "title"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::banner",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "banner"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::visible",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "visible"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert (prop message)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "message"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::on_close",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "onClose"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::info",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::success",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::warning",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::error",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "ShimmerText",
+      "item": "ShimmerText::id",
+      "outcome": "skipped",
+      "reason": "the id comes from the node tag"
+    },
+    {
+      "component": "ShimmerText",
+      "item": "ShimmerText::with_shimmer_style",
+      "outcome": "skipped",
+      "reason": "takes a ShimmerStyle value"
+    },
+    {
+      "component": "ShimmerText",
+      "item": "ShimmerText::duration",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "duration"
+    },
+    {
+      "component": "ShimmerText",
+      "item": "ShimmerText::highlight_color",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "highlightColor"
+    },
+    {
+      "component": "ShimmerText",
+      "item": "ShimmerText::spread",
+      "outcome": "skipped",
+      "reason": "takes a ShimmerSpread value"
+    },
+    {
+      "component": "ShimmerText",
+      "item": "ShimmerText::reverse",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "reverse"
+    },
+    {
+      "component": "ShimmerText",
+      "item": "ShimmerText::once",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "once"
+    },
+    {
+      "component": "ShimmerText",
+      "item": "ShimmerText (prop text)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "text"
+    },
+    {
+      "component": "ShimmerText",
+      "item": "ShimmerText::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    }
+  ]
+}
