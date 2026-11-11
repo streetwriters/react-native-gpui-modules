@@ -1,0 +1,36 @@
+{
+  "name": "@react-native-gpui/gpui-kit",
+  "version": "0.9.0",
+  "description": "Adapter for GPUI Kit (longbridge/gpui-component): its components as React Native components on desktop",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/gpui-kit"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/gpui-kit#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
+  },
+  "main": "src/index.ts",
+  "files": [
+    "src",
+    "desktop",
+    "react-native.config.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "codegenConfig": {
+    "name": "RNGpuiKitSpec",
+    "type": "components",
+    "jsSrcsDir": "src/generated"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "0.87.x"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

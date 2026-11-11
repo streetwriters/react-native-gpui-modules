@@ -1,0 +1,27 @@
+[package]
+name = "kitgen-workspace"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+gpui-base = "=0.9.1"
+gpui-component = "=0.9.1"
+gpui-kit-assets = "=0.9.1"
+gpui = "0.2"
+rn-gpui-gpui-kit = { path = "../../../modules/gpui-kit/desktop" }
+react-native-gpui = "0.1"
+rn-gpui-module = "0.1"
+
+[workspace]
+
+[patch.crates-io]
+react-native-gpui = { path = "../../../node_modules/@react-native-gpui/core/ReactGpui/rn-gpui" }
+rn-gpui-sys = { path = "../../../node_modules/@react-native-gpui/core/ReactGpui/rn-gpui-sys" }
+rn-gpui-module = { path = "../../../node_modules/@react-native-gpui/core/ReactGpui/rn-gpui-module" }
+rn-gpui-module-build = { path = "../../../node_modules/@react-native-gpui/core/ReactGpui/rn-gpui-module-build" }
+gpui = { git = "https://github.com/streetwriters/gpui-fast", rev = "9087620" }
+gpui_platform = { git = "https://github.com/streetwriters/gpui-fast", rev = "9087620" }
+gpui-pre = { git = "https://github.com/streetwriters/gpui-fast", rev = "9087620" }
+gpui-pre-macros = { git = "https://github.com/streetwriters/gpui-fast", rev = "9087620" }
+gpui-pre-sum-tree = { git = "https://github.com/streetwriters/gpui-fast", rev = "9087620" }

@@ -1,0 +1,16 @@
+{
+  "ClickEvent": {
+    "fields": [
+      { "name": "x", "ts": "Double", "rust": "f32::from(event.position().x) as f64" },
+      { "name": "y", "ts": "Double", "rust": "f32::from(event.position().y) as f64" },
+      { "name": "rightClick", "ts": "boolean", "rust": "event.is_right_click()" },
+      { "name": "shift", "ts": "boolean", "rust": "event.modifiers().shift" },
+      { "name": "control", "ts": "boolean", "rust": "event.modifiers().control" },
+      { "name": "alt", "ts": "boolean", "rust": "event.modifiers().alt" },
+      { "name": "meta", "ts": "boolean", "rust": "event.modifiers().platform" }
+    ]
+  },
+  "bool": {
+    "fields": [{ "name": "state", "ts": "boolean", "rust": "*event" }]
+  }
+}

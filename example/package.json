@@ -22,6 +22,7 @@
     "react-native": "0.87.1",
     "@ammarahmed/react-native-sodium": "2.0.0-alpha.3",
     "@react-native-gpui/crypto": "file:../modules/crypto",
+    "@react-native-gpui/gpui-kit": "*",
     "@react-native-gpui/keychain": "*",
     "@react-native-community/netinfo": "11.4.1",
     "@react-native-gpui/netinfo": "file:../modules/netinfo",
