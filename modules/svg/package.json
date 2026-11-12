@@ -1,6 +1,6 @@
 {
   "name": "@react-native-gpui/svg",
-  "version": "15.15.0-alpha.0",
+  "version": "15.15.0-alpha.1",
   "description": "Adapter for react-native-svg (MIT): draws SVG elements with the desktop renderer",
   "license": "MIT",
   "repository": {

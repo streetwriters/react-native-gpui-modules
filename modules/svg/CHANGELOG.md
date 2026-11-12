@@ -2,7 +2,7 @@
 
 All notable changes to `@react-native-gpui/svg` are listed here. Each version's section becomes the notes of its GitHub release.
 
-## Unreleased
+## 15.15.0-alpha.1 - 2026-11-12
 
 - A drawing is looked up by a structural hash of its props, children, frame size and scale, so a render that finds it builds no document string. Before, every render built and escaped the whole SVG document just to hash it, even when the raster was cached.
 - The rasters are kept in one cache shared by every node, bounded by bytes (64 MB; `RN_GPUI_SVG_CACHE_MB` sets another) and dropping the image used longest ago first. It held weak references before, so an icon that left the screen was rasterised again when it came back, and the same icon in two places was drawn twice.

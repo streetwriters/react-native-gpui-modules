@@ -1,6 +1,6 @@
 {
   "name": "@react-native-gpui/keychain",
-  "version": "11.0.0",
+  "version": "11.0.1",
   "description": "Adapter for react-native-keychain (MIT): stores secrets in the operating system's credential store, and adds encrypted strings and namespaced items on top",
   "license": "MIT",
   "main": "src/index.ts",

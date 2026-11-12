@@ -1,6 +1,6 @@
 {
   "name": "@react-native-gpui/fs",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-alpha.1",
   "description": "File system access for React Native GPUI apps",
   "license": "MIT",
   "repository": {

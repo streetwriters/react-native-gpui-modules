@@ -1,6 +1,6 @@
 {
   "name": "@react-native-gpui/worklets",
-  "version": "0.13.0-alpha.0",
+  "version": "0.13.0-alpha.1",
   "description": "Adapter for react-native-worklets (MIT): runs worklets on desktop, driven by the renderer's frame clock",
   "license": "MIT",
   "repository": {

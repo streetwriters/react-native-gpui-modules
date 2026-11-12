@@ -2,7 +2,7 @@
 
 All notable changes to `@react-native-gpui/notifications` are listed here. Each version's section becomes the notes of its GitHub release.
 
-## Unreleased
+## 0.0.1 - 2026-11-12
 
 - First version.
 - Show notifications with a title, subtitle, body, data and actions, including text input actions.

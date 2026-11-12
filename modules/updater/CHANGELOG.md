@@ -2,7 +2,7 @@
 
 All notable changes to `@react-native-gpui/updater` are listed here. Each version's section becomes the notes of its GitHub release.
 
-## Unreleased
+## 0.0.1 - 2026-11-12
 
 - First version.
 - Check an electron-builder style release feed on a release track, with an option to accept older versions.

@@ -2,8 +2,6 @@
 
 All notable changes to `@react-native-gpui/crypto` are listed here. Each version's section becomes the notes of its GitHub release.
 
-## Unreleased
-
 ## 0.1.2 - 2026-11-09
 
 - Enable the `alloc` feature of `aes-kw`, which AES key wrapping needs. The crate only compiled in an app that happened to enable it through another dependency.

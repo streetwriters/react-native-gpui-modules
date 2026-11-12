@@ -2,7 +2,7 @@
 
 All notable changes to `@react-native-gpui/keychain` are listed here. Each version's section becomes the notes of its GitHub release.
 
-## Unreleased
+## 11.0.1 - 2026-11-12
 
 - Secure storage, carried over from the former `@react-native-gpui/secure-storage` package (first version): `setItem`, `getItem` and `deleteItem` keep a string in the operating system's credential store under a service and a key, and `isEncryptionAvailable` (named `isAvailable` there) tells whether the store works.
 - `encryptString` and `decryptString` use AES-256-GCM with a key that is created on first use and kept in the credential store for the service.

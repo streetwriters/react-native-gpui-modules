@@ -2,7 +2,7 @@
 
 All notable changes to `@react-native-gpui/system` are listed here. Each version's section becomes the notes of its GitHub release.
 
-## Unreleased
+## 0.0.1 - 2026-11-12
 
 - First version.
 - Start the app at login, optionally hidden, and query the setting.
