@@ -29,5 +29,9 @@
   "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/netinfo#readme",
   "bugs": {
     "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
   }
 }
