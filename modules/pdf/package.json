@@ -1,6 +1,6 @@
 {
   "name": "@react-native-gpui/pdf",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "EmbedPDF's PDF engine for React Native GPUI apps, running on its own native PDFium runtime",
   "license": "MIT",
   "repository": {

@@ -5,7 +5,7 @@ const upstream = require(
     '@react-native/metro-babel-transformer',
 );
 
-const EMBEDPDF = `${path.sep}node_modules${path.sep}@embedpdf${path.sep}`;
+const EMBEDPDF = /(?:^|[\\/])node_modules[\\/]@embedpdf[\\/]/u;
 
 function importMeta({ types: t }) {
   return {
@@ -33,7 +33,7 @@ module.exports = {
   ...upstream,
   transform: args =>
     upstream.transform(
-      args.filename.includes(EMBEDPDF)
+      EMBEDPDF.test(args.filename)
         ? { ...args, plugins: [...(args.plugins ?? []), importMeta] }
         : args,
     ),
