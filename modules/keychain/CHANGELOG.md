@@ -2,6 +2,10 @@
 
 All notable changes to `@react-native-gpui/keychain` are listed here. Each version's section becomes the notes of its GitHub release.
 
+## Unreleased
+
+- Credential store names are scoped by `RN_GPUI_APP_DATA_DIR`: when it is set and non-empty, every service/server name gets a suffix from a short stable hash of the folder's canonical path, so copies of an app with separate data folders no longer share or delete each other's keys. JS still sees the original names. With the variable unset, names are unchanged. A scoped copy does not see the unscoped entries.
+
 ## 11.0.1 - 2026-11-12
 
 - Secure storage, carried over from the former `@react-native-gpui/secure-storage` package (first version): `setItem`, `getItem` and `deleteItem` keep a string in the operating system's credential store under a service and a key, and `isEncryptionAvailable` (named `isAvailable` there) tells whether the store works.

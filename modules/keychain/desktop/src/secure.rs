@@ -38,7 +38,7 @@ fn scoped(app: &str, service: &str) -> Result<String, ModuleError> {
 }
 
 fn entry(app: &str, service: &str, key: &str) -> Result<Entry, ModuleError> {
-    Entry::new(&scoped(app, service)?, key).map_err(failure)
+    crate::scope::entry(&scoped(app, service)?, key).map_err(failure)
 }
 
 fn item_key(key: &str) -> String {

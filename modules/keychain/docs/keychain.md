@@ -42,6 +42,10 @@ const text = await decryptString('com.example.app', data);
 
 If the user or the system deletes the key, data encrypted with it cannot be read again, as with Electron.
 
+## Separate data folders
+
+When `RN_GPUI_APP_DATA_DIR` is set and non-empty, every credential store name (generic passwords, internet credentials, secure-storage items and encryption keys) gets an `@<8 hex>` suffix derived from a stable hash of the folder's canonical path, so copies of an app with different data folders keep separate keys. Names returned to JS (`service`, `server`) stay unscoped. With the variable unset or empty, names are unchanged. A scoped copy does not see unscoped entries, so it will not find keys written by the normal app or by the Electron app.
+
 ## Platforms
 
 - macOS: the login keychain, through the Security framework. Tested.

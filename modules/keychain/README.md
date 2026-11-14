@@ -52,6 +52,12 @@ macOS (Keychain) is tested. Windows (Credential Manager, protected with DPAPI) a
 
 `getAllGenericPasswordServices` and `getAllInternetCredentialServers` reject, and access-control and biometric options are ignored. The react-native-keychain API stores items under the service the caller names, as the library does. The extras (`setItem`, `getItem`, `deleteItem`, `encryptString`, `decryptString`) always use the app's own namespace, so a caller cannot name another app's service.
 
+## Separate data folders
+
+When `RN_GPUI_APP_DATA_DIR` is set and non-empty, every credential store name the module reads, writes or deletes (generic passwords, internet credentials, and the secure-storage extras) gets a suffix derived from a short stable hash of that folder's canonical path, so copies of an app with different data folders do not share or delete each other's entries. The `service` and `server` fields JS sees are always the original names. With the variable unset or empty, names are exactly the unscoped ones.
+
+A scoped copy does not see the unscoped entries: it will not find keys written by the normal app (or by another app, such as the Electron one), and the normal app does not see the scoped ones.
+
 ## License
 
 MIT. See [LICENSE](LICENSE). The upstream library, [`react-native-keychain`](https://github.com/oblador/react-native-keychain), is MIT licensed.

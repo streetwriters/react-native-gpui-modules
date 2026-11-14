@@ -1,9 +1,10 @@
 rn_gpui_module::include_specs!();
 
 mod crypto;
+mod scope;
 mod secure;
 
-use keyring::Entry;
+use scope::entry;
 use rn_gpui_module::{ModuleError, Value};
 
 const INTERNET_ACCOUNT: &str = "internet-credentials";
@@ -18,15 +19,15 @@ fn failure(error: keyring::Error) -> ModuleError {
 
 fn store(service: &str, account: &str, username: &str, password: &str) -> Result<bool, ModuleError> {
     let blob = serde_json::json!({ "username": username, "password": password }).to_string();
-    Entry::new(service, account)
+    entry(service, account)
         .and_then(|entry| entry.set_password(&blob))
         .map_err(failure)?;
     Ok(true)
 }
 
 fn load(service: &str, account: &str) -> Result<Option<(String, String)>, ModuleError> {
-    let entry = Entry::new(service, account).map_err(failure)?;
-    let blob = match entry.get_password() {
+    let item = entry(service, account).map_err(failure)?;
+    let blob = match item.get_password() {
         Ok(blob) => blob,
         Err(keyring::Error::NoEntry) => return Ok(None),
         Err(error) => return Err(failure(error)),
@@ -38,7 +39,7 @@ fn load(service: &str, account: &str) -> Result<Option<(String, String)>, Module
 }
 
 fn remove(service: &str, account: &str) -> Result<bool, ModuleError> {
-    match Entry::new(service, account).and_then(|entry| entry.delete_credential()) {
+    match entry(service, account).and_then(|entry| entry.delete_credential()) {
         Ok(()) | Err(keyring::Error::NoEntry) => Ok(true),
         Err(error) => Err(failure(error)),
     }
