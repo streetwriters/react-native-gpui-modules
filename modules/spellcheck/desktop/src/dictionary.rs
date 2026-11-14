@@ -24,6 +24,15 @@ fn app_name() -> String {
 }
 
 fn path() -> Option<PathBuf> {
+    path_in(std::env::var_os("RN_GPUI_APP_DATA_DIR"), &app_name())
+}
+
+/// `root` is `RN_GPUI_APP_DATA_DIR`: when non-empty the dictionary lives in
+/// `<root>/<app>` instead of the platform's config folder.
+fn path_in(root: Option<std::ffi::OsString>, app: &str) -> Option<PathBuf> {
+    if let Some(root) = root.filter(|root| !root.is_empty()) {
+        return Some(PathBuf::from(root).join(app).join("spellcheck-dictionary.txt"));
+    }
     let base = if cfg!(target_os = "macos") {
         PathBuf::from(std::env::var_os("HOME")?).join("Library/Application Support")
     } else if cfg!(windows) {
@@ -33,7 +42,7 @@ fn path() -> Option<PathBuf> {
             .map(PathBuf::from)
             .or_else(|| std::env::var_os("HOME").map(|home| PathBuf::from(home).join(".config")))?
     };
-    Some(base.join(app_name()).join("spellcheck-dictionary.txt"))
+    Some(base.join(app).join("spellcheck-dictionary.txt"))
 }
 
 fn with<T>(change: impl FnOnce(&mut BTreeSet<String>) -> T, save: bool) -> Result<T, ModuleError> {
@@ -93,4 +102,22 @@ pub fn contains(word: &str) -> Result<bool, ModuleError> {
         |words| words.contains(word) || words.iter().any(|known| known.to_lowercase() == lower),
         false,
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn a_data_dir_override_roots_the_dictionary() {
+        assert_eq!(
+            path_in(Some("/srv/instance".into()), "notes"),
+            Some(PathBuf::from("/srv/instance/notes/spellcheck-dictionary.txt"))
+        );
+    }
+
+    #[test]
+    fn an_empty_override_is_ignored() {
+        assert_eq!(path_in(Some("".into()), "notes"), path_in(None, "notes"));
+    }
 }

@@ -231,6 +231,33 @@ fn encode(
     }
 }
 
+/// The app's cache folder: `<RN_GPUI_APP_DATA_DIR>/cache/<id>` when that is set
+/// and non-empty, else the platform cache folder joined with the id.
+fn cache_root(root: Option<std::ffi::OsString>, id: &str) -> PathBuf {
+    match root.filter(|root| !root.is_empty()) {
+        Some(root) => PathBuf::from(root).join("cache").join(id),
+        None => dirs::cache_dir().unwrap_or_else(std::env::temp_dir).join(id),
+    }
+}
+
+#[cfg(test)]
+mod cache_root_tests {
+    use super::*;
+
+    #[test]
+    fn a_data_dir_override_roots_the_cache() {
+        assert_eq!(
+            cache_root(Some("/srv/instance".into()), "notes"),
+            PathBuf::from("/srv/instance/cache/notes")
+        );
+    }
+
+    #[test]
+    fn an_empty_override_is_ignored() {
+        assert_eq!(cache_root(Some("".into()), "notes"), cache_root(None, "notes"));
+    }
+}
+
 fn output_path(extension: &str) -> Result<PathBuf, String> {
     static COUNTER: AtomicU64 = AtomicU64::new(0);
     let id = std::env::var("RN_GPUI_APP_ID")
@@ -241,10 +268,11 @@ fn output_path(extension: &str) -> Result<PathBuf, String> {
                 .ok()
                 .and_then(|exe| exe.file_stem().map(|s| s.to_string_lossy().into_owned()))
         });
-    let folder = dirs::cache_dir()
-        .unwrap_or_else(std::env::temp_dir)
-        .join(id.unwrap_or_else(|| "app".into()))
-        .join("ImageManipulator");
+    let folder = cache_root(
+        std::env::var_os("RN_GPUI_APP_DATA_DIR"),
+        id.as_deref().unwrap_or("app"),
+    )
+    .join("ImageManipulator");
     std::fs::create_dir_all(&folder).map_err(|e| e.to_string())?;
     let nanos = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)

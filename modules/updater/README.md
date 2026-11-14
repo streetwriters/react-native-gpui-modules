@@ -46,6 +46,10 @@ scripts/locked-build.sh cargo test --manifest-path modules/updater/desktop/Cargo
   --config "patch.crates-io.gpui_platform.git='https://github.com/streetwriters/gpui-fast'" --config "patch.crates-io.gpui_platform.rev='5392403'"
 ```
 
+## Separate app data
+
+When `RN_GPUI_APP_DATA_DIR` is set to a non-empty folder, downloaded updates are kept under `$RN_GPUI_APP_DATA_DIR/cache/<app>/updates` instead of the platform cache folder.
+
 ## Platforms
 
 macOS only: zip archives from an electron-builder style feed (`latest-mac.yml`).

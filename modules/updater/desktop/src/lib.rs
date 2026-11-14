@@ -123,10 +123,17 @@ fn fetch_release(feed_url: &str, channel: &str) -> Result<feed::Release, String>
     feed::parse(&text, &location)
 }
 
+/// `<RN_GPUI_APP_DATA_DIR>/cache/<app>` when that is set and non-empty, else the
+/// platform cache folder joined with the app.
+fn app_cache_root(root: Option<std::ffi::OsString>, app: &str) -> PathBuf {
+    match root.filter(|root| !root.is_empty()) {
+        Some(root) => PathBuf::from(root).join("cache").join(app),
+        None => dirs::cache_dir().unwrap_or_else(std::env::temp_dir).join(app),
+    }
+}
+
 fn cache_folder(version: &Version) -> PathBuf {
-    dirs::cache_dir()
-        .unwrap_or_else(std::env::temp_dir)
-        .join(app_folder_name())
+    app_cache_root(std::env::var_os("RN_GPUI_APP_DATA_DIR"), &app_folder_name())
         .join("updates")
         .join(version.to_string())
 }
@@ -337,6 +344,18 @@ mod tests {
     use std::io::{Read, Write};
     use std::net::TcpListener;
     use std::sync::mpsc;
+
+    #[test]
+    fn a_data_dir_override_roots_the_update_cache() {
+        assert_eq!(
+            app_cache_root(Some("/srv/instance".into()), "notes"),
+            PathBuf::from("/srv/instance/cache/notes")
+        );
+        assert_eq!(
+            app_cache_root(Some("".into()), "notes"),
+            app_cache_root(None, "notes")
+        );
+    }
 
     const FEED: &str =
         "version: 2.0.0\nfiles:\n  - url: App-2.0.0-mac.zip\n    sha512: abc\n    size: 10\n";

@@ -51,14 +51,61 @@ fn safe_name(name: &str) -> String {
     }
 }
 
-fn app_directory(base: Option<PathBuf>) -> PathBuf {
+fn app_directory(base: Option<PathBuf>, cache: bool) -> PathBuf {
     let id = std::env::var("RN_GPUI_APP_ID").ok().filter(|id| !id.is_empty()).or_else(|| {
         std::env::current_exe()
             .ok()
             .and_then(|exe| exe.file_stem().map(|s| s.to_string_lossy().into_owned()))
     });
-    let base = base.unwrap_or_else(std::env::temp_dir);
-    base.join(id.unwrap_or_else(|| "app".to_string()))
+    let id = id.unwrap_or_else(|| "app".to_string());
+    app_directory_in(std::env::var_os("RN_GPUI_APP_DATA_DIR"), base, cache, &id)
+}
+
+/// A non-empty `RN_GPUI_APP_DATA_DIR` replaces the platform base: `<root>/<id>`
+/// for data and `<root>/cache/<id>` for cache.
+fn app_directory_in(
+    root: Option<std::ffi::OsString>,
+    base: Option<PathBuf>,
+    cache: bool,
+    id: &str,
+) -> PathBuf {
+    if let Some(root) = root.filter(|root| !root.is_empty()).map(PathBuf::from) {
+        return if cache { root.join("cache").join(id) } else { root.join(id) };
+    }
+    base.unwrap_or_else(std::env::temp_dir).join(id)
+}
+
+#[cfg(test)]
+mod app_directory_tests {
+    use super::*;
+
+    #[test]
+    fn a_data_dir_override_roots_data_and_cache() {
+        let root = Some(std::ffi::OsString::from("/srv/instance"));
+        let base = Some(PathBuf::from("/base"));
+        assert_eq!(
+            app_directory_in(root.clone(), base.clone(), false, "notes"),
+            PathBuf::from("/srv/instance/notes")
+        );
+        assert_eq!(
+            app_directory_in(root, base, true, "notes"),
+            PathBuf::from("/srv/instance/cache/notes")
+        );
+    }
+
+    #[test]
+    fn without_an_override_the_platform_base_is_used() {
+        let base = Some(PathBuf::from("/base"));
+        let empty = Some(std::ffi::OsString::new());
+        assert_eq!(
+            app_directory_in(None, base.clone(), false, "notes"),
+            PathBuf::from("/base/notes")
+        );
+        assert_eq!(
+            app_directory_in(empty, base, true, "notes"),
+            PathBuf::from("/base/notes")
+        );
+    }
 }
 
 fn describe(path: &Path) -> PickedDocument {
@@ -187,8 +234,8 @@ impl NativeDocumentPickerSpec for DocumentPicker {
         options: KeepLocalCopyOptions,
     ) -> Result<Vec<LocalCopyResult>, ModuleError> {
         let base = match options.destination.as_str() {
-            "documentDirectory" => app_directory(dirs::data_dir()),
-            _ => app_directory(dirs::cache_dir()),
+            "documentDirectory" => app_directory(dirs::data_dir(), false),
+            _ => app_directory(dirs::cache_dir(), true),
         };
         Ok(options
             .files

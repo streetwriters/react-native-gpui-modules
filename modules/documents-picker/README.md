@@ -50,6 +50,10 @@ try {
 - `releaseSecureAccess` and `releaseLongTermAccess` succeed without doing anything. `requestLongTermAccess` returns no bookmark, as desktop paths stay valid.
 - `presentationStyle`, `transitionStyle` and `allowVirtualFiles` are ignored. Panels are not attached to the app window.
 
+## Separate app data
+
+When `RN_GPUI_APP_DATA_DIR` is set to a non-empty folder, `keepLocalCopy` writes to `$RN_GPUI_APP_DATA_DIR/<id>` (`documentDirectory`) or `$RN_GPUI_APP_DATA_DIR/cache/<id>` (`cachesDirectory`) instead of the platform folders.
+
 ## Platforms
 
 macOS is tested. Windows and Linux are not tested yet.

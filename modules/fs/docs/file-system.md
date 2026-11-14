@@ -51,6 +51,8 @@ Text is read and written as UTF-8 directly in native code. Other encodings and b
 | `appCache`  | Where the app keeps files it can recreate. |
 | `appLogs`   | Where the app writes logs.                 |
 
+When the environment variable `RN_GPUI_APP_DATA_DIR` is set to a non-empty folder, the three app folders move under it so several copies of an app can run with separate data without overriding `HOME`: `appData` is `$RN_GPUI_APP_DATA_DIR/<id>`, `appCache` is `$RN_GPUI_APP_DATA_DIR/cache/<id>` and `appLogs` is `$RN_GPUI_APP_DATA_DIR/logs/<id>`. They are still created on first read. The other paths are unchanged.
+
 ## Dialogs
 
 `dialog` opens the platform's file pickers. Cancelling is not an error: `open` resolves with an empty array, and `save` with `null`.

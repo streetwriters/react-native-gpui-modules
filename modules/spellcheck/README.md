@@ -38,6 +38,10 @@ Ranges are UTF-16 offsets, as `String` indexes them. With several languages a wo
 
 macOS only for now, through `NSSpellChecker`; other platforms reject with `ERR_UNSUPPORTED`. The app's dictionary (`learn`, `forget`, `getLearnedWords`) is kept in a file under the app's support directory and is not the system's, so a word learned here is not accepted in other apps, as with a browser's custom dictionary.
 
+## Separate app data
+
+When `RN_GPUI_APP_DATA_DIR` is set to a non-empty folder, the app dictionary is kept in `$RN_GPUI_APP_DATA_DIR/<app>/spellcheck-dictionary.txt` instead of the platform's config folder.
+
 ## Platforms
 
 macOS only for now, through `NSSpellChecker`; Windows and Linux reject with `ERR_UNSUPPORTED`.

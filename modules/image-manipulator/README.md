@@ -32,6 +32,10 @@ const { uri, width, height, base64 } = await manipulateAsync(
 const dataUrl = `data:image/jpeg;base64,${base64}`;
 ```
 
+## Separate app data
+
+When `RN_GPUI_APP_DATA_DIR` is set to a non-empty folder, results are written under `$RN_GPUI_APP_DATA_DIR/cache/<app>/ImageManipulator` instead of the platform cache folder.
+
 ## Platforms
 
 macOS is tested. Windows and Linux are not tested yet.

@@ -2,6 +2,10 @@
 
 All notable changes to `@react-native-gpui/updater` are listed here. Each version's section becomes the notes of its GitHub release.
 
+## Unreleased
+
+- Download updates under `$RN_GPUI_APP_DATA_DIR/cache/<app>/updates` when `RN_GPUI_APP_DATA_DIR` is set and non-empty.
+
 ## 0.0.1 - 2026-11-12
 
 - First version.
