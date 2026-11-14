@@ -46,6 +46,11 @@ jobs:
             libxkbcommon-dev libxkbcommon-x11-dev libxcb1-dev \
             libfontconfig-dev libfreetype-dev libwayland-dev \
             libdbus-1-dev libudev-dev
+      # MSVC cannot open a path of 260 characters or more, and the deepest
+      # patched reanimated headers under the checkout's own target dir reach it.
+      - name: Use a short target directory
+        if: runner.os == 'Windows'
+        run: echo "CARGO_TARGET_DIR=C:\t" >> "$env:GITHUB_ENV"
       - run: npm ci --ignore-scripts
       - run: npx react-native-gpui autolink
         working-directory: example
