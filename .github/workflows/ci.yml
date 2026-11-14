@@ -37,6 +37,14 @@ jobs:
         with:
           node-version: 22
       - uses: dtolnay/rust-toolchain@1.98.1
+      - name: Install Linux build tools
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build nasm pkg-config \
+            libxkbcommon-dev libxkbcommon-x11-dev libxcb1-dev \
+            libfontconfig-dev libfreetype-dev libwayland-dev
       - run: npm ci --ignore-scripts
       - run: npx react-native-gpui autolink
         working-directory: example
