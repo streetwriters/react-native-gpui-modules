@@ -2,6 +2,10 @@
 
 All notable changes to `@react-native-gpui/pdf` are listed here. Each version's section becomes the notes of its GitHub release.
 
+## Unreleased
+
+- `THIRD_PARTY_NOTICES.md` is no longer regenerated on `prepack`, so packing needs no network access; run `npm run notices` after changing the pinned runtime revision.
+
 ## 0.0.2 - 2026-11-12
 
 - `import.meta` is rewritten in EmbedPDF packages installed in the app's own `node_modules` too: Metro names those files relative to the project root, which the match missed, so the bundle failed with "'import.meta' is currently unsupported".
