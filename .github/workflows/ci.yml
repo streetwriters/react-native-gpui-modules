@@ -44,7 +44,8 @@ jobs:
           sudo apt-get install -y --no-install-recommends \
             build-essential cmake ninja-build nasm pkg-config \
             libxkbcommon-dev libxkbcommon-x11-dev libxcb1-dev \
-            libfontconfig-dev libfreetype-dev libwayland-dev
+            libfontconfig-dev libfreetype-dev libwayland-dev \
+            libdbus-1-dev libudev-dev
       - run: npm ci --ignore-scripts
       - run: npx react-native-gpui autolink
         working-directory: example

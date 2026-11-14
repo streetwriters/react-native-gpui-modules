@@ -26,6 +26,16 @@ if (!fs.existsSync(autolinkRecord)) {
 }
 const record = JSON.parse(fs.readFileSync(autolinkRecord, 'utf8'));
 
+// Cargo runs from the repository root or a module's own directory, so the
+// example's `.cargo/config.toml` does not apply. Without these, a test binary
+// that links core has no app provider, and MSVC fails on
+// rn_gpui_register_app_components.
+env.RN_GPUI_AUTOLINK_MANIFEST ??= autolinkRecord;
+env.RN_GPUI_AUTOLINK_CMAKE ??= path.join(
+  repoRoot,
+  'example/desktop/autolink/autolink.cmake',
+);
+
 /// Crates whose tests cannot run, each with the reason, printed on every run.
 const SKIPPED = new Map([['rn-gpui-webview', 'it has no tests']]);
 
