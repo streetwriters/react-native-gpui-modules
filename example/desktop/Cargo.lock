@@ -7066,6 +7066,7 @@ dependencies = [
  "objc2-foundation 0.3.2",
  "rn-gpui-module",
  "rn-gpui-module-build",
+ "windows 0.62.2",
  "windows-sys 0.59.0",
 ]
 
