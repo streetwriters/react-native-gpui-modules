@@ -70,6 +70,22 @@ set_property(GLOBAL APPEND PROPERTY RN_GPUI_APP_CPP_INCLUDE_DIRS
   "${RN_GPUI_NITRO_INCLUDE_ROOT}"
   "${RN_GPUI_NITRO_HEADER_DIR}")
 
+# Force-includes NitroDesktopPrelude.hpp into the given sources. The app target
+# is created in the top-level directory, so the property is set there.
+function(rn_gpui_nitro_prelude)
+  get_property(_adapter GLOBAL PROPERTY RN_GPUI_NITRO_ADAPTER_DIR)
+  set(_prelude "${_adapter}/cpp/NitroDesktopPrelude.hpp")
+  if(MSVC)
+    set(_options "/FI${_prelude}")
+  else()
+    set(_options -include "${_prelude}")
+  endif()
+  if(ARGN)
+    set_source_files_properties(${ARGN} DIRECTORY "${CMAKE_SOURCE_DIR}"
+      PROPERTIES COMPILE_OPTIONS "${_options}")
+  endif()
+endfunction()
+
 # rn_gpui_nitro_library(PACKAGE <npm-name>
 #   [SOURCES <files>...] [INCLUDE_DIRS <dirs>...]
 #   [HYBRIDS "Name=ImplClass"...] [VIEWS "ViewName=ImplClass"...])
@@ -114,6 +130,7 @@ function(rn_gpui_nitro_library)
     message(FATAL_ERROR "Nitro desktop registration for ${ARG_PACKAGE} failed: ${_generate_error}")
   endif()
 
+  rn_gpui_nitro_prelude(${_generated_sources} ${ARG_SOURCES} "${_init_source}")
   set_property(GLOBAL APPEND PROPERTY RN_GPUI_APP_CPP_SOURCES
     ${_generated_sources} ${ARG_SOURCES} "${_init_source}")
   set_property(GLOBAL APPEND PROPERTY RN_GPUI_APP_CPP_INCLUDE_DIRS
