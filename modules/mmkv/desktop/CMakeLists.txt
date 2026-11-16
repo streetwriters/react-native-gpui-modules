@@ -137,6 +137,21 @@ rn_gpui_nitro_library(
     "${CMAKE_CURRENT_LIST_DIR}/cpp"
   HYBRIDS "MMKVPlatformContext=HybridMMKVPlatformContextDesktop")
 
+# react-native-mmkv's listener registry header uses std::function and std::remove_if
+# without including <functional> and <algorithm>; libstdc++ does not provide them
+# transitively. The app target is created in the top-level directory, so the
+# property is set there.
+if(MSVC)
+  set(_mmkv_force_includes /FIfunctional /FIalgorithm)
+else()
+  set(_mmkv_force_includes -include functional -include algorithm)
+endif()
+set_source_files_properties(
+  "${_mmkv_root}/cpp/MMKVValueChangedListenerRegistry.cpp"
+  "${_mmkv_root}/cpp/HybridMMKV.cpp"
+  DIRECTORY "${CMAKE_SOURCE_DIR}"
+  PROPERTIES COMPILE_OPTIONS "${_mmkv_force_includes}")
+
 set_property(GLOBAL APPEND PROPERTY RN_GPUI_APP_CPP_DEFINITIONS MMKV_EMBED_ZLIB=1)
 if(APPLE)
   set_property(GLOBAL APPEND PROPERTY RN_GPUI_APP_CPP_DEFINITIONS FORCE_POSIX)
