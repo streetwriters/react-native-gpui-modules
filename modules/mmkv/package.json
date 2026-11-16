@@ -1,0 +1,32 @@
+{
+  "name": "@react-native-gpui/mmkv",
+  "version": "4.3.0-alpha.1",
+  "description": "Adapter for react-native-mmkv (MIT): fast synchronous key-value storage on the desktop renderer",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/mmkv"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/mmkv#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
+  },
+  "files": [
+    "desktop",
+    "react-native.config.js",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "peerDependencies": {
+    "react-native": "0.87.x",
+    "react-native-mmkv": "4.3.x",
+    "react-native-nitro-modules": "0.37.x",
+    "@react-native-gpui/nitro-modules": "0.37.0-alpha.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  }
+}

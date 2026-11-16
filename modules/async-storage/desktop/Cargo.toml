@@ -1,0 +1,13 @@
+[package]
+name = "rn-gpui-async-storage"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rn-gpui-module = { version = "0.1" }
+redb = "2"
+serde_json = { version = "1", features = ["preserve_order"] }
+dirs = "5"
+
+[build-dependencies]
+rn-gpui-module-build = { version = "0.1" }

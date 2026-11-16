@@ -1,0 +1,36 @@
+{
+  "name": "@react-native-gpui/masked-view",
+  "version": "0.3.0-alpha.1",
+  "description": "Adapter for @react-native-masked-view/masked-view (MIT): shows children through the alpha of a mask on the desktop renderer",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "files": [
+    "src",
+    "react-native.config.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "codegenConfig": {
+    "name": "RNGpuiMaskedViewSpec",
+    "type": "components",
+    "jsSrcsDir": "src"
+  },
+  "peerDependencies": {
+    "react-native": "0.87.x",
+    "@react-native-masked-view/masked-view": "0.3.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/masked-view"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/masked-view#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  }
+}

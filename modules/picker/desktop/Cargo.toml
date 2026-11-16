@@ -1,0 +1,14 @@
+[package]
+name = "rn-gpui-picker"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+react-native-gpui = "0.1"
+# Only for DEP_RN_GPUI_CORE_RPATHS, which build.rs puts on the test binary rpath.
+rn-gpui-sys = "0.1"
+rn-gpui-module = "0.1"
+gpui = "0.2"
+
+[build-dependencies]
+rn-gpui-module-build = "0.1"

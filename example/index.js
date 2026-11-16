@@ -22,6 +22,37 @@ const fixtures = {
   PdfViewerFixture: () => require('./src/fixtures/PdfViewerFixture').default,
   GPUISystemFixture: () =>
     require('./src/fixtures/SystemFixture').SystemFixture,
+  GPUINitroFixture: () =>
+    require('./src/fixtures/NitroFixtureScreen').NitroFixtureScreen,
+  GPUIUnistylesFixture: () =>
+    require('./src/fixtures/unistyles/UnistylesFixtureScreen')
+      .UnistylesFixtureScreen,
+  GPUIMmkvFixture: () =>
+    require('./src/fixtures/MmkvFixtureScreen').MmkvFixtureScreen,
+  GPUIAsyncStorageFixture: () =>
+    require('./src/fixtures/AsyncStorageFixtureScreen')
+      .AsyncStorageFixtureScreen,
+  GPUIKeyboardControllerFixture: () =>
+    require('./src/fixtures/KeyboardControllerFixtureScreen')
+      .KeyboardControllerFixtureScreen,
+  GPUISliderFixture: () =>
+    require('./src/fixtures/SliderFixtureScreen').SliderFixtureScreen,
+  GPUIPickerFixture: () =>
+    require('./src/fixtures/PickerFixtureScreen').PickerFixtureScreen,
+  GPUILinearGradientFixture: () =>
+    require('./src/fixtures/LinearGradientFixtureScreen')
+      .LinearGradientFixtureScreen,
+  GPUIMaskedViewFixture: () =>
+    require('./src/fixtures/MaskedViewFixtureScreen').MaskedViewFixtureScreen,
+  GPUILocalizeFixture: () =>
+    require('./src/fixtures/LocalizeFixtureScreen').LocalizeFixtureScreen,
+  GPUIHapticFeedbackFixture: () =>
+    require('./src/fixtures/HapticFeedbackFixtureScreen')
+      .HapticFeedbackFixtureScreen,
+  GPUIConfigFixture: () =>
+    require('./src/fixtures/ConfigFixtureScreen').ConfigFixtureScreen,
+  GPUICalendarsFixture: () =>
+    require('./src/fixtures/CalendarsFixtureScreen').CalendarsFixtureScreen,
   SystemPanel: () => require('./src/fixtures/SystemFixture').SystemPanel,
   GPUIUpdaterFixture: () =>
     require('./src/fixtures/UpdaterFixture').UpdaterFixture,

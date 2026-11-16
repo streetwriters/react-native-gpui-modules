@@ -1,0 +1,30 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "cxxNamespace": ["nitrofixture"],
+  "ios": {
+    "iosModuleName": "NitroFixture"
+  },
+  "android": {
+    "androidNamespace": ["nitrofixture"],
+    "androidCxxLibName": "NitroFixture"
+  },
+  "autolinking": {
+    "NitroFixture": {
+      "all": {
+        "language": "c++",
+        "implementationClassName": "HybridNitroFixture"
+      }
+    },
+    "NitroFixtureView": {
+      "ios": {
+        "language": "swift",
+        "implementationClassName": "HybridNitroFixtureView"
+      },
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridNitroFixtureView"
+      }
+    }
+  },
+  "ignorePaths": ["**/node_modules"]
+}

@@ -1,0 +1,11 @@
+{
+  "uiViewClassName": "NitroFixtureView",
+  "supportsRawText": false,
+  "bubblingEventTypes": {},
+  "directEventTypes": {},
+  "validAttributes": {
+    "color": true,
+    "label": true,
+    "hybridRef": true
+  }
+}

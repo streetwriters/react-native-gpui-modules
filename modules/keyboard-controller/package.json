@@ -1,0 +1,38 @@
+{
+  "name": "@react-native-gpui/keyboard-controller",
+  "version": "1.23.0-alpha.1",
+  "description": "Adapter for react-native-keyboard-controller (MIT): a desktop has no soft keyboard, so the keyboard views pass their children through",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "files": [
+    "src",
+    "desktop",
+    "react-native.config.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "codegenConfig": {
+    "name": "RNGpuiKeyboardControllerSpec",
+    "type": "all",
+    "jsSrcsDir": "src"
+  },
+  "peerDependencies": {
+    "react-native": "0.87.x",
+    "@react-native-gpui/core": ">=0.87.0-alpha.4 <0.88.0",
+    "react-native-keyboard-controller": "1.23.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/keyboard-controller"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/keyboard-controller#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  }
+}

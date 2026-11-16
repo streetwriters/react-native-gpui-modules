@@ -1,0 +1,21 @@
+{
+  "name": "react-native-nitro-fixture",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Test fixture: a small Nitro library with C++ Hybrid Objects and a Nitro View for the desktop e2e suite",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "react-native": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "codegen": "nitrogen"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-nitro-modules": "0.37.x"
+  },
+  "devDependencies": {
+    "nitrogen": "0.37.2"
+  }
+}

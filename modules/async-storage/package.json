@@ -1,0 +1,36 @@
+{
+  "name": "@react-native-gpui/async-storage",
+  "version": "3.1.0-alpha.1",
+  "description": "Adapter for @react-native-async-storage/async-storage (MIT): persistent key-value storage on the desktop renderer",
+  "license": "MIT",
+  "files": [
+    "src",
+    "desktop",
+    "react-native.config.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "codegenConfig": {
+    "name": "RNAsyncStorageSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  },
+  "peerDependencies": {
+    "react-native": "0.87.x",
+    "@react-native-async-storage/async-storage": "3.1.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/async-storage"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/async-storage#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  }
+}

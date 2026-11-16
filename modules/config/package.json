@@ -1,0 +1,37 @@
+{
+  "name": "@react-native-gpui/config",
+  "version": "1.7.0-alpha.1",
+  "description": "Adapter for react-native-config (MIT): exposes the values of the .env file to JavaScript on desktop",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "files": [
+    "src",
+    "desktop",
+    "react-native.config.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "codegenConfig": {
+    "name": "RNCConfigSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  },
+  "peerDependencies": {
+    "react-native": "0.87.x",
+    "react-native-config": "1.7.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/streetwriters/react-native-gpui-modules.git",
+    "directory": "modules/config"
+  },
+  "homepage": "https://github.com/streetwriters/react-native-gpui-modules/tree/main/modules/config#readme",
+  "bugs": {
+    "url": "https://github.com/streetwriters/react-native-gpui-modules/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  }
+}

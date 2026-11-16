@@ -1,4 +1,4 @@
-import { MMKVLoader } from 'react-native-mmkv-storage';
+import { createMMKV } from 'react-native-mmkv';
 import type { ModuleChecks } from './types';
 
 const suffix = Date.now().toString(36);
@@ -11,56 +11,43 @@ const mmkv: ModuleChecks = {
   name: 'mmkv',
   checks: [
     [
-      'stores and reads strings, numbers, booleans and maps',
+      'stores and reads strings, numbers, booleans and buffers',
       () => {
-        const storage = new MMKVLoader()
-          .withInstanceID(`plain-${suffix}`)
-          .initialize();
-        storage.setString('s', 'hello');
-        storage.setInt('n', 42);
-        storage.setBool('b', true);
-        storage.setMap('m', { a: 1 });
+        const storage = createMMKV({ id: `plain-${suffix}` });
+        storage.set('s', 'hello');
+        storage.set('n', 42);
+        storage.set('b', true);
+        storage.set('buf', new Uint8Array([1, 2, 3]).buffer);
         assert(storage.getString('s') === 'hello', 'string');
-        assert(storage.getInt('n') === 42, 'number');
-        assert(storage.getBool('b') === true, 'boolean');
-        assert(storage.getMap<{ a: number }>('m')?.a === 1, 'map');
+        assert(storage.getNumber('n') === 42, 'number');
+        assert(storage.getBoolean('b') === true, 'boolean');
+        assert(storage.getBuffer('buf')?.byteLength === 3, 'buffer');
+        storage.clearAll();
       },
     ],
     [
       'removes keys and clears the store',
       () => {
-        const storage = new MMKVLoader()
-          .withInstanceID(`remove-${suffix}`)
-          .initialize();
-        storage.setString('k', 'v');
-        storage.removeItem('k');
-        assert(storage.getString('k') == null, 'key not removed');
-        storage.setString('k', 'v');
-        storage.clearStore();
-        assert(storage.getString('k') == null, 'store not cleared');
+        const storage = createMMKV({ id: `remove-${suffix}` });
+        storage.set('k', 'v');
+        assert(storage.remove('k'), 'key not removed');
+        assert(storage.getString('k') === undefined, 'key still readable');
+        storage.set('k', 'v');
+        storage.clearAll();
+        assert(storage.getAllKeys().length === 0, 'store not cleared');
       },
     ],
     [
-      'indexes keys by type',
+      'encrypts with a key',
       () => {
-        const storage = new MMKVLoader()
-          .withInstanceID(`index-${suffix}`)
-          .initialize();
-        storage.setString('a', '1');
-        storage.setInt('b', 2);
-        assert(storage.indexer.strings.hasKey('a'), 'string index');
-        assert(storage.indexer.numbers.hasKey('b'), 'number index');
-      },
-    ],
-    [
-      'encrypts with a key kept in secure storage',
-      () => {
-        const storage = new MMKVLoader()
-          .withInstanceID(`secure-${suffix}`)
-          .withEncryption()
-          .initialize();
-        storage.setString('secret', 'value');
+        const storage = createMMKV({
+          id: `secure-${suffix}`,
+          encryptionKey: 'check-key',
+        });
+        storage.set('secret', 'value');
+        assert(storage.isEncrypted, 'not encrypted');
         assert(storage.getString('secret') === 'value', 'encrypted read');
+        storage.clearAll();
       },
     ],
   ],
