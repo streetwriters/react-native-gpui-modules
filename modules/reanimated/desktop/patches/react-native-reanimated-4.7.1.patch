@@ -108,7 +108,7 @@
  #include <vector>
 --- a/reanimated/CSS/interpolation/InterpolatorFactory.cpp
 +++ b/reanimated/CSS/interpolation/InterpolatorFactory.cpp
-@@ -27,7 +27,7 @@
+@@ -27,7 +27,7 @@ class RecordInterpolatorFactory : public PropertyInterpolatorFactory {
    // Helper private type just for a default value
    struct EmptyObjectValue : public CSSValue {
      folly::dynamic toDynamic() const override {
@@ -117,7 +117,7 @@
      }
  
      std::string toString() const override {
-@@ -53,7 +53,7 @@
+@@ -53,7 +53,7 @@ class ArrayLikeInterpolatorFactory : public PropertyInterpolatorFactory {
    // Helper private type just for a default value
    struct EmptyArrayValue : public CSSValue {
      folly::dynamic toDynamic() const override {
@@ -168,7 +168,7 @@
  namespace reanimated::css {
 --- a/reanimated/CSS/interpolation/transforms/TransformOperationInterpolator.cpp
 +++ b/reanimated/CSS/interpolation/transforms/TransformOperationInterpolator.cpp
-@@ -7,21 +7,10 @@
+@@ -7,22 +7,11 @@
  
  #include <cmath>
  #include <limits>
@@ -176,7 +176,7 @@
  #include <utility>
  
  namespace reanimated::css {
--
+ 
 -// Base implementation for simple operations
 -template <typename TOperation>
 -std::unique_ptr<StyleOperation> TransformOperationInterpolator<TOperation>::interpolate(
@@ -188,12 +188,76 @@
 -  const auto &toOp = *std::static_pointer_cast<TOperation>(to);
 -  return std::make_unique<TOperation>(fromOp.value.interpolate(progress, toOp.value));
 -}
- 
+-
  // Specialization for PerspectiveOperation
  TransformOperationInterpolator<PerspectiveOperation>::TransformOperationInterpolator(
+     const std::shared_ptr<PerspectiveOperation> &defaultOperation)
+@@ -148,52 +137,6 @@ template TransformMatrix3D TransformOperationInterpolator<MatrixOperation>::inte
+     const TransformMatrix::Shared &,
+     const TransformMatrix::Shared &) const;
+ 
+-// Specialization for resolvable operations
+-template <ResolvableOp TOperation>
+-TransformOperationInterpolator<TOperation>::TransformOperationInterpolator(
+-    const std::shared_ptr<TOperation> &defaultOperation,
+-    ResolvableValueInterpolatorConfig config)
+-    : StyleOperationInterpolator(defaultOperation), config_(std::move(config)) {}
+-
+-template <ResolvableOp TOperation>
+-std::unique_ptr<StyleOperation> TransformOperationInterpolator<TOperation>::interpolate(
+-    double progress,
+-    const std::shared_ptr<StyleOperation> &from,
+-    const std::shared_ptr<StyleOperation> &to,
+-    const StyleOperationsInterpolationContext &context) const {
+-  const auto &fromOp = *std::static_pointer_cast<TOperation>(from);
+-  const auto &toOp = *std::static_pointer_cast<TOperation>(to);
+-
+-  return std::make_unique<TOperation>(fromOp.value.interpolate(progress, toOp.value, getRelativeValueContext(context)));
+-}
+-
+-template <ResolvableOp TOperation>
+-std::shared_ptr<StyleOperation> TransformOperationInterpolator<TOperation>::resolveOperation(
+-    const std::shared_ptr<StyleOperation> &operation,
+-    const StyleOperationsInterpolationContext &context) const {
+-  const auto &resolvableOp = std::static_pointer_cast<TOperation>(operation);
+-  const auto &resolved = resolvableOp->value.resolve(getRelativeValueContext(context));
+-
+-  if (!resolved.has_value()) {
+-    throw std::invalid_argument(
+-        "[Reanimated] Cannot resolve resolvable operation: " + operation->getOperationName() +
+-        " for node with tag: " + std::to_string(context.node->getTag()));
+-  }
+-
+-  return std::make_shared<TOperation>(resolved.value());
+-}
+-
+-template <ResolvableOp TOperation>
+-RelativeValueInterpolationContext TransformOperationInterpolator<TOperation>::getRelativeValueContext(
+-    const StyleOperationsInterpolationContext &context) const {
+-  return RelativeValueInterpolationContext{
+-      .node = context.node,
+-      .fallbackInterpolateThreshold = context.fallbackInterpolateThreshold,
+-      .viewStylesRepository = context.viewStylesRepository,
+-      .relativeProperty = config_.relativeProperty,
+-      .relativeTo = config_.relativeTo};
+-}
+-
+ // Rotate operations
+ template class TransformOperationInterpolator<RotateOperation>;
+ template class TransformOperationInterpolator<RotateXOperation>;
 --- a/reanimated/CSS/interpolation/transforms/TransformOperationInterpolator.h
 +++ b/reanimated/CSS/interpolation/transforms/TransformOperationInterpolator.h
-@@ -15,11 +15,18 @@
+@@ -6,6 +6,9 @@
+ #include <reanimated/CSS/interpolation/transforms/operations/perspective.h>
+ 
+ #include <memory>
++#include <stdexcept>
++#include <string>
++#include <utility>
+ 
+ namespace reanimated::css {
+ 
+@@ -15,11 +18,18 @@ class TransformOperationInterpolator : public StyleOperationInterpolator {
   public:
    using StyleOperationInterpolator::StyleOperationInterpolator;
  
@@ -213,6 +277,65 @@
  };
  
  // Specialization for PerspectiveOperation
+@@ -59,27 +69,54 @@ class TransformOperationInterpolator<MatrixOperation> : public StyleOperationInt
+ };
+ 
+ // Specialization for resolvable operations
++// Members are defined in the class body: MSVC 14.51 cannot match out-of-line
++// definitions of a constrained partial specialization's members (C2244, C3855).
+ template <ResolvableOp TOperation>
+ class TransformOperationInterpolator<TOperation> : public StyleOperationInterpolator {
+  public:
+   TransformOperationInterpolator(
+       const std::shared_ptr<TOperation> &defaultOperation,
+-      ResolvableValueInterpolatorConfig config);
++      ResolvableValueInterpolatorConfig config)
++      : StyleOperationInterpolator(defaultOperation), config_(std::move(config)) {}
+ 
+   std::unique_ptr<StyleOperation> interpolate(
+       double progress,
+       const std::shared_ptr<StyleOperation> &from,
+       const std::shared_ptr<StyleOperation> &to,
+-      const StyleOperationsInterpolationContext &context) const override;
++      const StyleOperationsInterpolationContext &context) const override {
++    const auto &fromOp = *std::static_pointer_cast<TOperation>(from);
++    const auto &toOp = *std::static_pointer_cast<TOperation>(to);
++
++    return std::make_unique<TOperation>(
++        fromOp.value.interpolate(progress, toOp.value, getRelativeValueContext(context)));
++  }
+ 
+   std::shared_ptr<StyleOperation> resolveOperation(
+       const std::shared_ptr<StyleOperation> &operation,
+-      const StyleOperationsInterpolationContext &context) const override;
++      const StyleOperationsInterpolationContext &context) const override {
++    const auto &resolvableOp = std::static_pointer_cast<TOperation>(operation);
++    const auto &resolved = resolvableOp->value.resolve(getRelativeValueContext(context));
++
++    if (!resolved.has_value()) {
++      throw std::invalid_argument(
++          "[Reanimated] Cannot resolve resolvable operation: " + operation->getOperationName() +
++          " for node with tag: " + std::to_string(context.node->getTag()));
++    }
++
++    return std::make_shared<TOperation>(resolved.value());
++  }
+ 
+  protected:
+   const ResolvableValueInterpolatorConfig config_;
+ 
+-  RelativeValueInterpolationContext getRelativeValueContext(const StyleOperationsInterpolationContext &context) const;
++  RelativeValueInterpolationContext getRelativeValueContext(const StyleOperationsInterpolationContext &context) const {
++    return RelativeValueInterpolationContext{
++        .node = context.node,
++        .fallbackInterpolateThreshold = context.fallbackInterpolateThreshold,
++        .viewStylesRepository = context.viewStylesRepository,
++        .relativeProperty = config_.relativeProperty,
++        .relativeTo = config_.relativeTo};
++  }
+ };
+ 
+ } // namespace reanimated::css
 --- a/reanimated/CSS/interpolation/transforms/operations/matrix.cpp
 +++ b/reanimated/CSS/interpolation/transforms/operations/matrix.cpp
 @@ -3,6 +3,7 @@
@@ -323,7 +446,7 @@
  #include <string>
  #include <unordered_map>
  #include <unordered_set>
-@@ -72,6 +73,10 @@
+@@ -72,6 +73,10 @@ constexpr bool shouldUseSynchronousUpdatesInPerformOperations() {
  constexpr bool shouldUseSynchronousUpdatesInPerformOperations() {
    return StaticFeatureFlags::getFlag("IOS_SYNCHRONOUSLY_UPDATE_UI_PROPS");
  }
@@ -334,7 +457,7 @@
  #else
  constexpr bool shouldUseSynchronousUpdatesInPerformOperations() {
    return false;
-@@ -1089,11 +1094,11 @@
+@@ -1089,11 +1094,11 @@ void ReanimatedModuleProxy::writeSynchronousPropsToViews(const UpdatesBatch &syn
    }
  #endif // ANDROID
  
@@ -369,7 +492,7 @@
  #include <string>
  #include <utility>
  #include <vector>
-@@ -32,7 +34,7 @@
+@@ -32,7 +34,7 @@ using MeasureFunction = std::function<jsi::Value(jsi::Runtime &rt, const jsi::Va
  using RequestRenderFunction = std::function<void(std::function<void(const double)>)>;
  #ifdef ANDROID
  using SynchronouslyUpdateUIPropsFunction = std::function<void(const std::vector<int> &, const std::vector<double> &)>;
@@ -390,7 +513,7 @@
  
  #include <atomic>
  #include <cassert>
-@@ -51,10 +53,14 @@
+@@ -51,10 +53,14 @@ class SingleInstanceChecker {
  
  template <class T>
  SingleInstanceChecker<T>::SingleInstanceChecker() {
