@@ -1,6 +1,10 @@
 import React, { useMemo } from 'react';
 import { Button, Text, View } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import {
+  Gesture,
+  GestureDetector,
+  GestureHandlerRootView,
+} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -51,7 +55,7 @@ function GestureFixture() {
     ],
   }));
   return (
-    <View
+    <GestureHandlerRootView
       style={{
         flex: 1,
         padding: 32,
@@ -128,7 +132,7 @@ function GestureFixture() {
           height: 70,
         }}
       />
-    </View>
+    </GestureHandlerRootView>
   );
 }
 export default GestureFixture;
