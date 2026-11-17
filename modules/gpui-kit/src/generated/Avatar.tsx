@@ -5,24 +5,21 @@ import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitAvatarNativeComponent';
 import type { IconName } from './icons';
 
-
 export interface AvatarProps extends ViewProps {
   children?: React.ReactNode;
+  src?: string;
   name?: string;
   placeholder?: IconName;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
 }
 
-export const Avatar = forwardRef<ComponentRef<typeof Native>, AvatarProps>(function Avatar(props, ref) {
-  const { style, children, ...rest } = props;
-  const heights = {"xsmall":20,"small":24,"medium":32,"large":48} as const;
-  const height = heights[(props.size as keyof typeof heights) ?? 'medium'] ?? 20;
-  const width = height;
-  return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[{ height, width }, style]}
-    />
-  );
-});
+export const Avatar = forwardRef<ComponentRef<typeof Native>, AvatarProps>(
+  function Avatar(props, ref) {
+    const { style, children, ...rest } = props;
+    const heights = { xsmall: 20, small: 24, medium: 32, large: 48 } as const;
+    const height =
+      heights[(props.size as keyof typeof heights) ?? 'medium'] ?? 20;
+    const width = height;
+    return <Native ref={ref} {...rest} style={[{ height, width }, style]} />;
+  },
+);

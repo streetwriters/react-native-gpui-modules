@@ -12,6 +12,7 @@ module.exports = [
       'example/android/',
       'example/ios/',
       'modules/*/desktop/patches/',
+      'modules/gpui-kit/src/generated/',
     ],
   },
   ...fixupConfigRules(reactNativeConfig),
@@ -40,7 +41,7 @@ module.exports = [
     },
   },
   {
-    files: ['example/**/*.{ts,tsx,js}'],
+    files: ['example/**/*.{ts,tsx,js}', 'modules/gpui-kit/src/manual/**'],
     rules: { 'react-native/no-inline-styles': 'off' },
   },
 ];

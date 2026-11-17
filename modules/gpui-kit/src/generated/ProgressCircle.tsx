@@ -5,7 +5,6 @@ import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitProgressCircleNativeComponent';
 import type { IconName } from './icons';
 
-
 export interface ProgressCircleProps extends ViewProps {
   children?: React.ReactNode;
   loading?: boolean;
@@ -15,13 +14,10 @@ export interface ProgressCircleProps extends ViewProps {
   size?: 'xsmall' | 'small' | 'medium' | 'large';
 }
 
-export const ProgressCircle = forwardRef<ComponentRef<typeof Native>, ProgressCircleProps>(function ProgressCircle(props, ref) {
+export const ProgressCircle = forwardRef<
+  ComponentRef<typeof Native>,
+  ProgressCircleProps
+>(function ProgressCircle(props, ref) {
   const { style, children, ...rest } = props;
-  return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[style]}
-    />
-  );
+  return <Native ref={ref} {...rest} style={[style]} />;
 });

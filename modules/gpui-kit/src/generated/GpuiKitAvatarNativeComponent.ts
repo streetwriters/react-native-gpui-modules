@@ -7,9 +7,13 @@ import {
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
+  src?: string;
   name?: string;
   placeholder?: string;
-  size?: CodegenTypes.WithDefault<'unset' | 'xsmall' | 'small' | 'medium' | 'large', 'unset'>;
+  size?: CodegenTypes.WithDefault<
+    'unset' | 'xsmall' | 'small' | 'medium' | 'large',
+    'unset'
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitAvatar', {

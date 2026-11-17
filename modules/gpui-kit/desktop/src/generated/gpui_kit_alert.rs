@@ -18,18 +18,42 @@ impl GpuiKitAlertSpec for GpuiKitAlert {
         }
     }
 
-    fn update(&mut self, _props: &GpuiKitAlertProps, _changed: GpuiKitAlertChanged, _cx: &mut GpuiKitAlertContext) {}
+    fn update(
+        &mut self,
+        _props: &GpuiKitAlertProps,
+        _changed: GpuiKitAlertChanged,
+        _cx: &mut GpuiKitAlertContext,
+    ) {
+    }
 
-    fn render(&mut self, props: &GpuiKitAlertProps, _window: &mut Window, cx: &mut GpuiKitAlertContext) -> AnyElement {
+    fn render(
+        &mut self,
+        props: &GpuiKitAlertProps,
+        _window: &mut Window,
+        cx: &mut GpuiKitAlertContext,
+    ) -> AnyElement {
         let sender = cx.event_sender();
-        let mut element = Alert::new(SharedString::from(self.id.clone()), props.message().to_string());
-        match props.with_variant() {
-            GpuiKitAlertWithVariant::Unset => {}
-            GpuiKitAlertWithVariant::Default => element = element.with_variant(gpui_component::alert::AlertVariant::Default),
-            GpuiKitAlertWithVariant::Info => element = element.with_variant(gpui_component::alert::AlertVariant::Info),
-            GpuiKitAlertWithVariant::Success => element = element.with_variant(gpui_component::alert::AlertVariant::Success),
-            GpuiKitAlertWithVariant::Warning => element = element.with_variant(gpui_component::alert::AlertVariant::Warning),
-            GpuiKitAlertWithVariant::Error => element = element.with_variant(gpui_component::alert::AlertVariant::Error),
+        let mut element = Alert::new(
+            SharedString::from(self.id.clone()),
+            props.message().to_string(),
+        );
+        match props.variant() {
+            GpuiKitAlertVariant::Unset => {}
+            GpuiKitAlertVariant::Default => {
+                element = element.with_variant(gpui_component::alert::AlertVariant::Default)
+            }
+            GpuiKitAlertVariant::Info => {
+                element = element.with_variant(gpui_component::alert::AlertVariant::Info)
+            }
+            GpuiKitAlertVariant::Success => {
+                element = element.with_variant(gpui_component::alert::AlertVariant::Success)
+            }
+            GpuiKitAlertVariant::Warning => {
+                element = element.with_variant(gpui_component::alert::AlertVariant::Warning)
+            }
+            GpuiKitAlertVariant::Error => {
+                element = element.with_variant(gpui_component::alert::AlertVariant::Error)
+            }
         }
         {
             let value = props.icon();
@@ -56,10 +80,18 @@ impl GpuiKitAlertSpec for GpuiKitAlert {
             GpuiKitAlertSize::Medium => element = element.with_size(gpui_component::Size::Medium),
             GpuiKitAlertSize::Large => element = element.with_size(gpui_component::Size::Large),
         }
-        {
+        if props.close_events() {
             let sender = sender.clone();
             element = element.on_close(move |event, _window, _cx| {
-                sender.gpui_kit_alert_close(OnGpuiKitAlertClose { x: f32::from(event.position().x) as f64, y: f32::from(event.position().y) as f64, right_click: event.is_right_click(), shift: event.modifiers().shift, control: event.modifiers().control, alt: event.modifiers().alt, meta: event.modifiers().platform });
+                sender.gpui_kit_alert_close(OnGpuiKitAlertClose {
+                    x: f32::from(event.position().x) as f64,
+                    y: f32::from(event.position().y) as f64,
+                    right_click: event.is_right_click(),
+                    shift: event.modifiers().shift,
+                    control: event.modifiers().control,
+                    alt: event.modifiers().alt,
+                    meta: event.modifiers().platform,
+                });
             });
         }
         element.into_any_element()

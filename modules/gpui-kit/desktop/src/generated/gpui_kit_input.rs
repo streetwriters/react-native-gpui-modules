@@ -3,159 +3,336 @@
 use std::cell::{Cell, RefCell};
 use std::rc::Rc;
 
-use gpui::{div, AnyElement, AppContext as _, Entity, IntoElement, ParentElement as _, SharedString, Subscription, Window};
-use gpui_component::input::Input;
-use gpui_base::input::InputState;
+use gpui::{div, AnyElement, AppContext as _, Entity, IntoElement, Subscription, Window};
 use gpui_base::input::InputEvent;
-#[allow(unused_imports)]
-use gpui_component::Sizable as _;
-#[allow(unused_imports)]
-use gpui_base::Selectable as _;
+use gpui_base::input::InputState;
 #[allow(unused_imports)]
 use gpui_base::FocusableExt as _;
+#[allow(unused_imports)]
+use gpui_base::Selectable as _;
+use gpui_component::input::Input;
+#[allow(unused_imports)]
+use gpui_component::Sizable as _;
 
 use crate::*;
 
 pub struct GpuiKitInput {
-    id: String,
     state: Option<Entity<InputState>>,
     subscriptions: Vec<Subscription>,
     count: Rc<Cell<i32>>,
-    value: Rc<RefCell<String>>,
+    last: Rc<RefCell<String>>,
     applied_default: bool,
+    applied_text_align: Option<u8>,
+    applied_context_menu_enabled: Option<bool>,
+    applied_fold_background: Option<Option<i32>>,
     applied_placeholder: Option<String>,
     applied_clean_on_escape: Option<bool>,
     applied_submit_on_enter: Option<bool>,
     applied_show_whitespaces: Option<bool>,
+    applied_scroll_beyond_last_line: Option<i32>,
+    applied_cursor_surrounding_lines: Option<i32>,
+    applied_mask_pattern: Option<String>,
     applied_masked: Option<bool>,
+    applied_pattern: Option<String>,
+    applied_step: Option<u64>,
+    applied_min: Option<u64>,
+    applied_max: Option<u64>,
     applied_loading: Option<bool>,
 }
 
 impl GpuiKitInputSpec for GpuiKitInput {
-    fn create(_props: &GpuiKitInputProps, cx: &mut GpuiKitInputContext) -> Self {
+    fn create(_props: &GpuiKitInputProps, _cx: &mut GpuiKitInputContext) -> Self {
         Self {
-            id: format!("gpui_kit_input-{}", cx.tag()),
             state: None,
             subscriptions: Vec::new(),
             count: Rc::new(Cell::new(0)),
-            value: Rc::new(RefCell::new(String::new())),
+            last: Rc::new(RefCell::new(String::new())),
             applied_default: false,
+            applied_text_align: None,
+            applied_context_menu_enabled: None,
+            applied_fold_background: None,
             applied_placeholder: None,
             applied_clean_on_escape: None,
             applied_submit_on_enter: None,
             applied_show_whitespaces: None,
+            applied_scroll_beyond_last_line: None,
+            applied_cursor_surrounding_lines: None,
+            applied_mask_pattern: None,
             applied_masked: None,
+            applied_pattern: None,
+            applied_step: None,
+            applied_min: None,
+            applied_max: None,
             applied_loading: None,
         }
     }
 
-    fn update(&mut self, _props: &GpuiKitInputProps, _changed: GpuiKitInputChanged, _cx: &mut GpuiKitInputContext) {}
+    fn update(
+        &mut self,
+        _props: &GpuiKitInputProps,
+        _changed: GpuiKitInputChanged,
+        _cx: &mut GpuiKitInputContext,
+    ) {
+    }
 
     fn focus(&mut self, cx: &mut GpuiKitInputContext) {
-        let Some(state) = self.state.clone() else { return };
-        let Some(app) = cx.host_mut().app() else { return };
-        let Some(handle) = app.windows().into_iter().next() else { return };
-        let _ = handle.update(app, |_, window, app| {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
             let _ = &window;
             state.update(app, |state, cx| state.focus(window, cx));
         });
     }
 
     fn select_all(&mut self, cx: &mut GpuiKitInputContext) {
-        let Some(state) = self.state.clone() else { return };
-        let Some(app) = cx.host_mut().app() else { return };
-        let Some(handle) = app.windows().into_iter().next() else { return };
-        let _ = handle.update(app, |_, window, app| {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
             let _ = &window;
             state.update(app, |state, cx| state.select_all(window, cx));
         });
     }
 
     fn unselect(&mut self, cx: &mut GpuiKitInputContext) {
-        let Some(state) = self.state.clone() else { return };
-        let Some(app) = cx.host_mut().app() else { return };
-        let Some(handle) = app.windows().into_iter().next() else { return };
-        let _ = handle.update(app, |_, window, app| {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
             let _ = &window;
             state.update(app, |state, cx| state.unselect(window, cx));
         });
     }
 
     fn clean(&mut self, cx: &mut GpuiKitInputContext) {
-        let Some(state) = self.state.clone() else { return };
-        let Some(app) = cx.host_mut().app() else { return };
-        let Some(handle) = app.windows().into_iter().next() else { return };
-        let _ = handle.update(app, |_, window, app| {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
             let _ = &window;
             state.update(app, |state, cx| state.clean(window, cx));
         });
     }
 
     fn insert(&mut self, text: String, cx: &mut GpuiKitInputContext) {
-        let Some(state) = self.state.clone() else { return };
-        let Some(app) = cx.host_mut().app() else { return };
-        let Some(handle) = app.windows().into_iter().next() else { return };
-        let _ = handle.update(app, |_, window, app| {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
             let _ = &window;
             state.update(app, |state, cx| state.insert(text.clone(), window, cx));
         });
     }
 
     fn replace_all(&mut self, text: String, cx: &mut GpuiKitInputContext) {
-        let Some(state) = self.state.clone() else { return };
-        let Some(app) = cx.host_mut().app() else { return };
-        let Some(handle) = app.windows().into_iter().next() else { return };
-        let _ = handle.update(app, |_, window, app| {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
             let _ = &window;
             state.update(app, |state, cx| state.replace_all(text.clone(), window, cx));
         });
     }
 
-    fn render(&mut self, props: &GpuiKitInputProps, window: &mut Window, cx: &mut GpuiKitInputContext) -> AnyElement {
+    fn set_cursor_position(&mut self, line: i32, character: i32, cx: &mut GpuiKitInputContext) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
+            let _ = &window;
+            state.update(app, |state, cx| {
+                state.set_cursor_position(
+                    gpui_component::input::Position::new(
+                        line.max(0) as u32,
+                        character.max(0) as u32,
+                    ),
+                    window,
+                    cx,
+                )
+            });
+        });
+    }
+
+    fn set_scroll_offset(&mut self, x: f64, y: f64, cx: &mut GpuiKitInputContext) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
+            let _ = &window;
+            state.update(app, |state, cx| {
+                state.set_scroll_offset(gpui::point(gpui::px(x as f32), gpui::px(y as f32)), cx)
+            });
+        });
+    }
+
+    fn set_selected_range(&mut self, start: i32, end: i32, cx: &mut GpuiKitInputContext) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
+            let _ = &window;
+            state.update(app, |state, cx| {
+                state.set_selected_range(start.max(0) as usize..end.max(0) as usize, cx)
+            });
+        });
+    }
+
+    fn set_selected_range_with_direction(
+        &mut self,
+        start: i32,
+        end: i32,
+        reversed: bool,
+        cx: &mut GpuiKitInputContext,
+    ) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
+            let _ = &window;
+            state.update(app, |state, cx| {
+                state.set_selected_range_with_direction(
+                    start.max(0) as usize..end.max(0) as usize,
+                    reversed,
+                    cx,
+                )
+            });
+        });
+    }
+
+    fn set_search_query(
+        &mut self,
+        query: String,
+        case_insensitive: bool,
+        cx: &mut GpuiKitInputContext,
+    ) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
+            let _ = &window;
+            state.update(app, |state, cx| {
+                state.set_search_query(query.clone(), case_insensitive, cx)
+            });
+        });
+    }
+
+    fn insert_token(
+        &mut self,
+        id: String,
+        text: String,
+        label: String,
+        cx: &mut GpuiKitInputContext,
+    ) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
+            let _ = &window;
+            state.update(app, |state, cx| {
+                let mut token = gpui_component::input::InlineToken::new(id.clone(), text.clone());
+                if !label.is_empty() {
+                    token = token.with_label(label.clone());
+                }
+                let _ = state.replace_with_token(token, window, cx);
+            });
+        });
+    }
+
+    fn render(
+        &mut self,
+        props: &GpuiKitInputProps,
+        window: &mut Window,
+        cx: &mut GpuiKitInputContext,
+    ) -> AnyElement {
         let sender = cx.event_sender();
-        let Some(app) = cx.host_mut().app() else { return div().into_any_element() };
+        let mut slots = crate::manual::slots::Slots::new(props.slots(), cx.children());
+        let Some(app) = cx.app() else {
+            return div().into_any_element();
+        };
         if self.state.is_none() {
             let state = app.new(|cx| InputState::new(window, cx));
             let count = self.count.clone();
-            let value = self.value.clone();
+            let last = self.last.clone();
             let sender = sender.clone();
-            self.subscriptions.push(app.subscribe(&state, move |state, event: &InputEvent, cx| {
-                let _ = (&count, &value);
-                match event {
-                    InputEvent::Change => {
-                        let text = state.read(cx).value().to_string();
-                        count.set(count.get() + 1);
-                        *value.borrow_mut() = text.clone();
-                        let count = count.get();
-                        sender.gpui_kit_input_change(OnGpuiKitInputChange { text: text, event_count: count });
+            self.subscriptions
+                .push(app.subscribe(&state, move |state, event: &InputEvent, cx| {
+                    let _ = (&count, &last);
+                    match event {
+                        InputEvent::Change => {
+                            let text = state.read(cx).value().to_string();
+                            count.set(count.get() + 1);
+                            *last.borrow_mut() = text.clone();
+                            let count = count.get();
+                            sender.gpui_kit_input_change(OnGpuiKitInputChange {
+                                text: text,
+                                event_count: count,
+                            });
+                        }
+                        InputEvent::PressEnter { secondary, shift } => {
+                            sender.gpui_kit_input_submit(OnGpuiKitInputSubmit {
+                                secondary: *secondary,
+                                shift: *shift,
+                            });
+                        }
+                        InputEvent::Focus => {
+                            sender.gpui_kit_input_focus();
+                        }
+                        InputEvent::Blur => {
+                            sender.gpui_kit_input_blur();
+                        }
+                        #[allow(unreachable_patterns)]
+                        _ => {}
                     }
-                    InputEvent::PressEnter { secondary, shift } => {
-                        sender.gpui_kit_input_submit(OnGpuiKitInputSubmit { secondary: *secondary, shift: *shift });
-                    }
-                    InputEvent::Focus => {
-                        sender.gpui_kit_input_focus();
-                    }
-                    InputEvent::Blur => {
-                        sender.gpui_kit_input_blur();
-                    }
-                    #[allow(unreachable_patterns)]
-                    _ => {}
-                }
-            }));
+                }));
             self.state = Some(state);
         }
         let state = self.state.clone().unwrap();
         {
+            let value = props.text_align() as u8;
+            if self.applied_text_align.as_ref() != Some(&value) {
+                state.update(app, |state, cx| {
+                    state.set_text_align(
+                        match props.text_align() {
+                            GpuiKitInputTextAlign::Center => gpui::TextAlign::Center,
+                            GpuiKitInputTextAlign::Right => gpui::TextAlign::Right,
+                            _ => gpui::TextAlign::Left,
+                        },
+                        cx,
+                    )
+                });
+                self.applied_text_align = Some(value);
+            }
+        }
+        {
+            let value = props.context_menu_enabled();
+            if self.applied_context_menu_enabled.as_ref() != Some(&value) {
+                state.update(app, |state, _cx| state.set_context_menu_enabled(value));
+                self.applied_context_menu_enabled = Some(value);
+            }
+        }
+        {
+            let value = props.fold_background().map(|c| c as i32);
+            if self.applied_fold_background.as_ref() != Some(&value) {
+                state.update(app, |state, cx| {
+                    state.set_fold_background(value.map(|c| crate::color::hsla(c as _)), cx)
+                });
+                self.applied_fold_background = Some(value);
+            }
+        }
+        {
             let value = props.placeholder().to_string();
             if self.applied_placeholder.as_ref() != Some(&value) {
-                state.update(app, |state, cx| state.set_placeholder(value.clone(), window, cx));
+                state.update(app, |state, cx| {
+                    state.set_placeholder(value.clone(), window, cx)
+                });
                 self.applied_placeholder = Some(value.clone());
             }
         }
         {
             let value = props.clean_on_escape();
             if self.applied_clean_on_escape.as_ref() != Some(&value) {
-                state.update(app, |state, cx| state.set_clean_on_escape(value));
+                state.update(app, |state, _cx| state.set_clean_on_escape(value));
                 self.applied_clean_on_escape = Some(value);
             }
         }
@@ -169,8 +346,53 @@ impl GpuiKitInputSpec for GpuiKitInput {
         {
             let value = props.show_whitespaces();
             if self.applied_show_whitespaces.as_ref() != Some(&value) {
-                state.update(app, |state, cx| state.set_show_whitespaces(value, window, cx));
+                state.update(app, |state, cx| {
+                    state.set_show_whitespaces(value, window, cx)
+                });
                 self.applied_show_whitespaces = Some(value);
+            }
+        }
+        {
+            let value = props.scroll_beyond_last_line();
+            if self.applied_scroll_beyond_last_line.as_ref() != Some(&value) {
+                state.update(app, |state, cx| {
+                    state.set_scroll_beyond_last_line(
+                        (value >= 0).then_some(value as usize),
+                        window,
+                        cx,
+                    )
+                });
+                self.applied_scroll_beyond_last_line = Some(value);
+            }
+        }
+        {
+            let value = props.cursor_surrounding_lines();
+            if self.applied_cursor_surrounding_lines.as_ref() != Some(&value) {
+                state.update(app, |state, cx| {
+                    state.set_cursor_surrounding_lines(
+                        (value >= 0).then_some(value as usize),
+                        window,
+                        cx,
+                    )
+                });
+                self.applied_cursor_surrounding_lines = Some(value);
+            }
+        }
+        {
+            let value = props.mask_pattern().to_string();
+            if self.applied_mask_pattern.as_ref() != Some(&value) {
+                state.update(app, |state, cx| {
+                    state.set_mask_pattern(
+                        if value.is_empty() {
+                            gpui_component::input::MaskPattern::None
+                        } else {
+                            value.as_str().into()
+                        },
+                        window,
+                        cx,
+                    )
+                });
+                self.applied_mask_pattern = Some(value.clone());
             }
         }
         {
@@ -178,6 +400,65 @@ impl GpuiKitInputSpec for GpuiKitInput {
             if self.applied_masked.as_ref() != Some(&value) {
                 state.update(app, |state, cx| state.set_masked(value, window, cx));
                 self.applied_masked = Some(value);
+            }
+        }
+        {
+            let value = props.pattern().to_string();
+            if self.applied_pattern.as_ref() != Some(&value) {
+                state.update(app, |state, cx| {
+                    if let Ok(pattern) = regex::Regex::new(&value) {
+                        state.set_pattern(pattern, window, cx)
+                    }
+                });
+                self.applied_pattern = Some(value.clone());
+            }
+        }
+        {
+            let value = props.step().to_bits();
+            if self.applied_step.as_ref() != Some(&value) {
+                state.update(app, |state, cx| {
+                    state.set_step(
+                        {
+                            let v = f64::from_bits(value);
+                            (!v.is_nan()).then_some(gpui_component::input::NumberStep::Fixed(v))
+                        },
+                        window,
+                        cx,
+                    )
+                });
+                self.applied_step = Some(value);
+            }
+        }
+        {
+            let value = props.min().to_bits();
+            if self.applied_min.as_ref() != Some(&value) {
+                state.update(app, |state, cx| {
+                    state.set_min(
+                        {
+                            let v = f64::from_bits(value);
+                            (!v.is_nan()).then_some(v as f64)
+                        },
+                        window,
+                        cx,
+                    )
+                });
+                self.applied_min = Some(value);
+            }
+        }
+        {
+            let value = props.max().to_bits();
+            if self.applied_max.as_ref() != Some(&value) {
+                state.update(app, |state, cx| {
+                    state.set_max(
+                        {
+                            let v = f64::from_bits(value);
+                            (!v.is_nan()).then_some(v as f64)
+                        },
+                        window,
+                        cx,
+                    )
+                });
+                self.applied_max = Some(value);
             }
         }
         {
@@ -191,14 +472,14 @@ impl GpuiKitInputSpec for GpuiKitInput {
             self.applied_default = true;
             let initial = props.default_value().to_string();
             if !initial.is_empty() {
-                *self.value.borrow_mut() = initial.clone();
+                *self.last.borrow_mut() = initial.clone();
                 state.update(app, |state, cx| state.set_value(initial, window, cx));
             }
         }
         if props.controlled() {
             let wanted = props.value().to_string();
-            if props.event_count() >= self.count.get() && wanted != *self.value.borrow() {
-                *self.value.borrow_mut() = wanted.clone();
+            if props.event_count() >= self.count.get() && wanted != *self.last.borrow() {
+                *self.last.borrow_mut() = wanted.clone();
                 state.update(app, |state, cx| state.set_value(wanted, window, cx));
             }
         }
@@ -226,56 +507,169 @@ impl GpuiKitInputSpec for GpuiKitInput {
         }
         match props.content_type() {
             GpuiKitInputContentType::Unset => {}
-            GpuiKitInputContentType::Name => element = element.content_type(gpui_component::input::InputContentType::Name),
-            GpuiKitInputContentType::NamePrefix => element = element.content_type(gpui_component::input::InputContentType::NamePrefix),
-            GpuiKitInputContentType::GivenName => element = element.content_type(gpui_component::input::InputContentType::GivenName),
-            GpuiKitInputContentType::MiddleName => element = element.content_type(gpui_component::input::InputContentType::MiddleName),
-            GpuiKitInputContentType::FamilyName => element = element.content_type(gpui_component::input::InputContentType::FamilyName),
-            GpuiKitInputContentType::NameSuffix => element = element.content_type(gpui_component::input::InputContentType::NameSuffix),
-            GpuiKitInputContentType::Nickname => element = element.content_type(gpui_component::input::InputContentType::Nickname),
-            GpuiKitInputContentType::JobTitle => element = element.content_type(gpui_component::input::InputContentType::JobTitle),
-            GpuiKitInputContentType::OrganizationName => element = element.content_type(gpui_component::input::InputContentType::OrganizationName),
-            GpuiKitInputContentType::Location => element = element.content_type(gpui_component::input::InputContentType::Location),
-            GpuiKitInputContentType::FullStreetAddress => element = element.content_type(gpui_component::input::InputContentType::FullStreetAddress),
-            GpuiKitInputContentType::StreetAddressLine1 => element = element.content_type(gpui_component::input::InputContentType::StreetAddressLine1),
-            GpuiKitInputContentType::StreetAddressLine2 => element = element.content_type(gpui_component::input::InputContentType::StreetAddressLine2),
-            GpuiKitInputContentType::AddressCity => element = element.content_type(gpui_component::input::InputContentType::AddressCity),
-            GpuiKitInputContentType::AddressState => element = element.content_type(gpui_component::input::InputContentType::AddressState),
-            GpuiKitInputContentType::AddressCityAndState => element = element.content_type(gpui_component::input::InputContentType::AddressCityAndState),
-            GpuiKitInputContentType::Sublocality => element = element.content_type(gpui_component::input::InputContentType::Sublocality),
-            GpuiKitInputContentType::CountryName => element = element.content_type(gpui_component::input::InputContentType::CountryName),
-            GpuiKitInputContentType::PostalCode => element = element.content_type(gpui_component::input::InputContentType::PostalCode),
-            GpuiKitInputContentType::TelephoneNumber => element = element.content_type(gpui_component::input::InputContentType::TelephoneNumber),
-            GpuiKitInputContentType::EmailAddress => element = element.content_type(gpui_component::input::InputContentType::EmailAddress),
-            GpuiKitInputContentType::Url => element = element.content_type(gpui_component::input::InputContentType::Url),
-            GpuiKitInputContentType::CreditCardNumber => element = element.content_type(gpui_component::input::InputContentType::CreditCardNumber),
-            GpuiKitInputContentType::CreditCardName => element = element.content_type(gpui_component::input::InputContentType::CreditCardName),
-            GpuiKitInputContentType::CreditCardGivenName => element = element.content_type(gpui_component::input::InputContentType::CreditCardGivenName),
-            GpuiKitInputContentType::CreditCardMiddleName => element = element.content_type(gpui_component::input::InputContentType::CreditCardMiddleName),
-            GpuiKitInputContentType::CreditCardFamilyName => element = element.content_type(gpui_component::input::InputContentType::CreditCardFamilyName),
-            GpuiKitInputContentType::CreditCardSecurityCode => element = element.content_type(gpui_component::input::InputContentType::CreditCardSecurityCode),
-            GpuiKitInputContentType::CreditCardExpiration => element = element.content_type(gpui_component::input::InputContentType::CreditCardExpiration),
-            GpuiKitInputContentType::CreditCardExpirationMonth => element = element.content_type(gpui_component::input::InputContentType::CreditCardExpirationMonth),
-            GpuiKitInputContentType::CreditCardExpirationYear => element = element.content_type(gpui_component::input::InputContentType::CreditCardExpirationYear),
-            GpuiKitInputContentType::CreditCardType => element = element.content_type(gpui_component::input::InputContentType::CreditCardType),
-            GpuiKitInputContentType::Username => element = element.content_type(gpui_component::input::InputContentType::Username),
-            GpuiKitInputContentType::Password => element = element.content_type(gpui_component::input::InputContentType::Password),
-            GpuiKitInputContentType::NewPassword => element = element.content_type(gpui_component::input::InputContentType::NewPassword),
-            GpuiKitInputContentType::OneTimeCode => element = element.content_type(gpui_component::input::InputContentType::OneTimeCode),
-            GpuiKitInputContentType::ShipmentTrackingNumber => element = element.content_type(gpui_component::input::InputContentType::ShipmentTrackingNumber),
-            GpuiKitInputContentType::FlightNumber => element = element.content_type(gpui_component::input::InputContentType::FlightNumber),
-            GpuiKitInputContentType::DateTime => element = element.content_type(gpui_component::input::InputContentType::DateTime),
-            GpuiKitInputContentType::Birthdate => element = element.content_type(gpui_component::input::InputContentType::Birthdate),
-            GpuiKitInputContentType::BirthdateDay => element = element.content_type(gpui_component::input::InputContentType::BirthdateDay),
-            GpuiKitInputContentType::BirthdateMonth => element = element.content_type(gpui_component::input::InputContentType::BirthdateMonth),
-            GpuiKitInputContentType::BirthdateYear => element = element.content_type(gpui_component::input::InputContentType::BirthdateYear),
-            GpuiKitInputContentType::CellularEid => element = element.content_type(gpui_component::input::InputContentType::CellularEid),
-            GpuiKitInputContentType::CellularImei => element = element.content_type(gpui_component::input::InputContentType::CellularImei),
+            GpuiKitInputContentType::Name => {
+                element = element.content_type(gpui_component::input::InputContentType::Name)
+            }
+            GpuiKitInputContentType::NamePrefix => {
+                element = element.content_type(gpui_component::input::InputContentType::NamePrefix)
+            }
+            GpuiKitInputContentType::GivenName => {
+                element = element.content_type(gpui_component::input::InputContentType::GivenName)
+            }
+            GpuiKitInputContentType::MiddleName => {
+                element = element.content_type(gpui_component::input::InputContentType::MiddleName)
+            }
+            GpuiKitInputContentType::FamilyName => {
+                element = element.content_type(gpui_component::input::InputContentType::FamilyName)
+            }
+            GpuiKitInputContentType::NameSuffix => {
+                element = element.content_type(gpui_component::input::InputContentType::NameSuffix)
+            }
+            GpuiKitInputContentType::Nickname => {
+                element = element.content_type(gpui_component::input::InputContentType::Nickname)
+            }
+            GpuiKitInputContentType::JobTitle => {
+                element = element.content_type(gpui_component::input::InputContentType::JobTitle)
+            }
+            GpuiKitInputContentType::OrganizationName => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::OrganizationName)
+            }
+            GpuiKitInputContentType::Location => {
+                element = element.content_type(gpui_component::input::InputContentType::Location)
+            }
+            GpuiKitInputContentType::FullStreetAddress => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::FullStreetAddress)
+            }
+            GpuiKitInputContentType::StreetAddressLine1 => {
+                element = element
+                    .content_type(gpui_component::input::InputContentType::StreetAddressLine1)
+            }
+            GpuiKitInputContentType::StreetAddressLine2 => {
+                element = element
+                    .content_type(gpui_component::input::InputContentType::StreetAddressLine2)
+            }
+            GpuiKitInputContentType::AddressCity => {
+                element = element.content_type(gpui_component::input::InputContentType::AddressCity)
+            }
+            GpuiKitInputContentType::AddressState => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::AddressState)
+            }
+            GpuiKitInputContentType::AddressCityAndState => {
+                element = element
+                    .content_type(gpui_component::input::InputContentType::AddressCityAndState)
+            }
+            GpuiKitInputContentType::Sublocality => {
+                element = element.content_type(gpui_component::input::InputContentType::Sublocality)
+            }
+            GpuiKitInputContentType::CountryName => {
+                element = element.content_type(gpui_component::input::InputContentType::CountryName)
+            }
+            GpuiKitInputContentType::PostalCode => {
+                element = element.content_type(gpui_component::input::InputContentType::PostalCode)
+            }
+            GpuiKitInputContentType::TelephoneNumber => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::TelephoneNumber)
+            }
+            GpuiKitInputContentType::EmailAddress => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::EmailAddress)
+            }
+            GpuiKitInputContentType::Url => {
+                element = element.content_type(gpui_component::input::InputContentType::Url)
+            }
+            GpuiKitInputContentType::CreditCardNumber => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::CreditCardNumber)
+            }
+            GpuiKitInputContentType::CreditCardName => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::CreditCardName)
+            }
+            GpuiKitInputContentType::CreditCardGivenName => {
+                element = element
+                    .content_type(gpui_component::input::InputContentType::CreditCardGivenName)
+            }
+            GpuiKitInputContentType::CreditCardMiddleName => {
+                element = element
+                    .content_type(gpui_component::input::InputContentType::CreditCardMiddleName)
+            }
+            GpuiKitInputContentType::CreditCardFamilyName => {
+                element = element
+                    .content_type(gpui_component::input::InputContentType::CreditCardFamilyName)
+            }
+            GpuiKitInputContentType::CreditCardSecurityCode => {
+                element = element
+                    .content_type(gpui_component::input::InputContentType::CreditCardSecurityCode)
+            }
+            GpuiKitInputContentType::CreditCardExpiration => {
+                element = element
+                    .content_type(gpui_component::input::InputContentType::CreditCardExpiration)
+            }
+            GpuiKitInputContentType::CreditCardExpirationMonth => {
+                element = element.content_type(
+                    gpui_component::input::InputContentType::CreditCardExpirationMonth,
+                )
+            }
+            GpuiKitInputContentType::CreditCardExpirationYear => {
+                element = element
+                    .content_type(gpui_component::input::InputContentType::CreditCardExpirationYear)
+            }
+            GpuiKitInputContentType::CreditCardType => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::CreditCardType)
+            }
+            GpuiKitInputContentType::Username => {
+                element = element.content_type(gpui_component::input::InputContentType::Username)
+            }
+            GpuiKitInputContentType::Password => {
+                element = element.content_type(gpui_component::input::InputContentType::Password)
+            }
+            GpuiKitInputContentType::NewPassword => {
+                element = element.content_type(gpui_component::input::InputContentType::NewPassword)
+            }
+            GpuiKitInputContentType::OneTimeCode => {
+                element = element.content_type(gpui_component::input::InputContentType::OneTimeCode)
+            }
+            GpuiKitInputContentType::ShipmentTrackingNumber => {
+                element = element
+                    .content_type(gpui_component::input::InputContentType::ShipmentTrackingNumber)
+            }
+            GpuiKitInputContentType::FlightNumber => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::FlightNumber)
+            }
+            GpuiKitInputContentType::DateTime => {
+                element = element.content_type(gpui_component::input::InputContentType::DateTime)
+            }
+            GpuiKitInputContentType::Birthdate => {
+                element = element.content_type(gpui_component::input::InputContentType::Birthdate)
+            }
+            GpuiKitInputContentType::BirthdateDay => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::BirthdateDay)
+            }
+            GpuiKitInputContentType::BirthdateMonth => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::BirthdateMonth)
+            }
+            GpuiKitInputContentType::BirthdateYear => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::BirthdateYear)
+            }
+            GpuiKitInputContentType::CellularEid => {
+                element = element.content_type(gpui_component::input::InputContentType::CellularEid)
+            }
+            GpuiKitInputContentType::CellularImei => {
+                element =
+                    element.content_type(gpui_component::input::InputContentType::CellularImei)
+            }
         }
-        match props.role() {
-            GpuiKitInputRole::Unset => {}
-            GpuiKitInputRole::Implicit => element = element.role(gpui_base::RoleOverride::Implicit),
-            GpuiKitInputRole::Presentational => element = element.role(gpui_base::RoleOverride::Presentational),
+        if let Some(role) = crate::role::role_override(props.accessibility_role_override()) {
+            element = element.role(role);
         }
         if props.disabled() {
             element = element.disabled(true);
@@ -283,8 +677,8 @@ impl GpuiKitInputSpec for GpuiKitInput {
         if props.readonly() {
             element = element.readonly(true);
         }
-        if props.tab_index() != 0 {
-            element = element.tab_index(props.tab_index() as isize);
+        if props.tab_order() >= 0 {
+            element = element.tab_index(props.tab_order() as isize);
         }
         match props.size() {
             GpuiKitInputSize::Unset => {}
@@ -301,6 +695,69 @@ impl GpuiKitInputSpec for GpuiKitInput {
         }
         if props.open() {
             element = element.open(true);
+        }
+        element = gpui_base::FocusableExt::focus_ring(element, props.focus_ring());
+        if props.token_click_events() {
+            let sender = sender.clone();
+            element = element.on_token_click(move |event, _, _| {
+                let range = event.range();
+                sender.gpui_kit_input_token_click(OnGpuiKitInputTokenClick {
+                    id: event.token().id().to_string(),
+                    start: range.start as i32,
+                    end: range.end as i32,
+                });
+            });
+        }
+        if props.token_hover_events() {
+            let sender = sender.clone();
+            element = element.on_token_hover(move |event, _, _| {
+                sender.gpui_kit_input_token_hover(OnGpuiKitInputTokenHover {
+                    id: event.token().id().to_string(),
+                    hovered: event.is_hovered(),
+                });
+            });
+        }
+        {
+            let items: Vec<(String, String, bool)> = {
+                let list = props.context_menu();
+                (0..list.len())
+                    .filter_map(|i| list.get(i))
+                    .map(|item| {
+                        (
+                            item.label().to_string(),
+                            item.action().to_string(),
+                            item.disabled(),
+                        )
+                    })
+                    .collect()
+            };
+            if !items.is_empty() {
+                element = element.context_menu(move |mut menu, _, app| {
+                    for (label, action, disabled) in &items {
+                        if label == "-" {
+                            menu = menu.separator();
+                        } else if let Ok(action) = app.build_action(action, None) {
+                            menu = menu.menu_with_disabled(label.clone(), *disabled, action);
+                        }
+                    }
+                    menu
+                });
+            }
+        }
+        if props.paste_events() {
+            let sender = sender.clone();
+            element = element.on_paste(move |item, _, _| {
+                sender.gpui_kit_input_paste(OnGpuiKitInputPaste {
+                    text: item.text().unwrap_or_default(),
+                });
+                false
+            });
+        }
+        if let Some(slot) = slots.take("prefix") {
+            element = element.prefix(slot);
+        }
+        if let Some(slot) = slots.take("suffix") {
+            element = element.suffix(slot);
         }
         element.into_any_element()
     }

@@ -5,10 +5,13 @@ import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitToggleNativeComponent';
 import type { IconName } from './icons';
 
-export type ToggleChangeEvent = NativeSyntheticEvent<Readonly<{ state: boolean }>>;
+export type ToggleChangeEvent = NativeSyntheticEvent<
+  Readonly<{ state: boolean }>
+>;
 
 export interface ToggleProps extends ViewProps {
   children?: React.ReactNode;
+  tooltip?: string;
   tooltipShowDelay?: number;
   label?: string;
   icon?: IconName;
@@ -19,17 +22,16 @@ export interface ToggleProps extends ViewProps {
   onChange?: (event: ToggleChangeEvent) => void;
 }
 
-export const Toggle = forwardRef<ComponentRef<typeof Native>, ToggleProps>(function Toggle(props, ref) {
-  const { onChange, style, children, ...rest } = props;
-  const heights = {"xsmall":20,"small":24,"medium":32,"large":32} as const;
-  const height = heights[(props.size as keyof typeof heights) ?? 'medium'] ?? 32;
-  const width = Math.max(height, Math.ceil((props.label?.length ?? 0) * 7.5 + 22 + (props.icon ? 20 : 0)));
-  return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[{ height, width }, style]}
-      onGpuiKitToggleChange={onChange}
-    />
-  );
-});
+export const Toggle = forwardRef<ComponentRef<typeof Native>, ToggleProps>(
+  function Toggle(props, ref) {
+    const { onChange, style, children, ...rest } = props;
+    return (
+      <Native
+        ref={ref}
+        {...rest}
+        style={[style]}
+        onGpuiKitToggleChange={onChange}
+      />
+    );
+  },
+);

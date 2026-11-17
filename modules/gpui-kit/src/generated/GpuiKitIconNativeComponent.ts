@@ -3,12 +3,21 @@
 import {
   codegenNativeComponent,
   type CodegenTypes,
+  type ColorValue,
   type ViewProps,
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
   name?: string;
-  size?: CodegenTypes.WithDefault<'unset' | 'xsmall' | 'small' | 'medium' | 'large', 'unset'>;
+  path?: string;
+  svg?: string;
+  scale?: CodegenTypes.WithDefault<CodegenTypes.Double, 1.0>;
+  rotate?: CodegenTypes.Double;
+  size?: CodegenTypes.WithDefault<
+    'unset' | 'xsmall' | 'small' | 'medium' | 'large',
+    'unset'
+  >;
+  color?: ColorValue;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitIcon', {

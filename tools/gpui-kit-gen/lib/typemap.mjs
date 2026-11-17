@@ -1,7 +1,18 @@
 import { closureOf } from './extract.mjs';
 import { genericArgs, typeName } from './rustdoc.mjs';
 
-const INTS = new Set(['i8', 'i16', 'i32', 'u8', 'u16', 'u32', 'isize', 'usize', 'i64', 'u64']);
+const INTS = new Set([
+  'i8',
+  'i16',
+  'i32',
+  'u8',
+  'u16',
+  'u32',
+  'isize',
+  'usize',
+  'i64',
+  'u64',
+]);
 const FLOATS = new Set(['f32', 'f64']);
 
 function unwrapInto(type) {
@@ -53,14 +64,21 @@ export function mapType(ctx, rawType) {
   const type = unwrapInto(rawType);
   if (!type) return { unsupported: 'a type that could not be resolved' };
   if (type.primitive === 'bool') return { kind: 'bool' };
-  if (type.primitive && INTS.has(type.primitive)) return { kind: 'int', rust: type.primitive };
-  if (type.primitive && FLOATS.has(type.primitive)) return { kind: 'float', rust: type.primitive };
+  if (type.primitive && INTS.has(type.primitive))
+    return { kind: 'int', rust: type.primitive };
+  if (type.primitive && FLOATS.has(type.primitive))
+    return { kind: 'float', rust: type.primitive };
   if (type.primitive === 'str') return { kind: 'string' };
   if (type.borrowed_ref?.type?.primitive === 'str') return { kind: 'string' };
-  const name = type.resolved_path ? type.resolved_path.path.split('::').pop() : null;
-  if (name === 'String' || name === 'SharedString') return { kind: 'string', shared: name === 'SharedString' };
+  const name = type.resolved_path
+    ? type.resolved_path.path.split('::').pop()
+    : null;
+  if (name === 'String' || name === 'SharedString' || name === 'Text')
+    return { kind: 'string', shared: name === 'SharedString' };
+  if (name === 'ImageSource') return { kind: 'image' };
   if (name === 'Duration') return { kind: 'duration' };
-  if (name === 'Icon' || name === 'IconName' || name === 'ButtonIcon') return { kind: 'icon' };
+  if (name === 'Icon' || name === 'IconName' || name === 'ButtonIcon')
+    return { kind: 'icon' };
   if (name === 'Hsla' || name === 'Rgba') return { kind: 'color', rust: name };
   if (name === 'Pixels') return { kind: 'pixels' };
   if (name === 'Option') {
@@ -69,8 +87,10 @@ export function mapType(ctx, rawType) {
   }
   const info = enumInfo(ctx, type);
   if (info) return { kind: 'enum', info };
-  if (type.borrowed_ref?.type?.dyn_trait) return { unsupported: 'a trait object argument (`&dyn ...`)' };
-  if (type.borrowed_ref) return { unsupported: `a borrowed ${typeName(type.borrowed_ref.type)}` };
+  if (type.borrowed_ref?.type?.dyn_trait)
+    return { unsupported: 'a trait object argument (`&dyn ...`)' };
+  if (type.borrowed_ref)
+    return { unsupported: `a borrowed ${typeName(type.borrowed_ref.type)}` };
   if (type.impl_trait) {
     if (closureOf(type)) return { unsupported: 'a closure' };
     return { unsupported: `a generic argument (${typeName(type)})` };

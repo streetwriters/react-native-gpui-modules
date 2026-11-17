@@ -5,7 +5,17 @@ import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitLinkNativeComponent';
 import type { IconName } from './icons';
 
-export type LinkPressEvent = NativeSyntheticEvent<Readonly<{ x: number; y: number; rightClick: boolean; shift: boolean; control: boolean; alt: boolean; meta: boolean }>>;
+export type LinkPressEvent = NativeSyntheticEvent<
+  Readonly<{
+    x: number;
+    y: number;
+    rightClick: boolean;
+    shift: boolean;
+    control: boolean;
+    alt: boolean;
+    meta: boolean;
+  }>
+>;
 
 export interface LinkProps extends ViewProps {
   children?: React.ReactNode;
@@ -15,16 +25,16 @@ export interface LinkProps extends ViewProps {
   onPress?: (event: LinkPressEvent) => void;
 }
 
-export const Link = forwardRef<ComponentRef<typeof Native>, LinkProps>(function Link(props, ref) {
-  const { onPress, style, children, ...rest } = props;
-  const height = 20;
-  const width = Math.max(height, Math.ceil((props.text?.length ?? 0) * 7.5 + 0));
-  return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[{ height, width }, style]}
-      onGpuiKitLinkPress={onPress}
-    />
-  );
-});
+export const Link = forwardRef<ComponentRef<typeof Native>, LinkProps>(
+  function Link(props, ref) {
+    const { onPress, style, children, ...rest } = props;
+    return (
+      <Native
+        ref={ref}
+        {...rest}
+        style={[style]}
+        onGpuiKitLinkPress={onPress}
+      />
+    );
+  },
+);

@@ -5,19 +5,14 @@ import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitSkeletonNativeComponent';
 import type { IconName } from './icons';
 
-
 export interface SkeletonProps extends ViewProps {
   children?: React.ReactNode;
   secondary?: boolean;
 }
 
-export const Skeleton = forwardRef<ComponentRef<typeof Native>, SkeletonProps>(function Skeleton(props, ref) {
-  const { style, children, ...rest } = props;
-  return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[style]}
-    />
-  );
-});
+export const Skeleton = forwardRef<ComponentRef<typeof Native>, SkeletonProps>(
+  function Skeleton(props, ref) {
+    const { style, children, ...rest } = props;
+    return <Native ref={ref} {...rest} style={[style]} />;
+  },
+);

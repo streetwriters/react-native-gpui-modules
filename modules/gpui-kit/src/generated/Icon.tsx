@@ -5,23 +5,24 @@ import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitIconNativeComponent';
 import type { IconName } from './icons';
 
-
 export interface IconProps extends ViewProps {
   children?: React.ReactNode;
   name?: IconName;
+  path?: string;
+  svg?: string;
+  scale?: number;
+  rotate?: number;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  color?: ColorValue;
 }
 
-export const Icon = forwardRef<ComponentRef<typeof Native>, IconProps>(function Icon(props, ref) {
-  const { style, children, ...rest } = props;
-  const heights = {"xsmall":12,"small":14,"medium":16,"large":24} as const;
-  const height = heights[(props.size as keyof typeof heights) ?? 'medium'] ?? 12;
-  const width = height;
-  return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[{ height, width }, style]}
-    />
-  );
-});
+export const Icon = forwardRef<ComponentRef<typeof Native>, IconProps>(
+  function Icon(props, ref) {
+    const { style, children, ...rest } = props;
+    const heights = { xsmall: 12, small: 14, medium: 16, large: 24 } as const;
+    const height =
+      heights[(props.size as keyof typeof heights) ?? 'medium'] ?? 12;
+    const width = height;
+    return <Native ref={ref} {...rest} style={[{ height, width }, style]} />;
+  },
+);

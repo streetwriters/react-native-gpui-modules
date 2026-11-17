@@ -10,7 +10,17 @@ export interface NativeProps extends ViewProps {
   text?: string;
   href?: string;
   disabled?: boolean;
-  onGpuiKitLinkPress?: CodegenTypes.DirectEventHandler<Readonly<{ x: CodegenTypes.Double; y: CodegenTypes.Double; rightClick: boolean; shift: boolean; control: boolean; alt: boolean; meta: boolean }>>;
+  onGpuiKitLinkPress?: CodegenTypes.DirectEventHandler<
+    Readonly<{
+      x: CodegenTypes.Double;
+      y: CodegenTypes.Double;
+      rightClick: boolean;
+      shift: boolean;
+      control: boolean;
+      alt: boolean;
+      meta: boolean;
+    }>
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitLink', {

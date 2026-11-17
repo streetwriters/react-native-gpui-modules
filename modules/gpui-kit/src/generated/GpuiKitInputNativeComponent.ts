@@ -6,6 +6,7 @@ import {
   codegenNativeCommands,
   type CodegenTypes,
   type HostComponent,
+  type ColorValue,
   type ViewProps,
 } from 'react-native';
 
@@ -16,27 +17,109 @@ export interface NativeProps extends ViewProps {
   focusBordered?: boolean;
   cleanable?: boolean;
   maskToggle?: boolean;
-  contentType?: CodegenTypes.WithDefault<'unset' | 'name' | 'name-prefix' | 'given-name' | 'middle-name' | 'family-name' | 'name-suffix' | 'nickname' | 'job-title' | 'organization-name' | 'location' | 'full-street-address' | 'street-address-line1' | 'street-address-line2' | 'address-city' | 'address-state' | 'address-city-and-state' | 'sublocality' | 'country-name' | 'postal-code' | 'telephone-number' | 'email-address' | 'url' | 'credit-card-number' | 'credit-card-name' | 'credit-card-given-name' | 'credit-card-middle-name' | 'credit-card-family-name' | 'credit-card-security-code' | 'credit-card-expiration' | 'credit-card-expiration-month' | 'credit-card-expiration-year' | 'credit-card-type' | 'username' | 'password' | 'new-password' | 'one-time-code' | 'shipment-tracking-number' | 'flight-number' | 'date-time' | 'birthdate' | 'birthdate-day' | 'birthdate-month' | 'birthdate-year' | 'cellular-eid' | 'cellular-imei', 'unset'>;
-  role?: CodegenTypes.WithDefault<'unset' | 'implicit' | 'presentational', 'unset'>;
+  contentType?: CodegenTypes.WithDefault<
+    | 'unset'
+    | 'name'
+    | 'name-prefix'
+    | 'given-name'
+    | 'middle-name'
+    | 'family-name'
+    | 'name-suffix'
+    | 'nickname'
+    | 'job-title'
+    | 'organization-name'
+    | 'location'
+    | 'full-street-address'
+    | 'street-address-line1'
+    | 'street-address-line2'
+    | 'address-city'
+    | 'address-state'
+    | 'address-city-and-state'
+    | 'sublocality'
+    | 'country-name'
+    | 'postal-code'
+    | 'telephone-number'
+    | 'email-address'
+    | 'url'
+    | 'credit-card-number'
+    | 'credit-card-name'
+    | 'credit-card-given-name'
+    | 'credit-card-middle-name'
+    | 'credit-card-family-name'
+    | 'credit-card-security-code'
+    | 'credit-card-expiration'
+    | 'credit-card-expiration-month'
+    | 'credit-card-expiration-year'
+    | 'credit-card-type'
+    | 'username'
+    | 'password'
+    | 'new-password'
+    | 'one-time-code'
+    | 'shipment-tracking-number'
+    | 'flight-number'
+    | 'date-time'
+    | 'birthdate'
+    | 'birthdate-day'
+    | 'birthdate-month'
+    | 'birthdate-year'
+    | 'cellular-eid'
+    | 'cellular-imei',
+    'unset'
+  >;
+  accessibilityRoleOverride?: string;
   disabled?: boolean;
   readonly?: boolean;
-  tabIndex?: CodegenTypes.Int32;
-  size?: CodegenTypes.WithDefault<'unset' | 'xsmall' | 'small' | 'medium' | 'large', 'unset'>;
+  tabOrder?: CodegenTypes.WithDefault<CodegenTypes.Int32, -1>;
+  size?: CodegenTypes.WithDefault<
+    'unset' | 'xsmall' | 'small' | 'medium' | 'large',
+    'unset'
+  >;
   selected?: boolean;
   secondarySelected?: boolean;
   open?: boolean;
+  focusRing?: CodegenTypes.WithDefault<boolean, true>;
+  tokenClickEvents?: boolean;
+  tokenHoverEvents?: boolean;
+  contextMenu?: ReadonlyArray<
+    Readonly<{ label: string; action: string; disabled: boolean }>
+  >;
+  pasteEvents?: boolean;
+  textAlign?: CodegenTypes.WithDefault<'left' | 'center' | 'right', 'left'>;
+  contextMenuEnabled?: CodegenTypes.WithDefault<boolean, true>;
+  foldBackground?: ColorValue;
   placeholder?: string;
   cleanOnEscape?: boolean;
   submitOnEnter?: boolean;
   showWhitespaces?: boolean;
+  scrollBeyondLastLine?: CodegenTypes.Int32;
+  cursorSurroundingLines?: CodegenTypes.Int32;
+  maskPattern?: string;
   masked?: boolean;
+  pattern?: string;
+  step?: CodegenTypes.Double;
+  min?: CodegenTypes.Double;
+  max?: CodegenTypes.Double;
   loading?: boolean;
   value?: string;
   defaultValue?: string;
   controlled?: boolean;
   eventCount?: CodegenTypes.Int32;
-  onGpuiKitInputChange?: CodegenTypes.DirectEventHandler<Readonly<{ text: string; eventCount: CodegenTypes.Int32 }>>;
-  onGpuiKitInputSubmit?: CodegenTypes.DirectEventHandler<Readonly<{ secondary: boolean; shift: boolean }>>;
+  slots?: string;
+  onGpuiKitInputPaste?: CodegenTypes.DirectEventHandler<
+    Readonly<{ text: string }>
+  >;
+  onGpuiKitInputTokenClick?: CodegenTypes.DirectEventHandler<
+    Readonly<{ id: string; start: CodegenTypes.Int32; end: CodegenTypes.Int32 }>
+  >;
+  onGpuiKitInputTokenHover?: CodegenTypes.DirectEventHandler<
+    Readonly<{ id: string; hovered: boolean }>
+  >;
+  onGpuiKitInputChange?: CodegenTypes.DirectEventHandler<
+    Readonly<{ text: string; eventCount: CodegenTypes.Int32 }>
+  >;
+  onGpuiKitInputSubmit?: CodegenTypes.DirectEventHandler<
+    Readonly<{ secondary: boolean; shift: boolean }>
+  >;
   onGpuiKitInputFocus?: CodegenTypes.DirectEventHandler<null>;
   onGpuiKitInputBlur?: CodegenTypes.DirectEventHandler<null>;
 }
@@ -46,12 +129,63 @@ interface NativeCommands {
   selectAll: (viewRef: React.ElementRef<HostComponent<NativeProps>>) => void;
   unselect: (viewRef: React.ElementRef<HostComponent<NativeProps>>) => void;
   clean: (viewRef: React.ElementRef<HostComponent<NativeProps>>) => void;
-  insert: (viewRef: React.ElementRef<HostComponent<NativeProps>>, text: string) => void;
-  replaceAll: (viewRef: React.ElementRef<HostComponent<NativeProps>>, text: string) => void;
+  insert: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    text: string,
+  ) => void;
+  replaceAll: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    text: string,
+  ) => void;
+  setCursorPosition: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    line: CodegenTypes.Int32,
+    character: CodegenTypes.Int32,
+  ) => void;
+  setScrollOffset: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    x: CodegenTypes.Double,
+    y: CodegenTypes.Double,
+  ) => void;
+  setSelectedRange: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    start: CodegenTypes.Int32,
+    end: CodegenTypes.Int32,
+  ) => void;
+  setSelectedRangeWithDirection: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    start: CodegenTypes.Int32,
+    end: CodegenTypes.Int32,
+    reversed: boolean,
+  ) => void;
+  setSearchQuery: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    query: string,
+    caseInsensitive: boolean,
+  ) => void;
+  insertToken: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    id: string,
+    text: string,
+    label: string,
+  ) => void;
 }
 
 export const Commands = codegenNativeCommands<NativeCommands>({
-  supportedCommands: ['focus', 'selectAll', 'unselect', 'clean', 'insert', 'replaceAll'],
+  supportedCommands: [
+    'focus',
+    'selectAll',
+    'unselect',
+    'clean',
+    'insert',
+    'replaceAll',
+    'setCursorPosition',
+    'setScrollOffset',
+    'setSelectedRange',
+    'setSelectedRangeWithDirection',
+    'setSearchQuery',
+    'insertToken',
+  ],
 });
 
 export default codegenNativeComponent<NativeProps>('GpuiKitInput', {

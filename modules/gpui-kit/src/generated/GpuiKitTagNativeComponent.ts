@@ -8,10 +8,23 @@ import {
 
 export interface NativeProps extends ViewProps {
   label?: string;
-  withVariant?: CodegenTypes.WithDefault<'unset' | 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'info', 'unset'>;
+  variant?: CodegenTypes.WithDefault<
+    | 'unset'
+    | 'primary'
+    | 'secondary'
+    | 'danger'
+    | 'success'
+    | 'warning'
+    | 'info',
+    'unset'
+  >;
   outline?: boolean;
+  radius?: CodegenTypes.WithDefault<CodegenTypes.Double, -1.0>;
   roundedFull?: boolean;
-  size?: CodegenTypes.WithDefault<'unset' | 'xsmall' | 'small' | 'medium' | 'large', 'unset'>;
+  size?: CodegenTypes.WithDefault<
+    'unset' | 'xsmall' | 'small' | 'medium' | 'large',
+    'unset'
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitTag', {

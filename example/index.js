@@ -35,6 +35,42 @@ const fixtures = {
   GPUIKeyboardControllerFixture: () =>
     require('./src/fixtures/KeyboardControllerFixtureScreen')
       .KeyboardControllerFixtureScreen,
+  GPUIKitInputsFixture: () =>
+    require('./src/fixtures/GpuiKitInputsFixture').GpuiKitInputsFixture,
+  GPUIKitGroupsFixture: () =>
+    require('./src/fixtures/GpuiKitGroupsFixture').GpuiKitGroupsFixture,
+  GPUIKitOverlaysFixture: () =>
+    require('./src/fixtures/GpuiKitOverlaysFixture').GpuiKitOverlaysFixture,
+  GPUIKitDataFixture: () =>
+    require('./src/fixtures/GpuiKitDataFixture').GpuiKitDataFixture,
+  GPUIKitLayoutFixture: () =>
+    require('./src/fixtures/GpuiKitLayoutFixture').GpuiKitLayoutFixture,
+  GPUIKitMoreFixture: () =>
+    require('./src/fixtures/GpuiKitMoreFixture').GpuiKitMoreFixture,
+  GPUIKitPrimitivesFixture: () =>
+    require('./src/fixtures/GpuiKitPrimitivesFixture').GpuiKitPrimitivesFixture,
+  GPUIKitContentFixture: () =>
+    require('./src/fixtures/GpuiKitContentFixture').GpuiKitContentFixture,
+  GPUIKitChartsFixture: () =>
+    require('./src/fixtures/GpuiKitChartsFixture').GpuiKitChartsFixture,
+  GPUIKitSettingsFixture: () =>
+    require('./src/fixtures/GpuiKitSettingsFixture').GpuiKitSettingsFixture,
+  GPUIKitToolsFixture: () =>
+    require('./src/fixtures/GpuiKitToolsFixture').GpuiKitToolsFixture,
+  GPUIKitPanelsFixture: () =>
+    require('./src/fixtures/GpuiKitPanelsFixture').GpuiKitPanelsFixture,
+  GPUIKitSlotsFixture: () =>
+    require('./src/fixtures/GpuiKitSlotsFixture').GpuiKitSlotsFixture,
+  GPUIKitMixedFixture: () =>
+    require('./src/fixtures/GpuiKitMixedFixture').GpuiKitMixedFixture,
+  GPUIKitComponentFixture: () =>
+    require('./src/fixtures/GpuiKitComponentFixture').GpuiKitComponentFixture,
+  GPUIKitBadgeCompareFixture: () =>
+    require('./src/fixtures/GpuiKitBadgeCompareFixture').GpuiKitBadgeCompareFixture,
+  GPUIKitParityFixture: () =>
+    require('./src/fixtures/GpuiKitParityFixture').GpuiKitParityFixture,
+  GPUIKitCoverageFixture: () =>
+    require('./src/fixtures/GpuiKitCoverageFixture').GpuiKitCoverageFixture,
   GPUISliderFixture: () =>
     require('./src/fixtures/SliderFixtureScreen').SliderFixtureScreen,
   GPUIPickerFixture: () =>

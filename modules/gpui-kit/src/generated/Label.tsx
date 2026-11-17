@@ -5,23 +5,18 @@ import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitLabelNativeComponent';
 import type { IconName } from './icons';
 
-
 export interface LabelProps extends ViewProps {
   children?: React.ReactNode;
+  highlightsPrefix?: boolean;
   text?: string;
   secondary?: string;
   masked?: boolean;
+  highlights?: string;
 }
 
-export const Label = forwardRef<ComponentRef<typeof Native>, LabelProps>(function Label(props, ref) {
-  const { style, children, ...rest } = props;
-  const height = 20;
-  const width = Math.max(height, Math.ceil((props.text?.length ?? 0) * 7.5 + 0));
-  return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[{ height, width }, style]}
-    />
-  );
-});
+export const Label = forwardRef<ComponentRef<typeof Native>, LabelProps>(
+  function Label(props, ref) {
+    const { style, children, ...rest } = props;
+    return <Native ref={ref} {...rest} style={[style]} />;
+  },
+);

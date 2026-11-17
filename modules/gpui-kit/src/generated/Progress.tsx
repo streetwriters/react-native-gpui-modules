@@ -5,7 +5,6 @@ import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitProgressNativeComponent';
 import type { IconName } from './icons';
 
-
 export interface ProgressProps extends ViewProps {
   children?: React.ReactNode;
   loading?: boolean;
@@ -15,13 +14,9 @@ export interface ProgressProps extends ViewProps {
   size?: 'xsmall' | 'small' | 'medium' | 'large';
 }
 
-export const Progress = forwardRef<ComponentRef<typeof Native>, ProgressProps>(function Progress(props, ref) {
-  const { style, children, ...rest } = props;
-  return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[style]}
-    />
-  );
-});
+export const Progress = forwardRef<ComponentRef<typeof Native>, ProgressProps>(
+  function Progress(props, ref) {
+    const { style, children, ...rest } = props;
+    return <Native ref={ref} {...rest} style={[style]} />;
+  },
+);

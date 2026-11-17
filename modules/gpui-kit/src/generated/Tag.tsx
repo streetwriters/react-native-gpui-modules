@@ -5,25 +5,19 @@ import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitTagNativeComponent';
 import type { IconName } from './icons';
 
-
 export interface TagProps extends ViewProps {
   children?: React.ReactNode;
   label?: string;
-  withVariant?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'info';
+  variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'info';
   outline?: boolean;
+  radius?: number;
   roundedFull?: boolean;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
 }
 
-export const Tag = forwardRef<ComponentRef<typeof Native>, TagProps>(function Tag(props, ref) {
-  const { style, children, ...rest } = props;
-  const height = 22;
-  const width = Math.max(height, Math.ceil((props.label?.length ?? 0) * 7 + 16));
-  return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[{ height, width }, style]}
-    />
-  );
-});
+export const Tag = forwardRef<ComponentRef<typeof Native>, TagProps>(
+  function Tag(props, ref) {
+    const { style, children, ...rest } = props;
+    return <Native ref={ref} {...rest} style={[style]} />;
+  },
+);

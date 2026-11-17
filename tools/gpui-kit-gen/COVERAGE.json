@@ -1,15 +1,16 @@
 {
   "counts": {
-    "skipped": 55,
-    "generated": 142,
-    "aliased": 44
+    "generated": 608,
+    "aliased": 103,
+    "skipped": 32
   },
   "items": [
     {
       "component": "Button",
       "item": "Button::role",
-      "outcome": "skipped",
-      "reason": "takes a RoleOverride value that has no string mapping yet"
+      "outcome": "generated",
+      "reason": "a string: implicit, presentational or an accessibility role name",
+      "prop": "accessibilityRoleOverride"
     },
     {
       "component": "Button",
@@ -77,8 +78,9 @@
     {
       "component": "Button",
       "item": "Button::tooltip_with_action",
-      "outcome": "skipped",
-      "reason": "takes a trait object (&dyn Action)"
+      "outcome": "generated",
+      "reason": "a registered action name, built with App::build_action; the tooltip shows its keybinding",
+      "prop": "tooltipAction"
     },
     {
       "component": "Button",
@@ -104,15 +106,16 @@
     {
       "component": "Button",
       "item": "Button::track_focus",
-      "outcome": "skipped",
-      "reason": "takes a FocusHandle"
+      "outcome": "aliased",
+      "reason": "covered by focusable",
+      "prop": "focusable"
     },
     {
       "component": "Button",
       "item": "Button::tab_index",
       "outcome": "generated",
-      "reason": "",
-      "prop": "tabIndex"
+      "reason": "the tab index; -1 leaves it unset",
+      "prop": "tabOrder"
     },
     {
       "component": "Button",
@@ -145,8 +148,9 @@
     {
       "component": "Button",
       "item": "Button::focus_ring",
-      "outcome": "skipped",
-      "reason": "from FocusableExt, not a component property"
+      "outcome": "generated",
+      "reason": "",
+      "prop": "focusRing"
     },
     {
       "component": "Button",
@@ -270,8 +274,51 @@
     {
       "component": "Button",
       "item": "Button::custom",
-      "outcome": "skipped",
-      "reason": "unsupported: the type ButtonCustomVariant has no mapping"
+      "outcome": "generated",
+      "reason": "ButtonCustomVariant from customColor, customForeground, customHover, customActive and customShadow",
+      "prop": "customColor"
+    },
+    {
+      "component": "Button",
+      "item": "Button (prop tooltipActionContext)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "tooltipActionContext"
+    },
+    {
+      "component": "Button",
+      "item": "Button (prop customForeground)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "customForeground"
+    },
+    {
+      "component": "Button",
+      "item": "Button (prop customHover)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "customHover"
+    },
+    {
+      "component": "Button",
+      "item": "Button (prop customActive)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "customActive"
+    },
+    {
+      "component": "Button",
+      "item": "Button (prop customShadow)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "customShadow"
+    },
+    {
+      "component": "Button",
+      "item": "Button::track_focus",
+      "outcome": "generated",
+      "reason": "a FocusHandle that is a tab stop, tracked while focusable is set; the focus command focuses it",
+      "prop": "focusable"
     },
     {
       "component": "Button",
@@ -296,8 +343,9 @@
     {
       "component": "Input",
       "item": "Input::id",
-      "outcome": "skipped",
-      "reason": "the id comes from the node tag"
+      "outcome": "aliased",
+      "reason": "the id comes from the node tag",
+      "prop": ""
     },
     {
       "component": "Input",
@@ -309,32 +357,35 @@
     {
       "component": "Input",
       "item": "Input::aria_label",
-      "outcome": "skipped",
-      "reason": "alias of accessibility_label"
+      "outcome": "aliased",
+      "reason": "the same label as accessibilityLabel",
+      "prop": "accessibilityLabel"
     },
     {
       "component": "Input",
       "item": "Input::prefix",
-      "outcome": "skipped",
-      "reason": "takes an element (RN slot, later)"
+      "outcome": "generated",
+      "reason": "a slot: React Native children",
+      "prop": "prefix"
     },
     {
       "component": "Input",
       "item": "Input::suffix",
-      "outcome": "skipped",
-      "reason": "takes an element (RN slot, later)"
+      "outcome": "generated",
+      "reason": "a slot: React Native children",
+      "prop": "suffix"
     },
     {
       "component": "Input",
       "item": "Input::h_full",
       "outcome": "skipped",
-      "reason": "layout comes from React Native"
+      "reason": "the height comes from the React Native style; a kit height would fight the Yoga frame"
     },
     {
       "component": "Input",
       "item": "Input::h",
       "outcome": "skipped",
-      "reason": "layout comes from React Native"
+      "reason": "the height comes from the React Native style; a kit height would fight the Yoga frame"
     },
     {
       "component": "Input",
@@ -382,8 +433,8 @@
       "component": "Input",
       "item": "Input::role",
       "outcome": "generated",
-      "reason": "",
-      "prop": "role"
+      "reason": "a string: implicit, presentational or an accessibility role name",
+      "prop": "accessibilityRoleOverride"
     },
     {
       "component": "Input",
@@ -403,8 +454,8 @@
       "component": "Input",
       "item": "Input::tab_index",
       "outcome": "generated",
-      "reason": "",
-      "prop": "tabIndex"
+      "reason": "the tab index; -1 leaves it unset",
+      "prop": "tabOrder"
     },
     {
       "component": "Input",
@@ -458,104 +509,114 @@
     {
       "component": "Input",
       "item": "Input::focus_ring",
-      "outcome": "skipped",
-      "reason": "from FocusableExt, not a component property"
+      "outcome": "generated",
+      "reason": "",
+      "prop": "focusRing"
     },
     {
       "component": "Input",
       "item": "Input::token",
       "outcome": "skipped",
-      "reason": "event not listed in components.json"
+      "reason": "a Rust closure that draws every inline token during text layout; tokens draw with the kit chip, and insertToken, onTokenClick and onTokenHover cover them"
     },
     {
       "component": "Input",
       "item": "Input::on_token_click",
-      "outcome": "skipped",
-      "reason": "event not listed in components.json"
+      "outcome": "generated",
+      "reason": "onTokenClick",
+      "prop": "tokenClickEvents"
     },
     {
       "component": "Input",
       "item": "Input::on_token_hover",
-      "outcome": "skipped",
-      "reason": "event not listed in components.json"
+      "outcome": "generated",
+      "reason": "onTokenHover",
+      "prop": "tokenHoverEvents"
     },
     {
       "component": "Input",
       "item": "Input::context_menu",
-      "outcome": "skipped",
-      "reason": "event not listed in components.json"
+      "outcome": "generated",
+      "reason": "items appended to the native edit menu: a label and a registered action name; the label - is a separator",
+      "prop": "contextMenu"
     },
     {
       "component": "Input",
       "item": "Input::on_paste",
-      "outcome": "skipped",
-      "reason": "event not listed in components.json"
+      "outcome": "generated",
+      "reason": "onPaste reports the pasted text; the default insertion still runs",
+      "prop": "pasteEvents"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_search_query",
-      "outcome": "skipped",
-      "reason": "unsupported: takes 2 data arguments"
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setSearchQuery"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_text_align",
-      "outcome": "skipped",
-      "reason": "excluded in components.json"
+      "outcome": "generated",
+      "reason": "",
+      "prop": "textAlign"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_selection_focus",
       "outcome": "skipped",
-      "reason": "excluded in components.json"
+      "reason": "shares the selection highlight with another element's FocusHandle; one React Native input has no second handle to pass"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_context_menu_enabled",
-      "outcome": "skipped",
-      "reason": "excluded in components.json"
+      "outcome": "generated",
+      "reason": "",
+      "prop": "contextMenuEnabled"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_highlighter",
       "outcome": "skipped",
-      "reason": "excluded in components.json"
+      "reason": "sets the language of the code-editor mode, which Input, Textarea and NumberInput never use (the Code component has language)"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_highlighter_factory",
       "outcome": "skipped",
-      "reason": "unsupported: the type InputHighlighterFactory has no mapping"
+      "reason": "a Rust factory of tree-sitter highlighters; only the code-editor mode reads it"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_editor_style",
       "outcome": "skipped",
-      "reason": "unsupported: the type InputEditorStyle has no mapping"
+      "reason": "a color table with a Rust highlight-style resolver for the code-editor mode; the theme supplies these colors"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_fold_placeholder_renderer",
       "outcome": "skipped",
-      "reason": "unsupported: the type FoldPlaceholderRenderer has no mapping"
+      "reason": "renders folded code regions; only the code-editor mode folds"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_fold_background",
-      "outcome": "skipped",
-      "reason": "unsupported: an optional value has no unset sentinel"
+      "outcome": "generated",
+      "reason": "",
+      "prop": "foldBackground"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_accessibility",
-      "outcome": "skipped",
-      "reason": "excluded in components.json"
+      "outcome": "aliased",
+      "reason": "role, label, placeholder and id come from accessibilityRoleOverride, accessibilityLabel, placeholder and accessibilityId",
+      "prop": "accessibilityLabel"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_scrollbar_renderer",
       "outcome": "skipped",
-      "reason": "unsupported: the type crate::input::EditorScrollbarRenderer has no mapping"
+      "reason": "a Rust closure that draws the scrollbar from scroll metrics each frame; the kit scrollbar is used"
     },
     {
       "component": "Input",
@@ -574,14 +635,16 @@
     {
       "component": "Input",
       "item": "InputBaseState::set_disabled",
-      "outcome": "skipped",
-      "reason": "the disabled prop comes from the element"
+      "outcome": "aliased",
+      "reason": "the element disabled prop sets it",
+      "prop": "disabled"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_readonly",
-      "outcome": "skipped",
-      "reason": "the readonly prop comes from the element"
+      "outcome": "aliased",
+      "reason": "the element readonly prop sets it",
+      "prop": "readonly"
     },
     {
       "component": "Input",
@@ -607,44 +670,51 @@
     {
       "component": "Input",
       "item": "InputBaseState::set_scroll_beyond_last_line",
-      "outcome": "skipped",
-      "reason": "unsupported: an optional value has no unset sentinel"
+      "outcome": "generated",
+      "reason": "",
+      "prop": "scrollBeyondLastLine"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_cursor_surrounding_lines",
-      "outcome": "skipped",
-      "reason": "unsupported: an optional value has no unset sentinel"
+      "outcome": "generated",
+      "reason": "",
+      "prop": "cursorSurroundingLines"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_cursor_position",
-      "outcome": "skipped",
-      "reason": "excluded in components.json"
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setCursorPosition"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_scroll_offset",
-      "outcome": "skipped",
-      "reason": "excluded in components.json"
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setScrollOffset"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_selected_range",
-      "outcome": "skipped",
-      "reason": "excluded in components.json"
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setSelectedRange"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_selected_range_with_direction",
-      "outcome": "skipped",
-      "reason": "unsupported: takes 2 data arguments"
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setSelectedRangeWithDirection"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_mask_pattern",
-      "outcome": "skipped",
-      "reason": "excluded in components.json"
+      "outcome": "generated",
+      "reason": "MaskPattern::from(&str)",
+      "prop": "maskPattern"
     },
     {
       "component": "Input",
@@ -656,32 +726,36 @@
     {
       "component": "Input",
       "item": "InputBaseState::set_pattern",
-      "outcome": "skipped",
-      "reason": "excluded in components.json"
+      "outcome": "generated",
+      "reason": "a regular expression; an invalid one is ignored",
+      "prop": "pattern"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_validator",
       "outcome": "skipped",
-      "reason": "excluded in components.json"
+      "reason": "a synchronous Rust closure on every edit, which JS cannot answer in time; pattern and maskPattern validate instead"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_step",
-      "outcome": "skipped",
-      "reason": "unsupported: the type NumberStep has no mapping"
+      "outcome": "generated",
+      "reason": "NumberStep::Fixed; unset falls back to the Step event",
+      "prop": "step"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_min",
-      "outcome": "skipped",
-      "reason": "unsupported: an optional value has no unset sentinel"
+      "outcome": "generated",
+      "reason": "",
+      "prop": "min"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_max",
-      "outcome": "skipped",
-      "reason": "unsupported: an optional value has no unset sentinel"
+      "outcome": "generated",
+      "reason": "",
+      "prop": "max"
     },
     {
       "component": "Input",
@@ -702,7 +776,7 @@
       "item": "InputBaseState::select_all",
       "outcome": "generated",
       "reason": "command",
-      "prop": "select_all"
+      "prop": "selectAll"
     },
     {
       "component": "Input",
@@ -730,7 +804,14 @@
       "item": "InputBaseState::replace_all",
       "outcome": "generated",
       "reason": "command",
-      "prop": "replace_all"
+      "prop": "replaceAll"
+    },
+    {
+      "component": "Input",
+      "item": "InputBaseState::replace_with_token",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "insertToken"
     },
     {
       "component": "Input",
@@ -783,8 +864,9 @@
     {
       "component": "Label",
       "item": "Label::highlights",
-      "outcome": "skipped",
-      "reason": "takes a HighlightsMatch value"
+      "outcome": "generated",
+      "reason": "HighlightsMatch::Full, or Prefix with highlightsPrefix",
+      "prop": "highlights"
     },
     {
       "component": "Label",
@@ -795,6 +877,13 @@
     },
     {
       "component": "Label",
+      "item": "Label (prop highlightsPrefix)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "highlightsPrefix"
+    },
+    {
+      "component": "Label",
       "item": "Label::new",
       "outcome": "generated",
       "reason": "constructor; the id comes from the node tag"
@@ -802,26 +891,30 @@
     {
       "component": "Icon",
       "item": "Icon::path",
-      "outcome": "skipped",
-      "reason": "takes an asset path"
+      "outcome": "generated",
+      "reason": "an SVG asset path from the registered asset sources",
+      "prop": "path"
     },
     {
       "component": "Icon",
       "item": "Icon::data",
-      "outcome": "skipped",
-      "reason": "takes raw bytes"
+      "outcome": "generated",
+      "reason": "the SVG source text",
+      "prop": "svg"
     },
     {
       "component": "Icon",
       "item": "Icon::transform",
-      "outcome": "skipped",
-      "reason": "takes a gpui Transformation"
+      "outcome": "generated",
+      "reason": "a Transformation from scale and rotate",
+      "prop": "scale"
     },
     {
       "component": "Icon",
       "item": "Icon::rotate",
-      "outcome": "skipped",
-      "reason": "takes Radians"
+      "outcome": "generated",
+      "reason": "degrees",
+      "prop": "rotate"
     },
     {
       "component": "Icon",
@@ -860,9 +953,16 @@
     },
     {
       "component": "Icon",
+      "item": "Icon::text_color",
+      "outcome": "generated",
+      "reason": "Styled::text_color",
+      "prop": "color"
+    },
+    {
+      "component": "Icon",
       "item": "Icon::view",
       "outcome": "skipped",
-      "reason": "not a builder (takes self by reference or returns another type)"
+      "reason": "wraps the icon in an Entity<Icon> for Rust callers; the host component is already the view"
     },
     {
       "component": "Icon",
@@ -950,7 +1050,7 @@
       "item": "Tag::with_variant",
       "outcome": "generated",
       "reason": "",
-      "prop": "withVariant"
+      "prop": "variant"
     },
     {
       "component": "Tag",
@@ -962,8 +1062,9 @@
     {
       "component": "Tag",
       "item": "Tag::rounded",
-      "outcome": "skipped",
-      "reason": "takes an AbsoluteLength"
+      "outcome": "generated",
+      "reason": "pixels; -1 keeps the default",
+      "prop": "radius"
     },
     {
       "component": "Tag",
@@ -1064,8 +1165,9 @@
     {
       "component": "Avatar",
       "item": "Avatar::src",
-      "outcome": "skipped",
-      "reason": "takes an ImageSource"
+      "outcome": "generated",
+      "reason": "",
+      "prop": "src"
     },
     {
       "component": "Avatar",
@@ -1160,8 +1262,9 @@
     {
       "component": "Spinner",
       "item": "Spinner::ease",
-      "outcome": "skipped",
-      "reason": "event not listed in components.json"
+      "outcome": "generated",
+      "reason": "one of gpui's easing functions",
+      "prop": "easing"
     },
     {
       "component": "Spinner",
@@ -1343,8 +1446,9 @@
     {
       "component": "Toggle",
       "item": "Toggle::tooltip",
-      "outcome": "skipped",
-      "reason": "set later with the Tooltip batch"
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltip"
     },
     {
       "component": "Toggle",
@@ -1448,7 +1552,7 @@
       "item": "Alert::with_variant",
       "outcome": "generated",
       "reason": "",
-      "prop": "withVariant"
+      "prop": "variant"
     },
     {
       "component": "Alert",
@@ -1553,14 +1657,16 @@
     {
       "component": "ShimmerText",
       "item": "ShimmerText::id",
-      "outcome": "skipped",
-      "reason": "the id comes from the node tag"
+      "outcome": "aliased",
+      "reason": "the id comes from the node tag",
+      "prop": ""
     },
     {
       "component": "ShimmerText",
       "item": "ShimmerText::with_shimmer_style",
-      "outcome": "skipped",
-      "reason": "takes a ShimmerStyle value"
+      "outcome": "aliased",
+      "reason": "a ShimmerStyle bundles duration, highlightColor, spread, reverse and once, which are props",
+      "prop": "duration"
     },
     {
       "component": "ShimmerText",
@@ -1579,8 +1685,9 @@
     {
       "component": "ShimmerText",
       "item": "ShimmerText::spread",
-      "outcome": "skipped",
-      "reason": "takes a ShimmerSpread value"
+      "outcome": "generated",
+      "reason": "ShimmerSpread::Relative, or Absolute with spreadPixels",
+      "prop": "spread"
     },
     {
       "component": "ShimmerText",
@@ -1605,9 +1712,3425 @@
     },
     {
       "component": "ShimmerText",
+      "item": "ShimmerText (prop spreadPixels)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "spreadPixels"
+    },
+    {
+      "component": "ShimmerText",
       "item": "ShimmerText::new",
       "outcome": "generated",
       "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::role",
+      "outcome": "generated",
+      "reason": "a string: implicit, presentational or an accessibility role name",
+      "prop": "accessibilityRoleOverride"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::tooltip",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltip"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::tooltip_show_delay",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltipShowDelay"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "label"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::accessibility_label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::checked",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "checked"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::tab_stop",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tabStop"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::tab_index",
+      "outcome": "generated",
+      "reason": "the tab index; -1 leaves it unset",
+      "prop": "tabOrder"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::focus_ring",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "focusRing"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::selected",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "selected"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::secondary_selected",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "secondarySelected"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::open",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "open"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::on_click",
+      "outcome": "aliased",
+      "reason": "on_click calls on_change with the same handler; onChange covers it",
+      "prop": "onChange"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::on_change",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "onChange"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::tooltip",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltip"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::tooltip_show_delay",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltipShowDelay"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "label"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::accessibility_label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::checked",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "checked"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::tab_index",
+      "outcome": "generated",
+      "reason": "the tab index; -1 leaves it unset",
+      "prop": "tabOrder"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::tab_stop",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tabStop"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::focus_ring",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "focusRing"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::on_click",
+      "outcome": "aliased",
+      "reason": "on_click calls on_change with the same handler; onChange covers it",
+      "prop": "onChange"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::on_change",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "onChange"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::checked",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "checked"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "label"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::accessibility_label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::color",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "color"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::tooltip",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltip"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::tooltip_show_delay",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltipShowDelay"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::tab_stop",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tabStop"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::tab_index",
+      "outcome": "generated",
+      "reason": "the tab index; -1 leaves it unset",
+      "prop": "tabOrder"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::focus_ring",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "focusRing"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::on_click",
+      "outcome": "aliased",
+      "reason": "on_click calls on_change with the same handler; onChange covers it",
+      "prop": "onChange"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::on_change",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "onChange"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "withSize"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::color",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "color"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::value",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "value"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::max",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "max"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::disabled",
+      "outcome": "aliased",
+      "reason": "the same method from Disableable; covered by disabled",
+      "prop": "disabled"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::on_click",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "onChange"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::h",
+      "outcome": "skipped",
+      "reason": "the height comes from the React Native style; a kit height would fight the Yoga frame"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::appearance",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "appearance"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::bordered",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "bordered"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::readonly",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "readonly"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::tab_index",
+      "outcome": "generated",
+      "reason": "the tab index; -1 leaves it unset",
+      "prop": "tabOrder"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::role",
+      "outcome": "generated",
+      "reason": "a string: implicit, presentational or an accessibility role name",
+      "prop": "accessibilityRoleOverride"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::accessibility_id",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "accessibilityId"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::aria_label",
+      "outcome": "aliased",
+      "reason": "the same label as accessibilityLabel",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea (prop hardTabs)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "hardTabs"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::token",
+      "outcome": "skipped",
+      "reason": "a Rust closure that draws every inline token during text layout; tokens draw with the kit chip, and insertToken, onTokenClick and onTokenHover cover them"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::on_token_click",
+      "outcome": "generated",
+      "reason": "onTokenClick",
+      "prop": "tokenClickEvents"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::on_token_hover",
+      "outcome": "generated",
+      "reason": "onTokenHover",
+      "prop": "tokenHoverEvents"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::context_menu",
+      "outcome": "generated",
+      "reason": "items appended to the native edit menu: a label and a registered action name; the label - is a separator",
+      "prop": "contextMenu"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::on_paste",
+      "outcome": "generated",
+      "reason": "onPaste reports the pasted text; the default insertion still runs",
+      "prop": "pasteEvents"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_tab_size",
+      "outcome": "generated",
+      "reason": "TabSize from tabSize and hardTabs",
+      "prop": "tabSize"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_search_query",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setSearchQuery"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_text_align",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "textAlign"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_selection_focus",
+      "outcome": "skipped",
+      "reason": "shares the selection highlight with another element's FocusHandle; one React Native input has no second handle to pass"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_context_menu_enabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "contextMenuEnabled"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_highlighter",
+      "outcome": "skipped",
+      "reason": "sets the language of the code-editor mode, which Input, Textarea and NumberInput never use (the Code component has language)"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_highlighter_factory",
+      "outcome": "skipped",
+      "reason": "a Rust factory of tree-sitter highlighters; only the code-editor mode reads it"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_editor_style",
+      "outcome": "skipped",
+      "reason": "a color table with a Rust highlight-style resolver for the code-editor mode; the theme supplies these colors"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_fold_placeholder_renderer",
+      "outcome": "skipped",
+      "reason": "renders folded code regions; only the code-editor mode folds"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_fold_background",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "foldBackground"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_accessibility",
+      "outcome": "aliased",
+      "reason": "role, label, placeholder and id come from accessibilityRoleOverride, accessibilityLabel, placeholder and accessibilityId",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_scrollbar_renderer",
+      "outcome": "skipped",
+      "reason": "a Rust closure that draws the scrollbar from scroll metrics each frame; the kit scrollbar is used"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_placeholder",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "placeholder"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_value",
+      "outcome": "generated",
+      "reason": "controlled value",
+      "prop": "value"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_disabled",
+      "outcome": "aliased",
+      "reason": "the element disabled prop sets it",
+      "prop": "disabled"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_readonly",
+      "outcome": "aliased",
+      "reason": "the element readonly prop sets it",
+      "prop": "readonly"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_clean_on_escape",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "cleanOnEscape"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_submit_on_enter",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "submitOnEnter"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_show_whitespaces",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "showWhitespaces"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_scroll_beyond_last_line",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "scrollBeyondLastLine"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_cursor_surrounding_lines",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "cursorSurroundingLines"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_cursor_position",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setCursorPosition"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_scroll_offset",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setScrollOffset"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_selected_range",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setSelectedRange"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_selected_range_with_direction",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setSelectedRangeWithDirection"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_mask_pattern",
+      "outcome": "generated",
+      "reason": "MaskPattern::from(&str)",
+      "prop": "maskPattern"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_scroll_bounce",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "scrollBounce"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_searchable",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "searchable"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_soft_wrap",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "softWrap"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_wrapping_indent",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "wrappingIndent"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_auto_grow",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setAutoGrow"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::set_rows",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "rows"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::focus",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "focus"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::select_all",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "selectAll"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::unselect",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "unselect"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::clean",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "clean"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::insert",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "insert"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::replace_all",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "replaceAll"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::replace_with_token",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "insertToken"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputEvent::Change",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onChange"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputEvent::PressEnter",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onSubmit"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputEvent::Focus",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onFocus"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputEvent::Blur",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onBlur"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::placeholder",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "placeholder"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::prefix",
+      "outcome": "generated",
+      "reason": "a slot: React Native children",
+      "prop": "prefix"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::suffix",
+      "outcome": "generated",
+      "reason": "a slot: React Native children",
+      "prop": "suffix"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::appearance",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "appearance"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::accessibility_label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::focus_ring",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "focusRing"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_search_query",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setSearchQuery"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_text_align",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "textAlign"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_selection_focus",
+      "outcome": "skipped",
+      "reason": "shares the selection highlight with another element's FocusHandle; one React Native input has no second handle to pass"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_context_menu_enabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "contextMenuEnabled"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_highlighter",
+      "outcome": "skipped",
+      "reason": "sets the language of the code-editor mode, which Input, Textarea and NumberInput never use (the Code component has language)"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_highlighter_factory",
+      "outcome": "skipped",
+      "reason": "a Rust factory of tree-sitter highlighters; only the code-editor mode reads it"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_editor_style",
+      "outcome": "skipped",
+      "reason": "a color table with a Rust highlight-style resolver for the code-editor mode; the theme supplies these colors"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_fold_placeholder_renderer",
+      "outcome": "skipped",
+      "reason": "renders folded code regions; only the code-editor mode folds"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_fold_background",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "foldBackground"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_accessibility",
+      "outcome": "aliased",
+      "reason": "role, label, placeholder and id come from accessibilityRoleOverride, accessibilityLabel, placeholder and accessibilityId",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_scrollbar_renderer",
+      "outcome": "skipped",
+      "reason": "a Rust closure that draws the scrollbar from scroll metrics each frame; the kit scrollbar is used"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_placeholder",
+      "outcome": "aliased",
+      "reason": "the element placeholder prop sets it",
+      "prop": "placeholder"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_value",
+      "outcome": "generated",
+      "reason": "controlled value",
+      "prop": "value"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_disabled",
+      "outcome": "aliased",
+      "reason": "the element disabled prop sets it",
+      "prop": "disabled"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_readonly",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "readonly"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_clean_on_escape",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "cleanOnEscape"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_submit_on_enter",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "submitOnEnter"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_show_whitespaces",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "showWhitespaces"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_scroll_beyond_last_line",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "scrollBeyondLastLine"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_cursor_surrounding_lines",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "cursorSurroundingLines"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_cursor_position",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setCursorPosition"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_scroll_offset",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setScrollOffset"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_selected_range",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setSelectedRange"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_selected_range_with_direction",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "setSelectedRangeWithDirection"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_mask_pattern",
+      "outcome": "generated",
+      "reason": "MaskPattern::from(&str)",
+      "prop": "maskPattern"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_masked",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "masked"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_pattern",
+      "outcome": "generated",
+      "reason": "a regular expression; an invalid one is ignored",
+      "prop": "pattern"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_validator",
+      "outcome": "skipped",
+      "reason": "a synchronous Rust closure on every edit, which JS cannot answer in time; pattern and maskPattern validate instead"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_step",
+      "outcome": "generated",
+      "reason": "NumberStep::Fixed; unset falls back to the Step event",
+      "prop": "step"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_min",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "min"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_max",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "max"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::set_loading",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "loading"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::focus",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "focus"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::select_all",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "selectAll"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::unselect",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "unselect"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::clean",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "clean"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::insert",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "insert"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::replace_all",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "replaceAll"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputBaseState::replace_with_token",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "insertToken"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputEvent::Change",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onChange"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputEvent::PressEnter",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onSubmit"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputEvent::Focus",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onFocus"
+    },
+    {
+      "component": "NumberInput",
+      "item": "InputEvent::Blur",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onBlur"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpInput::groups",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "groups"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpInput::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpInput::focus_ring",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "focusRing"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpInput::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpInput::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpInput::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpInput::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpInput (prop length)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "length"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpState::set_value",
+      "outcome": "generated",
+      "reason": "controlled value",
+      "prop": "value"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpState::set_masked",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "masked"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpEvent::Change",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onChange"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpEvent::Complete",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onComplete"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpEvent::Focus",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onFocus"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpEvent::Blur",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onBlur"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpInput::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider::horizontal",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "horizontal"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider::vertical",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "vertical"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider::accessibility_label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider::reverse",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "reverse"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider (prop minimum)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "minimum"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider (prop maximum)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "maximum"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider (prop step)",
+      "outcome": "generated",
+      "reason": "constructor argument",
+      "prop": "step"
+    },
+    {
+      "component": "Slider",
+      "item": "SliderState::set_value",
+      "outcome": "generated",
+      "reason": "controlled value",
+      "prop": "value"
+    },
+    {
+      "component": "Slider",
+      "item": "SliderEvent::Change",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onChange"
+    },
+    {
+      "component": "Slider",
+      "item": "SliderEvent::Release",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onRelease"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination::current_page",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "currentPage"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination::total_pages",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "totalPages"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination::compact",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "compact"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination::visible_pages",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "visiblePages"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination::disabled",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "disabled"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination::on_click",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "onChange"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Clipboard",
+      "item": "Clipboard::tooltip",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltip"
+    },
+    {
+      "component": "Clipboard",
+      "item": "Clipboard::tooltip_show_delay",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "tooltipShowDelay"
+    },
+    {
+      "component": "Clipboard",
+      "item": "Clipboard::accessibility_label",
+      "outcome": "aliased",
+      "reason": "the same label as accessibilityLabel",
+      "prop": "accessibilityLabel"
+    },
+    {
+      "component": "Clipboard",
+      "item": "Clipboard::value",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "value"
+    },
+    {
+      "component": "Clipboard",
+      "item": "Clipboard::with_size",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "size"
+    },
+    {
+      "component": "Clipboard",
+      "item": "Clipboard::xsmall",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Clipboard",
+      "item": "Clipboard::small",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Clipboard",
+      "item": "Clipboard::large",
+      "outcome": "aliased",
+      "reason": "covered by with_size",
+      "prop": "size"
+    },
+    {
+      "component": "Clipboard",
+      "item": "Clipboard::value_fn",
+      "outcome": "aliased",
+      "reason": "reads the value on demand; the value prop is current on every render",
+      "prop": "value"
+    },
+    {
+      "component": "Clipboard",
+      "item": "Clipboard::on_copied",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "onCopied"
+    },
+    {
+      "component": "Clipboard",
+      "item": "Clipboard::new",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Separator",
+      "item": "Separator::label",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "label"
+    },
+    {
+      "component": "Separator",
+      "item": "Separator::color",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "color"
+    },
+    {
+      "component": "Separator",
+      "item": "Separator::dashed",
+      "outcome": "generated",
+      "reason": "",
+      "prop": "dashed"
+    },
+    {
+      "component": "Separator",
+      "item": "Separator (prop orientation)",
+      "outcome": "generated",
+      "reason": "selects Separator::horizontal or Separator::vertical",
+      "prop": "orientation"
+    },
+    {
+      "component": "Separator",
+      "item": "Separator::vertical",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Separator",
+      "item": "Separator::horizontal",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Separator",
+      "item": "Separator::vertical_dashed",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Separator",
+      "item": "Separator::horizontal_dashed",
+      "outcome": "generated",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Kbd",
+      "item": "Kbd::new",
+      "outcome": "generated",
+      "prop": "keystroke",
+      "reason": "Keystroke::parse takes a 'static string, so the source is interned in a small cache and parsed once"
+    },
+    {
+      "component": "Kbd",
+      "item": "Kbd::appearance",
+      "outcome": "generated",
+      "prop": "appearance",
+      "reason": ""
+    },
+    {
+      "component": "Kbd",
+      "item": "Kbd::outline",
+      "outcome": "generated",
+      "prop": "outline",
+      "reason": ""
+    },
+    {
+      "component": "Kbd",
+      "item": "Kbd::binding_for_action",
+      "outcome": "generated",
+      "reason": "action with actionContext (actionScope any): a registered action name built with App::build_action",
+      "prop": "action"
+    },
+    {
+      "component": "Kbd",
+      "item": "Kbd::binding_for_action_in",
+      "outcome": "generated",
+      "reason": "actionScope focused: the binding that applies at the window focus",
+      "prop": "actionScope"
+    },
+    {
+      "component": "Kbd",
+      "item": "Kbd::global_binding_for_action",
+      "outcome": "generated",
+      "reason": "actionScope global",
+      "prop": "actionScope"
+    },
+    {
+      "component": "Kbd",
+      "item": "Kbd::format",
+      "outcome": "skipped",
+      "reason": "a free function from a Keystroke to a string; it renders nothing, and Kbd shows the same text"
+    },
+    {
+      "component": "Kbd",
+      "item": "Kbd::from(Keystroke)",
+      "outcome": "aliased",
+      "reason": "covered by the keystroke prop",
+      "prop": "keystroke"
+    },
+    {
+      "component": "Marker",
+      "item": "Marker::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Marker",
+      "item": "Marker::id",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "the id comes from the node tag"
+    },
+    {
+      "component": "Marker",
+      "item": "Marker::with_variant",
+      "outcome": "generated",
+      "prop": "variant",
+      "reason": ""
+    },
+    {
+      "component": "Marker",
+      "item": "Marker::alignment",
+      "outcome": "generated",
+      "prop": "alignment",
+      "reason": ""
+    },
+    {
+      "component": "Marker",
+      "item": "Marker::loading",
+      "outcome": "generated",
+      "prop": "loading",
+      "reason": ""
+    },
+    {
+      "component": "Marker",
+      "item": "Marker::with_loading_style",
+      "outcome": "generated",
+      "prop": "loadingStyle",
+      "reason": ""
+    },
+    {
+      "component": "Marker",
+      "item": "Marker::icon",
+      "outcome": "generated",
+      "prop": "icon",
+      "reason": "a slot named icon (React children) or the icon prop"
+    },
+    {
+      "component": "Marker",
+      "item": "Marker::content",
+      "outcome": "generated",
+      "prop": "text",
+      "reason": "a slot named content (React children) and the text prop"
+    },
+    {
+      "component": "Marker",
+      "item": "MarkerIcon::child",
+      "outcome": "generated",
+      "prop": "icon",
+      "reason": "the icon slot"
+    },
+    {
+      "component": "Marker",
+      "item": "MarkerContent::text",
+      "outcome": "generated",
+      "prop": "text",
+      "reason": ""
+    },
+    {
+      "component": "Marker",
+      "item": "MarkerContent::child",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "the content slot"
+    },
+    {
+      "component": "Marker",
+      "item": "Marker::role",
+      "outcome": "generated",
+      "reason": "a string: implicit, presentational or an accessibility role name",
+      "prop": "accessibilityRoleOverride"
+    },
+    {
+      "component": "Marker",
+      "item": "Marker::with_shimmer_style",
+      "outcome": "generated",
+      "reason": "ShimmerStyle from shimmerDuration, shimmerHighlightColor, shimmerSpread, shimmerReverse and shimmerOnce",
+      "prop": "shimmerDuration"
+    },
+    {
+      "component": "Marker",
+      "item": "Marker::separator_style",
+      "outcome": "generated",
+      "reason": "a KitStyle (colors, border, radius, padding, font size and weight, opacity) refined into a StyleRefinement",
+      "prop": "separatorStyle"
+    },
+    {
+      "component": "GroupBox",
+      "item": "GroupBox::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "GroupBox",
+      "item": "GroupBox::id",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "the id comes from the node tag"
+    },
+    {
+      "component": "GroupBox",
+      "item": "GroupBox::with_variant",
+      "outcome": "generated",
+      "prop": "variant",
+      "reason": ""
+    },
+    {
+      "component": "GroupBox",
+      "item": "GroupBox::title",
+      "outcome": "generated",
+      "prop": "title",
+      "reason": "a slot named title (React children) or the title prop"
+    },
+    {
+      "component": "GroupBox",
+      "item": "GroupBox::footer",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "a slot named footer (React children)"
+    },
+    {
+      "component": "GroupBox",
+      "item": "GroupBox::child",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "the body slot (React children)"
+    },
+    {
+      "component": "GroupBox",
+      "item": "GroupBox::title_style",
+      "outcome": "generated",
+      "reason": "a KitStyle refined into a StyleRefinement",
+      "prop": "titleStyle"
+    },
+    {
+      "component": "GroupBox",
+      "item": "GroupBox::content_style",
+      "outcome": "generated",
+      "reason": "a KitStyle refined into a StyleRefinement",
+      "prop": "contentStyle"
+    },
+    {
+      "component": "Empty",
+      "item": "Empty::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Empty",
+      "item": "Empty::header",
+      "outcome": "generated",
+      "prop": "title",
+      "reason": "EmptyHeader built from the media, title and description slots and props"
+    },
+    {
+      "component": "Empty",
+      "item": "Empty::content",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "the content slot (React children)"
+    },
+    {
+      "component": "Empty",
+      "item": "EmptyHeader::media",
+      "outcome": "generated",
+      "prop": "icon",
+      "reason": "EmptyMedia with the icon prop or a media slot"
+    },
+    {
+      "component": "Empty",
+      "item": "EmptyHeader::title",
+      "outcome": "generated",
+      "prop": "title",
+      "reason": "EmptyTitle with the title prop or a title slot"
+    },
+    {
+      "component": "Empty",
+      "item": "EmptyHeader::description",
+      "outcome": "generated",
+      "prop": "description",
+      "reason": "EmptyDescription with the description prop or a description slot"
+    },
+    {
+      "component": "Empty",
+      "item": "EmptyMedia::with_variant",
+      "outcome": "generated",
+      "prop": "icon",
+      "reason": "the icon variant is used when the icon prop is set"
+    },
+    {
+      "component": "Empty",
+      "item": "EmptyContent::child",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "the content slot"
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::vertical",
+      "outcome": "aliased",
+      "prop": "layout",
+      "reason": "covered by layout"
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::horizontal",
+      "outcome": "aliased",
+      "prop": "layout",
+      "reason": "covered by layout"
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::layout",
+      "outcome": "generated",
+      "prop": "layout",
+      "reason": ""
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::label_width",
+      "outcome": "generated",
+      "prop": "labelWidth",
+      "reason": ""
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::bordered",
+      "outcome": "generated",
+      "prop": "bordered",
+      "reason": ""
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::columns",
+      "outcome": "generated",
+      "prop": "columns",
+      "reason": ""
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::item",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "label, value and span of an item"
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::child",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "an item with a value that is React content uses the value-N slot"
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::children",
+      "outcome": "aliased",
+      "prop": "items",
+      "reason": "covered by items"
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::separator",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "an item with separator set"
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionList::with_size",
+      "outcome": "generated",
+      "prop": "size",
+      "reason": ""
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionItem::new",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionItem::value",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "DescriptionList",
+      "item": "DescriptionItem::span",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "AvatarGroup",
+      "item": "AvatarGroup::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "AvatarGroup",
+      "item": "AvatarGroup::child",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "each Avatar child of the React component becomes an item"
+    },
+    {
+      "component": "AvatarGroup",
+      "item": "AvatarGroup::children",
+      "outcome": "aliased",
+      "prop": "items",
+      "reason": "covered by items"
+    },
+    {
+      "component": "AvatarGroup",
+      "item": "AvatarGroup::limit",
+      "outcome": "generated",
+      "prop": "limit",
+      "reason": ""
+    },
+    {
+      "component": "AvatarGroup",
+      "item": "AvatarGroup::ellipsis",
+      "outcome": "generated",
+      "prop": "ellipsis",
+      "reason": ""
+    },
+    {
+      "component": "AvatarGroup",
+      "item": "AvatarGroup::with_size",
+      "outcome": "generated",
+      "prop": "size",
+      "reason": ""
+    },
+    {
+      "component": "AvatarGroup",
+      "item": "Avatar::src",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "an item's src is a web address or a file path"
+    },
+    {
+      "component": "ToggleGroup",
+      "item": "ToggleGroup::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "ToggleGroup",
+      "item": "ToggleGroup::child",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "each Toggle child of the React component becomes an item"
+    },
+    {
+      "component": "ToggleGroup",
+      "item": "ToggleGroup::children",
+      "outcome": "aliased",
+      "prop": "items",
+      "reason": "covered by items"
+    },
+    {
+      "component": "ToggleGroup",
+      "item": "ToggleGroup::on_click",
+      "outcome": "generated",
+      "prop": "onChange",
+      "reason": "reports the indices that are checked"
+    },
+    {
+      "component": "ToggleGroup",
+      "item": "ToggleGroup::segmented",
+      "outcome": "generated",
+      "prop": "segmented",
+      "reason": ""
+    },
+    {
+      "component": "ToggleGroup",
+      "item": "ToggleGroup::single",
+      "outcome": "generated",
+      "prop": "single",
+      "reason": ""
+    },
+    {
+      "component": "ToggleGroup",
+      "item": "ToggleGroup::with_variant",
+      "outcome": "generated",
+      "prop": "variant",
+      "reason": ""
+    },
+    {
+      "component": "ToggleGroup",
+      "item": "ToggleGroup::disabled",
+      "outcome": "generated",
+      "prop": "disabled",
+      "reason": ""
+    },
+    {
+      "component": "ToggleGroup",
+      "item": "ToggleGroup::with_size",
+      "outcome": "generated",
+      "prop": "size",
+      "reason": ""
+    },
+    {
+      "component": "ButtonGroup",
+      "item": "ButtonGroup::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "ButtonGroup",
+      "item": "ButtonGroup::child",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "each Button child of the React component becomes an item"
+    },
+    {
+      "component": "ButtonGroup",
+      "item": "ButtonGroup::children",
+      "outcome": "aliased",
+      "prop": "items",
+      "reason": "covered by items"
+    },
+    {
+      "component": "ButtonGroup",
+      "item": "ButtonGroup::multiple",
+      "outcome": "generated",
+      "prop": "multiple",
+      "reason": ""
+    },
+    {
+      "component": "ButtonGroup",
+      "item": "ButtonGroup::layout",
+      "outcome": "generated",
+      "prop": "layout",
+      "reason": ""
+    },
+    {
+      "component": "ButtonGroup",
+      "item": "ButtonGroup::compact",
+      "outcome": "generated",
+      "prop": "compact",
+      "reason": ""
+    },
+    {
+      "component": "ButtonGroup",
+      "item": "ButtonGroup::outline",
+      "outcome": "generated",
+      "prop": "outline",
+      "reason": ""
+    },
+    {
+      "component": "ButtonGroup",
+      "item": "ButtonGroup::on_click",
+      "outcome": "generated",
+      "prop": "onPress",
+      "reason": "reports the indices of the pressed buttons"
+    },
+    {
+      "component": "ButtonGroup",
+      "item": "ButtonGroup::disabled",
+      "outcome": "generated",
+      "prop": "disabled",
+      "reason": ""
+    },
+    {
+      "component": "ButtonGroup",
+      "item": "ButtonGroup::with_size",
+      "outcome": "generated",
+      "prop": "size",
+      "reason": ""
+    },
+    {
+      "component": "ButtonGroup",
+      "item": "ButtonGroup::with_variant",
+      "outcome": "generated",
+      "prop": "variant",
+      "reason": ""
+    },
+    {
+      "component": "DropdownButton",
+      "item": "DropdownButton::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "DropdownButton",
+      "item": "DropdownButton::button",
+      "outcome": "generated",
+      "prop": "label",
+      "reason": "label, icon and loading of the action half, onPress for its click"
+    },
+    {
+      "component": "DropdownButton",
+      "item": "DropdownButton::dropdown_menu",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "a PopupMenu built from the items; onSelect reports the index"
+    },
+    {
+      "component": "DropdownButton",
+      "item": "DropdownButton::dropdown_menu_with_anchor",
+      "outcome": "generated",
+      "prop": "anchor",
+      "reason": ""
+    },
+    {
+      "component": "DropdownButton",
+      "item": "DropdownButton::menu_accessibility_label",
+      "outcome": "generated",
+      "prop": "menuAccessibilityLabel",
+      "reason": ""
+    },
+    {
+      "component": "DropdownButton",
+      "item": "DropdownButton::outline",
+      "outcome": "generated",
+      "prop": "outline",
+      "reason": ""
+    },
+    {
+      "component": "DropdownButton",
+      "item": "DropdownButton::disabled",
+      "outcome": "generated",
+      "prop": "disabled",
+      "reason": ""
+    },
+    {
+      "component": "DropdownButton",
+      "item": "DropdownButton::selected",
+      "outcome": "generated",
+      "prop": "selected",
+      "reason": ""
+    },
+    {
+      "component": "DropdownButton",
+      "item": "DropdownButton::with_size",
+      "outcome": "generated",
+      "prop": "size",
+      "reason": ""
+    },
+    {
+      "component": "DropdownButton",
+      "item": "DropdownButton::with_variant",
+      "outcome": "generated",
+      "prop": "variant",
+      "reason": ""
+    },
+    {
+      "component": "DropdownButton",
+      "item": "PopupMenu::submenu",
+      "outcome": "generated",
+      "reason": "an item with children opens a submenu built with PopupMenu::submenu_with_icon",
+      "prop": "items[].children"
+    },
+    {
+      "component": "DropdownButton",
+      "item": "PopupMenuItem::action",
+      "outcome": "generated",
+      "reason": "a registered action name built with App::build_action; the item shows its keybinding and dispatches it",
+      "prop": "items[].action"
+    },
+    {
+      "component": "DropdownButton",
+      "item": "PopupMenuItem::element",
+      "outcome": "generated",
+      "reason": "React Native content, rendered by a child renderer each time the menu draws",
+      "prop": "items[].content"
+    },
+    {
+      "component": "Breadcrumb",
+      "item": "Breadcrumb::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Breadcrumb",
+      "item": "Breadcrumb::child",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "Breadcrumb",
+      "item": "Breadcrumb::children",
+      "outcome": "aliased",
+      "prop": "items",
+      "reason": "covered by items"
+    },
+    {
+      "component": "Breadcrumb",
+      "item": "BreadcrumbItem::new",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "label"
+    },
+    {
+      "component": "Breadcrumb",
+      "item": "BreadcrumbItem::disabled",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "Breadcrumb",
+      "item": "BreadcrumbItem::on_click",
+      "outcome": "generated",
+      "prop": "onPress",
+      "reason": "reports the index"
+    },
+    {
+      "component": "Breadcrumb",
+      "item": "BreadcrumbItem::style",
+      "outcome": "generated",
+      "reason": "a KitStyle refined into the item style",
+      "prop": "items[].style"
+    },
+    {
+      "component": "Stepper",
+      "item": "Stepper::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Stepper",
+      "item": "Stepper::text_center",
+      "outcome": "generated",
+      "prop": "textCenter",
+      "reason": ""
+    },
+    {
+      "component": "Stepper",
+      "item": "Stepper::layout",
+      "outcome": "generated",
+      "prop": "layout",
+      "reason": ""
+    },
+    {
+      "component": "Stepper",
+      "item": "Stepper::vertical",
+      "outcome": "aliased",
+      "prop": "layout",
+      "reason": "covered by layout"
+    },
+    {
+      "component": "Stepper",
+      "item": "Stepper::selected_index",
+      "outcome": "generated",
+      "prop": "selectedIndex",
+      "reason": ""
+    },
+    {
+      "component": "Stepper",
+      "item": "Stepper::item",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "Stepper",
+      "item": "Stepper::items",
+      "outcome": "aliased",
+      "prop": "items",
+      "reason": "covered by items"
+    },
+    {
+      "component": "Stepper",
+      "item": "Stepper::disabled",
+      "outcome": "generated",
+      "prop": "disabled",
+      "reason": ""
+    },
+    {
+      "component": "Stepper",
+      "item": "Stepper::on_click",
+      "outcome": "generated",
+      "prop": "onSelect",
+      "reason": "reports the index"
+    },
+    {
+      "component": "Stepper",
+      "item": "Stepper::with_size",
+      "outcome": "generated",
+      "prop": "size",
+      "reason": ""
+    },
+    {
+      "component": "Stepper",
+      "item": "StepperItem::icon",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "Stepper",
+      "item": "StepperItem::disabled",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "Stepper",
+      "item": "StepperItem::child",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "the title of the item"
+    },
+    {
+      "component": "Collapsible",
+      "item": "Collapsible::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Collapsible",
+      "item": "Collapsible::open",
+      "outcome": "generated",
+      "prop": "open",
+      "reason": ""
+    },
+    {
+      "component": "Collapsible",
+      "item": "Collapsible::motion_id",
+      "outcome": "generated",
+      "reason": "the node id; the reveal animates unless animations are disabled",
+      "prop": ""
+    },
+    {
+      "component": "Collapsible",
+      "item": "Collapsible::content",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "the content slot (React children)"
+    },
+    {
+      "component": "Collapsible",
+      "item": "Collapsible::child",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "the trigger slot"
+    },
+    {
+      "component": "Accordion",
+      "item": "Accordion::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Accordion",
+      "item": "Accordion::multiple",
+      "outcome": "generated",
+      "prop": "multiple",
+      "reason": ""
+    },
+    {
+      "component": "Accordion",
+      "item": "Accordion::bordered",
+      "outcome": "generated",
+      "prop": "bordered",
+      "reason": ""
+    },
+    {
+      "component": "Accordion",
+      "item": "Accordion::disabled",
+      "outcome": "generated",
+      "prop": "disabled",
+      "reason": ""
+    },
+    {
+      "component": "Accordion",
+      "item": "Accordion::item",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "an AccordionItem per entry; its content is the item-N slot"
+    },
+    {
+      "component": "Accordion",
+      "item": "Accordion::on_toggle_click",
+      "outcome": "generated",
+      "prop": "onToggle",
+      "reason": "reports the indices of the open items"
+    },
+    {
+      "component": "Accordion",
+      "item": "Accordion::with_size",
+      "outcome": "generated",
+      "prop": "size",
+      "reason": ""
+    },
+    {
+      "component": "Accordion",
+      "item": "AccordionItem::title",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "Accordion",
+      "item": "AccordionItem::icon",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "Accordion",
+      "item": "AccordionItem::open",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "Accordion",
+      "item": "AccordionItem::disabled",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "Accordion",
+      "item": "AccordionItem::child",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "the content slot of the item"
+    },
+    {
+      "component": "Accordion",
+      "item": "AccordionItem::title_style",
+      "outcome": "generated",
+      "reason": "a KitStyle for every item",
+      "prop": "titleStyle"
+    },
+    {
+      "component": "Accordion",
+      "item": "AccordionItem::content_style",
+      "outcome": "generated",
+      "reason": "a KitStyle for every item",
+      "prop": "contentStyle"
+    },
+    {
+      "component": "Accordion",
+      "item": "AccordionItem::hover",
+      "outcome": "generated",
+      "reason": "a KitStyle used as the hover refinement of every item",
+      "prop": "itemHoverStyle"
+    },
+    {
+      "component": "Dialog",
+      "item": "Dialog::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "AlertDialog",
+      "item": "AlertDialog::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Sheet",
+      "item": "Sheet::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Notification",
+      "item": "Notification::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "HoverCard",
+      "item": "HoverCard::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "DropdownMenu",
+      "item": "DropdownMenu::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "DropdownMenu",
+      "item": "ContextMenu::menu",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "a DropdownMenu popup opened by a secondary press on the React Native trigger; the kit's context_menu extension cannot hear presses that React Native content takes"
+    },
+    {
+      "component": "Tooltip",
+      "item": "Tooltip::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "PopupMenu",
+      "item": "PopupMenu::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Command",
+      "item": "Command::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Select",
+      "item": "Select::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor over a SearchableVec of strings"
+    },
+    {
+      "component": "Combobox",
+      "item": "Combobox::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor over a SearchableVec of strings"
+    },
+    {
+      "component": "TabBar",
+      "item": "TabBar::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; Tabs adds the React Native panel of the selected tab"
+    },
+    {
+      "component": "Calendar",
+      "item": "Calendar::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor over its state entity"
+    },
+    {
+      "component": "DatePicker",
+      "item": "DatePicker::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor over its state entity"
+    },
+    {
+      "component": "TimeField",
+      "item": "TimeField::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor over its state entity"
+    },
+    {
+      "component": "ColorPicker",
+      "item": "ColorPicker::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor over its state entity"
+    },
+    {
+      "component": "List",
+      "item": "List::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor over its state entity and a delegate that holds the rows"
+    },
+    {
+      "component": "List",
+      "item": "ListState::searchable",
+      "outcome": "generated",
+      "prop": "searchable",
+      "reason": "`SearchableList` is `List` with a search field"
+    },
+    {
+      "component": "List",
+      "item": "ListDelegate::perform_search",
+      "outcome": "generated",
+      "prop": "searchable",
+      "reason": "rows are filtered by their label"
+    },
+    {
+      "component": "List",
+      "item": "SearchableListDelegate",
+      "outcome": "aliased",
+      "prop": "",
+      "reason": "the search machinery behind `Select` and `Combobox`, which wrap it with their own lists"
+    },
+    {
+      "component": "Tree",
+      "item": "Tree::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor over its state entity and a delegate that holds the rows"
+    },
+    {
+      "component": "Table",
+      "item": "DataTable::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor over a TableState whose delegate holds the columns, the cells and the React Native cell renderers"
+    },
+    {
+      "component": "StatusBar",
+      "item": "StatusBar::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; React Native views are the slots of the component"
+    },
+    {
+      "component": "Toolbar",
+      "item": "Toolbar::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; React Native views are the slots of the component"
+    },
+    {
+      "component": "Resizable",
+      "item": "Resizable::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; React Native views are the slots of the component"
+    },
+    {
+      "component": "Carousel",
+      "item": "Carousel::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; React Native views are the slots of the component"
+    },
+    {
+      "component": "InputGroup",
+      "item": "InputGroup::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Sidebar",
+      "item": "Sidebar::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Theme",
+      "item": "Theme::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Chart",
+      "item": "LineChart::new",
+      "outcome": "generated",
+      "prop": "kind",
+      "reason": "kind line"
+    },
+    {
+      "component": "Chart",
+      "item": "AreaChart::new",
+      "outcome": "generated",
+      "prop": "kind",
+      "reason": "kind area"
+    },
+    {
+      "component": "Chart",
+      "item": "BarChart::new",
+      "outcome": "generated",
+      "prop": "kind",
+      "reason": "kind bar"
+    },
+    {
+      "component": "Chart",
+      "item": "PieChart::new",
+      "outcome": "generated",
+      "prop": "kind",
+      "reason": "kind pie"
+    },
+    {
+      "component": "Form",
+      "item": "Form::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; a Field per entry whose control is the field-N slot"
+    },
+    {
+      "component": "Form",
+      "item": "Field::new",
+      "outcome": "generated",
+      "prop": "fields",
+      "reason": "label, description, required, visible, colSpan"
+    },
+    {
+      "component": "Message",
+      "item": "Message::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; React Native views are the slots"
+    },
+    {
+      "component": "Bubble",
+      "item": "Bubble::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; React Native views are the slots"
+    },
+    {
+      "component": "Attachment",
+      "item": "Attachment::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; React Native views are the slots"
+    },
+    {
+      "component": "MessageScroller",
+      "item": "MessageScroller::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; React Native views are the slots"
+    },
+    {
+      "component": "TextView",
+      "item": "TextView::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "ScrollArea",
+      "item": "ScrollArea::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Editor",
+      "item": "Editor::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "the code editor; its `language` selects the kit's syntax highlighter, which is how Highlighter is exposed"
+    },
+    {
+      "component": "Diff",
+      "item": "Diff::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "a unified patch shown as a diff, with syntax highlighting from the kit's highlighter"
+    },
+    {
+      "component": "TitleBar",
+      "item": "TitleBar::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; React Native views are the slots"
+    },
+    {
+      "component": "WindowBorder",
+      "item": "WindowBorder::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; React Native views are the slots"
+    },
+    {
+      "component": "GridLayout",
+      "item": "GridLayout::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; React Native views are the slots"
+    },
+    {
+      "component": "Settings",
+      "item": "Settings::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; the entries are the pages, groups and items"
+    },
+    {
+      "component": "Settings",
+      "item": "SettingPage",
+      "outcome": "generated",
+      "prop": "entries",
+      "reason": "entries with the same `page` form one sidebar page"
+    },
+    {
+      "component": "Settings",
+      "item": "SettingGroup",
+      "outcome": "generated",
+      "prop": "entries",
+      "reason": "consecutive entries with the same `group` form one group"
+    },
+    {
+      "component": "Settings",
+      "item": "SettingItem::render",
+      "outcome": "generated",
+      "prop": "entries",
+      "reason": "each entry draws its title, description and React Native control"
+    },
+    {
+      "component": "Settings",
+      "item": "SettingItem::new",
+      "outcome": "skipped",
+      "reason": "a typed field reads and writes its value through Rust closures over app state; Settings takes React Native controls as items instead"
+    },
+    {
+      "component": "Settings",
+      "item": "Settings::sidebar_width",
+      "outcome": "generated",
+      "prop": "sidebarWidth",
+      "reason": ""
+    },
+    {
+      "component": "Settings",
+      "item": "Settings::with_size",
+      "outcome": "generated",
+      "prop": "size",
+      "reason": ""
+    },
+    {
+      "component": "Speech",
+      "item": "SpeechState::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; the component owns the state"
+    },
+    {
+      "component": "Speech",
+      "item": "SpeechState::start",
+      "outcome": "generated",
+      "prop": "start()",
+      "reason": "command"
+    },
+    {
+      "component": "Speech",
+      "item": "SpeechState::stop",
+      "outcome": "generated",
+      "prop": "stop()",
+      "reason": "command"
+    },
+    {
+      "component": "Speech",
+      "item": "SpeechState::cancel",
+      "outcome": "generated",
+      "prop": "cancel()",
+      "reason": "command"
+    },
+    {
+      "component": "Speech",
+      "item": "SpeechState::toggle",
+      "outcome": "generated",
+      "prop": "toggle()",
+      "reason": "command"
+    },
+    {
+      "component": "Speech",
+      "item": "SpeechEvent",
+      "outcome": "generated",
+      "prop": "onStatusChange, onTranscript, onError",
+      "reason": "events"
+    },
+    {
+      "component": "Speech",
+      "item": "SpeechButton::show_when_unsupported",
+      "outcome": "generated",
+      "prop": "showWhenUnsupported",
+      "reason": ""
+    },
+    {
+      "component": "Speech",
+      "item": "SpeechWaveform::new",
+      "outcome": "generated",
+      "prop": "showWaveform",
+      "reason": ""
+    },
+    {
+      "component": "Speech",
+      "item": "SpeechState::transcript",
+      "outcome": "generated",
+      "prop": "showTranscript",
+      "reason": "drawn beside the button and reported by onTranscript"
+    },
+    {
+      "component": "Speech",
+      "item": "SpeechState::recognizer",
+      "outcome": "skipped",
+      "reason": "a custom recognizer is a Rust trait implementation; JS cannot provide one, the system recognizer is used"
+    },
+    {
+      "component": "Speech",
+      "item": "SpeechState::input",
+      "outcome": "skipped",
+      "reason": "a custom audio source is a Rust trait implementation; the microphone is used"
+    },
+    {
+      "component": "History",
+      "item": "History::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "History",
+      "item": "History::max_entries",
+      "outcome": "generated",
+      "prop": "maxEntries",
+      "reason": ""
+    },
+    {
+      "component": "History",
+      "item": "History::push",
+      "outcome": "generated",
+      "prop": "push()",
+      "reason": "command"
+    },
+    {
+      "component": "History",
+      "item": "History::replace_current",
+      "outcome": "generated",
+      "prop": "replaceCurrent()",
+      "reason": "command"
+    },
+    {
+      "component": "History",
+      "item": "History::back",
+      "outcome": "generated",
+      "prop": "back()",
+      "reason": "command"
+    },
+    {
+      "component": "History",
+      "item": "History::forward",
+      "outcome": "generated",
+      "prop": "forward()",
+      "reason": "command"
+    },
+    {
+      "component": "History",
+      "item": "History::clear",
+      "outcome": "generated",
+      "prop": "clear()",
+      "reason": "command"
+    },
+    {
+      "component": "History",
+      "item": "History::current",
+      "outcome": "generated",
+      "prop": "onChange",
+      "reason": "reported with every change"
+    },
+    {
+      "component": "History",
+      "item": "History::can_back",
+      "outcome": "generated",
+      "prop": "onChange",
+      "reason": "reported with every change"
+    },
+    {
+      "component": "History",
+      "item": "History::can_forward",
+      "outcome": "generated",
+      "prop": "onChange",
+      "reason": "reported with every change"
+    },
+    {
+      "component": "History",
+      "item": "History::entries",
+      "outcome": "generated",
+      "prop": "onChange",
+      "reason": "its length is reported; entries are strings"
+    },
+    {
+      "component": "Inspector",
+      "item": "Window::toggle_inspector",
+      "outcome": "generated",
+      "prop": "open, toggle()",
+      "reason": "the element inspector of the window"
+    },
+    {
+      "component": "VirtualList",
+      "item": "v_virtual_list",
+      "outcome": "generated",
+      "prop": "itemSize",
+      "reason": "vertical lists"
+    },
+    {
+      "component": "VirtualList",
+      "item": "h_virtual_list",
+      "outcome": "generated",
+      "prop": "horizontal",
+      "reason": "horizontal lists"
+    },
+    {
+      "component": "VirtualList",
+      "item": "VirtualListScrollHandle::scroll_to_item",
+      "outcome": "generated",
+      "prop": "scrollToItem()",
+      "reason": "command"
+    },
+    {
+      "component": "VirtualList",
+      "item": "VirtualListScrollHandle::scroll_to_bottom",
+      "outcome": "generated",
+      "prop": "scrollToEnd()",
+      "reason": "command"
+    },
+    {
+      "component": "Dock",
+      "item": "DockArea::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor"
+    },
+    {
+      "component": "Dock",
+      "item": "DockArea::set_center",
+      "outcome": "generated",
+      "prop": "panels",
+      "reason": "panels with placement `center`"
+    },
+    {
+      "component": "Dock",
+      "item": "DockArea::set_dock",
+      "outcome": "generated",
+      "prop": "panels",
+      "reason": "panels with placement `left`, `right` or `bottom`"
+    },
+    {
+      "component": "Dock",
+      "item": "DockLayout::tabs",
+      "outcome": "generated",
+      "prop": "panels",
+      "reason": "panels with the same group share a tab bar"
+    },
+    {
+      "component": "Dock",
+      "item": "DockLayout::h_split",
+      "outcome": "generated",
+      "prop": "centerAxis",
+      "reason": ""
+    },
+    {
+      "component": "Dock",
+      "item": "DockLayout::v_split",
+      "outcome": "generated",
+      "prop": "centerAxis",
+      "reason": ""
+    },
+    {
+      "component": "Dock",
+      "item": "DockArea::set_locked",
+      "outcome": "generated",
+      "prop": "locked",
+      "reason": ""
+    },
+    {
+      "component": "Dock",
+      "item": "DockArea::set_dock_size",
+      "outcome": "generated",
+      "prop": "dockSize",
+      "reason": ""
+    },
+    {
+      "component": "Dock",
+      "item": "DockArea::toggle_dock",
+      "outcome": "generated",
+      "prop": "toggleDock()",
+      "reason": "command"
+    },
+    {
+      "component": "Dock",
+      "item": "DockArea::select_panel",
+      "outcome": "generated",
+      "prop": "selectPanel()",
+      "reason": "command"
+    },
+    {
+      "component": "Dock",
+      "item": "DockEvent",
+      "outcome": "generated",
+      "prop": "onLayoutChange",
+      "reason": ""
+    },
+    {
+      "component": "Dock",
+      "item": "DockToggleEvent",
+      "outcome": "generated",
+      "prop": "onDockToggle",
+      "reason": ""
+    },
+    {
+      "component": "Dock",
+      "item": "DockArea::dump",
+      "outcome": "skipped",
+      "reason": "restoring a dump needs a Rust registry that rebuilds panels by name; React Native panels are rebuilt from props, so a dump could not be loaded back"
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireState::new",
+      "outcome": "generated",
+      "prop": "questions",
+      "reason": "items and choices are the schema"
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireItemDefinition",
+      "outcome": "generated",
+      "prop": "questions",
+      "reason": ""
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireChoiceDefinition",
+      "outcome": "generated",
+      "prop": "questions",
+      "reason": ""
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireInputDefinition",
+      "outcome": "generated",
+      "prop": "questions[].input",
+      "reason": "free-text answer"
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireState::with_shortcuts",
+      "outcome": "generated",
+      "prop": "shortcuts",
+      "reason": ""
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireProgress::new",
+      "outcome": "generated",
+      "prop": "showProgress",
+      "reason": ""
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireState::go_next",
+      "outcome": "generated",
+      "prop": "next()",
+      "reason": "command"
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireState::go_previous",
+      "outcome": "generated",
+      "prop": "previous()",
+      "reason": "command"
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireState::skip_current",
+      "outcome": "generated",
+      "prop": "skip()",
+      "reason": "command"
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireState::submit",
+      "outcome": "generated",
+      "prop": "submit()",
+      "reason": "command"
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireState::reset",
+      "outcome": "generated",
+      "prop": "reset()",
+      "reason": "command"
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireEvent",
+      "outcome": "generated",
+      "prop": "onAnswer, onItemChange, onSubmit",
+      "reason": ""
+    },
+    {
+      "component": "Questionnaire",
+      "item": "QuestionnaireItemDefinition::with_validator",
+      "outcome": "skipped",
+      "reason": "a synchronous Rust closure on every answer, which JS cannot answer in time; required and the onSubmit answers cover validation"
+    },
+    {
+      "component": "Plot",
+      "item": "ScalePoint",
+      "outcome": "generated",
+      "prop": "data",
+      "reason": "the x scale"
+    },
+    {
+      "component": "Plot",
+      "item": "ScaleLinear",
+      "outcome": "generated",
+      "prop": "data",
+      "reason": "the y scale"
+    },
+    {
+      "component": "Plot",
+      "item": "Line",
+      "outcome": "generated",
+      "prop": "layers: line, dots",
+      "reason": ""
+    },
+    {
+      "component": "Plot",
+      "item": "Area",
+      "outcome": "generated",
+      "prop": "layers: area",
+      "reason": ""
+    },
+    {
+      "component": "Plot",
+      "item": "Grid",
+      "outcome": "generated",
+      "prop": "layers: grid",
+      "reason": ""
+    },
+    {
+      "component": "Plot",
+      "item": "PlotAxis",
+      "outcome": "generated",
+      "prop": "layers: axis",
+      "reason": ""
+    },
+    {
+      "component": "Plot",
+      "item": "Curve",
+      "outcome": "generated",
+      "prop": "curve",
+      "reason": ""
+    },
+    {
+      "component": "Plot",
+      "item": "Bar",
+      "outcome": "generated",
+      "prop": "layers: bar",
+      "reason": "bars on a band scale"
+    },
+    {
+      "component": "Plot",
+      "item": "Arc",
+      "outcome": "generated",
+      "prop": "layers: pie, donut",
+      "reason": "Pie arcs painted with Arc"
+    },
+    {
+      "component": "Plot",
+      "item": "ScaleBand",
+      "outcome": "generated",
+      "prop": "layers: bar",
+      "reason": "the cross scale of the bar layer"
+    },
+    {
+      "component": "Plot",
+      "item": "RadialLine",
+      "outcome": "generated",
+      "prop": "layers: radar",
+      "reason": "a closed radial line over the points"
+    },
+    {
+      "component": "Plot",
+      "item": "Sankey",
+      "outcome": "generated",
+      "prop": "layers: sankey, links",
+      "reason": "the points are nodes and links the flows"
     }
   ]
 }

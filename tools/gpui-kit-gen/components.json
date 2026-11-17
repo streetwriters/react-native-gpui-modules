@@ -7,12 +7,49 @@
       "on_click": "press",
       "on_hover": "hoverChange"
     },
-    "skip": {
-      "track_focus": "takes a FocusHandle",
-      "tooltip_with_action": "takes a trait object (&dyn Action)",
-      "role": "takes a RoleOverride value that has no string mapping yet"
+    "skip": {},
+    "props": {
+      "role": {
+        "kind": "custom",
+        "name": "accessibilityRoleOverride",
+        "ts": "string",
+        "clean": "'implicit' | 'presentational' | string",
+        "apply": "if let Some(role) = crate::role::role_override($v) {\n            element = element.$m(role);\n        }",
+        "reason": "a string: implicit, presentational or an accessibility role name"
+      },
+      "tab_index": {
+        "kind": "custom",
+        "name": "tabOrder",
+        "ts": "CodegenTypes.WithDefault<CodegenTypes.Int32, -1>",
+        "clean": "number",
+        "apply": "if $v >= 0 {\n            element = element.$m($v as isize);\n        }",
+        "reason": "the tab index; -1 leaves it unset"
+      },
+      "focus_ring": {
+        "kind": "custom",
+        "name": "focusRing",
+        "ts": "CodegenTypes.WithDefault<boolean, true>",
+        "clean": "boolean",
+        "apply": "element = gpui_base::FocusableExt::focus_ring(element, $v);",
+        "reason": ""
+      },
+      "tooltip_with_action": {
+        "kind": "custom",
+        "name": "tooltipAction",
+        "ts": "string",
+        "clean": "string",
+        "apply": "{\n            let name = $v;\n            if !name.is_empty() {\n                if let Some(action) = cx.app().and_then(|app| app.build_action(name, None).ok()) {\n                    let context = props.tooltip_action_context();\n                    element = element.$m(props.tooltip().to_string(), &*action, (!context.is_empty()).then_some(context));\n                }\n            }\n        }",
+        "reason": "a registered action name, built with App::build_action; the tooltip shows its keybinding"
+      },
+      "custom": {
+        "kind": "custom",
+        "name": "customColor",
+        "ts": "ColorValue",
+        "clean": "ColorValue",
+        "apply": "if let Some(color) = $v {\n            if let Some(app) = cx.app() {\n                let mut variant = gpui_component::button::ButtonCustomVariant::new(app).color(crate::color::hsla(color));\n                if let Some(c) = props.custom_foreground() { variant = variant.foreground(crate::color::hsla(c)); }\n                if let Some(c) = props.custom_hover() { variant = variant.hover(crate::color::hsla(c)); }\n                if let Some(c) = props.custom_active() { variant = variant.active(crate::color::hsla(c)); }\n                if props.custom_shadow() { variant = variant.shadow(true); }\n                element = element.$m(variant);\n            }\n        }",
+        "reason": "ButtonCustomVariant from customColor, customForeground, customHover, customActive and customShadow"
+      }
     },
-    "props": {},
     "layout": {
       "kind": "inline-label",
       "labelProp": "label",
@@ -24,8 +61,8 @@
         "large": 32
       },
       "charWidth": 7.5,
-      "padding": 22,
-      "iconWidth": 20
+      "padding": 21,
+      "iconWidth": 18
     },
     "container": {
       "insets": {
@@ -54,6 +91,32 @@
           12
         ]
       }
+    },
+    "focus": true,
+    "extraProps": [
+      {
+        "name": "tooltipActionContext",
+        "kind": "string"
+      },
+      {
+        "name": "customForeground",
+        "kind": "color"
+      },
+      {
+        "name": "customHover",
+        "kind": "color"
+      },
+      {
+        "name": "customActive",
+        "kind": "color"
+      },
+      {
+        "name": "customShadow",
+        "kind": "bool"
+      }
+    ],
+    "screenDefaults": {
+      "label": "Press"
     }
   },
   {
@@ -61,35 +124,14 @@
     "tag": "GpuiKitInput",
     "group": "inputs",
     "skip": {
-      "token": "takes a closure that builds an element",
-      "on_token_click": "takes an inline token event",
-      "on_token_hover": "takes an inline token event",
-      "prefix": "takes an element (RN slot, later)",
-      "suffix": "takes an element (RN slot, later)",
-      "context_menu": "takes a closure that builds a menu",
-      "on_paste": "takes a closure that decides on the paste",
-      "id": "the id comes from the node tag",
-      "h": "layout comes from React Native",
-      "h_full": "layout comes from React Native",
-      "aria_label": "alias of accessibility_label"
+      "h": "the height comes from the React Native style; a kit height would fight the Yoga frame",
+      "h_full": "the height comes from the React Native style; a kit height would fight the Yoga frame"
     },
     "state": {
       "path": "gpui_base::input::input::InputState",
       "ctor": "InputState::new(window, cx)",
       "skipSetters": [
-        "set_value",
-        "set_selected_range",
-        "set_cursor_position",
-        "set_scroll_offset",
-        "set_highlighter",
-        "set_selection_focus",
-        "set_text_align",
-        "set_tab_size",
-        "set_mask_pattern",
-        "set_pattern",
-        "set_validator",
-        "set_context_menu_enabled",
-        "set_accessibility"
+        "set_value"
       ],
       "controlled": {
         "prop": "value",
@@ -107,6 +149,43 @@
         },
         "replace_all": {
           "text": "string"
+        },
+        "set_cursor_position": {
+          "line": "int",
+          "character": "int",
+          "$call": "state.set_cursor_position(gpui_component::input::Position::new(line.max(0) as u32, character.max(0) as u32), window, cx)"
+        },
+        "set_scroll_offset": {
+          "x": "double",
+          "y": "double",
+          "$call": "state.set_scroll_offset(gpui::point(gpui::px(x as f32), gpui::px(y as f32)), cx)"
+        },
+        "set_selected_range": {
+          "start": "int",
+          "end": "int",
+          "$call": "state.set_selected_range(start.max(0) as usize..end.max(0) as usize, cx)"
+        },
+        "set_selected_range_with_direction": {
+          "start": "int",
+          "end": "int",
+          "reversed": "boolean",
+          "$call": "state.set_selected_range_with_direction(start.max(0) as usize..end.max(0) as usize, reversed, cx)"
+        },
+        "set_search_query": {
+          "query": "string",
+          "caseInsensitive": "boolean"
+        },
+        "replace_with_token": {
+          "id": "string",
+          "text": "string",
+          "label": "string",
+          "$name": "insert_token",
+          "$call": "{ let mut token = gpui_component::input::InlineToken::new(id.clone(), text.clone()); if !label.is_empty() { token = token.with_label(label.clone()); } let _ = state.replace_with_token(token, window, cx); }"
+        },
+        "set_selection_focus": {
+          "hold": "boolean",
+          "$name": "hold_selection",
+          "$raw": "let (Some(state), Some(handle)) = (self.state.clone(), self.selection_focus.clone()) else { return };\n        cx.with_window(|window, app| {\n            if hold {\n                window.focus(&handle, app);\n            } else if handle.is_focused(window) {\n                state.update(app, |state, cx| state.focus(window, cx));\n            }\n        });"
         }
       },
       "events": {
@@ -148,8 +227,371 @@
           "pattern": "InputEvent::Blur",
           "fields": []
         }
+      },
+      "custom": {
+        "set_cursor_position": {
+          "kind": "command",
+          "name": "setCursorPosition"
+        },
+        "set_scroll_offset": {
+          "kind": "command",
+          "name": "setScrollOffset"
+        },
+        "set_selected_range": {
+          "kind": "command",
+          "name": "setSelectedRange"
+        },
+        "set_selected_range_with_direction": {
+          "kind": "command",
+          "name": "setSelectedRangeWithDirection"
+        },
+        "set_search_query": {
+          "kind": "command",
+          "name": "setSearchQuery"
+        },
+        "set_auto_grow": {
+          "kind": "command",
+          "name": "setAutoGrow"
+        },
+        "set_text_align": {
+          "kind": "custom",
+          "name": "textAlign",
+          "ts": "CodegenTypes.WithDefault<'left' | 'center' | 'right', 'left'>",
+          "clean": "'left' | 'center' | 'right'",
+          "ty": "u8",
+          "read": "$v as u8",
+          "call": "state.set_text_align(match props.text_align() { GpuiKitInputTextAlign::Center => gpui::TextAlign::Center, GpuiKitInputTextAlign::Right => gpui::TextAlign::Right, _ => gpui::TextAlign::Left }, cx)"
+        },
+        "set_context_menu_enabled": {
+          "kind": "custom",
+          "name": "contextMenuEnabled",
+          "ts": "CodegenTypes.WithDefault<boolean, true>",
+          "clean": "boolean",
+          "ty": "bool",
+          "read": "$v"
+        },
+        "set_mask_pattern": {
+          "kind": "custom",
+          "name": "maskPattern",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "state.set_mask_pattern(if value.is_empty() { gpui_component::input::MaskPattern::None } else { value.as_str().into() }, window, cx)",
+          "reason": "MaskPattern::from(&str)"
+        },
+        "set_pattern": {
+          "kind": "custom",
+          "name": "pattern",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "if let Ok(pattern) = regex::Regex::new(&value) { state.set_pattern(pattern, window, cx) }",
+          "reason": "a regular expression; an invalid one is ignored"
+        },
+        "set_tab_size": {
+          "kind": "custom",
+          "name": "tabSize",
+          "ts": "CodegenTypes.WithDefault<CodegenTypes.Int32, 2>",
+          "clean": "number",
+          "ty": "(i32, bool)",
+          "read": "($v, props.hard_tabs())",
+          "call": "state.set_tab_size(gpui_component::input::TabSize { tab_size: value.0.max(1) as usize, hard_tabs: value.1 }, cx)",
+          "reason": "TabSize from tabSize and hardTabs"
+        },
+        "set_step": {
+          "kind": "custom",
+          "name": "step",
+          "ts": "CodegenTypes.Double",
+          "clean": "number",
+          "ty": "u64",
+          "read": "$v.to_bits()",
+          "jsDefault": "NaN",
+          "call": "state.set_step({ let v = f64::from_bits(value); (!v.is_nan()).then_some(gpui_component::input::NumberStep::Fixed(v)) }, window, cx)",
+          "reason": "NumberStep::Fixed; unset falls back to the Step event"
+        },
+        "set_selection_focus": {
+          "kind": "command",
+          "name": "holdSelection",
+          "reason": "the adapter owns the second FocusHandle: holdSelection(true) moves focus to it and keeps the selection highlighted, onSelectionHoldChange reports it"
+        },
+        "set_highlighter": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_highlighter_factory": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_fold_placeholder_renderer": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_editor_style": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_scrollbar_renderer": {
+          "kind": "custom",
+          "name": "scrollbarStyleJson",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "internal": true,
+          "jsMap": "props.scrollbarStyle ? JSON.stringify(props.scrollbarStyle) : ''",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "state.set_scrollbar_renderer(crate::manual::rules::scrollbar(&value))",
+          "reason": "scrollbarStyle: thumb and track colors, width, radius and autoHide, drawn by the kit Scrollbar"
+        },
+        "set_validator": {
+          "kind": "custom",
+          "name": "validationRules",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "internal": true,
+          "jsMap": "props.validation ? JSON.stringify(props.validation) : ''",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "state.set_validator(crate::manual::rules::validator(&value, { let sender = sender.clone(); move |text, message| sender.gpui_kit_input_validation_fail(OnGpuiKitInputValidationFail { text, message }) }), cx)",
+          "reason": "validation: required, minLength, maxLength, pattern, min and max, checked in Rust on every edit; a rejected edit fires onValidationFail"
+        },
+        "set_accessibility": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "role, label, placeholder and id come from accessibilityRoleOverride, accessibilityLabel, placeholder and accessibilityId",
+          "prop": "accessibilityLabel"
+        },
+        "set_disabled": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "the element disabled prop sets it",
+          "prop": "disabled",
+          "ifUsed": true
+        },
+        "set_readonly": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "the element readonly prop sets it",
+          "prop": "readonly",
+          "ifUsed": true
+        },
+        "set_placeholder": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "the element placeholder prop sets it",
+          "prop": "placeholder",
+          "ifUsed": true
+        }
       }
-    }
+    },
+    "slots": [
+      "prefix",
+      "suffix"
+    ],
+    "props": {
+      "role": {
+        "kind": "custom",
+        "name": "accessibilityRoleOverride",
+        "ts": "string",
+        "clean": "'implicit' | 'presentational' | string",
+        "apply": "if let Some(role) = crate::role::role_override($v) {\n            element = element.$m(role);\n        }",
+        "reason": "a string: implicit, presentational or an accessibility role name"
+      },
+      "tab_index": {
+        "kind": "custom",
+        "name": "tabOrder",
+        "ts": "CodegenTypes.WithDefault<CodegenTypes.Int32, -1>",
+        "clean": "number",
+        "apply": "if $v >= 0 {\n            element = element.$m($v as isize);\n        }",
+        "reason": "the tab index; -1 leaves it unset"
+      },
+      "focus_ring": {
+        "kind": "custom",
+        "name": "focusRing",
+        "ts": "CodegenTypes.WithDefault<boolean, true>",
+        "clean": "boolean",
+        "apply": "element = gpui_base::FocusableExt::focus_ring(element, $v);",
+        "reason": ""
+      },
+      "aria_label": {
+        "kind": "alias",
+        "reason": "the same label as accessibilityLabel",
+        "prop": "accessibilityLabel"
+      },
+      "id": {
+        "kind": "alias",
+        "reason": "the id comes from the node tag",
+        "prop": ""
+      },
+      "on_paste": {
+        "kind": "custom",
+        "name": "pasteEvents",
+        "ts": "boolean",
+        "clean": "boolean",
+        "apply": "if $v {\n            let sender = sender.clone();\n            element = element.$m(move |item, _, _| {\n                sender.gpui_kit_input_paste(OnGpuiKitInputPaste { text: item.text().unwrap_or_default() });\n                false\n            });\n        }",
+        "reason": "onPaste reports the pasted text; the default insertion still runs",
+        "jsMap": "props.onPaste !== undefined",
+        "internal": true
+      },
+      "on_token_click": {
+        "kind": "custom",
+        "name": "tokenClickEvents",
+        "ts": "boolean",
+        "clean": "boolean",
+        "apply": "if $v {\n            let sender = sender.clone();\n            element = element.$m(move |event, _, _| {\n                let range = event.range();\n                sender.gpui_kit_input_token_click(OnGpuiKitInputTokenClick { id: event.token().id().to_string(), start: range.start as i32, end: range.end as i32 });\n            });\n        }",
+        "reason": "onTokenClick",
+        "jsMap": "props.onTokenClick !== undefined",
+        "internal": true
+      },
+      "on_token_hover": {
+        "kind": "custom",
+        "name": "tokenHoverEvents",
+        "ts": "boolean",
+        "clean": "boolean",
+        "apply": "if $v {\n            let sender = sender.clone();\n            element = element.$m(move |event, _, _| {\n                sender.gpui_kit_input_token_hover(OnGpuiKitInputTokenHover { id: event.token().id().to_string(), hovered: event.is_hovered() });\n            });\n        }",
+        "reason": "onTokenHover",
+        "jsMap": "props.onTokenHover !== undefined",
+        "internal": true
+      },
+      "context_menu": {
+        "kind": "custom",
+        "name": "contextMenu",
+        "ts": "ReadonlyArray<Readonly<{ label: string; action: string; disabled: boolean }>>",
+        "clean": "ReadonlyArray<{ label: string; action: string; disabled: boolean }>",
+        "apply": "{\n            let items: Vec<(String, String, bool)> = { let list = $v; (0..list.len()).filter_map(|i| list.get(i)).map(|item| (item.label().to_string(), item.action().to_string(), item.disabled())).collect() };\n            if !items.is_empty() {\n                element = element.$m(move |mut menu, _, app| {\n                    for (label, action, disabled) in &items {\n                        if label == \"-\" {\n                            menu = menu.separator();\n                        } else if let Ok(action) = app.build_action(action, None) {\n                            menu = menu.menu_with_disabled(label.clone(), *disabled, action);\n                        }\n                    }\n                    menu\n                });\n            }\n        }",
+        "reason": "items appended to the native edit menu: a label and a registered action name; the label - is a separator"
+      },
+      "token": {
+        "kind": "custom",
+        "name": "tokenRender",
+        "ts": "boolean",
+        "clean": "boolean",
+        "internal": true,
+        "jsMap": "props.renderToken !== undefined",
+        "apply": "if $v {\n            let renderers = Rc::new(crate::manual::slots::Renderers::new(props.slots()));\n            let sender = sender.clone();\n            element = element.$m(move |context, window, cx| {\n                let id = context.token().id().to_string();\n                match renderers.get(&format!(\"token:{id}\")) {\n                    Some(render) => render(window, cx),\n                    None => {\n                        sender.gpui_kit_input_token_needed(OnGpuiKitInputTokenNeeded { id });\n                        gpui_component::input::InputToken::new(context).into_any_element()\n                    }\n                }\n            });\n        }",
+        "reason": "renderToken draws each inline token as a NativeSlot of React Native content"
+      }
+    },
+    "extraEvents": [
+      {
+        "name": "paste",
+        "fields": [
+          {
+            "name": "text",
+            "ts": "string",
+            "rust": "text"
+          }
+        ]
+      },
+      {
+        "name": "tokenClick",
+        "fields": [
+          {
+            "name": "id",
+            "ts": "string",
+            "rust": "id"
+          },
+          {
+            "name": "start",
+            "ts": "Int32",
+            "rust": "start"
+          },
+          {
+            "name": "end",
+            "ts": "Int32",
+            "rust": "end"
+          }
+        ]
+      },
+      {
+        "name": "tokenHover",
+        "fields": [
+          {
+            "name": "id",
+            "ts": "string",
+            "rust": "id"
+          },
+          {
+            "name": "hovered",
+            "ts": "boolean",
+            "rust": "hovered"
+          }
+        ]
+      },
+      {
+        "name": "validationFail",
+        "fields": [
+          {
+            "name": "text",
+            "ts": "string",
+            "rust": "text"
+          },
+          {
+            "name": "message",
+            "ts": "string",
+            "rust": "message"
+          }
+        ]
+      },
+      {
+        "name": "selectionHoldChange",
+        "fields": [
+          {
+            "name": "held",
+            "ts": "boolean",
+            "rust": "held"
+          }
+        ]
+      },
+      {
+        "name": "tokenNeeded",
+        "internal": true,
+        "fields": [
+          {
+            "name": "id",
+            "ts": "string",
+            "rust": "id"
+          }
+        ]
+      }
+    ],
+    "jsProps": [
+      {
+        "name": "validation",
+        "ts": "{ required?: boolean; minLength?: number; maxLength?: number; pattern?: string; min?: number; max?: number; message?: string }"
+      },
+      {
+        "name": "scrollbarStyle",
+        "ts": "{ thumbColor?: string | number; trackColor?: string | number; width?: number; radius?: number; autoHide?: boolean }"
+      }
+    ],
+    "rustFields": [
+      {
+        "name": "selection_focus",
+        "ty": "Option<gpui::FocusHandle>",
+        "init": "None"
+      },
+      {
+        "name": "selection_held",
+        "ty": "bool",
+        "init": "false"
+      }
+    ],
+    "rustBeforeReturn": "if self.selection_focus.is_none() {\n            let handle = app.focus_handle();\n            state.update(app, |state, cx| state.set_selection_focus(Some(handle.clone()), cx));\n            self.selection_focus = Some(handle);\n        }\n        let held = self.selection_focus.as_ref().is_some_and(|handle| handle.is_focused(window));\n        if held != self.selection_held {\n            self.selection_held = held;\n            sender.gpui_kit_input_selection_hold_change(OnGpuiKitInputSelectionHoldChange { held });\n        }",
+    "tokenSlots": true
   },
   {
     "path": "gpui_component::label::Label",
@@ -160,17 +602,30 @@
       {
         "name": "text",
         "kind": "string"
+      },
+      {
+        "name": "highlightsPrefix",
+        "kind": "bool"
       }
     ],
-    "skip": {
-      "highlights": "takes a HighlightsMatch value"
-    },
+    "skip": {},
     "layout": {
       "height": 20,
       "text": {
         "prop": "text",
         "charWidth": 7.5,
         "padding": 0
+      },
+      "fontSize": 16
+    },
+    "props": {
+      "highlights": {
+        "kind": "custom",
+        "name": "highlights",
+        "ts": "string",
+        "clean": "string",
+        "apply": "{\n            let text = $v;\n            if !text.is_empty() {\n                let text = SharedString::from(text.to_string());\n                element = element.$m(if props.highlights_prefix() { gpui_component::label::HighlightsMatch::Prefix(text) } else { gpui_component::label::HighlightsMatch::Full(text) });\n            }\n        }",
+        "reason": "HighlightsMatch::Full, or Prefix with highlightsPrefix"
       }
     }
   },
@@ -186,10 +641,7 @@
       }
     ],
     "skip": {
-      "path": "takes an asset path",
-      "data": "takes raw bytes",
-      "transform": "takes a gpui Transformation",
-      "rotate": "takes Radians"
+      "view": "wraps the icon in an Entity<Icon> for Rust callers; the host component is already the view"
     },
     "layout": {
       "heights": {
@@ -199,6 +651,41 @@
         "large": 24
       },
       "square": true
+    },
+    "textColor": true,
+    "props": {
+      "path": {
+        "kind": "custom",
+        "name": "path",
+        "ts": "string",
+        "clean": "string",
+        "apply": "{\n            let value = $v;\n            if !value.is_empty() {\n                element = element.$m(value.to_string());\n            }\n        }",
+        "reason": "an SVG asset path from the registered asset sources"
+      },
+      "data": {
+        "kind": "custom",
+        "name": "svg",
+        "ts": "string",
+        "clean": "string",
+        "apply": "{\n            let value = $v;\n            if !value.is_empty() {\n                element = element.$m(value.as_bytes());\n            }\n        }",
+        "reason": "the SVG source text"
+      },
+      "rotate": {
+        "kind": "custom",
+        "name": "rotate",
+        "ts": "CodegenTypes.Double",
+        "clean": "number",
+        "apply": "if $v != 0.0 && props.scale() == 1.0 {\n            element = element.$m(gpui::radians(($v as f32).to_radians()));\n        }",
+        "reason": "degrees"
+      },
+      "transform": {
+        "kind": "custom",
+        "name": "scale",
+        "ts": "CodegenTypes.WithDefault<CodegenTypes.Double, 1.0>",
+        "clean": "number",
+        "apply": "if $v != 1.0 {\n            element = element.$m(gpui::Transformation::rotate(gpui::radians((props.rotate() as f32).to_radians())).with_scaling(gpui::size($v as f32, $v as f32)));\n        }",
+        "reason": "a Transformation from scale and rotate"
+      }
     }
   },
   {
@@ -222,15 +709,24 @@
       }
     ],
     "childText": "label",
-    "skip": {
-      "rounded": "takes an AbsoluteLength"
-    },
+    "skip": {},
     "layout": {
       "height": 22,
       "text": {
         "prop": "label",
-        "charWidth": 7.0,
-        "padding": 16
+        "charWidth": 7,
+        "padding": 22
+      },
+      "fontSize": 12
+    },
+    "props": {
+      "rounded": {
+        "kind": "custom",
+        "name": "radius",
+        "ts": "CodegenTypes.WithDefault<CodegenTypes.Double, -1.0>",
+        "clean": "number",
+        "apply": "if $v >= 0.0 {\n            element = element.$m(gpui::px($v as f32));\n        }",
+        "reason": "pixels; -1 keeps the default"
       }
     }
   },
@@ -238,9 +734,7 @@
     "path": "gpui_component::avatar::avatar::Avatar",
     "tag": "GpuiKitAvatar",
     "group": "primitives",
-    "skip": {
-      "src": "takes an ImageSource"
-    },
+    "skip": {},
     "layout": {
       "heights": {
         "xsmall": 20,
@@ -264,6 +758,16 @@
         "large": 24
       },
       "square": true
+    },
+    "props": {
+      "ease": {
+        "kind": "custom",
+        "name": "easing",
+        "ts": "CodegenTypes.WithDefault<'ease-in-out' | 'linear' | 'quadratic' | 'ease-out-quint', 'ease-in-out'>",
+        "clean": "'ease-in-out' | 'linear' | 'quadratic' | 'ease-out-quint'",
+        "apply": "match $v {\n            GpuiKitSpinnerEasing::Linear => element = element.$m(gpui::linear),\n            GpuiKitSpinnerEasing::Quadratic => element = element.$m(gpui::quadratic),\n            GpuiKitSpinnerEasing::EaseOutQuint => element = element.$m(gpui::ease_out_quint()),\n            _ => {}\n        }",
+        "reason": "one of gpui's easing functions"
+      }
     }
   },
   {
@@ -294,7 +798,8 @@
         "prop": "text",
         "charWidth": 7.5,
         "padding": 0
-      }
+      },
+      "fontSize": 16
     }
   },
   {
@@ -318,9 +823,7 @@
     "events": {
       "on_click": "change"
     },
-    "skip": {
-      "tooltip": "set later with the Tooltip batch"
-    },
+    "skip": {},
     "layout": {
       "kind": "inline-label",
       "labelProp": "label",
@@ -332,7 +835,7 @@
         "large": 32
       },
       "charWidth": 7.5,
-      "padding": 22,
+      "padding": 16,
       "iconWidth": 20
     }
   },
@@ -353,7 +856,10 @@
     "skip": {},
     "layout": {
       "height": 44
-    }
+    },
+    "optionalEvents": [
+      "on_close"
+    ]
   },
   {
     "path": "gpui_component::shimmer::ShimmerText",
@@ -364,20 +870,1274 @@
       {
         "name": "text",
         "kind": "string"
+      },
+      {
+        "name": "spreadPixels",
+        "kind": "float"
       }
     ],
-    "skip": {
-      "id": "the id comes from the node tag",
-      "with_shimmer_style": "takes a ShimmerStyle value",
-      "spread": "takes a ShimmerSpread value"
-    },
+    "skip": {},
     "layout": {
       "height": 20,
       "text": {
         "prop": "text",
         "charWidth": 7.5,
         "padding": 0
+      },
+      "fontSize": 16
+    },
+    "props": {
+      "spread": {
+        "kind": "custom",
+        "name": "spread",
+        "ts": "CodegenTypes.Double",
+        "clean": "number",
+        "apply": "if props.spread_pixels() > 0.0 {\n            element = element.$m(gpui::px(props.spread_pixels() as f32));\n        } else if $v > 0.0 {\n            element = element.$m($v as f32);\n        }",
+        "reason": "ShimmerSpread::Relative, or Absolute with spreadPixels"
+      },
+      "with_shimmer_style": {
+        "kind": "alias",
+        "reason": "a ShimmerStyle bundles duration, highlightColor, spread, reverse and once, which are props",
+        "prop": "duration"
+      },
+      "id": {
+        "kind": "alias",
+        "reason": "the id comes from the node tag",
+        "prop": ""
       }
+    }
+  },
+  {
+    "path": "gpui_component::checkbox::Checkbox",
+    "tag": "GpuiKitCheckbox",
+    "group": "inputs",
+    "events": {
+      "on_change": "change"
+    },
+    "skip": {},
+    "layout": {
+      "height": 20,
+      "text": {
+        "prop": "label",
+        "charWidth": 7.5,
+        "padding": 28
+      }
+    },
+    "props": {
+      "tab_index": {
+        "kind": "custom",
+        "name": "tabOrder",
+        "ts": "CodegenTypes.WithDefault<CodegenTypes.Int32, -1>",
+        "clean": "number",
+        "apply": "if $v >= 0 {\n            element = element.$m($v as isize);\n        }",
+        "reason": "the tab index; -1 leaves it unset"
+      },
+      "focus_ring": {
+        "kind": "custom",
+        "name": "focusRing",
+        "ts": "CodegenTypes.WithDefault<boolean, true>",
+        "clean": "boolean",
+        "apply": "element = gpui_base::FocusableExt::focus_ring(element, $v);",
+        "reason": ""
+      },
+      "role": {
+        "kind": "custom",
+        "name": "accessibilityRoleOverride",
+        "ts": "string",
+        "clean": "'implicit' | 'presentational' | string",
+        "apply": "if let Some(role) = crate::role::role_override($v) {\n            element = element.$m(role);\n        }",
+        "reason": "a string: implicit, presentational or an accessibility role name"
+      },
+      "on_click": {
+        "kind": "alias",
+        "reason": "on_click calls on_change with the same handler; onChange covers it",
+        "prop": "onChange"
+      }
+    }
+  },
+  {
+    "path": "gpui_component::radio::Radio",
+    "tag": "GpuiKitRadio",
+    "group": "inputs",
+    "events": {
+      "on_change": "change"
+    },
+    "skip": {},
+    "layout": {
+      "height": 20,
+      "text": {
+        "prop": "label",
+        "charWidth": 7.5,
+        "padding": 28
+      }
+    },
+    "props": {
+      "tab_index": {
+        "kind": "custom",
+        "name": "tabOrder",
+        "ts": "CodegenTypes.WithDefault<CodegenTypes.Int32, -1>",
+        "clean": "number",
+        "apply": "if $v >= 0 {\n            element = element.$m($v as isize);\n        }",
+        "reason": "the tab index; -1 leaves it unset"
+      },
+      "focus_ring": {
+        "kind": "custom",
+        "name": "focusRing",
+        "ts": "CodegenTypes.WithDefault<boolean, true>",
+        "clean": "boolean",
+        "apply": "element = gpui_base::FocusableExt::focus_ring(element, $v);",
+        "reason": ""
+      },
+      "on_click": {
+        "kind": "alias",
+        "reason": "on_click calls on_change with the same handler; onChange covers it",
+        "prop": "onChange"
+      }
+    }
+  },
+  {
+    "path": "gpui_component::switch::Switch",
+    "tag": "GpuiKitSwitch",
+    "group": "inputs",
+    "events": {
+      "on_change": "change"
+    },
+    "skip": {},
+    "layout": {
+      "height": 20,
+      "text": {
+        "prop": "label",
+        "charWidth": 7.5,
+        "padding": 44
+      }
+    },
+    "props": {
+      "tab_index": {
+        "kind": "custom",
+        "name": "tabOrder",
+        "ts": "CodegenTypes.WithDefault<CodegenTypes.Int32, -1>",
+        "clean": "number",
+        "apply": "if $v >= 0 {\n            element = element.$m($v as isize);\n        }",
+        "reason": "the tab index; -1 leaves it unset"
+      },
+      "focus_ring": {
+        "kind": "custom",
+        "name": "focusRing",
+        "ts": "CodegenTypes.WithDefault<boolean, true>",
+        "clean": "boolean",
+        "apply": "element = gpui_base::FocusableExt::focus_ring(element, $v);",
+        "reason": ""
+      },
+      "on_click": {
+        "kind": "alias",
+        "reason": "on_click calls on_change with the same handler; onChange covers it",
+        "prop": "onChange"
+      }
+    }
+  },
+  {
+    "path": "gpui_component::rating::Rating",
+    "tag": "GpuiKitRating",
+    "group": "inputs",
+    "events": {
+      "on_click": "change"
+    },
+    "layout": {
+      "height": 20,
+      "width": 120
+    },
+    "eventFields": {
+      "change": "value"
+    }
+  },
+  {
+    "path": "gpui_component::input::textarea::Textarea",
+    "tag": "GpuiKitTextarea",
+    "group": "inputs",
+    "skip": {
+      "h": "the height comes from the React Native style; a kit height would fight the Yoga frame",
+      "h_full": "the height comes from the React Native style; a kit height would fight the Yoga frame"
+    },
+    "state": {
+      "path": "gpui_base::input::textarea::TextareaState",
+      "ctor": "TextareaState::new(window, cx)",
+      "skipSetters": [
+        "set_value"
+      ],
+      "controlled": {
+        "prop": "value",
+        "setter": "set_value",
+        "event": "Change",
+        "valueExpr": "text.clone()"
+      },
+      "commands": {
+        "focus": {},
+        "select_all": {},
+        "unselect": {},
+        "clean": {},
+        "insert": {
+          "text": "string"
+        },
+        "replace_all": {
+          "text": "string"
+        },
+        "set_cursor_position": {
+          "line": "int",
+          "character": "int",
+          "$call": "state.set_cursor_position(gpui_component::input::Position::new(line.max(0) as u32, character.max(0) as u32), window, cx)"
+        },
+        "set_scroll_offset": {
+          "x": "double",
+          "y": "double",
+          "$call": "state.set_scroll_offset(gpui::point(gpui::px(x as f32), gpui::px(y as f32)), cx)"
+        },
+        "set_selected_range": {
+          "start": "int",
+          "end": "int",
+          "$call": "state.set_selected_range(start.max(0) as usize..end.max(0) as usize, cx)"
+        },
+        "set_selected_range_with_direction": {
+          "start": "int",
+          "end": "int",
+          "reversed": "boolean",
+          "$call": "state.set_selected_range_with_direction(start.max(0) as usize..end.max(0) as usize, reversed, cx)"
+        },
+        "set_search_query": {
+          "query": "string",
+          "caseInsensitive": "boolean"
+        },
+        "replace_with_token": {
+          "id": "string",
+          "text": "string",
+          "label": "string",
+          "$name": "insert_token",
+          "$call": "{ let mut token = gpui_component::input::InlineToken::new(id.clone(), text.clone()); if !label.is_empty() { token = token.with_label(label.clone()); } let _ = state.replace_with_token(token, window, cx); }"
+        },
+        "set_auto_grow": {
+          "minRows": "int",
+          "maxRows": "int",
+          "$call": "state.set_auto_grow(min_rows.max(1) as usize, max_rows.max(1) as usize, cx)"
+        },
+        "set_selection_focus": {
+          "hold": "boolean",
+          "$name": "hold_selection",
+          "$raw": "let (Some(state), Some(handle)) = (self.state.clone(), self.selection_focus.clone()) else { return };\n        cx.with_window(|window, app| {\n            if hold {\n                window.focus(&handle, app);\n            } else if handle.is_focused(window) {\n                state.update(app, |state, cx| state.focus(window, cx));\n            }\n        });"
+        }
+      },
+      "events": {
+        "Change": {
+          "name": "change",
+          "pattern": "InputEvent::Change",
+          "before": "let text = state.read(cx).value().to_string();",
+          "fields": [
+            {
+              "name": "text",
+              "ts": "string",
+              "rust": "text"
+            }
+          ]
+        },
+        "PressEnter": {
+          "name": "submit",
+          "pattern": "InputEvent::PressEnter { secondary, shift }",
+          "fields": [
+            {
+              "name": "secondary",
+              "ts": "boolean",
+              "rust": "*secondary"
+            },
+            {
+              "name": "shift",
+              "ts": "boolean",
+              "rust": "*shift"
+            }
+          ]
+        },
+        "Focus": {
+          "name": "focus",
+          "pattern": "InputEvent::Focus",
+          "fields": []
+        },
+        "Blur": {
+          "name": "blur",
+          "pattern": "InputEvent::Blur",
+          "fields": []
+        }
+      },
+      "custom": {
+        "set_cursor_position": {
+          "kind": "command",
+          "name": "setCursorPosition"
+        },
+        "set_scroll_offset": {
+          "kind": "command",
+          "name": "setScrollOffset"
+        },
+        "set_selected_range": {
+          "kind": "command",
+          "name": "setSelectedRange"
+        },
+        "set_selected_range_with_direction": {
+          "kind": "command",
+          "name": "setSelectedRangeWithDirection"
+        },
+        "set_search_query": {
+          "kind": "command",
+          "name": "setSearchQuery"
+        },
+        "set_auto_grow": {
+          "kind": "command",
+          "name": "setAutoGrow"
+        },
+        "set_text_align": {
+          "kind": "custom",
+          "name": "textAlign",
+          "ts": "CodegenTypes.WithDefault<'left' | 'center' | 'right', 'left'>",
+          "clean": "'left' | 'center' | 'right'",
+          "ty": "u8",
+          "read": "$v as u8",
+          "call": "state.set_text_align(match props.text_align() { GpuiKitTextareaTextAlign::Center => gpui::TextAlign::Center, GpuiKitTextareaTextAlign::Right => gpui::TextAlign::Right, _ => gpui::TextAlign::Left }, cx)"
+        },
+        "set_context_menu_enabled": {
+          "kind": "custom",
+          "name": "contextMenuEnabled",
+          "ts": "CodegenTypes.WithDefault<boolean, true>",
+          "clean": "boolean",
+          "ty": "bool",
+          "read": "$v"
+        },
+        "set_mask_pattern": {
+          "kind": "custom",
+          "name": "maskPattern",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "state.set_mask_pattern(if value.is_empty() { gpui_component::input::MaskPattern::None } else { value.as_str().into() }, window, cx)",
+          "reason": "MaskPattern::from(&str)"
+        },
+        "set_pattern": {
+          "kind": "custom",
+          "name": "pattern",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "if let Ok(pattern) = regex::Regex::new(&value) { state.set_pattern(pattern, window, cx) }",
+          "reason": "a regular expression; an invalid one is ignored"
+        },
+        "set_tab_size": {
+          "kind": "custom",
+          "name": "tabSize",
+          "ts": "CodegenTypes.WithDefault<CodegenTypes.Int32, 2>",
+          "clean": "number",
+          "ty": "(i32, bool)",
+          "read": "($v, props.hard_tabs())",
+          "call": "state.set_tab_size(gpui_component::input::TabSize { tab_size: value.0.max(1) as usize, hard_tabs: value.1 }, cx)",
+          "reason": "TabSize from tabSize and hardTabs"
+        },
+        "set_step": {
+          "kind": "custom",
+          "name": "step",
+          "ts": "CodegenTypes.Double",
+          "clean": "number",
+          "ty": "u64",
+          "read": "$v.to_bits()",
+          "jsDefault": "NaN",
+          "call": "state.set_step({ let v = f64::from_bits(value); (!v.is_nan()).then_some(gpui_component::input::NumberStep::Fixed(v)) }, window, cx)",
+          "reason": "NumberStep::Fixed; unset falls back to the Step event"
+        },
+        "set_selection_focus": {
+          "kind": "command",
+          "name": "holdSelection",
+          "reason": "the adapter owns the second FocusHandle: holdSelection(true) moves focus to it and keeps the selection highlighted, onSelectionHoldChange reports it"
+        },
+        "set_highlighter": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_highlighter_factory": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_fold_placeholder_renderer": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_editor_style": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_scrollbar_renderer": {
+          "kind": "custom",
+          "name": "scrollbarStyleJson",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "internal": true,
+          "jsMap": "props.scrollbarStyle ? JSON.stringify(props.scrollbarStyle) : ''",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "state.set_scrollbar_renderer(crate::manual::rules::scrollbar(&value))",
+          "reason": "scrollbarStyle: thumb and track colors, width, radius and autoHide, drawn by the kit Scrollbar"
+        },
+        "set_validator": {
+          "kind": "custom",
+          "name": "validationRules",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "internal": true,
+          "jsMap": "props.validation ? JSON.stringify(props.validation) : ''",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "state.set_validator(crate::manual::rules::validator(&value, { let sender = sender.clone(); move |text, message| sender.gpui_kit_textarea_validation_fail(OnGpuiKitTextareaValidationFail { text, message }) }), cx)",
+          "reason": "validation: required, minLength, maxLength, pattern, min and max, checked in Rust on every edit; a rejected edit fires onValidationFail"
+        },
+        "set_accessibility": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "role, label, placeholder and id come from accessibilityRoleOverride, accessibilityLabel, placeholder and accessibilityId",
+          "prop": "accessibilityLabel"
+        },
+        "set_disabled": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "the element disabled prop sets it",
+          "prop": "disabled",
+          "ifUsed": true
+        },
+        "set_readonly": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "the element readonly prop sets it",
+          "prop": "readonly",
+          "ifUsed": true
+        },
+        "set_placeholder": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "the element placeholder prop sets it",
+          "prop": "placeholder",
+          "ifUsed": true
+        }
+      }
+    },
+    "defaultStyle": {
+      "minHeight": 80
+    },
+    "fill": true,
+    "props": {
+      "tab_index": {
+        "kind": "custom",
+        "name": "tabOrder",
+        "ts": "CodegenTypes.WithDefault<CodegenTypes.Int32, -1>",
+        "clean": "number",
+        "apply": "if $v >= 0 {\n            element = element.$m($v as isize);\n        }",
+        "reason": "the tab index; -1 leaves it unset"
+      },
+      "role": {
+        "kind": "custom",
+        "name": "accessibilityRoleOverride",
+        "ts": "string",
+        "clean": "'implicit' | 'presentational' | string",
+        "apply": "if let Some(role) = crate::role::role_override($v) {\n            element = element.$m(role);\n        }",
+        "reason": "a string: implicit, presentational or an accessibility role name"
+      },
+      "focus_ring": {
+        "kind": "custom",
+        "name": "focusRing",
+        "ts": "CodegenTypes.WithDefault<boolean, true>",
+        "clean": "boolean",
+        "apply": "element = gpui_base::FocusableExt::focus_ring(element, $v);",
+        "reason": ""
+      },
+      "aria_label": {
+        "kind": "alias",
+        "reason": "the same label as accessibilityLabel",
+        "prop": "accessibilityLabel"
+      },
+      "id": {
+        "kind": "alias",
+        "reason": "the id comes from the node tag",
+        "prop": ""
+      },
+      "on_paste": {
+        "kind": "custom",
+        "name": "pasteEvents",
+        "ts": "boolean",
+        "clean": "boolean",
+        "apply": "if $v {\n            let sender = sender.clone();\n            element = element.$m(move |item, _, _| {\n                sender.gpui_kit_textarea_paste(OnGpuiKitTextareaPaste { text: item.text().unwrap_or_default() });\n                false\n            });\n        }",
+        "reason": "onPaste reports the pasted text; the default insertion still runs",
+        "jsMap": "props.onPaste !== undefined",
+        "internal": true
+      },
+      "on_token_click": {
+        "kind": "custom",
+        "name": "tokenClickEvents",
+        "ts": "boolean",
+        "clean": "boolean",
+        "apply": "if $v {\n            let sender = sender.clone();\n            element = element.$m(move |event, _, _| {\n                let range = event.range();\n                sender.gpui_kit_textarea_token_click(OnGpuiKitTextareaTokenClick { id: event.token().id().to_string(), start: range.start as i32, end: range.end as i32 });\n            });\n        }",
+        "reason": "onTokenClick",
+        "jsMap": "props.onTokenClick !== undefined",
+        "internal": true
+      },
+      "on_token_hover": {
+        "kind": "custom",
+        "name": "tokenHoverEvents",
+        "ts": "boolean",
+        "clean": "boolean",
+        "apply": "if $v {\n            let sender = sender.clone();\n            element = element.$m(move |event, _, _| {\n                sender.gpui_kit_textarea_token_hover(OnGpuiKitTextareaTokenHover { id: event.token().id().to_string(), hovered: event.is_hovered() });\n            });\n        }",
+        "reason": "onTokenHover",
+        "jsMap": "props.onTokenHover !== undefined",
+        "internal": true
+      },
+      "context_menu": {
+        "kind": "custom",
+        "name": "contextMenu",
+        "ts": "ReadonlyArray<Readonly<{ label: string; action: string; disabled: boolean }>>",
+        "clean": "ReadonlyArray<{ label: string; action: string; disabled: boolean }>",
+        "apply": "{\n            let items: Vec<(String, String, bool)> = { let list = $v; (0..list.len()).filter_map(|i| list.get(i)).map(|item| (item.label().to_string(), item.action().to_string(), item.disabled())).collect() };\n            if !items.is_empty() {\n                element = element.$m(move |mut menu, _, app| {\n                    for (label, action, disabled) in &items {\n                        if label == \"-\" {\n                            menu = menu.separator();\n                        } else if let Ok(action) = app.build_action(action, None) {\n                            menu = menu.menu_with_disabled(label.clone(), *disabled, action);\n                        }\n                    }\n                    menu\n                });\n            }\n        }",
+        "reason": "items appended to the native edit menu: a label and a registered action name; the label - is a separator"
+      },
+      "token": {
+        "kind": "custom",
+        "name": "tokenRender",
+        "ts": "boolean",
+        "clean": "boolean",
+        "internal": true,
+        "jsMap": "props.renderToken !== undefined",
+        "apply": "if $v {\n            let renderers = Rc::new(crate::manual::slots::Renderers::new(props.slots()));\n            let sender = sender.clone();\n            element = element.$m(move |context, window, cx| {\n                let id = context.token().id().to_string();\n                match renderers.get(&format!(\"token:{id}\")) {\n                    Some(render) => render(window, cx),\n                    None => {\n                        sender.gpui_kit_textarea_token_needed(OnGpuiKitTextareaTokenNeeded { id });\n                        gpui_component::input::InputToken::new(context).into_any_element()\n                    }\n                }\n            });\n        }",
+        "reason": "renderToken draws each inline token as a NativeSlot of React Native content"
+      }
+    },
+    "extraEvents": [
+      {
+        "name": "paste",
+        "fields": [
+          {
+            "name": "text",
+            "ts": "string",
+            "rust": "text"
+          }
+        ]
+      },
+      {
+        "name": "tokenClick",
+        "fields": [
+          {
+            "name": "id",
+            "ts": "string",
+            "rust": "id"
+          },
+          {
+            "name": "start",
+            "ts": "Int32",
+            "rust": "start"
+          },
+          {
+            "name": "end",
+            "ts": "Int32",
+            "rust": "end"
+          }
+        ]
+      },
+      {
+        "name": "tokenHover",
+        "fields": [
+          {
+            "name": "id",
+            "ts": "string",
+            "rust": "id"
+          },
+          {
+            "name": "hovered",
+            "ts": "boolean",
+            "rust": "hovered"
+          }
+        ]
+      },
+      {
+        "name": "validationFail",
+        "fields": [
+          {
+            "name": "text",
+            "ts": "string",
+            "rust": "text"
+          },
+          {
+            "name": "message",
+            "ts": "string",
+            "rust": "message"
+          }
+        ]
+      },
+      {
+        "name": "selectionHoldChange",
+        "fields": [
+          {
+            "name": "held",
+            "ts": "boolean",
+            "rust": "held"
+          }
+        ]
+      },
+      {
+        "name": "tokenNeeded",
+        "internal": true,
+        "fields": [
+          {
+            "name": "id",
+            "ts": "string",
+            "rust": "id"
+          }
+        ]
+      }
+    ],
+    "extraProps": [
+      {
+        "name": "hardTabs",
+        "kind": "bool"
+      }
+    ],
+    "jsProps": [
+      {
+        "name": "validation",
+        "ts": "{ required?: boolean; minLength?: number; maxLength?: number; pattern?: string; min?: number; max?: number; message?: string }"
+      },
+      {
+        "name": "scrollbarStyle",
+        "ts": "{ thumbColor?: string | number; trackColor?: string | number; width?: number; radius?: number; autoHide?: boolean }"
+      }
+    ],
+    "rustFields": [
+      {
+        "name": "selection_focus",
+        "ty": "Option<gpui::FocusHandle>",
+        "init": "None"
+      },
+      {
+        "name": "selection_held",
+        "ty": "bool",
+        "init": "false"
+      }
+    ],
+    "rustBeforeReturn": "if self.selection_focus.is_none() {\n            let handle = app.focus_handle();\n            state.update(app, |state, cx| state.set_selection_focus(Some(handle.clone()), cx));\n            self.selection_focus = Some(handle);\n        }\n        let held = self.selection_focus.as_ref().is_some_and(|handle| handle.is_focused(window));\n        if held != self.selection_held {\n            self.selection_held = held;\n            sender.gpui_kit_textarea_selection_hold_change(OnGpuiKitTextareaSelectionHoldChange { held });\n        }",
+    "tokenSlots": true
+  },
+  {
+    "path": "gpui_component::input::number_input::NumberInput",
+    "tag": "GpuiKitNumberInput",
+    "group": "inputs",
+    "skip": {
+      "token": "a Rust closure that draws every inline token during text layout; tokens draw with the kit chip, and insertToken, onTokenClick and onTokenHover cover them",
+      "h": "the height comes from the React Native style; a kit height would fight the Yoga frame",
+      "h_full": "the height comes from the React Native style; a kit height would fight the Yoga frame"
+    },
+    "state": {
+      "path": "gpui_base::input::input::InputState",
+      "ctor": "InputState::new(window, cx)",
+      "skipSetters": [
+        "set_value"
+      ],
+      "controlled": {
+        "prop": "value",
+        "setter": "set_value",
+        "event": "Change",
+        "valueExpr": "text.clone()"
+      },
+      "commands": {
+        "focus": {},
+        "select_all": {},
+        "unselect": {},
+        "clean": {},
+        "insert": {
+          "text": "string"
+        },
+        "replace_all": {
+          "text": "string"
+        },
+        "set_cursor_position": {
+          "line": "int",
+          "character": "int",
+          "$call": "state.set_cursor_position(gpui_component::input::Position::new(line.max(0) as u32, character.max(0) as u32), window, cx)"
+        },
+        "set_scroll_offset": {
+          "x": "double",
+          "y": "double",
+          "$call": "state.set_scroll_offset(gpui::point(gpui::px(x as f32), gpui::px(y as f32)), cx)"
+        },
+        "set_selected_range": {
+          "start": "int",
+          "end": "int",
+          "$call": "state.set_selected_range(start.max(0) as usize..end.max(0) as usize, cx)"
+        },
+        "set_selected_range_with_direction": {
+          "start": "int",
+          "end": "int",
+          "reversed": "boolean",
+          "$call": "state.set_selected_range_with_direction(start.max(0) as usize..end.max(0) as usize, reversed, cx)"
+        },
+        "set_search_query": {
+          "query": "string",
+          "caseInsensitive": "boolean"
+        },
+        "replace_with_token": {
+          "id": "string",
+          "text": "string",
+          "label": "string",
+          "$name": "insert_token",
+          "$call": "{ let mut token = gpui_component::input::InlineToken::new(id.clone(), text.clone()); if !label.is_empty() { token = token.with_label(label.clone()); } let _ = state.replace_with_token(token, window, cx); }"
+        },
+        "set_selection_focus": {
+          "hold": "boolean",
+          "$name": "hold_selection",
+          "$raw": "let (Some(state), Some(handle)) = (self.state.clone(), self.selection_focus.clone()) else { return };\n        cx.with_window(|window, app| {\n            if hold {\n                window.focus(&handle, app);\n            } else if handle.is_focused(window) {\n                state.update(app, |state, cx| state.focus(window, cx));\n            }\n        });"
+        }
+      },
+      "events": {
+        "Change": {
+          "name": "change",
+          "pattern": "InputEvent::Change",
+          "before": "let text = state.read(cx).value().to_string();",
+          "fields": [
+            {
+              "name": "text",
+              "ts": "string",
+              "rust": "text"
+            }
+          ]
+        },
+        "PressEnter": {
+          "name": "submit",
+          "pattern": "InputEvent::PressEnter { secondary, shift }",
+          "fields": [
+            {
+              "name": "secondary",
+              "ts": "boolean",
+              "rust": "*secondary"
+            },
+            {
+              "name": "shift",
+              "ts": "boolean",
+              "rust": "*shift"
+            }
+          ]
+        },
+        "Focus": {
+          "name": "focus",
+          "pattern": "InputEvent::Focus",
+          "fields": []
+        },
+        "Blur": {
+          "name": "blur",
+          "pattern": "InputEvent::Blur",
+          "fields": []
+        }
+      },
+      "custom": {
+        "set_cursor_position": {
+          "kind": "command",
+          "name": "setCursorPosition"
+        },
+        "set_scroll_offset": {
+          "kind": "command",
+          "name": "setScrollOffset"
+        },
+        "set_selected_range": {
+          "kind": "command",
+          "name": "setSelectedRange"
+        },
+        "set_selected_range_with_direction": {
+          "kind": "command",
+          "name": "setSelectedRangeWithDirection"
+        },
+        "set_search_query": {
+          "kind": "command",
+          "name": "setSearchQuery"
+        },
+        "set_auto_grow": {
+          "kind": "command",
+          "name": "setAutoGrow"
+        },
+        "set_text_align": {
+          "kind": "custom",
+          "name": "textAlign",
+          "ts": "CodegenTypes.WithDefault<'left' | 'center' | 'right', 'left'>",
+          "clean": "'left' | 'center' | 'right'",
+          "ty": "u8",
+          "read": "$v as u8",
+          "call": "state.set_text_align(match props.text_align() { GpuiKitNumberInputTextAlign::Center => gpui::TextAlign::Center, GpuiKitNumberInputTextAlign::Right => gpui::TextAlign::Right, _ => gpui::TextAlign::Left }, cx)"
+        },
+        "set_context_menu_enabled": {
+          "kind": "custom",
+          "name": "contextMenuEnabled",
+          "ts": "CodegenTypes.WithDefault<boolean, true>",
+          "clean": "boolean",
+          "ty": "bool",
+          "read": "$v"
+        },
+        "set_mask_pattern": {
+          "kind": "custom",
+          "name": "maskPattern",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "state.set_mask_pattern(if value.is_empty() { gpui_component::input::MaskPattern::None } else { value.as_str().into() }, window, cx)",
+          "reason": "MaskPattern::from(&str)"
+        },
+        "set_pattern": {
+          "kind": "custom",
+          "name": "pattern",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "if let Ok(pattern) = regex::Regex::new(&value) { state.set_pattern(pattern, window, cx) }",
+          "reason": "a regular expression; an invalid one is ignored"
+        },
+        "set_tab_size": {
+          "kind": "custom",
+          "name": "tabSize",
+          "ts": "CodegenTypes.WithDefault<CodegenTypes.Int32, 2>",
+          "clean": "number",
+          "ty": "(i32, bool)",
+          "read": "($v, props.hard_tabs())",
+          "call": "state.set_tab_size(gpui_component::input::TabSize { tab_size: value.0.max(1) as usize, hard_tabs: value.1 }, cx)",
+          "reason": "TabSize from tabSize and hardTabs"
+        },
+        "set_step": {
+          "kind": "custom",
+          "name": "step",
+          "ts": "CodegenTypes.Double",
+          "clean": "number",
+          "ty": "u64",
+          "read": "$v.to_bits()",
+          "jsDefault": "NaN",
+          "call": "state.set_step({ let v = f64::from_bits(value); (!v.is_nan()).then_some(gpui_component::input::NumberStep::Fixed(v)) }, window, cx)",
+          "reason": "NumberStep::Fixed; unset falls back to the Step event"
+        },
+        "set_selection_focus": {
+          "kind": "command",
+          "name": "holdSelection",
+          "reason": "the adapter owns the second FocusHandle: holdSelection(true) moves focus to it and keeps the selection highlighted, onSelectionHoldChange reports it"
+        },
+        "set_highlighter": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_highlighter_factory": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_fold_placeholder_renderer": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_editor_style": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+          "prop": "Editor"
+        },
+        "set_scrollbar_renderer": {
+          "kind": "custom",
+          "name": "scrollbarStyleJson",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "internal": true,
+          "jsMap": "props.scrollbarStyle ? JSON.stringify(props.scrollbarStyle) : ''",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "state.set_scrollbar_renderer(crate::manual::rules::scrollbar(&value))",
+          "reason": "scrollbarStyle: thumb and track colors, width, radius and autoHide, drawn by the kit Scrollbar"
+        },
+        "set_validator": {
+          "kind": "custom",
+          "name": "validationRules",
+          "ts": "string",
+          "clean": "string",
+          "ty": "String",
+          "internal": true,
+          "jsMap": "props.validation ? JSON.stringify(props.validation) : ''",
+          "read": "$v.to_string()",
+          "trackClone": "value.clone()",
+          "call": "state.set_validator(crate::manual::rules::validator(&value, { let sender = sender.clone(); move |text, message| sender.gpui_kit_number_input_validation_fail(OnGpuiKitNumberInputValidationFail { text, message }) }), cx)",
+          "reason": "validation: required, minLength, maxLength, pattern, min and max, checked in Rust on every edit; a rejected edit fires onValidationFail"
+        },
+        "set_accessibility": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "role, label, placeholder and id come from accessibilityRoleOverride, accessibilityLabel, placeholder and accessibilityId",
+          "prop": "accessibilityLabel"
+        },
+        "set_disabled": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "the element disabled prop sets it",
+          "prop": "disabled",
+          "ifUsed": true
+        },
+        "set_readonly": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "the element readonly prop sets it",
+          "prop": "readonly",
+          "ifUsed": true
+        },
+        "set_placeholder": {
+          "kind": "skip",
+          "outcome": "aliased",
+          "reason": "the element placeholder prop sets it",
+          "prop": "placeholder",
+          "ifUsed": true
+        }
+      }
+    },
+    "defaultStyle": {
+      "minHeight": 32
+    },
+    "props": {
+      "focus_ring": {
+        "kind": "custom",
+        "name": "focusRing",
+        "ts": "CodegenTypes.WithDefault<boolean, true>",
+        "clean": "boolean",
+        "apply": "element = gpui_base::FocusableExt::focus_ring(element, $v);",
+        "reason": ""
+      },
+      "aria_label": {
+        "kind": "alias",
+        "reason": "the same label as accessibilityLabel",
+        "prop": "accessibilityLabel"
+      },
+      "id": {
+        "kind": "alias",
+        "reason": "the id comes from the node tag",
+        "prop": ""
+      },
+      "on_paste": {
+        "kind": "custom",
+        "name": "pasteEvents",
+        "ts": "boolean",
+        "clean": "boolean",
+        "apply": "if $v {\n            let sender = sender.clone();\n            element = element.$m(move |item, _, _| {\n                sender.gpui_kit_number_input_paste(OnGpuiKitNumberInputPaste { text: item.text().unwrap_or_default() });\n                false\n            });\n        }",
+        "reason": "onPaste reports the pasted text; the default insertion still runs",
+        "jsMap": "props.onPaste !== undefined",
+        "internal": true
+      },
+      "on_token_click": {
+        "kind": "custom",
+        "name": "tokenClickEvents",
+        "ts": "boolean",
+        "clean": "boolean",
+        "apply": "if $v {\n            let sender = sender.clone();\n            element = element.$m(move |event, _, _| {\n                let range = event.range();\n                sender.gpui_kit_number_input_token_click(OnGpuiKitNumberInputTokenClick { id: event.token().id().to_string(), start: range.start as i32, end: range.end as i32 });\n            });\n        }",
+        "reason": "onTokenClick",
+        "jsMap": "props.onTokenClick !== undefined",
+        "internal": true
+      },
+      "on_token_hover": {
+        "kind": "custom",
+        "name": "tokenHoverEvents",
+        "ts": "boolean",
+        "clean": "boolean",
+        "apply": "if $v {\n            let sender = sender.clone();\n            element = element.$m(move |event, _, _| {\n                sender.gpui_kit_number_input_token_hover(OnGpuiKitNumberInputTokenHover { id: event.token().id().to_string(), hovered: event.is_hovered() });\n            });\n        }",
+        "reason": "onTokenHover",
+        "jsMap": "props.onTokenHover !== undefined",
+        "internal": true
+      },
+      "context_menu": {
+        "kind": "custom",
+        "name": "contextMenu",
+        "ts": "ReadonlyArray<Readonly<{ label: string; action: string; disabled: boolean }>>",
+        "clean": "ReadonlyArray<{ label: string; action: string; disabled: boolean }>",
+        "apply": "{\n            let items: Vec<(String, String, bool)> = { let list = $v; (0..list.len()).filter_map(|i| list.get(i)).map(|item| (item.label().to_string(), item.action().to_string(), item.disabled())).collect() };\n            if !items.is_empty() {\n                element = element.$m(move |mut menu, _, app| {\n                    for (label, action, disabled) in &items {\n                        if label == \"-\" {\n                            menu = menu.separator();\n                        } else if let Ok(action) = app.build_action(action, None) {\n                            menu = menu.menu_with_disabled(label.clone(), *disabled, action);\n                        }\n                    }\n                    menu\n                });\n            }\n        }",
+        "reason": "items appended to the native edit menu: a label and a registered action name; the label - is a separator"
+      }
+    },
+    "slots": [
+      "prefix",
+      "suffix"
+    ],
+    "extraEvents": [
+      {
+        "name": "validationFail",
+        "fields": [
+          {
+            "name": "text",
+            "ts": "string",
+            "rust": "text"
+          },
+          {
+            "name": "message",
+            "ts": "string",
+            "rust": "message"
+          }
+        ]
+      },
+      {
+        "name": "selectionHoldChange",
+        "fields": [
+          {
+            "name": "held",
+            "ts": "boolean",
+            "rust": "held"
+          }
+        ]
+      }
+    ],
+    "jsProps": [
+      {
+        "name": "validation",
+        "ts": "{ required?: boolean; minLength?: number; maxLength?: number; pattern?: string; min?: number; max?: number; message?: string }"
+      },
+      {
+        "name": "scrollbarStyle",
+        "ts": "{ thumbColor?: string | number; trackColor?: string | number; width?: number; radius?: number; autoHide?: boolean }"
+      }
+    ],
+    "rustFields": [
+      {
+        "name": "selection_focus",
+        "ty": "Option<gpui::FocusHandle>",
+        "init": "None"
+      },
+      {
+        "name": "selection_held",
+        "ty": "bool",
+        "init": "false"
+      }
+    ],
+    "rustBeforeReturn": "if self.selection_focus.is_none() {\n            let handle = app.focus_handle();\n            state.update(app, |state, cx| state.set_selection_focus(Some(handle.clone()), cx));\n            self.selection_focus = Some(handle);\n        }\n        let held = self.selection_focus.as_ref().is_some_and(|handle| handle.is_focused(window));\n        if held != self.selection_held {\n            self.selection_held = held;\n            sender.gpui_kit_number_input_selection_hold_change(OnGpuiKitNumberInputSelectionHoldChange { held });\n        }"
+  },
+  {
+    "path": "gpui_component::input::otp_input::OtpInput",
+    "tag": "GpuiKitOtpInput",
+    "group": "inputs",
+    "defaultStyle": {
+      "minHeight": 40
+    },
+    "extraProps": [
+      {
+        "name": "length",
+        "kind": "int"
+      }
+    ],
+    "state": {
+      "path": "gpui_base::otp_input::OtpState",
+      "ctor": "OtpState::new(if props.length() > 0 { props.length() as usize } else { 6 }, window, cx)",
+      "skipSetters": [
+        "set_value"
+      ],
+      "controlled": {
+        "prop": "value",
+        "setter": "set_value",
+        "event": "Change",
+        "valueExpr": "text.clone()"
+      },
+      "commands": {},
+      "events": {
+        "Change": {
+          "name": "change",
+          "pattern": "OtpEvent::Change",
+          "before": "let text = state.read(cx).value().to_string();",
+          "fields": [
+            {
+              "name": "text",
+              "ts": "string",
+              "rust": "text"
+            }
+          ]
+        },
+        "Complete": {
+          "name": "complete",
+          "pattern": "OtpEvent::Complete",
+          "fields": []
+        },
+        "Focus": {
+          "name": "focus",
+          "pattern": "OtpEvent::Focus",
+          "fields": []
+        },
+        "Blur": {
+          "name": "blur",
+          "pattern": "OtpEvent::Blur",
+          "fields": []
+        }
+      }
+    },
+    "props": {
+      "focus_ring": {
+        "kind": "custom",
+        "name": "focusRing",
+        "ts": "CodegenTypes.WithDefault<boolean, true>",
+        "clean": "boolean",
+        "apply": "element = gpui_base::FocusableExt::focus_ring(element, $v);",
+        "reason": ""
+      }
+    },
+    "e2e": {
+      "keys": [
+        "1",
+        "2"
+      ]
+    }
+  },
+  {
+    "path": "gpui_component::slider::Slider",
+    "tag": "GpuiKitSlider",
+    "group": "inputs",
+    "defaultStyle": {
+      "height": 20,
+      "minWidth": 120
+    },
+    "extraProps": [
+      {
+        "name": "minimum",
+        "kind": "float"
+      },
+      {
+        "name": "maximum",
+        "kind": "float"
+      },
+      {
+        "name": "step",
+        "kind": "float"
+      }
+    ],
+    "state": {
+      "path": "gpui_base::slider::SliderState",
+      "ctor": "SliderState::new().min(props.minimum() as f32).max(if props.maximum() > props.minimum() { props.maximum() as f32 } else { 100.0 }).step(if props.step() > 0.0 { props.step() as f32 } else { 1.0 })",
+      "skipSetters": [
+        "set_value"
+      ],
+      "controlled": {
+        "prop": "value",
+        "type": "double",
+        "setter": "set_value",
+        "event": "Change",
+        "valueExpr": "format!(\"{:.4}\", current)",
+        "callback": {
+          "prop": "onValueChange",
+          "field": "current",
+          "type": "number"
+        }
+      },
+      "commands": {},
+      "events": {
+        "Change": {
+          "name": "change",
+          "pattern": "SliderEvent::Change(value)",
+          "before": "let current = match value { gpui_component::slider::SliderValue::Single(v) => *v as f64, gpui_component::slider::SliderValue::Range(low, _) => *low as f64 };",
+          "fields": [
+            {
+              "name": "current",
+              "ts": "Double",
+              "rust": "current"
+            }
+          ]
+        },
+        "Release": {
+          "name": "release",
+          "pattern": "SliderEvent::Release(value)",
+          "before": "let current = match value { gpui_component::slider::SliderValue::Single(v) => *v as f64, gpui_component::slider::SliderValue::Range(low, _) => *low as f64 };",
+          "fields": [
+            {
+              "name": "current",
+              "ts": "Double",
+              "rust": "current"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "path": "gpui_component::pagination::Pagination",
+    "tag": "GpuiKitPagination",
+    "group": "primitives",
+    "events": {
+      "on_click": "change"
+    },
+    "layout": {
+      "height": 32,
+      "width": 360
+    },
+    "screenDefaults": {
+      "totalPages": 5,
+      "currentPage": 1
+    }
+  },
+  {
+    "path": "gpui_component::clipboard::Clipboard",
+    "tag": "GpuiKitClipboard",
+    "group": "primitives",
+    "events": {
+      "on_copied": "copied"
+    },
+    "skip": {},
+    "layout": {
+      "height": 32,
+      "width": 32
+    },
+    "props": {
+      "value_fn": {
+        "kind": "alias",
+        "reason": "reads the value on demand; the value prop is current on every render",
+        "prop": "value"
+      },
+      "accessibility_label": {
+        "kind": "alias",
+        "reason": "the same label as accessibilityLabel",
+        "prop": "accessibilityLabel"
+      }
+    },
+    "screenDefaults": {
+      "value": "copied"
+    },
+    "e2e": {
+      "click": false
+    }
+  },
+  {
+    "path": "gpui_component::separator::Separator",
+    "tag": "GpuiKitSeparator",
+    "group": "primitives",
+    "fill": true,
+    "ctor": "if props.orientation() == GpuiKitSeparatorOrientation::Vertical { Separator::vertical() } else { Separator::horizontal() }",
+    "extraProps": [
+      {
+        "name": "orientation",
+        "kind": "enum",
+        "variants": [
+          "horizontal",
+          "vertical"
+        ],
+        "reason": "selects Separator::horizontal or Separator::vertical"
+      }
+    ],
+    "layout": {
+      "height": 1
     }
   }
 ]
