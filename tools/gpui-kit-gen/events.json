@@ -1,16 +1,68 @@
 {
   "ClickEvent": {
     "fields": [
-      { "name": "x", "ts": "Double", "rust": "f32::from(event.position().x) as f64" },
-      { "name": "y", "ts": "Double", "rust": "f32::from(event.position().y) as f64" },
-      { "name": "rightClick", "ts": "boolean", "rust": "event.is_right_click()" },
-      { "name": "shift", "ts": "boolean", "rust": "event.modifiers().shift" },
-      { "name": "control", "ts": "boolean", "rust": "event.modifiers().control" },
-      { "name": "alt", "ts": "boolean", "rust": "event.modifiers().alt" },
-      { "name": "meta", "ts": "boolean", "rust": "event.modifiers().platform" }
+      {
+        "name": "x",
+        "ts": "Double",
+        "rust": "f32::from(event.position().x) as f64"
+      },
+      {
+        "name": "y",
+        "ts": "Double",
+        "rust": "f32::from(event.position().y) as f64"
+      },
+      {
+        "name": "rightClick",
+        "ts": "boolean",
+        "rust": "event.is_right_click()"
+      },
+      {
+        "name": "shift",
+        "ts": "boolean",
+        "rust": "event.modifiers().shift"
+      },
+      {
+        "name": "control",
+        "ts": "boolean",
+        "rust": "event.modifiers().control"
+      },
+      {
+        "name": "alt",
+        "ts": "boolean",
+        "rust": "event.modifiers().alt"
+      },
+      {
+        "name": "meta",
+        "ts": "boolean",
+        "rust": "event.modifiers().platform"
+      }
     ]
   },
   "bool": {
-    "fields": [{ "name": "state", "ts": "boolean", "rust": "*event" }]
+    "fields": [
+      {
+        "name": "state",
+        "ts": "boolean",
+        "rust": "*event"
+      }
+    ]
+  },
+  "usize": {
+    "fields": [
+      {
+        "name": "page",
+        "ts": "Int32",
+        "rust": "*event as i32"
+      }
+    ]
+  },
+  "SharedString": {
+    "fields": [
+      {
+        "name": "value",
+        "ts": "string",
+        "rust": "event.to_string()"
+      }
+    ]
   }
 }

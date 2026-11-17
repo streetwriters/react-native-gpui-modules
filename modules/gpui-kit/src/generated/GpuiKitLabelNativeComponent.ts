@@ -7,9 +7,11 @@ import {
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
+  highlightsPrefix?: boolean;
   text?: string;
   secondary?: string;
   masked?: boolean;
+  highlights?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitLabel', {

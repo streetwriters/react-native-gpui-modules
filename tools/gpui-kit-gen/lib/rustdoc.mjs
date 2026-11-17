@@ -19,7 +19,8 @@ export class Docs {
       for (const [id, entry] of Object.entries(crate.paths)) {
         if (entry.crate_id !== 0) continue;
         const path = entry.path.join('::');
-        if (!this.byPath.has(path)) this.byPath.set(path, { index, id, kind: entry.kind });
+        if (!this.byPath.has(path))
+          this.byPath.set(path, { index, id, kind: entry.kind });
       }
     }
   }
@@ -42,7 +43,8 @@ export class Docs {
 
   publicPath(index, id) {
     if (!this.publicPaths) this.publicPaths = new Map();
-    if (!this.publicPaths.has(index)) this.publicPaths.set(index, this.buildPublicPaths(index));
+    if (!this.publicPaths.has(index))
+      this.publicPaths.set(index, this.buildPublicPaths(index));
     return this.publicPaths.get(index).get(String(id)) ?? null;
   }
 
@@ -53,7 +55,11 @@ export class Docs {
     const record = (id, path) => {
       const key = String(id);
       const current = out.get(key);
-      if (!current || path.length < current.length || (path.length === current.length && path < current)) {
+      if (
+        !current ||
+        path.length < current.length ||
+        (path.length === current.length && path < current)
+      ) {
         out.set(key, path);
       }
     };
@@ -100,14 +106,16 @@ export function typeName(type) {
   if (type.primitive) return type.primitive;
   if (type.generic) return type.generic;
   if (type.resolved_path) return type.resolved_path.path;
-  if (type.borrowed_ref) return `&${type.borrowed_ref.is_mutable ? 'mut ' : ''}${typeName(type.borrowed_ref.type)}`;
+  if (type.borrowed_ref)
+    return `&${type.borrowed_ref.is_mutable ? 'mut ' : ''}${typeName(type.borrowed_ref.type)}`;
   if (type.tuple) return `(${type.tuple.map(typeName).join(', ')})`;
   if (type.slice) return `[${typeName(type.slice)}]`;
   if (type.array) return `[${typeName(type.array.type)}; N]`;
   if (type.impl_trait) {
     return `impl ${type.impl_trait.map(bound => (bound.trait_bound ? typeName({ resolved_path: bound.trait_bound.trait }) : "'lt")).join(' + ')}`;
   }
-  if (type.dyn_trait) return `dyn ${type.dyn_trait.traits.map(t => t.trait.path).join(' + ')}`;
+  if (type.dyn_trait)
+    return `dyn ${type.dyn_trait.traits.map(t => t.trait.path).join(' + ')}`;
   if (type.function_pointer) return 'fn(..)';
   if (type.qualified_path) return `${type.qualified_path.name}`;
   return Object.keys(type)[0];
@@ -120,16 +128,37 @@ export function genericArgs(path) {
 
 export function resolveStruct(docs, hit) {
   const inner = hit.item.inner;
-  if (inner.struct || inner.enum) return { index: hit.index, item: hit.item, aliasArgs: null, publicIndex: hit.index, publicId: hit.id };
+  if (inner.struct || inner.enum)
+    return {
+      index: hit.index,
+      item: hit.item,
+      aliasArgs: null,
+      publicIndex: hit.index,
+      publicId: hit.id,
+    };
   if (inner.type_alias) {
     const resolved = inner.type_alias.type?.resolved_path;
-    if (!resolved) throw new Error(`${hit.item.name}: alias does not name a type`);
+    if (!resolved)
+      throw new Error(`${hit.item.name}: alias does not name a type`);
     const target = docs.item(hit.index, resolved.id);
-    if (!target?.inner.struct && !target?.inner.enum) throw new Error(`${hit.item.name}: alias target is not a struct`);
+    if (!target?.inner.struct && !target?.inner.enum)
+      throw new Error(`${hit.item.name}: alias target is not a struct`);
     const aliasArgs = (resolved.args?.angle_bracketed?.args ?? [])
       .filter(a => a.type)
-      .map(a => ({ id: a.type.resolved_path?.id ?? null, path: a.type.resolved_path ? docs.pathOf(hit.index, a.type.resolved_path.id) : null, generic: a.type.generic ?? null }));
-    return { index: hit.index, item: target, aliasArgs, publicIndex: hit.index, publicId: hit.id };
+      .map(a => ({
+        id: a.type.resolved_path?.id ?? null,
+        path: a.type.resolved_path
+          ? docs.pathOf(hit.index, a.type.resolved_path.id)
+          : null,
+        generic: a.type.generic ?? null,
+      }));
+    return {
+      index: hit.index,
+      item: target,
+      aliasArgs,
+      publicIndex: hit.index,
+      publicId: hit.id,
+    };
   }
   throw new Error(`${hit.item.name}: not a struct, enum or alias`);
 }
@@ -141,14 +170,20 @@ function implementsTrait(docs, index, typeItem, traitPath) {
     const impl = docs.item(index, id)?.inner.impl;
     if (!impl?.trait) return false;
     const path = docs.pathOf(index, impl.trait.id) ?? impl.trait.path;
-    return path === traitPath || path.split('::').pop() === traitPath.split('::').pop();
+    return (
+      path === traitPath ||
+      path.split('::').pop() === traitPath.split('::').pop()
+    );
   });
 }
 
 export function implApplies(docs, index, impl, struct) {
   if (!struct.aliasArgs || struct.aliasArgs.length === 0) return true;
   const generics = impl.inner.impl.generics?.params ?? [];
-  const forArgs = impl.inner.impl.for?.resolved_path?.args?.angle_bracketed?.args?.filter(a => a.type) ?? [];
+  const forArgs =
+    impl.inner.impl.for?.resolved_path?.args?.angle_bracketed?.args?.filter(
+      a => a.type,
+    ) ?? [];
   if (forArgs.length === 0) return true;
   return struct.aliasArgs.every((alias, position) => {
     const arg = forArgs[position]?.type;
@@ -161,12 +196,22 @@ export function implApplies(docs, index, impl, struct) {
         const traitRef = bound.trait_bound?.trait;
         if (!traitRef) return true;
         const traitPath = docs.pathOf(index, traitRef.id) ?? traitRef.path;
-        if (/^(Sized|Send|Sync|Copy|Clone|Default|Debug|'static)$/.test(traitPath.split('::').pop())) return true;
+        if (
+          /^(Sized|Send|Sync|Copy|Clone|Default|Debug|'static)$/.test(
+            traitPath.split('::').pop(),
+          )
+        )
+          return true;
         return implementsTrait(docs, index, aliasItem, traitPath);
       });
     }
-    const path = arg.resolved_path ? docs.pathOf(index, arg.resolved_path.id) : null;
+    const path = arg.resolved_path
+      ? docs.pathOf(index, arg.resolved_path.id)
+      : null;
     if (!path || !alias.path) return false;
-    return path === alias.path || path.split('::').pop() === alias.path.split('::').pop();
+    return (
+      path === alias.path ||
+      path.split('::').pop() === alias.path.split('::').pop()
+    );
   });
 }

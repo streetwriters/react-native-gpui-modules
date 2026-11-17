@@ -5,25 +5,21 @@ import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitShimmerTextNativeComponent';
 import type { IconName } from './icons';
 
-
 export interface ShimmerTextProps extends ViewProps {
   children?: React.ReactNode;
+  spreadPixels?: number;
   text?: string;
   duration?: number;
   highlightColor?: ColorValue;
+  spread?: number;
   reverse?: boolean;
   once?: boolean;
 }
 
-export const ShimmerText = forwardRef<ComponentRef<typeof Native>, ShimmerTextProps>(function ShimmerText(props, ref) {
+export const ShimmerText = forwardRef<
+  ComponentRef<typeof Native>,
+  ShimmerTextProps
+>(function ShimmerText(props, ref) {
   const { style, children, ...rest } = props;
-  const height = 20;
-  const width = Math.max(height, Math.ceil((props.text?.length ?? 0) * 7.5 + 0));
-  return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[{ height, width }, style]}
-    />
-  );
+  return <Native ref={ref} {...rest} style={[style]} />;
 });

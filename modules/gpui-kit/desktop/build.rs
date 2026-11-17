@@ -17,5 +17,93 @@ fn main() {
         "../src/generated/GpuiKitToggleNativeComponent.ts",
         "../src/generated/GpuiKitAlertNativeComponent.ts",
         "../src/generated/GpuiKitShimmerTextNativeComponent.ts",
+        "../src/generated/GpuiKitCheckboxNativeComponent.ts",
+        "../src/generated/GpuiKitRadioNativeComponent.ts",
+        "../src/generated/GpuiKitSwitchNativeComponent.ts",
+        "../src/generated/GpuiKitRatingNativeComponent.ts",
+        "../src/generated/GpuiKitTextareaNativeComponent.ts",
+        "../src/generated/GpuiKitNumberInputNativeComponent.ts",
+        "../src/generated/GpuiKitOtpInputNativeComponent.ts",
+        "../src/generated/GpuiKitSliderNativeComponent.ts",
+        "../src/generated/GpuiKitPaginationNativeComponent.ts",
+        "../src/generated/GpuiKitClipboardNativeComponent.ts",
+        "../src/generated/GpuiKitSeparatorNativeComponent.ts",
+        "../src/manual/GpuiKitKbdNativeComponent.ts",
+        "../src/manual/GpuiKitMarkerNativeComponent.ts",
+        "../src/manual/GpuiKitGroupBoxNativeComponent.ts",
+        "../src/manual/GpuiKitEmptyNativeComponent.ts",
+        "../src/manual/GpuiKitDescriptionListNativeComponent.ts",
+        "../src/manual/GpuiKitAvatarGroupNativeComponent.ts",
+        "../src/manual/GpuiKitToggleGroupNativeComponent.ts",
+        "../src/manual/GpuiKitButtonGroupNativeComponent.ts",
+        "../src/manual/GpuiKitDropdownButtonNativeComponent.ts",
+        "../src/manual/GpuiKitBreadcrumbNativeComponent.ts",
+        "../src/manual/GpuiKitStepperNativeComponent.ts",
+        "../src/manual/GpuiKitCollapsibleNativeComponent.ts",
+        "../src/manual/GpuiKitAccordionNativeComponent.ts",
+        "../src/manual/GpuiKitDialogNativeComponent.ts",
+        "../src/manual/GpuiKitAlertDialogNativeComponent.ts",
+        "../src/manual/GpuiKitSheetNativeComponent.ts",
+        "../src/manual/GpuiKitNotificationNativeComponent.ts",
+        "../src/manual/GpuiKitPopoverNativeComponent.ts",
+        "../src/manual/GpuiKitHoverCardNativeComponent.ts",
+        "../src/manual/GpuiKitDropdownMenuNativeComponent.ts",
+        "../src/manual/GpuiKitTooltipNativeComponent.ts",
+        "../src/manual/GpuiKitPopupMenuNativeComponent.ts",
+        "../src/manual/GpuiKitCommandNativeComponent.ts",
+        "../src/manual/GpuiKitSelectNativeComponent.ts",
+        "../src/manual/GpuiKitComboboxNativeComponent.ts",
+        "../src/manual/GpuiKitTabBarNativeComponent.ts",
+        "../src/manual/GpuiKitCalendarNativeComponent.ts",
+        "../src/manual/GpuiKitDatePickerNativeComponent.ts",
+        "../src/manual/GpuiKitTimeFieldNativeComponent.ts",
+        "../src/manual/GpuiKitColorPickerNativeComponent.ts",
+        "../src/manual/GpuiKitListNativeComponent.ts",
+        "../src/manual/GpuiKitTreeNativeComponent.ts",
+        "../src/manual/GpuiKitTableNativeComponent.ts",
+        "../src/manual/GpuiKitStatusBarNativeComponent.ts",
+        "../src/manual/GpuiKitToolbarNativeComponent.ts",
+        "../src/manual/GpuiKitResizableNativeComponent.ts",
+        "../src/manual/GpuiKitCarouselNativeComponent.ts",
+        "../src/manual/GpuiKitInputGroupNativeComponent.ts",
+        "../src/manual/GpuiKitSidebarNativeComponent.ts",
+        "../src/manual/GpuiKitThemeNativeComponent.ts",
+        "../src/manual/GpuiKitChartNativeComponent.ts",
+        "../src/manual/GpuiKitFormNativeComponent.ts",
+        "../src/manual/GpuiKitMessageNativeComponent.ts",
+        "../src/manual/GpuiKitBubbleNativeComponent.ts",
+        "../src/manual/GpuiKitAttachmentNativeComponent.ts",
+        "../src/manual/GpuiKitMessageScrollerNativeComponent.ts",
+        "../src/manual/GpuiKitTextViewNativeComponent.ts",
+        "../src/manual/GpuiKitScrollAreaNativeComponent.ts",
+        "../src/manual/GpuiKitEditorNativeComponent.ts",
+        "../src/manual/GpuiKitDiffNativeComponent.ts",
+        "../src/manual/GpuiKitTitleBarNativeComponent.ts",
+        "../src/manual/GpuiKitWindowBorderNativeComponent.ts",
+        "../src/manual/GpuiKitGridLayoutNativeComponent.ts",
+        "../src/manual/GpuiKitSettingsNativeComponent.ts",
+        "../src/manual/GpuiKitSpeechNativeComponent.ts",
+        "../src/manual/GpuiKitHistoryNativeComponent.ts",
+        "../src/manual/GpuiKitInspectorNativeComponent.ts",
+        "../src/manual/GpuiKitVirtualListNativeComponent.ts",
+        "../src/manual/GpuiKitDockNativeComponent.ts",
+        "../src/manual/GpuiKitQuestionnaireNativeComponent.ts",
+        "../src/manual/GpuiKitPlotNativeComponent.ts",
     ]);
+    test_rpaths();
+}
+
+/// Core's runtime is shared libraries (`libjsi.dylib`, ...). Core puts their
+/// directories on the app's rpath only, so this crate's test binary gets them here.
+fn test_rpaths() {
+    println!("cargo:rerun-if-env-changed=DEP_RN_GPUI_CORE_RPATHS");
+    if std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("windows") {
+        return;
+    }
+    let Ok(dirs) = std::env::var("DEP_RN_GPUI_CORE_RPATHS") else {
+        return;
+    };
+    for dir in dirs.split('|').filter(|dir| !dir.is_empty()) {
+        println!("cargo:rustc-link-arg=-Wl,-rpath,{dir}");
+    }
 }

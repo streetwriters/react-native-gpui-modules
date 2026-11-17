@@ -1,4 +1,9 @@
-import { genericArgs, implApplies, resolveStruct, typeName } from './rustdoc.mjs';
+import {
+  genericArgs,
+  implApplies,
+  resolveStruct,
+  typeName,
+} from './rustdoc.mjs';
 
 function isSelfValue(input) {
   return input[0] === 'self' && input[1]?.generic === 'Self';
@@ -14,15 +19,34 @@ function fnInfo(item) {
     inputs,
     output,
     selfValue: inputs.length > 0 && isSelfValue(inputs[0]),
-    selfRef: inputs.length > 0 && inputs[0][0] === 'self' && !!inputs[0][1]?.borrowed_ref,
+    selfRef:
+      inputs.length > 0 &&
+      inputs[0][0] === 'self' &&
+      !!inputs[0][1]?.borrowed_ref,
     returnsSelf: output?.generic === 'Self',
     docs: item.docs ?? '',
     generics: fn.generics,
   };
 }
 
-export function closureOf(type) {
-  const bound = type?.impl_trait?.find(b => b.trait_bound)?.trait_bound?.trait;
+export function closureOf(type, generics) {
+  let bound = type?.impl_trait?.find(b => b.trait_bound)?.trait_bound?.trait;
+  if (!bound && type?.generic && generics) {
+    const param = generics.params?.find(p => p.name === type.generic);
+    bound = param?.kind?.type?.bounds?.find(
+      b =>
+        b.trait_bound && /^(Fn|FnMut|FnOnce)$/.test(b.trait_bound.trait.path),
+    )?.trait_bound.trait;
+    if (!bound) {
+      const predicate = generics.where_predicates?.find(
+        w => w.bound_predicate?.type?.generic === type.generic,
+      );
+      bound = predicate?.bound_predicate.bounds.find(
+        b =>
+          b.trait_bound && /^(Fn|FnMut|FnOnce)$/.test(b.trait_bound.trait.path),
+      )?.trait_bound.trait;
+    }
+  }
   const args = bound?.args?.parenthesized;
   if (!args || !/^(Fn|FnMut|FnOnce)$/.test(bound.path)) return null;
   return { inputs: args.inputs, output: args.output };
@@ -54,18 +78,24 @@ export function extractComponent(docs, path) {
         const item = docs.item(hit.index, id);
         const info = item && fnInfo(item);
         if (!info || item.visibility !== 'public') continue;
-        if (!info.inputs.some(i => i[0] === 'self') && info.output && (info.output.generic === 'Self' || typeName(info.output) === component.name)) {
+        if (
+          !info.inputs.some(i => i[0] === 'self') &&
+          info.output &&
+          (info.output.generic === 'Self' ||
+            typeName(info.output) === component.name)
+        ) {
           component.constructors.push(info);
         } else if (info.selfValue && info.returnsSelf) {
           const last = info.inputs[info.inputs.length - 1];
-          if (closureOf(last?.[1])) component.events.push(info);
+          if (closureOf(last?.[1], info.generics)) component.events.push(info);
           else component.builders.push(info);
         } else {
           component.others.push(info);
         }
       }
     } else {
-      const traitPath = docs.pathOf(hit.index, inner.trait.id) ?? inner.trait.path;
+      const traitPath =
+        docs.pathOf(hit.index, inner.trait.id) ?? inner.trait.path;
       component.traits.push(traitPath);
       const traitHit = docs.find(traitPath);
       if (!traitHit || !traitHit.item.inner.trait) continue;
@@ -87,6 +117,7 @@ export function describeParam(type) {
     return `Fn(${closure.inputs.map(typeName).join(', ')})`;
   }
   const inner = type?.impl_trait?.[0]?.trait_bound?.trait;
-  if (inner) return `impl ${inner.path}<${genericArgs(inner).map(typeName).join(', ')}>`;
+  if (inner)
+    return `impl ${inner.path}<${genericArgs(inner).map(typeName).join(', ')}>`;
   return typeName(type);
 }

@@ -1,0 +1,1873 @@
+[
+  {
+    "tag": "GpuiKitKbd",
+    "name": "Kbd",
+    "coverage": [
+      {
+        "item": "Kbd::new",
+        "outcome": "generated",
+        "prop": "keystroke",
+        "reason": "Keystroke::parse takes a 'static string, so the source is interned in a small cache and parsed once"
+      },
+      {
+        "item": "Kbd::appearance",
+        "outcome": "generated",
+        "prop": "appearance",
+        "reason": ""
+      },
+      {
+        "item": "Kbd::outline",
+        "outcome": "generated",
+        "prop": "outline",
+        "reason": ""
+      },
+      {
+        "item": "Kbd::binding_for_action",
+        "outcome": "generated",
+        "reason": "action with actionContext (actionScope any): a registered action name built with App::build_action",
+        "prop": "action"
+      },
+      {
+        "item": "Kbd::binding_for_action_in",
+        "outcome": "generated",
+        "reason": "actionScope focused: the binding that applies at the window focus",
+        "prop": "actionScope"
+      },
+      {
+        "item": "Kbd::global_binding_for_action",
+        "outcome": "generated",
+        "reason": "actionScope global",
+        "prop": "actionScope"
+      },
+      {
+        "item": "Kbd::format",
+        "outcome": "skipped",
+        "reason": "a free function from a Keystroke to a string; it renders nothing, and Kbd shows the same text"
+      },
+      {
+        "item": "Kbd::from(Keystroke)",
+        "outcome": "aliased",
+        "reason": "covered by the keystroke prop",
+        "prop": "keystroke"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitMarker",
+    "name": "Marker",
+    "coverage": [
+      {
+        "item": "Marker::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; the id comes from the node tag"
+      },
+      {
+        "item": "Marker::id",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "the id comes from the node tag"
+      },
+      {
+        "item": "Marker::with_variant",
+        "outcome": "generated",
+        "prop": "variant",
+        "reason": ""
+      },
+      {
+        "item": "Marker::alignment",
+        "outcome": "generated",
+        "prop": "alignment",
+        "reason": ""
+      },
+      {
+        "item": "Marker::loading",
+        "outcome": "generated",
+        "prop": "loading",
+        "reason": ""
+      },
+      {
+        "item": "Marker::with_loading_style",
+        "outcome": "generated",
+        "prop": "loadingStyle",
+        "reason": ""
+      },
+      {
+        "item": "Marker::icon",
+        "outcome": "generated",
+        "prop": "icon",
+        "reason": "a slot named icon (React children) or the icon prop"
+      },
+      {
+        "item": "Marker::content",
+        "outcome": "generated",
+        "prop": "text",
+        "reason": "a slot named content (React children) and the text prop"
+      },
+      {
+        "item": "MarkerIcon::child",
+        "outcome": "generated",
+        "prop": "icon",
+        "reason": "the icon slot"
+      },
+      {
+        "item": "MarkerContent::text",
+        "outcome": "generated",
+        "prop": "text",
+        "reason": ""
+      },
+      {
+        "item": "MarkerContent::child",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "the content slot"
+      },
+      {
+        "item": "Marker::role",
+        "outcome": "generated",
+        "reason": "a string: implicit, presentational or an accessibility role name",
+        "prop": "accessibilityRoleOverride"
+      },
+      {
+        "item": "Marker::with_shimmer_style",
+        "outcome": "generated",
+        "reason": "ShimmerStyle from shimmerDuration, shimmerHighlightColor, shimmerSpread, shimmerReverse and shimmerOnce",
+        "prop": "shimmerDuration"
+      },
+      {
+        "item": "Marker::separator_style",
+        "outcome": "generated",
+        "reason": "a KitStyle (colors, border, radius, padding, font size and weight, opacity) refined into a StyleRefinement",
+        "prop": "separatorStyle"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitGroupBox",
+    "name": "GroupBox",
+    "coverage": [
+      {
+        "item": "GroupBox::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      },
+      {
+        "item": "GroupBox::id",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "the id comes from the node tag"
+      },
+      {
+        "item": "GroupBox::with_variant",
+        "outcome": "generated",
+        "prop": "variant",
+        "reason": ""
+      },
+      {
+        "item": "GroupBox::title",
+        "outcome": "generated",
+        "prop": "title",
+        "reason": "a slot named title (React children) or the title prop"
+      },
+      {
+        "item": "GroupBox::footer",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "a slot named footer (React children)"
+      },
+      {
+        "item": "GroupBox::child",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "the body slot (React children)"
+      },
+      {
+        "item": "GroupBox::title_style",
+        "outcome": "generated",
+        "reason": "a KitStyle refined into a StyleRefinement",
+        "prop": "titleStyle"
+      },
+      {
+        "item": "GroupBox::content_style",
+        "outcome": "generated",
+        "reason": "a KitStyle refined into a StyleRefinement",
+        "prop": "contentStyle"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitEmpty",
+    "name": "Empty",
+    "coverage": [
+      {
+        "item": "Empty::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      },
+      {
+        "item": "Empty::header",
+        "outcome": "generated",
+        "prop": "title",
+        "reason": "EmptyHeader built from the media, title and description slots and props"
+      },
+      {
+        "item": "Empty::content",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "the content slot (React children)"
+      },
+      {
+        "item": "EmptyHeader::media",
+        "outcome": "generated",
+        "prop": "icon",
+        "reason": "EmptyMedia with the icon prop or a media slot"
+      },
+      {
+        "item": "EmptyHeader::title",
+        "outcome": "generated",
+        "prop": "title",
+        "reason": "EmptyTitle with the title prop or a title slot"
+      },
+      {
+        "item": "EmptyHeader::description",
+        "outcome": "generated",
+        "prop": "description",
+        "reason": "EmptyDescription with the description prop or a description slot"
+      },
+      {
+        "item": "EmptyMedia::with_variant",
+        "outcome": "generated",
+        "prop": "icon",
+        "reason": "the icon variant is used when the icon prop is set"
+      },
+      {
+        "item": "EmptyContent::child",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "the content slot"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitDescriptionList",
+    "name": "DescriptionList",
+    "coverage": [
+      {
+        "item": "DescriptionList::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      },
+      {
+        "item": "DescriptionList::vertical",
+        "outcome": "aliased",
+        "prop": "layout",
+        "reason": "covered by layout"
+      },
+      {
+        "item": "DescriptionList::horizontal",
+        "outcome": "aliased",
+        "prop": "layout",
+        "reason": "covered by layout"
+      },
+      {
+        "item": "DescriptionList::layout",
+        "outcome": "generated",
+        "prop": "layout",
+        "reason": ""
+      },
+      {
+        "item": "DescriptionList::label_width",
+        "outcome": "generated",
+        "prop": "labelWidth",
+        "reason": ""
+      },
+      {
+        "item": "DescriptionList::bordered",
+        "outcome": "generated",
+        "prop": "bordered",
+        "reason": ""
+      },
+      {
+        "item": "DescriptionList::columns",
+        "outcome": "generated",
+        "prop": "columns",
+        "reason": ""
+      },
+      {
+        "item": "DescriptionList::item",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "label, value and span of an item"
+      },
+      {
+        "item": "DescriptionList::child",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "an item with a value that is React content uses the value-N slot"
+      },
+      {
+        "item": "DescriptionList::children",
+        "outcome": "aliased",
+        "prop": "items",
+        "reason": "covered by items"
+      },
+      {
+        "item": "DescriptionList::separator",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "an item with separator set"
+      },
+      {
+        "item": "DescriptionList::with_size",
+        "outcome": "generated",
+        "prop": "size",
+        "reason": ""
+      },
+      {
+        "item": "DescriptionItem::new",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "DescriptionItem::value",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "DescriptionItem::span",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitAvatarGroup",
+    "name": "AvatarGroup",
+    "coverage": [
+      {
+        "item": "AvatarGroup::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      },
+      {
+        "item": "AvatarGroup::child",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "each Avatar child of the React component becomes an item"
+      },
+      {
+        "item": "AvatarGroup::children",
+        "outcome": "aliased",
+        "prop": "items",
+        "reason": "covered by items"
+      },
+      {
+        "item": "AvatarGroup::limit",
+        "outcome": "generated",
+        "prop": "limit",
+        "reason": ""
+      },
+      {
+        "item": "AvatarGroup::ellipsis",
+        "outcome": "generated",
+        "prop": "ellipsis",
+        "reason": ""
+      },
+      {
+        "item": "AvatarGroup::with_size",
+        "outcome": "generated",
+        "prop": "size",
+        "reason": ""
+      },
+      {
+        "item": "Avatar::src",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "an item's src is a web address or a file path"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitToggleGroup",
+    "name": "ToggleGroup",
+    "coverage": [
+      {
+        "item": "ToggleGroup::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; the id comes from the node tag"
+      },
+      {
+        "item": "ToggleGroup::child",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "each Toggle child of the React component becomes an item"
+      },
+      {
+        "item": "ToggleGroup::children",
+        "outcome": "aliased",
+        "prop": "items",
+        "reason": "covered by items"
+      },
+      {
+        "item": "ToggleGroup::on_click",
+        "outcome": "generated",
+        "prop": "onChange",
+        "reason": "reports the indices that are checked"
+      },
+      {
+        "item": "ToggleGroup::segmented",
+        "outcome": "generated",
+        "prop": "segmented",
+        "reason": ""
+      },
+      {
+        "item": "ToggleGroup::single",
+        "outcome": "generated",
+        "prop": "single",
+        "reason": ""
+      },
+      {
+        "item": "ToggleGroup::with_variant",
+        "outcome": "generated",
+        "prop": "variant",
+        "reason": ""
+      },
+      {
+        "item": "ToggleGroup::disabled",
+        "outcome": "generated",
+        "prop": "disabled",
+        "reason": ""
+      },
+      {
+        "item": "ToggleGroup::with_size",
+        "outcome": "generated",
+        "prop": "size",
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitButtonGroup",
+    "name": "ButtonGroup",
+    "coverage": [
+      {
+        "item": "ButtonGroup::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; the id comes from the node tag"
+      },
+      {
+        "item": "ButtonGroup::child",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "each Button child of the React component becomes an item"
+      },
+      {
+        "item": "ButtonGroup::children",
+        "outcome": "aliased",
+        "prop": "items",
+        "reason": "covered by items"
+      },
+      {
+        "item": "ButtonGroup::multiple",
+        "outcome": "generated",
+        "prop": "multiple",
+        "reason": ""
+      },
+      {
+        "item": "ButtonGroup::layout",
+        "outcome": "generated",
+        "prop": "layout",
+        "reason": ""
+      },
+      {
+        "item": "ButtonGroup::compact",
+        "outcome": "generated",
+        "prop": "compact",
+        "reason": ""
+      },
+      {
+        "item": "ButtonGroup::outline",
+        "outcome": "generated",
+        "prop": "outline",
+        "reason": ""
+      },
+      {
+        "item": "ButtonGroup::on_click",
+        "outcome": "generated",
+        "prop": "onPress",
+        "reason": "reports the indices of the pressed buttons"
+      },
+      {
+        "item": "ButtonGroup::disabled",
+        "outcome": "generated",
+        "prop": "disabled",
+        "reason": ""
+      },
+      {
+        "item": "ButtonGroup::with_size",
+        "outcome": "generated",
+        "prop": "size",
+        "reason": ""
+      },
+      {
+        "item": "ButtonGroup::with_variant",
+        "outcome": "generated",
+        "prop": "variant",
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitDropdownButton",
+    "name": "DropdownButton",
+    "coverage": [
+      {
+        "item": "DropdownButton::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; the id comes from the node tag"
+      },
+      {
+        "item": "DropdownButton::button",
+        "outcome": "generated",
+        "prop": "label",
+        "reason": "label, icon and loading of the action half, onPress for its click"
+      },
+      {
+        "item": "DropdownButton::dropdown_menu",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "a PopupMenu built from the items; onSelect reports the index"
+      },
+      {
+        "item": "DropdownButton::dropdown_menu_with_anchor",
+        "outcome": "generated",
+        "prop": "anchor",
+        "reason": ""
+      },
+      {
+        "item": "DropdownButton::menu_accessibility_label",
+        "outcome": "generated",
+        "prop": "menuAccessibilityLabel",
+        "reason": ""
+      },
+      {
+        "item": "DropdownButton::outline",
+        "outcome": "generated",
+        "prop": "outline",
+        "reason": ""
+      },
+      {
+        "item": "DropdownButton::disabled",
+        "outcome": "generated",
+        "prop": "disabled",
+        "reason": ""
+      },
+      {
+        "item": "DropdownButton::selected",
+        "outcome": "generated",
+        "prop": "selected",
+        "reason": ""
+      },
+      {
+        "item": "DropdownButton::with_size",
+        "outcome": "generated",
+        "prop": "size",
+        "reason": ""
+      },
+      {
+        "item": "DropdownButton::with_variant",
+        "outcome": "generated",
+        "prop": "variant",
+        "reason": ""
+      },
+      {
+        "item": "PopupMenu::submenu",
+        "outcome": "generated",
+        "reason": "an item with children opens a submenu built with PopupMenu::submenu_with_icon",
+        "prop": "items[].children"
+      },
+      {
+        "item": "PopupMenuItem::action",
+        "outcome": "generated",
+        "reason": "a registered action name built with App::build_action; the item shows its keybinding and dispatches it",
+        "prop": "items[].action"
+      },
+      {
+        "item": "PopupMenuItem::element",
+        "outcome": "generated",
+        "reason": "React Native content, rendered by a child renderer each time the menu draws",
+        "prop": "items[].content"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitBreadcrumb",
+    "name": "Breadcrumb",
+    "coverage": [
+      {
+        "item": "Breadcrumb::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      },
+      {
+        "item": "Breadcrumb::child",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "Breadcrumb::children",
+        "outcome": "aliased",
+        "prop": "items",
+        "reason": "covered by items"
+      },
+      {
+        "item": "BreadcrumbItem::new",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "label"
+      },
+      {
+        "item": "BreadcrumbItem::disabled",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "BreadcrumbItem::on_click",
+        "outcome": "generated",
+        "prop": "onPress",
+        "reason": "reports the index"
+      },
+      {
+        "item": "BreadcrumbItem::style",
+        "outcome": "generated",
+        "reason": "a KitStyle refined into the item style",
+        "prop": "items[].style"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitStepper",
+    "name": "Stepper",
+    "coverage": [
+      {
+        "item": "Stepper::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; the id comes from the node tag"
+      },
+      {
+        "item": "Stepper::text_center",
+        "outcome": "generated",
+        "prop": "textCenter",
+        "reason": ""
+      },
+      {
+        "item": "Stepper::layout",
+        "outcome": "generated",
+        "prop": "layout",
+        "reason": ""
+      },
+      {
+        "item": "Stepper::vertical",
+        "outcome": "aliased",
+        "prop": "layout",
+        "reason": "covered by layout"
+      },
+      {
+        "item": "Stepper::selected_index",
+        "outcome": "generated",
+        "prop": "selectedIndex",
+        "reason": ""
+      },
+      {
+        "item": "Stepper::item",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "Stepper::items",
+        "outcome": "aliased",
+        "prop": "items",
+        "reason": "covered by items"
+      },
+      {
+        "item": "Stepper::disabled",
+        "outcome": "generated",
+        "prop": "disabled",
+        "reason": ""
+      },
+      {
+        "item": "Stepper::on_click",
+        "outcome": "generated",
+        "prop": "onSelect",
+        "reason": "reports the index"
+      },
+      {
+        "item": "Stepper::with_size",
+        "outcome": "generated",
+        "prop": "size",
+        "reason": ""
+      },
+      {
+        "item": "StepperItem::icon",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "StepperItem::disabled",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "StepperItem::child",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "the title of the item"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitCollapsible",
+    "name": "Collapsible",
+    "coverage": [
+      {
+        "item": "Collapsible::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      },
+      {
+        "item": "Collapsible::open",
+        "outcome": "generated",
+        "prop": "open",
+        "reason": ""
+      },
+      {
+        "item": "Collapsible::motion_id",
+        "outcome": "generated",
+        "reason": "the node id; the reveal animates unless animations are disabled",
+        "prop": ""
+      },
+      {
+        "item": "Collapsible::content",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "the content slot (React children)"
+      },
+      {
+        "item": "Collapsible::child",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "the trigger slot"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitAccordion",
+    "name": "Accordion",
+    "coverage": [
+      {
+        "item": "Accordion::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; the id comes from the node tag"
+      },
+      {
+        "item": "Accordion::multiple",
+        "outcome": "generated",
+        "prop": "multiple",
+        "reason": ""
+      },
+      {
+        "item": "Accordion::bordered",
+        "outcome": "generated",
+        "prop": "bordered",
+        "reason": ""
+      },
+      {
+        "item": "Accordion::disabled",
+        "outcome": "generated",
+        "prop": "disabled",
+        "reason": ""
+      },
+      {
+        "item": "Accordion::item",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "an AccordionItem per entry; its content is the item-N slot"
+      },
+      {
+        "item": "Accordion::on_toggle_click",
+        "outcome": "generated",
+        "prop": "onToggle",
+        "reason": "reports the indices of the open items"
+      },
+      {
+        "item": "Accordion::with_size",
+        "outcome": "generated",
+        "prop": "size",
+        "reason": ""
+      },
+      {
+        "item": "AccordionItem::title",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "AccordionItem::icon",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "AccordionItem::open",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "AccordionItem::disabled",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "AccordionItem::child",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "the content slot of the item"
+      },
+      {
+        "item": "AccordionItem::title_style",
+        "outcome": "generated",
+        "reason": "a KitStyle for every item",
+        "prop": "titleStyle"
+      },
+      {
+        "item": "AccordionItem::content_style",
+        "outcome": "generated",
+        "reason": "a KitStyle for every item",
+        "prop": "contentStyle"
+      },
+      {
+        "item": "AccordionItem::hover",
+        "outcome": "generated",
+        "reason": "a KitStyle used as the hover refinement of every item",
+        "prop": "itemHoverStyle"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitDialog",
+    "name": "Dialog",
+    "coverage": [
+      {
+        "item": "Dialog::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitAlertDialog",
+    "name": "AlertDialog",
+    "coverage": [
+      {
+        "item": "AlertDialog::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitSheet",
+    "name": "Sheet",
+    "coverage": [
+      {
+        "item": "Sheet::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitNotification",
+    "name": "Notification",
+    "coverage": [
+      {
+        "item": "Notification::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitPopover",
+    "name": "Popover",
+    "coverage": []
+  },
+  {
+    "tag": "GpuiKitHoverCard",
+    "name": "HoverCard",
+    "coverage": [
+      {
+        "item": "HoverCard::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitDropdownMenu",
+    "name": "DropdownMenu",
+    "coverage": [
+      {
+        "item": "DropdownMenu::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      },
+      {
+        "item": "ContextMenu::menu",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "a DropdownMenu popup opened by a secondary press on the React Native trigger; the kit's context_menu extension cannot hear presses that React Native content takes"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitTooltip",
+    "name": "Tooltip",
+    "coverage": [
+      {
+        "item": "Tooltip::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitPopupMenu",
+    "name": "PopupMenu",
+    "coverage": [
+      {
+        "item": "PopupMenu::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitCommand",
+    "name": "Command",
+    "coverage": [
+      {
+        "item": "Command::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitSelect",
+    "name": "Select",
+    "coverage": [
+      {
+        "item": "Select::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor over a SearchableVec of strings"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitCombobox",
+    "name": "Combobox",
+    "coverage": [
+      {
+        "item": "Combobox::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor over a SearchableVec of strings"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitTabBar",
+    "name": "TabBar",
+    "coverage": [
+      {
+        "item": "TabBar::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; Tabs adds the React Native panel of the selected tab"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitCalendar",
+    "name": "Calendar",
+    "coverage": [
+      {
+        "item": "Calendar::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor over its state entity"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitDatePicker",
+    "name": "DatePicker",
+    "coverage": [
+      {
+        "item": "DatePicker::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor over its state entity"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitTimeField",
+    "name": "TimeField",
+    "coverage": [
+      {
+        "item": "TimeField::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor over its state entity"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitColorPicker",
+    "name": "ColorPicker",
+    "coverage": [
+      {
+        "item": "ColorPicker::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor over its state entity"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitList",
+    "name": "List",
+    "coverage": [
+      {
+        "item": "List::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor over its state entity and a delegate that holds the rows"
+      },
+      {
+        "item": "ListState::searchable",
+        "outcome": "generated",
+        "prop": "searchable",
+        "reason": "`SearchableList` is `List` with a search field"
+      },
+      {
+        "item": "ListDelegate::perform_search",
+        "outcome": "generated",
+        "prop": "searchable",
+        "reason": "rows are filtered by their label"
+      },
+      {
+        "item": "SearchableListDelegate",
+        "outcome": "aliased",
+        "prop": "",
+        "reason": "the search machinery behind `Select` and `Combobox`, which wrap it with their own lists"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitTree",
+    "name": "Tree",
+    "coverage": [
+      {
+        "item": "Tree::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor over its state entity and a delegate that holds the rows"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitTable",
+    "name": "Table",
+    "coverage": [
+      {
+        "item": "DataTable::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor over a TableState whose delegate holds the columns, the cells and the React Native cell renderers"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitStatusBar",
+    "name": "StatusBar",
+    "coverage": [
+      {
+        "item": "StatusBar::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; React Native views are the slots of the component"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitToolbar",
+    "name": "Toolbar",
+    "coverage": [
+      {
+        "item": "Toolbar::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; React Native views are the slots of the component"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitResizable",
+    "name": "Resizable",
+    "coverage": [
+      {
+        "item": "Resizable::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; React Native views are the slots of the component"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitCarousel",
+    "name": "Carousel",
+    "coverage": [
+      {
+        "item": "Carousel::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; React Native views are the slots of the component"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitInputGroup",
+    "name": "InputGroup",
+    "coverage": [
+      {
+        "item": "InputGroup::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitSidebar",
+    "name": "Sidebar",
+    "coverage": [
+      {
+        "item": "Sidebar::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitTheme",
+    "name": "Theme",
+    "coverage": [
+      {
+        "item": "Theme::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitChart",
+    "name": "Chart",
+    "coverage": [
+      {
+        "item": "LineChart::new",
+        "outcome": "generated",
+        "prop": "kind",
+        "reason": "kind line"
+      },
+      {
+        "item": "AreaChart::new",
+        "outcome": "generated",
+        "prop": "kind",
+        "reason": "kind area"
+      },
+      {
+        "item": "BarChart::new",
+        "outcome": "generated",
+        "prop": "kind",
+        "reason": "kind bar"
+      },
+      {
+        "item": "PieChart::new",
+        "outcome": "generated",
+        "prop": "kind",
+        "reason": "kind pie"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitForm",
+    "name": "Form",
+    "coverage": [
+      {
+        "item": "Form::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; a Field per entry whose control is the field-N slot"
+      },
+      {
+        "item": "Field::new",
+        "outcome": "generated",
+        "prop": "fields",
+        "reason": "label, description, required, visible, colSpan"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitMessage",
+    "name": "Message",
+    "coverage": [
+      {
+        "item": "Message::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; React Native views are the slots"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitBubble",
+    "name": "Bubble",
+    "coverage": [
+      {
+        "item": "Bubble::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; React Native views are the slots"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitAttachment",
+    "name": "Attachment",
+    "coverage": [
+      {
+        "item": "Attachment::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; React Native views are the slots"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitMessageScroller",
+    "name": "MessageScroller",
+    "coverage": [
+      {
+        "item": "MessageScroller::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; React Native views are the slots"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitTextView",
+    "name": "TextView",
+    "coverage": [
+      {
+        "item": "TextView::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitScrollArea",
+    "name": "ScrollArea",
+    "coverage": [
+      {
+        "item": "ScrollArea::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitEditor",
+    "name": "Editor",
+    "coverage": [
+      {
+        "item": "Editor::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "the code editor; its `language` selects the kit's syntax highlighter, which is how Highlighter is exposed"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitDiff",
+    "name": "Diff",
+    "coverage": [
+      {
+        "item": "Diff::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "a unified patch shown as a diff, with syntax highlighting from the kit's highlighter"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitTitleBar",
+    "name": "TitleBar",
+    "coverage": [
+      {
+        "item": "TitleBar::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; React Native views are the slots"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitWindowBorder",
+    "name": "WindowBorder",
+    "coverage": [
+      {
+        "item": "WindowBorder::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; React Native views are the slots"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitGridLayout",
+    "name": "GridLayout",
+    "coverage": [
+      {
+        "item": "GridLayout::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; React Native views are the slots"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitSettings",
+    "name": "Settings",
+    "coverage": [
+      {
+        "item": "Settings::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; the entries are the pages, groups and items"
+      },
+      {
+        "item": "SettingPage",
+        "outcome": "generated",
+        "prop": "entries",
+        "reason": "entries with the same `page` form one sidebar page"
+      },
+      {
+        "item": "SettingGroup",
+        "outcome": "generated",
+        "prop": "entries",
+        "reason": "consecutive entries with the same `group` form one group"
+      },
+      {
+        "item": "SettingItem::render",
+        "outcome": "generated",
+        "prop": "entries",
+        "reason": "each entry draws its title, description and React Native control"
+      },
+      {
+        "item": "SettingItem::new",
+        "outcome": "skipped",
+        "reason": "a typed field reads and writes its value through Rust closures over app state; Settings takes React Native controls as items instead"
+      },
+      {
+        "item": "Settings::sidebar_width",
+        "outcome": "generated",
+        "prop": "sidebarWidth",
+        "reason": ""
+      },
+      {
+        "item": "Settings::with_size",
+        "outcome": "generated",
+        "prop": "size",
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitSpeech",
+    "name": "Speech",
+    "coverage": [
+      {
+        "item": "SpeechState::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; the component owns the state"
+      },
+      {
+        "item": "SpeechState::start",
+        "outcome": "generated",
+        "prop": "start()",
+        "reason": "command"
+      },
+      {
+        "item": "SpeechState::stop",
+        "outcome": "generated",
+        "prop": "stop()",
+        "reason": "command"
+      },
+      {
+        "item": "SpeechState::cancel",
+        "outcome": "generated",
+        "prop": "cancel()",
+        "reason": "command"
+      },
+      {
+        "item": "SpeechState::toggle",
+        "outcome": "generated",
+        "prop": "toggle()",
+        "reason": "command"
+      },
+      {
+        "item": "SpeechEvent",
+        "outcome": "generated",
+        "prop": "onStatusChange, onTranscript, onError",
+        "reason": "events"
+      },
+      {
+        "item": "SpeechButton::show_when_unsupported",
+        "outcome": "generated",
+        "prop": "showWhenUnsupported",
+        "reason": ""
+      },
+      {
+        "item": "SpeechWaveform::new",
+        "outcome": "generated",
+        "prop": "showWaveform",
+        "reason": ""
+      },
+      {
+        "item": "SpeechState::transcript",
+        "outcome": "generated",
+        "prop": "showTranscript",
+        "reason": "drawn beside the button and reported by onTranscript"
+      },
+      {
+        "item": "SpeechState::recognizer",
+        "outcome": "skipped",
+        "reason": "a custom recognizer is a Rust trait implementation; JS cannot provide one, the system recognizer is used"
+      },
+      {
+        "item": "SpeechState::input",
+        "outcome": "skipped",
+        "reason": "a custom audio source is a Rust trait implementation; the microphone is used"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitHistory",
+    "name": "History",
+    "coverage": [
+      {
+        "item": "History::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      },
+      {
+        "item": "History::max_entries",
+        "outcome": "generated",
+        "prop": "maxEntries",
+        "reason": ""
+      },
+      {
+        "item": "History::push",
+        "outcome": "generated",
+        "prop": "push()",
+        "reason": "command"
+      },
+      {
+        "item": "History::replace_current",
+        "outcome": "generated",
+        "prop": "replaceCurrent()",
+        "reason": "command"
+      },
+      {
+        "item": "History::back",
+        "outcome": "generated",
+        "prop": "back()",
+        "reason": "command"
+      },
+      {
+        "item": "History::forward",
+        "outcome": "generated",
+        "prop": "forward()",
+        "reason": "command"
+      },
+      {
+        "item": "History::clear",
+        "outcome": "generated",
+        "prop": "clear()",
+        "reason": "command"
+      },
+      {
+        "item": "History::current",
+        "outcome": "generated",
+        "prop": "onChange",
+        "reason": "reported with every change"
+      },
+      {
+        "item": "History::can_back",
+        "outcome": "generated",
+        "prop": "onChange",
+        "reason": "reported with every change"
+      },
+      {
+        "item": "History::can_forward",
+        "outcome": "generated",
+        "prop": "onChange",
+        "reason": "reported with every change"
+      },
+      {
+        "item": "History::entries",
+        "outcome": "generated",
+        "prop": "onChange",
+        "reason": "its length is reported; entries are strings"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitInspector",
+    "name": "Inspector",
+    "coverage": [
+      {
+        "item": "Window::toggle_inspector",
+        "outcome": "generated",
+        "prop": "open, toggle()",
+        "reason": "the element inspector of the window"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitVirtualList",
+    "name": "VirtualList",
+    "coverage": [
+      {
+        "item": "v_virtual_list",
+        "outcome": "generated",
+        "prop": "itemSize",
+        "reason": "vertical lists"
+      },
+      {
+        "item": "h_virtual_list",
+        "outcome": "generated",
+        "prop": "horizontal",
+        "reason": "horizontal lists"
+      },
+      {
+        "item": "VirtualListScrollHandle::scroll_to_item",
+        "outcome": "generated",
+        "prop": "scrollToItem()",
+        "reason": "command"
+      },
+      {
+        "item": "VirtualListScrollHandle::scroll_to_bottom",
+        "outcome": "generated",
+        "prop": "scrollToEnd()",
+        "reason": "command"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitDock",
+    "name": "Dock",
+    "coverage": [
+      {
+        "item": "DockArea::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor"
+      },
+      {
+        "item": "DockArea::set_center",
+        "outcome": "generated",
+        "prop": "panels",
+        "reason": "panels with placement `center`"
+      },
+      {
+        "item": "DockArea::set_dock",
+        "outcome": "generated",
+        "prop": "panels",
+        "reason": "panels with placement `left`, `right` or `bottom`"
+      },
+      {
+        "item": "DockLayout::tabs",
+        "outcome": "generated",
+        "prop": "panels",
+        "reason": "panels with the same group share a tab bar"
+      },
+      {
+        "item": "DockLayout::h_split",
+        "outcome": "generated",
+        "prop": "centerAxis",
+        "reason": ""
+      },
+      {
+        "item": "DockLayout::v_split",
+        "outcome": "generated",
+        "prop": "centerAxis",
+        "reason": ""
+      },
+      {
+        "item": "DockArea::set_locked",
+        "outcome": "generated",
+        "prop": "locked",
+        "reason": ""
+      },
+      {
+        "item": "DockArea::set_dock_size",
+        "outcome": "generated",
+        "prop": "dockSize",
+        "reason": ""
+      },
+      {
+        "item": "DockArea::toggle_dock",
+        "outcome": "generated",
+        "prop": "toggleDock()",
+        "reason": "command"
+      },
+      {
+        "item": "DockArea::select_panel",
+        "outcome": "generated",
+        "prop": "selectPanel()",
+        "reason": "command"
+      },
+      {
+        "item": "DockEvent",
+        "outcome": "generated",
+        "prop": "onLayoutChange",
+        "reason": ""
+      },
+      {
+        "item": "DockToggleEvent",
+        "outcome": "generated",
+        "prop": "onDockToggle",
+        "reason": ""
+      },
+      {
+        "item": "DockArea::dump",
+        "outcome": "skipped",
+        "reason": "restoring a dump needs a Rust registry that rebuilds panels by name; React Native panels are rebuilt from props, so a dump could not be loaded back"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitQuestionnaire",
+    "name": "Questionnaire",
+    "coverage": [
+      {
+        "item": "QuestionnaireState::new",
+        "outcome": "generated",
+        "prop": "questions",
+        "reason": "items and choices are the schema"
+      },
+      {
+        "item": "QuestionnaireItemDefinition",
+        "outcome": "generated",
+        "prop": "questions",
+        "reason": ""
+      },
+      {
+        "item": "QuestionnaireChoiceDefinition",
+        "outcome": "generated",
+        "prop": "questions",
+        "reason": ""
+      },
+      {
+        "item": "QuestionnaireInputDefinition",
+        "outcome": "generated",
+        "prop": "questions[].input",
+        "reason": "free-text answer"
+      },
+      {
+        "item": "QuestionnaireState::with_shortcuts",
+        "outcome": "generated",
+        "prop": "shortcuts",
+        "reason": ""
+      },
+      {
+        "item": "QuestionnaireProgress::new",
+        "outcome": "generated",
+        "prop": "showProgress",
+        "reason": ""
+      },
+      {
+        "item": "QuestionnaireState::go_next",
+        "outcome": "generated",
+        "prop": "next()",
+        "reason": "command"
+      },
+      {
+        "item": "QuestionnaireState::go_previous",
+        "outcome": "generated",
+        "prop": "previous()",
+        "reason": "command"
+      },
+      {
+        "item": "QuestionnaireState::skip_current",
+        "outcome": "generated",
+        "prop": "skip()",
+        "reason": "command"
+      },
+      {
+        "item": "QuestionnaireState::submit",
+        "outcome": "generated",
+        "prop": "submit()",
+        "reason": "command"
+      },
+      {
+        "item": "QuestionnaireState::reset",
+        "outcome": "generated",
+        "prop": "reset()",
+        "reason": "command"
+      },
+      {
+        "item": "QuestionnaireEvent",
+        "outcome": "generated",
+        "prop": "onAnswer, onItemChange, onSubmit",
+        "reason": ""
+      },
+      {
+        "item": "QuestionnaireItemDefinition::with_validator",
+        "outcome": "skipped",
+        "reason": "a synchronous Rust closure on every answer, which JS cannot answer in time; required and the onSubmit answers cover validation"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitPlot",
+    "name": "Plot",
+    "coverage": [
+      {
+        "item": "ScalePoint",
+        "outcome": "generated",
+        "prop": "data",
+        "reason": "the x scale"
+      },
+      {
+        "item": "ScaleLinear",
+        "outcome": "generated",
+        "prop": "data",
+        "reason": "the y scale"
+      },
+      {
+        "item": "Line",
+        "outcome": "generated",
+        "prop": "layers: line, dots",
+        "reason": ""
+      },
+      {
+        "item": "Area",
+        "outcome": "generated",
+        "prop": "layers: area",
+        "reason": ""
+      },
+      {
+        "item": "Grid",
+        "outcome": "generated",
+        "prop": "layers: grid",
+        "reason": ""
+      },
+      {
+        "item": "PlotAxis",
+        "outcome": "generated",
+        "prop": "layers: axis",
+        "reason": ""
+      },
+      {
+        "item": "Curve",
+        "outcome": "generated",
+        "prop": "curve",
+        "reason": ""
+      },
+      {
+        "item": "Bar",
+        "outcome": "generated",
+        "prop": "layers: bar",
+        "reason": "bars on a band scale"
+      },
+      {
+        "item": "Arc",
+        "outcome": "generated",
+        "prop": "layers: pie, donut",
+        "reason": "Pie arcs painted with Arc"
+      },
+      {
+        "item": "ScaleBand",
+        "outcome": "generated",
+        "prop": "layers: bar",
+        "reason": "the cross scale of the bar layer"
+      },
+      {
+        "item": "RadialLine",
+        "outcome": "generated",
+        "prop": "layers: radar",
+        "reason": "a closed radial line over the points"
+      },
+      {
+        "item": "Sankey",
+        "outcome": "generated",
+        "prop": "layers: sankey, links",
+        "reason": "the points are nodes and links the flows"
+      }
+    ]
+  }
+]

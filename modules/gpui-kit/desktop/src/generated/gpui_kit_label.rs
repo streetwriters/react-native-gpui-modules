@@ -4,21 +4,41 @@ use gpui::{AnyElement, IntoElement, SharedString, Window};
 use gpui_component::label::Label;
 
 use crate::*;
+use react_native_gpui::host_component::{measure_text, MeasureConstraint, MeasuredSize, TextStyle};
 
-pub struct GpuiKitLabel {
-    id: String,
-}
+pub struct GpuiKitLabel {}
 
 impl GpuiKitLabelSpec for GpuiKitLabel {
-    fn create(_props: &GpuiKitLabelProps, cx: &mut GpuiKitLabelContext) -> Self {
-        Self {
-            id: format!("gpui_kit_label-{}", cx.tag()),
-        }
+    fn create(_props: &GpuiKitLabelProps, _cx: &mut GpuiKitLabelContext) -> Self {
+        Self {}
     }
 
-    fn update(&mut self, _props: &GpuiKitLabelProps, _changed: GpuiKitLabelChanged, _cx: &mut GpuiKitLabelContext) {}
+    fn update(
+        &mut self,
+        _props: &GpuiKitLabelProps,
+        _changed: GpuiKitLabelChanged,
+        _cx: &mut GpuiKitLabelContext,
+    ) {
+    }
 
-    fn render(&mut self, props: &GpuiKitLabelProps, _window: &mut Window, cx: &mut GpuiKitLabelContext) -> AnyElement {
+    fn measure(props: &GpuiKitLabelProps, constraint: &MeasureConstraint) -> Option<MeasuredSize> {
+        let style = TextStyle {
+            size: 16.0,
+            ..TextStyle::default()
+        };
+        let extent = measure_text(props.text(), &style, None)?;
+        let height: f32 = 20.0;
+        let mut width = extent.width.ceil() + 0.0;
+        width = width.max(height);
+        Some(constraint.clamp(MeasuredSize { width, height }))
+    }
+
+    fn render(
+        &mut self,
+        props: &GpuiKitLabelProps,
+        _window: &mut Window,
+        _cx: &mut GpuiKitLabelContext,
+    ) -> AnyElement {
         let mut element = Label::new(props.text().to_string());
         {
             let value = props.secondary();
@@ -28,6 +48,17 @@ impl GpuiKitLabelSpec for GpuiKitLabel {
         }
         if props.masked() {
             element = element.masked(true);
+        }
+        {
+            let text = props.highlights();
+            if !text.is_empty() {
+                let text = SharedString::from(text.to_string());
+                element = element.highlights(if props.highlights_prefix() {
+                    gpui_component::label::HighlightsMatch::Prefix(text)
+                } else {
+                    gpui_component::label::HighlightsMatch::Full(text)
+                });
+            }
         }
         element.into_any_element()
     }

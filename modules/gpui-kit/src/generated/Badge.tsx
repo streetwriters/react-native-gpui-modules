@@ -5,7 +5,6 @@ import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitBadgeNativeComponent';
 import type { IconName } from './icons';
 
-
 export interface BadgeProps extends ViewProps {
   children?: React.ReactNode;
   dot?: boolean;
@@ -16,15 +15,11 @@ export interface BadgeProps extends ViewProps {
   size?: 'xsmall' | 'small' | 'medium' | 'large';
 }
 
-export const Badge = forwardRef<ComponentRef<typeof Native>, BadgeProps>(function Badge(props, ref) {
-  const { style, children, ...rest } = props;
-  const height = 16;
-  const width = 16;
-  return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[{ height, width }, style]}
-    />
-  );
-});
+export const Badge = forwardRef<ComponentRef<typeof Native>, BadgeProps>(
+  function Badge(props, ref) {
+    const { style, children, ...rest } = props;
+    const height = 16;
+    const width = 16;
+    return <Native ref={ref} {...rest} style={[{ height, width }, style]} />;
+  },
+);

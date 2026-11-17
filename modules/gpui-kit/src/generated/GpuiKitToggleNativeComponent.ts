@@ -7,14 +7,20 @@ import {
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
+  tooltip?: string;
   tooltipShowDelay?: CodegenTypes.Double;
   label?: string;
   icon?: string;
   checked?: boolean;
   variant?: CodegenTypes.WithDefault<'unset' | 'ghost' | 'outline', 'unset'>;
   disabled?: boolean;
-  size?: CodegenTypes.WithDefault<'unset' | 'xsmall' | 'small' | 'medium' | 'large', 'unset'>;
-  onGpuiKitToggleChange?: CodegenTypes.DirectEventHandler<Readonly<{ state: boolean }>>;
+  size?: CodegenTypes.WithDefault<
+    'unset' | 'xsmall' | 'small' | 'medium' | 'large',
+    'unset'
+  >;
+  onGpuiKitToggleChange?: CodegenTypes.DirectEventHandler<
+    Readonly<{ state: boolean }>
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitToggle', {

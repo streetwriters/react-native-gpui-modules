@@ -12,7 +12,10 @@ export interface NativeProps extends ViewProps {
   color?: ColorValue;
   value?: CodegenTypes.Double;
   accessibilityLabel?: string;
-  size?: CodegenTypes.WithDefault<'unset' | 'xsmall' | 'small' | 'medium' | 'large', 'unset'>;
+  size?: CodegenTypes.WithDefault<
+    'unset' | 'xsmall' | 'small' | 'medium' | 'large',
+    'unset'
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitProgress', {

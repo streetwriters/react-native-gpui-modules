@@ -8,13 +8,30 @@ import {
 
 export interface NativeProps extends ViewProps {
   message?: string;
-  withVariant?: CodegenTypes.WithDefault<'unset' | 'default' | 'info' | 'success' | 'warning' | 'error', 'unset'>;
+  variant?: CodegenTypes.WithDefault<
+    'unset' | 'default' | 'info' | 'success' | 'warning' | 'error',
+    'unset'
+  >;
   icon?: string;
   title?: string;
   banner?: boolean;
   visible?: boolean;
-  size?: CodegenTypes.WithDefault<'unset' | 'xsmall' | 'small' | 'medium' | 'large', 'unset'>;
-  onGpuiKitAlertClose?: CodegenTypes.DirectEventHandler<Readonly<{ x: CodegenTypes.Double; y: CodegenTypes.Double; rightClick: boolean; shift: boolean; control: boolean; alt: boolean; meta: boolean }>>;
+  size?: CodegenTypes.WithDefault<
+    'unset' | 'xsmall' | 'small' | 'medium' | 'large',
+    'unset'
+  >;
+  closeEvents?: boolean;
+  onGpuiKitAlertClose?: CodegenTypes.DirectEventHandler<
+    Readonly<{
+      x: CodegenTypes.Double;
+      y: CodegenTypes.Double;
+      rightClick: boolean;
+      shift: boolean;
+      control: boolean;
+      alt: boolean;
+      meta: boolean;
+    }>
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitAlert', {

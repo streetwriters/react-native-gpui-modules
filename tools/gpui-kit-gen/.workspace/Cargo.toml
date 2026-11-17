@@ -20,8 +20,8 @@ react-native-gpui = { path = "../../../node_modules/@react-native-gpui/core/Reac
 rn-gpui-sys = { path = "../../../node_modules/@react-native-gpui/core/ReactGpui/rn-gpui-sys" }
 rn-gpui-module = { path = "../../../node_modules/@react-native-gpui/core/ReactGpui/rn-gpui-module" }
 rn-gpui-module-build = { path = "../../../node_modules/@react-native-gpui/core/ReactGpui/rn-gpui-module-build" }
-gpui = { git = "https://github.com/streetwriters/gpui-fast", rev = "9087620" }
-gpui_platform = { git = "https://github.com/streetwriters/gpui-fast", rev = "9087620" }
-gpui-pre = { git = "https://github.com/streetwriters/gpui-fast", rev = "9087620" }
-gpui-pre-macros = { git = "https://github.com/streetwriters/gpui-fast", rev = "9087620" }
-gpui-pre-sum-tree = { git = "https://github.com/streetwriters/gpui-fast", rev = "9087620" }
+gpui = { git = "https://github.com/streetwriters/gpui-fast", rev = "af2bd3a" }
+gpui_platform = { git = "https://github.com/streetwriters/gpui-fast", rev = "af2bd3a" }
+gpui-pre = { git = "https://github.com/streetwriters/gpui-fast", rev = "af2bd3a" }
+gpui-pre-macros = { git = "https://github.com/streetwriters/gpui-fast", rev = "af2bd3a" }
+gpui-pre-sum-tree = { git = "https://github.com/streetwriters/gpui-fast", rev = "af2bd3a" }

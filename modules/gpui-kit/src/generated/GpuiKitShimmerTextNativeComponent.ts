@@ -8,9 +8,11 @@ import {
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
+  spreadPixels?: CodegenTypes.Double;
   text?: string;
   duration?: CodegenTypes.Double;
   highlightColor?: ColorValue;
+  spread?: CodegenTypes.Double;
   reverse?: boolean;
   once?: boolean;
 }

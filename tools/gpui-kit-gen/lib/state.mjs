@@ -3,7 +3,12 @@ import { implApplies, resolveStruct, typeName } from './rustdoc.mjs';
 function isMutRef(type, name) {
   const ref = type?.borrowed_ref;
   if (!ref) return false;
-  if (name && typeName(ref.type) !== name && typeName(ref.type).split('::').pop() !== name) return false;
+  if (
+    name &&
+    typeName(ref.type) !== name &&
+    typeName(ref.type).split('::').pop() !== name
+  )
+    return false;
   return true;
 }
 
@@ -19,7 +24,8 @@ export function extractState(docs, path) {
     const inner = impl.inner.impl;
     if (inner.trait) {
       if (inner.trait.path.endsWith('EventEmitter')) {
-        const arg = inner.trait.args?.angle_bracketed?.args?.[0]?.type?.resolved_path;
+        const arg =
+          inner.trait.args?.angle_bracketed?.args?.[0]?.type?.resolved_path;
         if (arg) eventEnums.push(docs.pathOf(hit.index, arg.id) ?? arg.path);
       }
       continue;
@@ -30,7 +36,14 @@ export function extractState(docs, path) {
       if (!fn || item.visibility !== 'public') continue;
       const inputs = fn.sig.inputs;
       const first = inputs[0];
-      const selfKind = first?.[0] !== 'self' ? 'none' : first[1]?.borrowed_ref ? (first[1].borrowed_ref.is_mutable ? 'mut' : 'ref') : 'value';
+      const selfKind =
+        first?.[0] !== 'self'
+          ? 'none'
+          : first[1]?.borrowed_ref
+            ? first[1].borrowed_ref.is_mutable
+              ? 'mut'
+              : 'ref'
+            : 'value';
       const rest = selfKind === 'none' ? inputs : inputs.slice(1);
       const data = [];
       let needsWindow = false;
@@ -43,7 +56,14 @@ export function extractState(docs, path) {
         else if (ref && target === 'App') needsCx = true;
         else data.push({ name, type });
       }
-      methods.push({ name: item.name, selfKind, data, needsWindow, needsCx, output: fn.sig.output });
+      methods.push({
+        name: item.name,
+        selfKind,
+        data,
+        needsWindow,
+        needsCx,
+        output: fn.sig.output,
+      });
     }
   }
   return {

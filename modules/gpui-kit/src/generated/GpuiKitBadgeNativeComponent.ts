@@ -13,7 +13,10 @@ export interface NativeProps extends ViewProps {
   icon?: string;
   max?: CodegenTypes.Int32;
   color?: ColorValue;
-  size?: CodegenTypes.WithDefault<'unset' | 'xsmall' | 'small' | 'medium' | 'large', 'unset'>;
+  size?: CodegenTypes.WithDefault<
+    'unset' | 'xsmall' | 'small' | 'medium' | 'large',
+    'unset'
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitBadge', {

@@ -10,7 +10,14 @@ import {
 export interface NativeProps extends ViewProps {
   icon?: string;
   color?: ColorValue;
-  size?: CodegenTypes.WithDefault<'unset' | 'xsmall' | 'small' | 'medium' | 'large', 'unset'>;
+  size?: CodegenTypes.WithDefault<
+    'unset' | 'xsmall' | 'small' | 'medium' | 'large',
+    'unset'
+  >;
+  easing?: CodegenTypes.WithDefault<
+    'ease-in-out' | 'linear' | 'quadratic' | 'ease-out-quint',
+    'ease-in-out'
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitSpinner', {
