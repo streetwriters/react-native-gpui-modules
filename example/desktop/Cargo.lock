@@ -255,7 +255,7 @@ version = "1.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "40c48f72fd53cd289104fc64099abca73db4166ad86ea0b4341abe65af83dadc"
 dependencies = [
- "windows-sys 0.61.2",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -266,7 +266,7 @@ checksum = "291e6a250ff86cd4a820112fb8898808a366d8f9f58ce16d1f538353ad55747d"
 dependencies = [
  "anstyle",
  "once_cell_polyfill",
- "windows-sys 0.61.2",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -297,7 +297,7 @@ dependencies = [
  "objc2-foundation 0.3.2",
  "parking_lot",
  "percent-encoding",
- "windows-sys 0.61.2",
+ "windows-sys 0.52.0",
  "x11rb",
 ]
 
@@ -1308,9 +1308,19 @@ dependencies = [
 [[package]]
 name = "collections"
 version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
+dependencies = [
+ "gpui_util 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+ "indexmap",
+ "rustc-hash 2.1.3",
+]
+
+[[package]]
+name = "collections"
+version = "0.1.0"
 source = "git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a#af2bd3a21f11504b9ad6f3125bb12701aa3eefa9"
 dependencies = [
- "gpui_util",
+ "gpui_util 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "indexmap",
  "rustc-hash 2.1.3",
 ]
@@ -1977,6 +1987,16 @@ dependencies = [
 [[package]]
 name = "derive_refineable"
 version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.119",
+]
+
+[[package]]
+name = "derive_refineable"
+version = "0.1.0"
 source = "git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a#af2bd3a21f11504b9ad6f3125bb12701aa3eefa9"
 dependencies = [
  "proc-macro2",
@@ -2044,7 +2064,7 @@ dependencies = [
  "libc",
  "option-ext",
  "redox_users 0.5.3",
- "windows-sys 0.61.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -2351,7 +2371,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e35d6e78f4cebb90e51d543db8fe41528851d6deeef6ef21ebd4bfdc1e784776"
 dependencies = [
  "libc",
- "windows-sys 0.61.2",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -3081,6 +3101,71 @@ dependencies = [
 [[package]]
 name = "gpui"
 version = "0.2.2"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
+dependencies = [
+ "accesskit",
+ "anyhow",
+ "async-channel",
+ "async-task",
+ "backtrace",
+ "bitflags 2.13.2",
+ "chrono",
+ "collections 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+ "derive_more",
+ "embed-resource",
+ "etagere",
+ "futures",
+ "getrandom 0.3.4",
+ "gpui_macros 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+ "gpui_shared_string 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+ "gpui_util 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+ "heapless",
+ "http_client 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+ "icu_segmenter",
+ "image",
+ "inventory",
+ "itertools 0.14.0",
+ "libc",
+ "log",
+ "lyon",
+ "num_cpus",
+ "objc2-core-foundation",
+ "objc2-core-video",
+ "parking",
+ "parking_lot",
+ "pin-project",
+ "pollster 0.4.0",
+ "profiling",
+ "rand 0.9.5",
+ "raw-window-handle",
+ "refineable 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+ "regex",
+ "resvg",
+ "scheduler 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+ "schemars",
+ "seahash",
+ "serde",
+ "serde_json",
+ "slotmap",
+ "smallvec",
+ "spin 0.10.1",
+ "strum",
+ "sum_tree 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+ "taffy",
+ "thiserror 2.0.21",
+ "ttf-parser",
+ "unicode-segmentation",
+ "url",
+ "usvg",
+ "uuid",
+ "waker-fn",
+ "windows 0.62.2",
+ "zed-scap",
+]
+
+[[package]]
+name = "gpui"
+version = "0.2.2"
 source = "git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a#af2bd3a21f11504b9ad6f3125bb12701aa3eefa9"
 dependencies = [
  "accesskit",
@@ -3091,18 +3176,18 @@ dependencies = [
  "bench_metrics",
  "bitflags 2.13.2",
  "chrono",
- "collections",
+ "collections 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "derive_more",
  "embed-resource",
  "etagere",
  "futures",
  "futures-concurrency",
  "getrandom 0.3.4",
- "gpui_macros",
- "gpui_shared_string",
- "gpui_util",
+ "gpui_macros 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
+ "gpui_shared_string 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
+ "gpui_util 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "heapless",
- "http_client",
+ "http_client 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "icu_segmenter",
  "image",
  "inventory",
@@ -3122,10 +3207,10 @@ dependencies = [
  "proptest",
  "rand 0.9.5",
  "raw-window-handle",
- "refineable",
+ "refineable 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "regex",
  "resvg",
- "scheduler",
+ "scheduler 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "schemars",
  "seahash",
  "serde",
@@ -3134,7 +3219,7 @@ dependencies = [
  "smallvec",
  "spin 0.10.1",
  "strum",
- "sum_tree",
+ "sum_tree 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "taffy",
  "thiserror 2.0.21",
  "ttf-parser",
@@ -3157,7 +3242,7 @@ dependencies = [
  "async-task",
  "block2 0.6.2",
  "cbindgen",
- "collections",
+ "collections 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "core-foundation 0.10.1",
  "core-foundation-sys",
  "core-graphics 0.24.0",
@@ -3165,8 +3250,8 @@ dependencies = [
  "dispatch2",
  "etagere",
  "futures",
- "gpui",
- "gpui_util",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
+ "gpui_util 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "image",
  "libc",
  "log",
@@ -3195,7 +3280,7 @@ dependencies = [
  "anyhow",
  "block2 0.6.2",
  "futures",
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "gpui_apple",
  "log",
  "objc2 0.6.5",
@@ -3221,13 +3306,13 @@ dependencies = [
  "bytemuck",
  "calloop",
  "calloop-wayland-source",
- "collections",
+ "collections 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "filedescriptor",
  "futures",
- "gpui",
- "gpui_util",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
+ "gpui_util 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "gpui_wgpu",
- "http_client",
+ "http_client 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "image",
  "libc",
  "log",
@@ -3262,7 +3347,7 @@ dependencies = [
  "accesskit_macos",
  "anyhow",
  "block2 0.6.2",
- "collections",
+ "collections 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "core-foundation 0.10.1",
  "core-foundation-sys",
  "core-graphics 0.24.0",
@@ -3270,9 +3355,9 @@ dependencies = [
  "dispatch2",
  "foreign-types",
  "futures",
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "gpui_apple",
- "gpui_util",
+ "gpui_util 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "image",
  "itertools 0.14.0",
  "log",
@@ -3286,11 +3371,22 @@ dependencies = [
  "objc2-user-notifications",
  "parking_lot",
  "raw-window-handle",
- "scheduler",
+ "scheduler 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "semver",
  "smallvec",
  "strum",
  "uuid",
+]
+
+[[package]]
+name = "gpui_macros"
+version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
+dependencies = [
+ "heck 0.5.0",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.119",
 ]
 
 [[package]]
@@ -3311,7 +3407,7 @@ source = "git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a#af2bd3a21f1
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "gpui_ios",
  "gpui_linux",
  "gpui_macos",
@@ -3323,11 +3419,31 @@ dependencies = [
 [[package]]
 name = "gpui_shared_string"
 version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
+dependencies = [
+ "schemars",
+ "serde",
+ "smol_str",
+]
+
+[[package]]
+name = "gpui_shared_string"
+version = "0.1.0"
 source = "git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a#af2bd3a21f11504b9ad6f3125bb12701aa3eefa9"
 dependencies = [
  "schemars",
  "serde",
  "smol_str",
+]
+
+[[package]]
+name = "gpui_util"
+version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
+dependencies = [
+ "anyhow",
+ "log",
+ "which",
 ]
 
 [[package]]
@@ -3349,14 +3465,14 @@ dependencies = [
  "async-channel",
  "console_error_panic_hook",
  "futures",
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "gpui_wgpu",
- "http_client",
+ "http_client 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "js-sys",
  "log",
  "parking_lot",
  "raw-window-handle",
- "scheduler",
+ "scheduler 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "smallvec",
  "unicode-properties",
  "unicode-script",
@@ -3377,11 +3493,11 @@ dependencies = [
  "anyhow",
  "ash",
  "bytemuck",
- "collections",
+ "collections 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "cosmic-text",
  "etagere",
- "gpui",
- "gpui_util",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
+ "gpui_util 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "image",
  "itertools 0.14.0",
  "log",
@@ -3405,19 +3521,19 @@ dependencies = [
  "accesskit",
  "accesskit_windows",
  "anyhow",
- "collections",
+ "collections 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "dunce",
  "etagere",
  "futures",
- "gpui",
- "gpui_util",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
+ "gpui_util 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "image",
  "itertools 0.14.0",
  "log",
  "parking_lot",
  "rand 0.9.5",
  "raw-window-handle",
- "scheduler",
+ "scheduler 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "smallvec",
  "uuid",
  "windows 0.62.2",
@@ -3643,6 +3759,23 @@ checksum = "ca2a8f2913ee65f60facd6a5905613afaa448497a0230cc41ce022d93290bc2c"
 dependencies = [
  "bytes",
  "http",
+]
+
+[[package]]
+name = "http_client"
+version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
+dependencies = [
+ "anyhow",
+ "bytes",
+ "futures",
+ "http",
+ "http-body",
+ "parking_lot",
+ "serde",
+ "serde_json",
+ "serde_urlencoded",
+ "url",
 ]
 
 [[package]]
@@ -4711,7 +4844,7 @@ dependencies = [
  "objc2-foundation 0.3.2",
  "png 0.18.1",
  "thiserror 2.0.21",
- "windows-sys 0.61.2",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -6508,9 +6641,9 @@ dependencies = [
  "fontdue",
  "futures",
  "global-hotkey",
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "gpui_platform",
- "http_client",
+ "http_client 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
  "image",
  "libc",
  "log",
@@ -6625,9 +6758,17 @@ dependencies = [
 [[package]]
 name = "refineable"
 version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
+dependencies = [
+ "derive_refineable 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+]
+
+[[package]]
+name = "refineable"
+version = "0.1.0"
 source = "git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a#af2bd3a21f11504b9ad6f3125bb12701aa3eefa9"
 dependencies = [
- "derive_refineable",
+ "derive_refineable 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
 ]
 
 [[package]]
@@ -6939,7 +7080,7 @@ dependencies = [
 name = "rn-gpui-keyboard-controller"
 version = "0.1.0"
 dependencies = [
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
  "react-native-gpui",
  "rn-gpui-module",
  "rn-gpui-module-build",
@@ -6964,7 +7105,7 @@ dependencies = [
 name = "rn-gpui-linear-gradient"
 version = "0.1.0"
 dependencies = [
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
  "react-native-gpui",
  "rn-gpui-module",
  "rn-gpui-module-build",
@@ -7030,7 +7171,7 @@ dependencies = [
 name = "rn-gpui-pdf"
 version = "0.1.0"
 dependencies = [
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
  "image",
  "react-native-gpui",
  "rn-gpui-module",
@@ -7042,7 +7183,7 @@ dependencies = [
 name = "rn-gpui-picker"
 version = "0.1.0"
 dependencies = [
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
  "react-native-gpui",
  "rn-gpui-module",
  "rn-gpui-module-build",
@@ -7053,7 +7194,7 @@ dependencies = [
 name = "rn-gpui-screens"
 version = "0.1.0"
 dependencies = [
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
  "log",
  "react-native-gpui",
  "rn-gpui-sys",
@@ -7064,7 +7205,7 @@ dependencies = [
 name = "rn-gpui-slider"
 version = "0.1.0"
 dependencies = [
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
  "react-native-gpui",
  "rn-gpui-module",
  "rn-gpui-module-build",
@@ -7098,7 +7239,7 @@ dependencies = [
 name = "rn-gpui-svg"
 version = "0.1.0"
 dependencies = [
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
  "image",
  "react-native-gpui",
  "rn-gpui-sys",
@@ -7177,7 +7318,7 @@ dependencies = [
 name = "rn-gpui-webview"
 version = "0.1.0"
 dependencies = [
- "gpui",
+ "gpui 0.2.2 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
  "log",
  "react-native-gpui",
  "rn-gpui-module",
@@ -7257,7 +7398,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.61.2",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -7314,7 +7455,7 @@ dependencies = [
  "security-framework 3.7.0",
  "security-framework-sys",
  "webpki-root-certs",
- "windows-sys 0.61.2",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -7392,6 +7533,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9cb23c424d8ee841bb4d813677ca237e2a610067d594fec130f87d6093495ab5"
 dependencies = [
  "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "scheduler"
+version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
+dependencies = [
+ "async-task",
+ "backtrace",
+ "chrono",
+ "flume",
+ "futures",
+ "parking_lot",
+ "rand 0.9.5",
+ "web-time",
 ]
 
 [[package]]
@@ -7937,7 +8093,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c3d1e2c7f27f8d4cb10542a02c49005dbd6e93095799d6f3be745fae9f8fedd4"
 dependencies = [
  "libc",
- "windows-sys 0.61.2",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -8034,12 +8190,23 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 [[package]]
 name = "sum_tree"
 version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
+dependencies = [
+ "heapless",
+ "rayon",
+ "tracing",
+ "ztracing 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+]
+
+[[package]]
+name = "sum_tree"
+version = "0.1.0"
 source = "git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a#af2bd3a21f11504b9ad6f3125bb12701aa3eefa9"
 dependencies = [
  "heapless",
  "rayon",
  "tracing",
- "ztracing",
+ "ztracing 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
 ]
 
 [[package]]
@@ -8230,7 +8397,7 @@ dependencies = [
  "getrandom 0.4.3",
  "once_cell",
  "rustix",
- "windows-sys 0.61.2",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -8549,7 +8716,7 @@ dependencies = [
  "once_cell",
  "png 0.18.1",
  "thiserror 2.0.21",
- "windows-sys 0.61.2",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -8607,7 +8774,7 @@ checksum = "f2f6fb2847f6742cd76af783a2a2c49e9375d0a111c7bef6f71cd9e738c72d6e"
 dependencies = [
  "memoffset",
  "tempfile",
- "windows-sys 0.61.2",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -9353,7 +9520,7 @@ version = "0.1.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c2a7b1c03c876122aa43f3020e6c3c3ee5c05081c9a00739faf7503aeba10d22"
 dependencies = [
- "windows-sys 0.61.2",
+ "windows-sys 0.48.0",
 ]
 
 [[package]]
@@ -9912,7 +10079,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7d6f32a0ff4a9f6f01231eb2059cc85479330739333e0e58cadf03b6af2cca10"
 dependencies = [
  "cfg-if",
- "windows-sys 0.61.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -10568,11 +10735,25 @@ dependencies = [
 [[package]]
 name = "ztracing"
 version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
+dependencies = [
+ "tracing",
+ "ztracing_macro 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a)",
+]
+
+[[package]]
+name = "ztracing"
+version = "0.1.0"
 source = "git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a#af2bd3a21f11504b9ad6f3125bb12701aa3eefa9"
 dependencies = [
  "tracing",
- "ztracing_macro",
+ "ztracing_macro 0.1.0 (git+https://github.com/streetwriters/gpui-fast?rev=af2bd3a)",
 ]
+
+[[package]]
+name = "ztracing_macro"
+version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
 
 [[package]]
 name = "ztracing_macro"
@@ -10682,3 +10863,8 @@ dependencies = [
  "syn 3.0.10",
  "winnow 1.0.5",
 ]
+
+[[patch.unused]]
+name = "gpui_platform"
+version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=3f7a51a#3f7a51abf41aad4aa20027a441f6c98708cf052b"
