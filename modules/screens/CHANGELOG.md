@@ -4,7 +4,7 @@ All notable changes to `@react-native-gpui/screens` are listed here. Each versio
 
 ## Unreleased
 
-- Builds against gpui-fast `3ad00a0`.
+- Builds against gpui-fast `1ad3cc3`.
 
 ## 4.28.0-alpha.2 - 2026-11-12
 

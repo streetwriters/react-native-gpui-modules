@@ -5,7 +5,7 @@ All notable changes to `@react-native-gpui/pdf` are listed here. Each version's 
 ## Unreleased
 
 - `THIRD_PARTY_NOTICES.md` is no longer regenerated on `prepack`, so packing needs no network access; run `npm run notices` after changing the pinned runtime revision.
-- Builds against gpui-fast `3ad00a0`.
+- Builds against gpui-fast `1ad3cc3`.
 
 ## 0.0.2 - 2026-11-12
 
