@@ -2,7 +2,7 @@
 
 All notable changes to `@react-native-gpui/system` are listed here. Each version's section becomes the notes of its GitHub release.
 
-## Unreleased
+## 0.0.2 - 2026-11-24
 
 - Builds on Windows: the jump list's `windows` crate is now a dependency.
 

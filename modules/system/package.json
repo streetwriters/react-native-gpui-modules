@@ -1,6 +1,6 @@
 {
   "name": "@react-native-gpui/system",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Operating system integration for React Native GPUI apps: start at login, restart and screen-capture protection",
   "license": "MIT",
   "repository": {
