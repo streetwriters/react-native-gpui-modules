@@ -14,6 +14,7 @@ module.exports = [
       'gpui-kit-example/desktop/autolink/',
       'modules/*/desktop/patches/',
       'modules/gpui-kit/src/generated/',
+      'tools/gpui-kit-gen/reference/js/',
     ],
   },
   ...fixupConfigRules(reactNativeConfig),
