@@ -2,6 +2,6 @@
 
 All notable changes to `@react-native-gpui/haptic-feedback` are listed here. Each version's section becomes the notes of its GitHub release.
 
-## Unreleased
+## 3.0.0-alpha.1 - 2026-11-27
 
 - First release, for `react-native-haptic-feedback` 3.0.x: plays the haptic feedback of the trackpad on macOS. Windows and Linux have no haptic hardware, so the calls do nothing there.

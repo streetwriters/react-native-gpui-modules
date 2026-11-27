@@ -2,6 +2,6 @@
 
 All notable changes to `@react-native-gpui/slider` are listed here. Each version's section becomes the notes of its GitHub release.
 
-## Unreleased
+## 5.2.0-alpha.1 - 2026-11-27
 
 - First release, for `@react-native-community/slider` 5.2.x: draws the slider with the desktop renderer: the track, the filled part, and the thumb, with pointer dragging.

@@ -2,7 +2,7 @@
 
 All notable changes to `@react-native-gpui/nitro-modules` are listed here. Each version's section becomes the notes of its GitHub release.
 
-## Unreleased
+## 0.37.0-alpha.1 - 2026-11-27
 
 - First release, for `react-native-nitro-modules` 0.37.x.
 - Nitro Hybrid Objects written in C++ run on desktop: `NitroModules.createHybridObject`, promises, callbacks from any thread and `ArrayBuffer`.

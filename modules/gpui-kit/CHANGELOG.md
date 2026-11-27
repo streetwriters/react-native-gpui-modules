@@ -2,7 +2,7 @@
 
 All notable changes to `@react-native-gpui/gpui-kit` are listed here. Each version's section becomes the notes of its GitHub release.
 
-## Unreleased
+## 0.0.1-alpha.1 - 2026-11-27
 
 - `Editor` highlights code in its language (the module builds gpui-component with its `syntect` highlighter).
 - `DataTable` takes cell colours and styles, group headers, `size`, `headerRowHeight`, `loopSelection`, `columnResize`, `columnOrder`, `sortable`, row, column and cell selection, `rowHeader`, `fixedColumns`, `loading`, `hasMore` with `onLoadMore`, a `contextMenu` with `onMenuSelect`, `onSort`, `onMoveColumn`, and `scrollToRow()`, `selectCell()` and `clearSelection()`.
