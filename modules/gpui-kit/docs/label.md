@@ -16,6 +16,7 @@ A text label element with optional secondary text, masking, and highlighting cap
 | `secondary`        | `string`  | `Label::secondary`   |
 | `masked`           | `boolean` | `Label::masked`      |
 | `highlights`       | `string`  | `Label::highlights`  |
+| `kitStyle`         | `string`  | constructor argument |
 
 ## Events
 

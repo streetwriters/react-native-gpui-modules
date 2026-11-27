@@ -77,7 +77,9 @@ export function AsyncStorageFixtureScreen() {
       await custom.removeItem('kept');
     }
     setPersisted(
-      `persisted ${await AsyncStorage.getItem('kept')} | ${await custom.getItem('kept')}`,
+      `persisted ${await AsyncStorage.getItem('kept')} | ${await custom.getItem(
+        'kept',
+      )}`,
     );
   }, []);
 

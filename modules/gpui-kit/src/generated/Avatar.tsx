@@ -4,6 +4,7 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitAvatarNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export interface AvatarProps extends ViewProps {
   children?: React.ReactNode;
@@ -11,15 +12,26 @@ export interface AvatarProps extends ViewProps {
   name?: string;
   placeholder?: IconName;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  customSize?: number;
+  kitStyle?: KitStyle;
 }
 
 export const Avatar = forwardRef<ComponentRef<typeof Native>, AvatarProps>(
   function Avatar(props, ref) {
     const { style, children, ...rest } = props;
-    const heights = { xsmall: 20, small: 24, medium: 32, large: 48 } as const;
+    const heights = { xsmall: 16, small: 24, medium: 48, large: 80 } as const;
     const height =
-      heights[(props.size as keyof typeof heights) ?? 'medium'] ?? 20;
+      props.customSize ??
+      heights[(props.size as keyof typeof heights) ?? 'medium'] ??
+      16;
     const width = height;
-    return <Native ref={ref} {...rest} style={[{ height, width }, style]} />;
+    return (
+      <Native
+        ref={ref}
+        {...rest}
+        style={[{ height, width }, style]}
+        kitStyle={kitStyle(props.kitStyle)}
+      />
+    );
   },
 );

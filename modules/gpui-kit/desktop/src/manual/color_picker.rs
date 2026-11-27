@@ -1,5 +1,5 @@
 use gpui::{AnyElement, AppContext as _, Entity, Hsla, IntoElement, Rgba, Subscription, Window};
-use gpui_component::color_picker::{ColorPicker, ColorPickerEvent, ColorPickerState};
+use gpui_component::color_picker::{ColorPicker, ColorPickerEvent, ColorPickerState, ColorSelect};
 use gpui_component::{Sizable as _, Size};
 
 use crate::*;
@@ -59,30 +59,47 @@ impl GpuiKitColorPickerSpec for GpuiKitColorPicker {
             self.state = Some(state);
         }
         let state = self.state.clone().unwrap();
-        if props.controlled() && self.applied != Some(props.value()) {
+        if (props.controlled() || (self.applied.is_none() && props.has_value()))
+            && self.applied != Some(props.value())
+        {
             self.applied = Some(props.value());
             let color = crate::color::hsla(props.value() as u32);
             state.update(app, |state, cx| state.set_value(color, window, cx));
+        }
+        let featured: Vec<_> = props
+            .featured_colors()
+            .iter()
+            .map(|color| crate::color::hsla(*color as u32))
+            .collect();
+        let size = match props.size() {
+            GpuiKitColorPickerSize::Unset => None,
+            GpuiKitColorPickerSize::Xsmall => Some(Size::XSmall),
+            GpuiKitColorPickerSize::Small => Some(Size::Small),
+            GpuiKitColorPickerSize::Medium => Some(Size::Medium),
+            GpuiKitColorPickerSize::Large => Some(Size::Large),
+        };
+        if props.select() {
+            let mut element = ColorSelect::new(&state);
+            if !props.placeholder().is_empty() {
+                element = element.placeholder(props.placeholder().to_string());
+            }
+            if !featured.is_empty() {
+                element = element.featured_colors(featured);
+            }
+            if let Some(size) = size {
+                element = element.with_size(size);
+            }
+            return element.into_any_element();
         }
         let mut element = ColorPicker::new(&state);
         if !props.label().is_empty() {
             element = element.label(props.label().to_string());
         }
-        let featured = props.featured_colors();
         if !featured.is_empty() {
-            element = element.featured_colors(
-                featured
-                    .iter()
-                    .map(|color| crate::color::hsla(*color as u32))
-                    .collect(),
-            );
+            element = element.featured_colors(featured);
         }
-        match props.size() {
-            GpuiKitColorPickerSize::Unset => {}
-            GpuiKitColorPickerSize::Xsmall => element = element.with_size(Size::XSmall),
-            GpuiKitColorPickerSize::Small => element = element.with_size(Size::Small),
-            GpuiKitColorPickerSize::Medium => element = element.with_size(Size::Medium),
-            GpuiKitColorPickerSize::Large => element = element.with_size(Size::Large),
+        if let Some(size) = size {
+            element = element.with_size(size);
         }
         element.into_any_element()
     }

@@ -52,6 +52,14 @@ export interface DropdownButtonProps extends ViewProps {
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   /** The screen reader name of the menu trigger. */
   menuAccessibilityLabel?: string;
+  /** Narrower padding on the action half (`Button::compact`). */
+  compact?: boolean;
+  /** A tooltip on the action half. */
+  tooltip?: string;
+  /** A variant for the action half only (`.button(Button::new().ghost())`). */
+  buttonVariant?: NonNullable<ButtonProps['variant']>;
+  /** A size for the action half only. */
+  buttonSize?: 'xsmall' | 'small' | 'medium' | 'large';
   anchor?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   /** The entries of the menu that opens from the caret half. */
   items?: DropdownItem[];
@@ -68,8 +76,6 @@ export function DropdownButton({
   style,
   ...rest
 }: DropdownButtonProps) {
-  const width =
-    (rest.label?.length ?? 0) * 7.5 + (rest.icon ? 20 : 0) + 22 + 32;
   const flat = flatten(items);
   const nativeProps = {
     ...rest,
@@ -88,25 +94,17 @@ export function DropdownButton({
       onSelect?.(event);
     },
   };
-  const slots = flat
-    .map(({ item }, index) => ({
-      name: `item-${index}`,
-      content: item.content,
-    }))
-    .filter(slot => slot.content != null);
-  if (slots.length)
-    return (
-      <SlotHost
-        style={[{ height: 32, width }, style]}
-        native={Native as never}
-        nativeProps={nativeProps}
-        slots={slots}
-      />
-    );
+  const slots = flat.map(({ item }, index) => ({
+    name: `item-${index}`,
+    content: item.content,
+  }));
   return (
-    <Native
-      {...(nativeProps as object)}
-      style={[{ height: 32, width }, style]}
+    <SlotHost
+      fitWidth
+      style={style}
+      native={Native as never}
+      nativeProps={nativeProps}
+      slots={slots}
     />
   );
 }

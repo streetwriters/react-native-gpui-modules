@@ -9,12 +9,13 @@ A cycling loading spinner.
 
 ## Props
 
-| Prop     | Type                                               | Native method        |
-| -------- | -------------------------------------------------- | -------------------- |
-| `icon`   | `string`                                           | `Spinner::icon`      |
-| `color`  | `ColorValue`                                       | `Spinner::color`     |
-| `size`   | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Spinner::with_size` |
-| `easing` | `WithDefault<'ease-in-out'                         | 'linear'             | 'quadratic' | 'ease-out-quint', 'ease-in-out'>` | `Spinner::ease` |
+| Prop         | Type                                               | Native method        |
+| ------------ | -------------------------------------------------- | -------------------- |
+| `icon`       | `string`                                           | `Spinner::icon`      |
+| `color`      | `ColorValue`                                       | `Spinner::color`     |
+| `size`       | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Spinner::with_size` |
+| `customSize` | `Double`                                           | constructor argument |
+| `easing`     | `WithDefault<'ease-in-out'                         | 'linear'             | 'quadratic' | 'ease-out-quint' | 'bounce', 'ease-in-out'>` | `Spinner::ease` |
 
 ## Events
 

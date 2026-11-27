@@ -7,10 +7,10 @@ The kit's `Tooltip`, written by hand on the same specification as the generated 
 
 ## Native props
 
-| Name    | Type     |
-| ------- | -------- |
-| `text`  | `string` |
-| `width` | `Double` |
+| Name           | Type     |
+| -------------- | -------- |
+| `text`         | `string` |
+| `contentWidth` | `Double` |
 
 ## Coverage
 

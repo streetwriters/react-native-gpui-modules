@@ -10,6 +10,7 @@ export interface NativeProps extends ViewProps {
   selectable?: boolean;
   scrollable?: boolean;
   maxLines?: CodegenTypes.Int32;
+  kitStyle?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitTextView', {

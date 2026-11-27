@@ -33,6 +33,12 @@ export default function InputScreen() {
           onTokenHover={event =>
             note('onTokenHover ' + JSON.stringify(event.nativeEvent))
           }
+          onValidationFail={event =>
+            note('onValidationFail ' + JSON.stringify(event.nativeEvent))
+          }
+          onSelectionHoldChange={event =>
+            note('onSelectionHoldChange ' + JSON.stringify(event.nativeEvent))
+          }
           onChange={event =>
             note('onChange ' + JSON.stringify(event.nativeEvent))
           }
@@ -112,6 +118,12 @@ export default function InputScreen() {
         onPress={() => ref.current?.insertToken('x', 'x', 'x')}
       >
         <Text>insertToken</Text>
+      </Pressable>
+      <Pressable
+        testID="input-cmd-hold-selection"
+        onPress={() => ref.current?.holdSelection(true)}
+      >
+        <Text>holdSelection</Text>
       </Pressable>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
         <TextInput
@@ -494,6 +506,14 @@ export default function InputScreen() {
           onPress={() => set('focusRing', !values['focusRing'])}
         >
           <Text>focusRing: {String(Boolean(values['focusRing']))}</Text>
+        </Pressable>
+        <Pressable
+          testID="input-prop-custom-size"
+          onPress={() =>
+            set('customSize', ((values['customSize'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>customSize: {String(values['customSize'] ?? 0)}</Text>
         </Pressable>
         <Pressable
           testID="input-prop-context-menu-enabled"

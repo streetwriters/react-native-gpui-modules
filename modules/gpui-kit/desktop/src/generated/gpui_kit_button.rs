@@ -47,10 +47,20 @@ impl GpuiKitButtonSpec for GpuiKitButton {
     }
 
     fn measure(props: &GpuiKitButtonProps, constraint: &MeasureConstraint) -> Option<MeasuredSize> {
+        if props.custom_size() > 0.0 && props.label().is_empty() {
+            let side = props.custom_size() as f32;
+            return Some(constraint.clamp(MeasuredSize {
+                width: side,
+                height: side,
+            }));
+        }
         let style = TextStyle {
             size: match props.size() {
-                GpuiKitButtonSize::Xsmall | GpuiKitButtonSize::Small => 12.0,
-                _ => 14.0,
+                GpuiKitButtonSize::Unset => 14.0,
+                GpuiKitButtonSize::Xsmall => 12.0,
+                GpuiKitButtonSize::Small => 14.0,
+                GpuiKitButtonSize::Medium => 14.0,
+                GpuiKitButtonSize::Large => 16.0,
             },
             ..TextStyle::default()
         };
@@ -62,11 +72,83 @@ impl GpuiKitButtonSpec for GpuiKitButton {
             GpuiKitButtonSize::Medium => 32.0,
             GpuiKitButtonSize::Large => 32.0,
         };
-        let mut width = extent.width.ceil() + 21.0;
-        if !props.icon().is_empty() {
-            width += 18.0;
+        let mut width = extent.width.ceil()
+            + match props.size() {
+                GpuiKitButtonSize::Unset => 20.0,
+                GpuiKitButtonSize::Xsmall => 8.0,
+                GpuiKitButtonSize::Small => 16.0,
+                GpuiKitButtonSize::Medium => 20.0,
+                GpuiKitButtonSize::Large => 24.0,
+            };
+        if !props.icon().is_empty()
+            || !props.icon_svg().is_empty()
+            || !props.icon_progress().is_nan()
+        {
+            width += match props.size() {
+                GpuiKitButtonSize::Unset => 24.0,
+                GpuiKitButtonSize::Xsmall => 16.0,
+                GpuiKitButtonSize::Small => 18.0,
+                GpuiKitButtonSize::Medium => 24.0,
+                GpuiKitButtonSize::Large => 32.0,
+            };
+        }
+        if props.dropdown_caret() {
+            width += match props.size() {
+                GpuiKitButtonSize::Unset => 24.0,
+                GpuiKitButtonSize::Xsmall => 16.0,
+                GpuiKitButtonSize::Small => 18.0,
+                GpuiKitButtonSize::Medium => 24.0,
+                GpuiKitButtonSize::Large => 32.0,
+            };
+        }
+        if props.outline()
+            || matches!(
+                props.variant(),
+                GpuiKitButtonVariant::Unset | GpuiKitButtonVariant::Default
+            )
+        {
+            width += 2.0;
         }
         width = width.max(height);
+        if matches!(
+            props.variant(),
+            GpuiKitButtonVariant::Link | GpuiKitButtonVariant::Text
+        ) {
+            let mut width = extent.width.ceil();
+            if !props.icon().is_empty()
+                || !props.icon_svg().is_empty()
+                || !props.icon_progress().is_nan()
+            {
+                width += match props.size() {
+                    GpuiKitButtonSize::Unset => 24.0,
+                    GpuiKitButtonSize::Xsmall => 16.0,
+                    GpuiKitButtonSize::Small => 18.0,
+                    GpuiKitButtonSize::Medium => 24.0,
+                    GpuiKitButtonSize::Large => 32.0,
+                };
+            }
+            if props.dropdown_caret() {
+                width += match props.size() {
+                    GpuiKitButtonSize::Unset => 24.0,
+                    GpuiKitButtonSize::Xsmall => 16.0,
+                    GpuiKitButtonSize::Small => 18.0,
+                    GpuiKitButtonSize::Medium => 24.0,
+                    GpuiKitButtonSize::Large => 32.0,
+                };
+            }
+            if props.outline()
+                || matches!(
+                    props.variant(),
+                    GpuiKitButtonVariant::Unset | GpuiKitButtonVariant::Default
+                )
+            {
+                width += 2.0;
+            }
+            return Some(constraint.clamp(MeasuredSize {
+                width,
+                height: 18.0,
+            }));
+        }
         Some(constraint.clamp(MeasuredSize { width, height }))
     }
 
@@ -266,6 +348,12 @@ impl GpuiKitButtonSpec for GpuiKitButton {
                 element = element.custom(variant);
             }
         }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
         {
             let sender = sender.clone();
             element = element.on_click(move |event, _window, _cx| {
@@ -285,6 +373,41 @@ impl GpuiKitButtonSpec for GpuiKitButton {
             element = element.on_hover(move |event, _window, _cx| {
                 sender.gpui_kit_button_hover_change(OnGpuiKitButtonHoverChange { state: *event });
             });
+        }
+        {
+            use gpui::Styled as _;
+            let mut icon = if !props.icon_svg().is_empty() {
+                Some(gpui_component::Icon::default().data(props.icon_svg().as_bytes()))
+            } else if props.icon_color().is_some() || props.icon_custom_size() > 0.0 {
+                crate::generated::icons::parse(props.icon()).map(gpui_component::Icon::new)
+            } else {
+                None
+            };
+            if let Some(color) = props.icon_color() {
+                icon = icon.map(|icon| icon.text_color(crate::color::hsla(color)));
+            }
+            if props.icon_custom_size() > 0.0 {
+                let size = gpui::px(props.icon_custom_size() as f32);
+                icon = icon.map(|icon| icon.size(size));
+            }
+            if let Some(icon) = icon {
+                element = element.icon(icon);
+            }
+            if !props.icon_progress().is_nan() {
+                let mut progress = gpui_component::progress::ProgressCircle::new(
+                    SharedString::from(format!("{}-progress", self.id)),
+                )
+                .value(props.icon_progress() as f32);
+                if let Some(color) = props.icon_progress_color() {
+                    progress = progress.color(crate::color::hsla(color));
+                }
+                element = element.icon(progress);
+            }
+            if !props.loading_icon_svg().is_empty() {
+                element = element.loading_icon(
+                    gpui_component::Icon::default().data(props.loading_icon_svg().as_bytes()),
+                );
+            }
         }
         element.into_any_element()
     }

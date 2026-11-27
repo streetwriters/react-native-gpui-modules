@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
+  addonsJson?: string;
   accessibilityId?: string;
   appearance?: boolean;
   bordered?: boolean;
@@ -78,6 +79,9 @@ export interface NativeProps extends ViewProps {
   secondarySelected?: boolean;
   open?: boolean;
   focusRing?: CodegenTypes.WithDefault<boolean, true>;
+  customSize?: CodegenTypes.Double;
+  kitStyle?: string;
+  tokenRender?: boolean;
   tokenClickEvents?: boolean;
   tokenHoverEvents?: boolean;
   contextMenu?: ReadonlyArray<
@@ -87,6 +91,7 @@ export interface NativeProps extends ViewProps {
   textAlign?: CodegenTypes.WithDefault<'left' | 'center' | 'right', 'left'>;
   contextMenuEnabled?: CodegenTypes.WithDefault<boolean, true>;
   foldBackground?: ColorValue;
+  scrollbarStyleJson?: string;
   placeholder?: string;
   cleanOnEscape?: boolean;
   submitOnEnter?: boolean;
@@ -96,6 +101,7 @@ export interface NativeProps extends ViewProps {
   maskPattern?: string;
   masked?: boolean;
   pattern?: string;
+  validationRules?: string;
   step?: CodegenTypes.Double;
   min?: CodegenTypes.Double;
   max?: CodegenTypes.Double;
@@ -113,6 +119,22 @@ export interface NativeProps extends ViewProps {
   >;
   onGpuiKitInputTokenHover?: CodegenTypes.DirectEventHandler<
     Readonly<{ id: string; hovered: boolean }>
+  >;
+  onGpuiKitInputValidationFail?: CodegenTypes.DirectEventHandler<
+    Readonly<{ text: string; message: string }>
+  >;
+  onGpuiKitInputSelectionHoldChange?: CodegenTypes.DirectEventHandler<
+    Readonly<{ held: boolean }>
+  >;
+  onGpuiKitInputTokenNeeded?: CodegenTypes.DirectEventHandler<
+    Readonly<{ id: string }>
+  >;
+  onGpuiKitInputAddonPress?: CodegenTypes.DirectEventHandler<
+    Readonly<{
+      addon: CodegenTypes.Int32;
+      item: CodegenTypes.Int32;
+      index: CodegenTypes.Int32;
+    }>
   >;
   onGpuiKitInputChange?: CodegenTypes.DirectEventHandler<
     Readonly<{ text: string; eventCount: CodegenTypes.Int32 }>
@@ -169,6 +191,10 @@ interface NativeCommands {
     text: string,
     label: string,
   ) => void;
+  holdSelection: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    hold: boolean,
+  ) => void;
 }
 
 export const Commands = codegenNativeCommands<NativeCommands>({
@@ -185,6 +211,7 @@ export const Commands = codegenNativeCommands<NativeCommands>({
     'setSelectedRangeWithDirection',
     'setSearchQuery',
     'insertToken',
+    'holdSelection',
   ],
 });
 

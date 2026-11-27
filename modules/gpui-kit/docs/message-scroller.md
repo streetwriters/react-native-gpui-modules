@@ -7,16 +7,27 @@ The kit's `MessageScroller`, written by hand on the same specification as the ge
 
 ## Native props
 
-| Name         | Type      |
-| ------------ | --------- |
-| `count`      | `Int32`   |
-| `scrollbar`  | `boolean` |
-| `jumpButton` | `boolean` |
+| Name                   | Type                         |
+| ---------------------- | ---------------------------- |
+| `keysJson`             | `string`                     |
+| `scrollbar`            | `WithDefault<boolean, true>` |
+| `jumpButton`           | `WithDefault<boolean, true>` |
+| `contentStyle`         | `string`                     |
+| `listStyle`            | `string`                     |
+| `rowStyle`             | `string`                     |
+| `bottomFade`           | `Int32`                      |
+| `jumpButtonLabel`      | `string`                     |
+| `jumpButtonText`       | `string`                     |
+| `jumpButtonVariant`    | `string`                     |
+| `jumpButtonSize`       | `string`                     |
+| `jumpButtonStyle`      | `string`                     |
+| `jumpButtonTransition` | `WithDefault<Int32, -1>`     |
 
 ## Commands
 
 - `scrollToEnd`
 - `scrollToItem`
+- `remeasureItems`
 
 ## Coverage
 

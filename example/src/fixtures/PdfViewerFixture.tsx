@@ -22,9 +22,15 @@ function buildPdf(
   for (let page = 0; page < pageCount; page++) {
     const pageObject = objects.length + 1;
     kids.push(`${pageObject} 0 R`);
-    const content = `BT /F1 48 Tf 240 560 Td (Page ${page + 1}) Tj ET 0.2 0.4 0.9 rg 72 400 ${100 + (page % 5) * 60} 120 re f`;
+    const content = `BT /F1 48 Tf 240 560 Td (Page ${
+      page + 1
+    }) Tj ET 0.2 0.4 0.9 rg 72 400 ${100 + (page % 5) * 60} 120 re f`;
     objects.push(
-      `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792]${page === 0 && rotateFirst ? ` /Rotate ${rotateFirst}` : ''} /Contents ${pageObject + 1} 0 R /Resources << /Font << /F1 3 0 R >> >> >>`,
+      `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792]${
+        page === 0 && rotateFirst ? ` /Rotate ${rotateFirst}` : ''
+      } /Contents ${
+        pageObject + 1
+      } 0 R /Resources << /Font << /F1 3 0 R >> >> >>`,
     );
     objects.push(
       `<< /Length ${content.length} >>\nstream\n${content}\nendstream`,
@@ -42,17 +48,25 @@ function buildPdf(
       `<< /Type /Outlines /First ${one} 0 R /Last ${two} 0 R /Count 3 >>`,
     );
     objects.push(
-      `<< /Title (Chapter 1) /Parent ${root} 0 R /Next ${two} 0 R /First ${oneA} 0 R /Last ${oneA} 0 R /Count 1 ${destination(0, 700)} /F 2 >>`,
+      `<< /Title (Chapter 1) /Parent ${root} 0 R /Next ${two} 0 R /First ${oneA} 0 R /Last ${oneA} 0 R /Count 1 ${destination(
+        0,
+        700,
+      )} /F 2 >>`,
     );
     objects.push(
       `<< /Title (Section 1.1) /Parent ${one} 0 R ${destination(1, 400)} >>`,
     );
     objects.push(
-      `<< /Title (Chapter 2) /Parent ${root} 0 R /Prev ${one} 0 R ${destination(2, 792)} >>`,
+      `<< /Title (Chapter 2) /Parent ${root} 0 R /Prev ${one} 0 R ${destination(
+        2,
+        792,
+      )} >>`,
     );
     objects[0] = `<< /Type /Catalog /Pages 2 0 R /Outlines ${root} 0 R >>`;
   }
-  objects[1] = `<< /Type /Pages /Kids [${kids.join(' ')}] /Count ${pageCount} >>`;
+  objects[1] = `<< /Type /Pages /Kids [${kids.join(
+    ' ',
+  )}] /Count ${pageCount} >>`;
   let text = '%PDF-1.4\n';
   const offsets: number[] = [];
   objects.forEach((body, index) => {
@@ -64,7 +78,9 @@ function buildPdf(
   for (const offset of offsets) {
     text += `${String(offset).padStart(10, '0')} 00000 n \n`;
   }
-  text += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
+  text += `trailer\n<< /Size ${
+    objects.length + 1
+  } /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
   return Uint8Array.from(text, character => character.charCodeAt(0));
 }
 
@@ -135,7 +151,9 @@ export default function PdfViewerFixture({
     setFrames(
       sorted.length === 0
         ? 'none'
-        : `n ${sorted.length} median ${at(0.5)} p95 ${at(0.95)} p99 ${at(0.99)} max ${sorted[sorted.length - 1]}`,
+        : `n ${sorted.length} median ${at(0.5)} p95 ${at(0.95)} p99 ${at(
+            0.99,
+          )} max ${sorted[sorted.length - 1]}`,
     );
   };
   useEffect(() => {
@@ -218,7 +236,13 @@ export default function PdfViewerFixture({
         <Button id="page-3" onPress={() => controller.current?.goToPage(3)} />
         <Text testID="pdf-state">
           {state
-            ? `${state.status} page ${state.page}/${state.pageCount} zoom ${state.zoom.toFixed(2)} hits ${state.search.hits} ${state.search.status} active ${state.search.active} on ${state.search.activePage}${state.error ? ` ${state.error}` : ''}`
+            ? `${state.status} page ${state.page}/${
+                state.pageCount
+              } zoom ${state.zoom.toFixed(2)} hits ${state.search.hits} ${
+                state.search.status
+              } active ${state.search.active} on ${state.search.activePage}${
+                state.error ? ` ${state.error}` : ''
+              }`
             : 'none'}
         </Text>
         <Text testID="pdf-stats">{stats}</Text>

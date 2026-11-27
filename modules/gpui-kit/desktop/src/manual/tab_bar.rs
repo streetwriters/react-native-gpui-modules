@@ -30,18 +30,44 @@ impl GpuiKitTabBarSpec for GpuiKitTabBar {
         cx: &mut GpuiKitTabBarContext,
     ) -> AnyElement {
         let sender = cx.event_sender();
+        let mut slots = super::slots::Slots::new(props.slots(), cx.children());
         let mut element = TabBar::new(SharedString::from(self.id.clone()))
             .selected_index(props.selected_index().max(0) as usize)
             .menu(props.menu());
         let list = props.items();
-        for item in (0..list.len()).filter_map(|index| list.get(index)) {
-            let mut tab = Tab::new()
-                .label(item.label().to_string())
-                .disabled(item.disabled());
+        for (index, item) in (0..list.len())
+            .filter_map(|index| list.get(index))
+            .enumerate()
+        {
+            let mut tab = Tab::new().disabled(item.disabled());
+            if !item.label().is_empty() {
+                tab = tab.label(item.label().to_string());
+            }
             if let Some(icon) = crate::generated::icons::parse(item.icon()) {
                 tab = tab.icon(icon);
             }
+            if let Some(icon) = crate::generated::icons::parse(item.prefix_icon()) {
+                tab = tab.prefix(gpui_component::Icon::new(icon));
+            }
+            if let Some(style) = crate::style::refinement(item.kit_style()) {
+                gpui::Refineable::refine(gpui::Styled::style(&mut tab), &style);
+            }
+            if let Some(suffix) = slots.take(&format!("tab-suffix-{index}")) {
+                tab = tab.suffix(suffix);
+            }
             element = element.child(tab);
+        }
+        if let Some(prefix) = slots.take("prefix") {
+            element = element.prefix(prefix);
+        }
+        if let Some(suffix) = slots.take("suffix") {
+            element = element.suffix(suffix);
+        }
+        if props.tab_max_width() > 0.0 {
+            element = element.max_width(gpui::px(props.tab_max_width() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
         }
         match props.variant() {
             GpuiKitTabBarVariant::Unset | GpuiKitTabBarVariant::Tab => {}

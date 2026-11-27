@@ -45,6 +45,10 @@ impl GpuiKitAccordionSpec for GpuiKitAccordion {
             .enumerate()
         {
             let content = slots.take(&format!("item-{index}"));
+            let title_content = slots.take(&format!("title-{index}"));
+            let text = item.text().to_string();
+            let item_title_style = crate::style::refinement(item.title_style());
+            let item_content_style = crate::style::refinement(item.content_style());
             let title = item.title().to_string();
             let icon = crate::generated::icons::parse(item.icon());
             let (open, disabled) = (item.open(), item.disabled());
@@ -54,7 +58,12 @@ impl GpuiKitAccordionSpec for GpuiKitAccordion {
                 hover_style.clone(),
             );
             element = element.item(move |mut entry| {
-                entry = entry.title(title).open(open).disabled(disabled);
+                entry = match title_content {
+                    Some(title) => entry.title(title),
+                    None => entry.title(title),
+                }
+                .open(open)
+                .disabled(disabled);
                 if let Some(icon) = icon {
                     entry = entry.icon(icon);
                 }
@@ -64,11 +73,18 @@ impl GpuiKitAccordionSpec for GpuiKitAccordion {
                 if let Some(style) = content_style {
                     entry = entry.content_style(style);
                 }
+                if let Some(style) = item_title_style {
+                    entry = entry.title_style(style);
+                }
+                if let Some(style) = item_content_style {
+                    entry = entry.content_style(style);
+                }
                 if let Some(style) = hover_style {
                     entry = entry.hover(move |_| style);
                 }
                 match content {
                     Some(content) => entry.child(content),
+                    None if !text.is_empty() => entry.child(text),
                     None => entry,
                 }
             });

@@ -60,15 +60,32 @@ export function DownloadFixture({ server }: { server?: string }) {
           onProgress: (received, total) => progress.push([received, total]),
         });
         record(
-          `basic ${result.status === 200 && result.bytes === SIZE && result.headers['content-length'] === String(SIZE) ? 'ok' : `BAD ${JSON.stringify(result)}`}`,
+          `basic ${
+            result.status === 200 &&
+            result.bytes === SIZE &&
+            result.headers['content-length'] === String(SIZE)
+              ? 'ok'
+              : `BAD ${JSON.stringify(result)}`
+          }`,
         );
         record(
-          `content ${matchesPattern(await fs.promises.readFile(file), SIZE) ? 'ok' : 'BAD'}`,
+          `content ${
+            matchesPattern(await fs.promises.readFile(file), SIZE)
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
         record(`noPartial ${(await present(`${file}.part`)) ? 'BAD' : 'ok'}`);
         const last = progress[progress.length - 1];
         record(
-          `progress ${progress.length > 1 && last?.[0] === SIZE && last?.[1] === SIZE && progress.every(([r], i) => i === 0 || r >= progress[i - 1][0]) ? 'ok' : `BAD ${JSON.stringify(progress.slice(-2))}`}`,
+          `progress ${
+            progress.length > 1 &&
+            last?.[0] === SIZE &&
+            last?.[1] === SIZE &&
+            progress.every(([r], i) => i === 0 || r >= progress[i - 1][0])
+              ? 'ok'
+              : `BAD ${JSON.stringify(progress.slice(-2))}`
+          }`,
         );
 
         const chunked = `${dir}/chunked.bin`;
@@ -77,7 +94,13 @@ export function DownloadFixture({ server }: { server?: string }) {
           onProgress: (_received, total) => unknown.push(total),
         });
         record(
-          `chunked ${chunkedResult.bytes === SIZE && unknown.every(t => t === -1) && matchesPattern(await fs.promises.readFile(chunked), SIZE) ? 'ok' : 'BAD'}`,
+          `chunked ${
+            chunkedResult.bytes === SIZE &&
+            unknown.every(t => t === -1) &&
+            matchesPattern(await fs.promises.readFile(chunked), SIZE)
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
 
         const redirected = await fs.download(
@@ -94,7 +117,13 @@ export function DownloadFixture({ server }: { server?: string }) {
           await fs.promises.readFile(`${dir}/echo.json`, 'utf8'),
         );
         record(
-          `request ${echo.method === 'POST' && echo.headers['x-test'] === 'one' && echo.headers.authorization === 'Bearer abc' ? 'ok' : `BAD ${JSON.stringify(echo)}`}`,
+          `request ${
+            echo.method === 'POST' &&
+            echo.headers['x-test'] === 'one' &&
+            echo.headers.authorization === 'Bearer abc'
+              ? 'ok'
+              : `BAD ${JSON.stringify(echo)}`
+          }`,
         );
 
         const missing = `${dir}/missing.bin`;
@@ -102,7 +131,15 @@ export function DownloadFixture({ server }: { server?: string }) {
           fs.download(`${server}/missing`, missing),
         );
         record(
-          `httpError ${notFound?.status === 404 && notFound.body === 'nothing here' && notFound.code === 'ERR_HTTP_STATUS' && !(await present(missing)) && !(await present(`${missing}.part`)) ? 'ok' : `BAD ${notFound?.message}`}`,
+          `httpError ${
+            notFound?.status === 404 &&
+            notFound.body === 'nothing here' &&
+            notFound.code === 'ERR_HTTP_STATUS' &&
+            !(await present(missing)) &&
+            !(await present(`${missing}.part`))
+              ? 'ok'
+              : `BAD ${notFound?.message}`
+          }`,
         );
 
         await fs.promises.writeFile(`${dir}/keep.bin`, 'previous');
@@ -110,7 +147,13 @@ export function DownloadFixture({ server }: { server?: string }) {
           fs.download(`${server}/missing`, `${dir}/keep.bin`),
         );
         record(
-          `keepsExisting ${kept && (await fs.promises.readFile(`${dir}/keep.bin`, 'utf8')) === 'previous' ? 'ok' : 'BAD'}`,
+          `keepsExisting ${
+            kept &&
+            (await fs.promises.readFile(`${dir}/keep.bin`, 'utf8')) ===
+              'previous'
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
 
         const short = `${dir}/short.bin`;
@@ -118,14 +161,22 @@ export function DownloadFixture({ server }: { server?: string }) {
           fs.download(`${server}/short`, short),
         );
         record(
-          `incomplete ${truncated && !(await present(short)) && !(await present(`${short}.part`)) ? 'ok' : 'BAD'}`,
+          `incomplete ${
+            truncated &&
+            !(await present(short)) &&
+            !(await present(`${short}.part`))
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
 
         const noDirectory = await rejection(() =>
           fs.download(`${server}/file`, `${dir}/nope/file.bin`),
         );
         record(
-          `noDirectory ${noDirectory?.code === 'ENOENT' ? 'ok' : `BAD ${noDirectory?.code}`}`,
+          `noDirectory ${
+            noDirectory?.code === 'ENOENT' ? 'ok' : `BAD ${noDirectory?.code}`
+          }`,
         );
 
         const slow = `${dir}/slow.bin`;
@@ -145,7 +196,15 @@ export function DownloadFixture({ server }: { server?: string }) {
         const aborted = await pending;
         const latency = Date.now() - abortedAt;
         record(
-          `abort ${aborted?.name === 'AbortError' && aborted.code === 'ABORT_ERR' && latency < 1000 && !(await present(slow)) && !(await present(`${slow}.part`)) ? 'ok' : `BAD ${aborted?.name} ${latency}ms`}`,
+          `abort ${
+            aborted?.name === 'AbortError' &&
+            aborted.code === 'ABORT_ERR' &&
+            latency < 1000 &&
+            !(await present(slow)) &&
+            !(await present(`${slow}.part`))
+              ? 'ok'
+              : `BAD ${aborted?.name} ${latency}ms`
+          }`,
         );
 
         const stalled = new AbortController();
@@ -159,7 +218,13 @@ export function DownloadFixture({ server }: { server?: string }) {
         stalled.abort();
         const stalledError = await stalledRun;
         record(
-          `abortStalled ${stalledError?.name === 'AbortError' && Date.now() - stalledAt < 1000 && !(await present(`${dir}/stall.bin.part`)) ? 'ok' : 'BAD'}`,
+          `abortStalled ${
+            stalledError?.name === 'AbortError' &&
+            Date.now() - stalledAt < 1000 &&
+            !(await present(`${dir}/stall.bin.part`))
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
 
         const early = new AbortController();
@@ -170,7 +235,12 @@ export function DownloadFixture({ server }: { server?: string }) {
           }),
         );
         record(
-          `preAborted ${earlyError?.name === 'AbortError' && !(await present(`${dir}/early.bin`)) ? 'ok' : 'BAD'}`,
+          `preAborted ${
+            earlyError?.name === 'AbortError' &&
+            !(await present(`${dir}/early.bin`))
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
 
         record(`done ok`);

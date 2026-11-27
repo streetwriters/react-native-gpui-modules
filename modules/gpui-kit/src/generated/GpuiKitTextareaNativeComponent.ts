@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
+  addonsJson?: string;
+  autoGrowMax?: CodegenTypes.Int32;
+  autoGrowMin?: CodegenTypes.Int32;
   hardTabs?: boolean;
   appearance?: boolean;
   bordered?: boolean;
@@ -23,6 +26,9 @@ export interface NativeProps extends ViewProps {
     'unset' | 'xsmall' | 'small' | 'medium' | 'large',
     'unset'
   >;
+  customSize?: CodegenTypes.Double;
+  kitStyle?: string;
+  tokenRender?: boolean;
   tokenClickEvents?: boolean;
   tokenHoverEvents?: boolean;
   contextMenu?: ReadonlyArray<
@@ -33,6 +39,7 @@ export interface NativeProps extends ViewProps {
   textAlign?: CodegenTypes.WithDefault<'left' | 'center' | 'right', 'left'>;
   contextMenuEnabled?: CodegenTypes.WithDefault<boolean, true>;
   foldBackground?: ColorValue;
+  scrollbarStyleJson?: string;
   placeholder?: string;
   cleanOnEscape?: boolean;
   submitOnEnter?: boolean;
@@ -42,13 +49,14 @@ export interface NativeProps extends ViewProps {
   maskPattern?: string;
   scrollBounce?: boolean;
   searchable?: boolean;
-  softWrap?: boolean;
+  softWrap?: CodegenTypes.WithDefault<boolean, true>;
   wrappingIndent?: CodegenTypes.WithDefault<'unset' | 'none' | 'same', 'unset'>;
   rows?: CodegenTypes.Int32;
   value?: string;
   defaultValue?: string;
   controlled?: boolean;
   eventCount?: CodegenTypes.Int32;
+  slots?: string;
   onGpuiKitTextareaPaste?: CodegenTypes.DirectEventHandler<
     Readonly<{ text: string }>
   >;
@@ -58,6 +66,22 @@ export interface NativeProps extends ViewProps {
   onGpuiKitTextareaTokenHover?: CodegenTypes.DirectEventHandler<
     Readonly<{ id: string; hovered: boolean }>
   >;
+  onGpuiKitTextareaValidationFail?: CodegenTypes.DirectEventHandler<
+    Readonly<{ text: string; message: string }>
+  >;
+  onGpuiKitTextareaSelectionHoldChange?: CodegenTypes.DirectEventHandler<
+    Readonly<{ held: boolean }>
+  >;
+  onGpuiKitTextareaTokenNeeded?: CodegenTypes.DirectEventHandler<
+    Readonly<{ id: string }>
+  >;
+  onGpuiKitTextareaAddonPress?: CodegenTypes.DirectEventHandler<
+    Readonly<{
+      addon: CodegenTypes.Int32;
+      item: CodegenTypes.Int32;
+      index: CodegenTypes.Int32;
+    }>
+  >;
   onGpuiKitTextareaChange?: CodegenTypes.DirectEventHandler<
     Readonly<{ text: string; eventCount: CodegenTypes.Int32 }>
   >;
@@ -66,6 +90,9 @@ export interface NativeProps extends ViewProps {
   >;
   onGpuiKitTextareaFocus?: CodegenTypes.DirectEventHandler<null>;
   onGpuiKitTextareaBlur?: CodegenTypes.DirectEventHandler<null>;
+  onGpuiKitTextareaCursorChange?: CodegenTypes.DirectEventHandler<
+    Readonly<{ line: CodegenTypes.Int32; character: CodegenTypes.Int32 }>
+  >;
 }
 
 interface NativeCommands {
@@ -118,6 +145,14 @@ interface NativeCommands {
     minRows: CodegenTypes.Int32,
     maxRows: CodegenTypes.Int32,
   ) => void;
+  holdSelection: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    hold: boolean,
+  ) => void;
+  replace: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    text: string,
+  ) => void;
 }
 
 export const Commands = codegenNativeCommands<NativeCommands>({
@@ -135,6 +170,8 @@ export const Commands = codegenNativeCommands<NativeCommands>({
     'setSearchQuery',
     'insertToken',
     'setAutoGrow',
+    'holdSelection',
+    'replace',
   ],
 });
 

@@ -1,0 +1,1802 @@
+[
+ {
+  "name": "Bluth Systems and Sons",
+  "industry": "Media",
+  "lastDone": 709.32,
+  "prevClose": -30.31
+ },
+ {
+  "name": "Wonka Holdings PLC",
+  "industry": "Biotechnology",
+  "lastDone": 313.86,
+  "prevClose": -12.06
+ },
+ {
+  "name": "Hooli Partners PLC",
+  "industry": "Energy",
+  "lastDone": 671.73,
+  "prevClose": -11.75
+ },
+ {
+  "name": "Hooli Holdings Inc",
+  "industry": "Banking",
+  "lastDone": 186.59,
+  "prevClose": -9.83
+ },
+ {
+  "name": "Cyberdyne Group PLC",
+  "industry": "Software",
+  "lastDone": 58.2,
+  "prevClose": -1.56
+ },
+ {
+  "name": "Aperture Networks Group",
+  "industry": "Logistics",
+  "lastDone": 722.08,
+  "prevClose": -58.53
+ },
+ {
+  "name": "Pied Systems Inc",
+  "industry": "Retail",
+  "lastDone": 207.69,
+  "prevClose": 14.41
+ },
+ {
+  "name": "Gringotts Partners Group",
+  "industry": "Insurance",
+  "lastDone": 580.97,
+  "prevClose": 14.51
+ },
+ {
+  "name": "Vandelay Ventures Ltd",
+  "industry": "Software",
+  "lastDone": 121.56,
+  "prevClose": -8.68
+ },
+ {
+  "name": "Globex Holdings Group",
+  "industry": "Biotechnology",
+  "lastDone": 675.06,
+  "prevClose": -9.28
+ },
+ {
+  "name": "Massive Dynamics Group",
+  "industry": "Biotechnology",
+  "lastDone": 361.17,
+  "prevClose": 27.15
+ },
+ {
+  "name": "Aperture Ventures LLC",
+  "industry": "Logistics",
+  "lastDone": 380.26,
+  "prevClose": -9.61
+ },
+ {
+  "name": "Soylent Group Ltd",
+  "industry": "Software",
+  "lastDone": 929.27,
+  "prevClose": -37.7
+ },
+ {
+  "name": "Bluth Group Group",
+  "industry": "Media",
+  "lastDone": 607.06,
+  "prevClose": -21.5
+ },
+ {
+  "name": "Wonka Ventures Inc",
+  "industry": "Biotechnology",
+  "lastDone": 290.28,
+  "prevClose": -14.68
+ },
+ {
+  "name": "Massive Industries PLC",
+  "industry": "Media",
+  "lastDone": 360.61,
+  "prevClose": -19.59
+ },
+ {
+  "name": "Wonka Group Ltd",
+  "industry": "Retail",
+  "lastDone": 0.18,
+  "prevClose": -0.01
+ },
+ {
+  "name": "Vandelay Ventures PLC",
+  "industry": "Biotechnology",
+  "lastDone": 691.12,
+  "prevClose": -56.24
+ },
+ {
+  "name": "Massive Dynamics PLC",
+  "industry": "Banking",
+  "lastDone": 301.08,
+  "prevClose": -16.92
+ },
+ {
+  "name": "Hooli Ventures LLC",
+  "industry": "Energy",
+  "lastDone": 870.34,
+  "prevClose": 0.95
+ },
+ {
+  "name": "Duff Industries LLC",
+  "industry": "Media",
+  "lastDone": 857.09,
+  "prevClose": -77.75
+ },
+ {
+  "name": "Massive Group PLC",
+  "industry": "Insurance",
+  "lastDone": 869.29,
+  "prevClose": -69.21
+ },
+ {
+  "name": "Wonka Holdings Ltd",
+  "industry": "Banking",
+  "lastDone": 885.13,
+  "prevClose": 78.63
+ },
+ {
+  "name": "Vandelay Systems PLC",
+  "industry": "Insurance",
+  "lastDone": 355.6,
+  "prevClose": -29.57
+ },
+ {
+  "name": "Cyberdyne Labs PLC",
+  "industry": "Energy",
+  "lastDone": 736.2,
+  "prevClose": -46.17
+ },
+ {
+  "name": "Bluth Systems Group",
+  "industry": "Banking",
+  "lastDone": 557.39,
+  "prevClose": -54.3
+ },
+ {
+  "name": "Wonka Labs Ltd",
+  "industry": "Insurance",
+  "lastDone": 696.31,
+  "prevClose": -63.22
+ },
+ {
+  "name": "Wayne Ventures Inc",
+  "industry": "Energy",
+  "lastDone": 255.9,
+  "prevClose": -6.63
+ },
+ {
+  "name": "Soylent Holdings and Sons",
+  "industry": "Software",
+  "lastDone": 532.71,
+  "prevClose": 29.67
+ },
+ {
+  "name": "Duff Partners LLC",
+  "industry": "Banking",
+  "lastDone": 409.06,
+  "prevClose": -30.39
+ },
+ {
+  "name": "Initech Systems Group",
+  "industry": "Media",
+  "lastDone": 698.22,
+  "prevClose": -38.29
+ },
+ {
+  "name": "Vandelay Networks LLC",
+  "industry": "Insurance",
+  "lastDone": 19.21,
+  "prevClose": 1.4
+ },
+ {
+  "name": "Duff Ventures Group",
+  "industry": "Biotechnology",
+  "lastDone": 769.33,
+  "prevClose": 42.24
+ },
+ {
+  "name": "Bluth Holdings Inc",
+  "industry": "Biotechnology",
+  "lastDone": 564.51,
+  "prevClose": -21.03
+ },
+ {
+  "name": "Initech Group Inc",
+  "industry": "Banking",
+  "lastDone": 941.9,
+  "prevClose": -82.9
+ },
+ {
+  "name": "Acme Networks Group",
+  "industry": "Retail",
+  "lastDone": 41.09,
+  "prevClose": -0.68
+ },
+ {
+  "name": "Gringotts Networks Ltd",
+  "industry": "Energy",
+  "lastDone": 782.32,
+  "prevClose": 50.52
+ },
+ {
+  "name": "Cyberdyne Dynamics Inc",
+  "industry": "Energy",
+  "lastDone": 316.55,
+  "prevClose": 1.3
+ },
+ {
+  "name": "Umbrella Group Inc",
+  "industry": "Banking",
+  "lastDone": 232.34,
+  "prevClose": 18.77
+ },
+ {
+  "name": "Bluth Ventures Group",
+  "industry": "Banking",
+  "lastDone": 744.98,
+  "prevClose": 5.89
+ },
+ {
+  "name": "Umbrella Ventures and Sons",
+  "industry": "Biotechnology",
+  "lastDone": 520.93,
+  "prevClose": -22.9
+ },
+ {
+  "name": "Hooli Networks Ltd",
+  "industry": "Retail",
+  "lastDone": 605.53,
+  "prevClose": 23.16
+ },
+ {
+  "name": "Vandelay Ventures Inc",
+  "industry": "Media",
+  "lastDone": 325.03,
+  "prevClose": -28.08
+ },
+ {
+  "name": "Oscorp Holdings PLC",
+  "industry": "Retail",
+  "lastDone": 477.7,
+  "prevClose": 13.39
+ },
+ {
+  "name": "Massive Networks Ltd",
+  "industry": "Retail",
+  "lastDone": 948.91,
+  "prevClose": -82.52
+ },
+ {
+  "name": "Globex Systems Group",
+  "industry": "Media",
+  "lastDone": 854.61,
+  "prevClose": -9.09
+ },
+ {
+  "name": "Aperture Ventures Group",
+  "industry": "Media",
+  "lastDone": 157.53,
+  "prevClose": -2.4
+ },
+ {
+  "name": "Cyberdyne Systems Inc",
+  "industry": "Media",
+  "lastDone": 636.55,
+  "prevClose": 17.31
+ },
+ {
+  "name": "Cyberdyne Systems Group",
+  "industry": "Media",
+  "lastDone": 68.25,
+  "prevClose": 5.9
+ },
+ {
+  "name": "Vandelay Partners PLC",
+  "industry": "Energy",
+  "lastDone": 698.02,
+  "prevClose": -58.23
+ },
+ {
+  "name": "Gringotts Holdings and Sons",
+  "industry": "Retail",
+  "lastDone": 588.32,
+  "prevClose": 53.45
+ },
+ {
+  "name": "Massive Networks LLC",
+  "industry": "Logistics",
+  "lastDone": 54.33,
+  "prevClose": 5.17
+ },
+ {
+  "name": "Globex Systems Ltd",
+  "industry": "Retail",
+  "lastDone": 990.71,
+  "prevClose": 81.76
+ },
+ {
+  "name": "Wayne Dynamics Group",
+  "industry": "Media",
+  "lastDone": 665.52,
+  "prevClose": -50.19
+ },
+ {
+  "name": "Initech Works LLC",
+  "industry": "Biotechnology",
+  "lastDone": 907.59,
+  "prevClose": 7.7
+ },
+ {
+  "name": "Duff Group PLC",
+  "industry": "Banking",
+  "lastDone": 640.57,
+  "prevClose": -4.7
+ },
+ {
+  "name": "Bluth Systems PLC",
+  "industry": "Banking",
+  "lastDone": 753.93,
+  "prevClose": -39.64
+ },
+ {
+  "name": "Cyberdyne Dynamics LLC",
+  "industry": "Logistics",
+  "lastDone": 986.62,
+  "prevClose": -87.62
+ },
+ {
+  "name": "Aperture Networks LLC",
+  "industry": "Banking",
+  "lastDone": 470.18,
+  "prevClose": 26.58
+ },
+ {
+  "name": "Duff Networks Group",
+  "industry": "Biotechnology",
+  "lastDone": 263.67,
+  "prevClose": 15.26
+ },
+ {
+  "name": "Vandelay Group Inc",
+  "industry": "Biotechnology",
+  "lastDone": 959.17,
+  "prevClose": -60.67
+ },
+ {
+  "name": "Stark Holdings PLC",
+  "industry": "Software",
+  "lastDone": 941.38,
+  "prevClose": 29.89
+ },
+ {
+  "name": "Tyrell Dynamics Group",
+  "industry": "Biotechnology",
+  "lastDone": 639.6,
+  "prevClose": 45.4
+ },
+ {
+  "name": "Soylent Labs Inc",
+  "industry": "Software",
+  "lastDone": 627.88,
+  "prevClose": -41.25
+ },
+ {
+  "name": "Umbrella Dynamics Ltd",
+  "industry": "Retail",
+  "lastDone": 434.23,
+  "prevClose": 40.45
+ },
+ {
+  "name": "Vandelay Ventures LLC",
+  "industry": "Media",
+  "lastDone": 702.03,
+  "prevClose": 69.32
+ },
+ {
+  "name": "Pied Labs Ltd",
+  "industry": "Energy",
+  "lastDone": 6.49,
+  "prevClose": 0.38
+ },
+ {
+  "name": "Massive Ventures and Sons",
+  "industry": "Retail",
+  "lastDone": 829.91,
+  "prevClose": -40.98
+ },
+ {
+  "name": "Oscorp Works and Sons",
+  "industry": "Media",
+  "lastDone": 162.47,
+  "prevClose": 6.57
+ },
+ {
+  "name": "Bluth Labs Group",
+  "industry": "Energy",
+  "lastDone": 933.56,
+  "prevClose": 5.63
+ },
+ {
+  "name": "Wayne Networks Group",
+  "industry": "Insurance",
+  "lastDone": 509.54,
+  "prevClose": 42.04
+ },
+ {
+  "name": "Vandelay Networks PLC",
+  "industry": "Energy",
+  "lastDone": 572.49,
+  "prevClose": -19.98
+ },
+ {
+  "name": "Wonka Group Ltd",
+  "industry": "Software",
+  "lastDone": 721.66,
+  "prevClose": -24.4
+ },
+ {
+  "name": "Massive Partners Group",
+  "industry": "Biotechnology",
+  "lastDone": 590.28,
+  "prevClose": -18.31
+ },
+ {
+  "name": "Monarch Partners LLC",
+  "industry": "Banking",
+  "lastDone": 44.45,
+  "prevClose": -4.22
+ },
+ {
+  "name": "Oscorp Holdings Ltd",
+  "industry": "Energy",
+  "lastDone": 8.85,
+  "prevClose": 0.82
+ },
+ {
+  "name": "Gringotts Dynamics Inc",
+  "industry": "Retail",
+  "lastDone": 793.4,
+  "prevClose": -70.15
+ },
+ {
+  "name": "Oscorp Networks Group",
+  "industry": "Media",
+  "lastDone": 992.68,
+  "prevClose": 79.27
+ },
+ {
+  "name": "Soylent Group Ltd",
+  "industry": "Insurance",
+  "lastDone": 310.7,
+  "prevClose": 23.97
+ },
+ {
+  "name": "Cyberdyne Systems Ltd",
+  "industry": "Banking",
+  "lastDone": 254.02,
+  "prevClose": -8.55
+ },
+ {
+  "name": "Initech Systems and Sons",
+  "industry": "Energy",
+  "lastDone": 250.03,
+  "prevClose": -22.37
+ },
+ {
+  "name": "Initech Works and Sons",
+  "industry": "Software",
+  "lastDone": 603.62,
+  "prevClose": 4.18
+ },
+ {
+  "name": "Duff Holdings PLC",
+  "industry": "Retail",
+  "lastDone": 133,
+  "prevClose": 7.18
+ },
+ {
+  "name": "Oscorp Industries Inc",
+  "industry": "Logistics",
+  "lastDone": 332.75,
+  "prevClose": -22.32
+ },
+ {
+  "name": "Monarch Systems Inc",
+  "industry": "Logistics",
+  "lastDone": 291.78,
+  "prevClose": -7.18
+ },
+ {
+  "name": "Hooli Holdings Ltd",
+  "industry": "Insurance",
+  "lastDone": 730.29,
+  "prevClose": 8.32
+ },
+ {
+  "name": "Pied Group and Sons",
+  "industry": "Banking",
+  "lastDone": 239.08,
+  "prevClose": -7.1
+ },
+ {
+  "name": "Oscorp Industries Inc",
+  "industry": "Insurance",
+  "lastDone": 321.41,
+  "prevClose": -13.66
+ },
+ {
+  "name": "Tyrell Industries Inc",
+  "industry": "Banking",
+  "lastDone": 903.33,
+  "prevClose": -67.12
+ },
+ {
+  "name": "Globex Industries PLC",
+  "industry": "Retail",
+  "lastDone": 222.95,
+  "prevClose": -13.03
+ },
+ {
+  "name": "Globex Dynamics PLC",
+  "industry": "Media",
+  "lastDone": 378.15,
+  "prevClose": -5.86
+ },
+ {
+  "name": "Initech Ventures Group",
+  "industry": "Logistics",
+  "lastDone": 84.27,
+  "prevClose": -6.47
+ },
+ {
+  "name": "Aperture Dynamics and Sons",
+  "industry": "Biotechnology",
+  "lastDone": 189.21,
+  "prevClose": -4.27
+ },
+ {
+  "name": "Acme Partners PLC",
+  "industry": "Retail",
+  "lastDone": 107.6,
+  "prevClose": -9.81
+ },
+ {
+  "name": "Wonka Dynamics Ltd",
+  "industry": "Banking",
+  "lastDone": 669.39,
+  "prevClose": -35.36
+ },
+ {
+  "name": "Tyrell Holdings Group",
+  "industry": "Insurance",
+  "lastDone": 386.22,
+  "prevClose": 21.19
+ },
+ {
+  "name": "Hooli Systems LLC",
+  "industry": "Retail",
+  "lastDone": 306.03,
+  "prevClose": -13.4
+ },
+ {
+  "name": "Initech Industries PLC",
+  "industry": "Software",
+  "lastDone": 149.22,
+  "prevClose": 9.47
+ },
+ {
+  "name": "Pied Holdings Ltd",
+  "industry": "Media",
+  "lastDone": 105.43,
+  "prevClose": 4.03
+ },
+ {
+  "name": "Soylent Group and Sons",
+  "industry": "Biotechnology",
+  "lastDone": 544.56,
+  "prevClose": -8.24
+ },
+ {
+  "name": "Wayne Labs PLC",
+  "industry": "Software",
+  "lastDone": 471.63,
+  "prevClose": -35.41
+ },
+ {
+  "name": "Aperture Systems Group",
+  "industry": "Biotechnology",
+  "lastDone": 271.44,
+  "prevClose": -13.57
+ },
+ {
+  "name": "Massive Works Group",
+  "industry": "Software",
+  "lastDone": 315.68,
+  "prevClose": 6.12
+ },
+ {
+  "name": "Vandelay Ventures and Sons",
+  "industry": "Logistics",
+  "lastDone": 703.2,
+  "prevClose": 7.99
+ },
+ {
+  "name": "Wayne Partners Inc",
+  "industry": "Retail",
+  "lastDone": 770.52,
+  "prevClose": -60.16
+ },
+ {
+  "name": "Aperture Systems Inc",
+  "industry": "Software",
+  "lastDone": 761.08,
+  "prevClose": 63.39
+ },
+ {
+  "name": "Wonka Labs LLC",
+  "industry": "Software",
+  "lastDone": 628.02,
+  "prevClose": -7.8
+ },
+ {
+  "name": "Stark Networks Ltd",
+  "industry": "Retail",
+  "lastDone": 784.32,
+  "prevClose": 12.19
+ },
+ {
+  "name": "Tyrell Ventures LLC",
+  "industry": "Software",
+  "lastDone": 622.48,
+  "prevClose": -24.97
+ },
+ {
+  "name": "Aperture Holdings Inc",
+  "industry": "Banking",
+  "lastDone": 921.89,
+  "prevClose": 50
+ },
+ {
+  "name": "Acme Holdings and Sons",
+  "industry": "Software",
+  "lastDone": 613.52,
+  "prevClose": 51.87
+ },
+ {
+  "name": "Pied Networks LLC",
+  "industry": "Biotechnology",
+  "lastDone": 410.22,
+  "prevClose": 10.68
+ },
+ {
+  "name": "Gringotts Works Ltd",
+  "industry": "Insurance",
+  "lastDone": 69.29,
+  "prevClose": -1.22
+ },
+ {
+  "name": "Oscorp Holdings PLC",
+  "industry": "Insurance",
+  "lastDone": 635.58,
+  "prevClose": -16.71
+ },
+ {
+  "name": "Globex Group and Sons",
+  "industry": "Biotechnology",
+  "lastDone": 322.13,
+  "prevClose": -12.82
+ },
+ {
+  "name": "Cyberdyne Industries LLC",
+  "industry": "Biotechnology",
+  "lastDone": 118.55,
+  "prevClose": -3.27
+ },
+ {
+  "name": "Globex Holdings Ltd",
+  "industry": "Retail",
+  "lastDone": 414.53,
+  "prevClose": 20.23
+ },
+ {
+  "name": "Duff Networks Ltd",
+  "industry": "Software",
+  "lastDone": 17.5,
+  "prevClose": 1.11
+ },
+ {
+  "name": "Gringotts Labs PLC",
+  "industry": "Logistics",
+  "lastDone": 773.57,
+  "prevClose": 40.52
+ },
+ {
+  "name": "Globex Dynamics PLC",
+  "industry": "Banking",
+  "lastDone": 34.42,
+  "prevClose": 1.95
+ },
+ {
+  "name": "Acme Networks LLC",
+  "industry": "Logistics",
+  "lastDone": 617.43,
+  "prevClose": 4.28
+ },
+ {
+  "name": "Aperture Industries LLC",
+  "industry": "Energy",
+  "lastDone": 114.91,
+  "prevClose": 2.32
+ },
+ {
+  "name": "Oscorp Ventures and Sons",
+  "industry": "Insurance",
+  "lastDone": 347.95,
+  "prevClose": 7.41
+ },
+ {
+  "name": "Monarch Dynamics PLC",
+  "industry": "Logistics",
+  "lastDone": 996,
+  "prevClose": 40.98
+ },
+ {
+  "name": "Globex Networks Inc",
+  "industry": "Logistics",
+  "lastDone": 871.16,
+  "prevClose": 58.76
+ },
+ {
+  "name": "Bluth Industries Ltd",
+  "industry": "Biotechnology",
+  "lastDone": 678.33,
+  "prevClose": -60.86
+ },
+ {
+  "name": "Globex Group and Sons",
+  "industry": "Retail",
+  "lastDone": 624.12,
+  "prevClose": -41.83
+ },
+ {
+  "name": "Stark Networks PLC",
+  "industry": "Biotechnology",
+  "lastDone": 899.73,
+  "prevClose": -23.27
+ },
+ {
+  "name": "Duff Ventures LLC",
+  "industry": "Insurance",
+  "lastDone": 189.88,
+  "prevClose": -10.44
+ },
+ {
+  "name": "Wonka Works PLC",
+  "industry": "Software",
+  "lastDone": 435.88,
+  "prevClose": 33.86
+ },
+ {
+  "name": "Oscorp Partners PLC",
+  "industry": "Banking",
+  "lastDone": 73.14,
+  "prevClose": -0.57
+ },
+ {
+  "name": "Duff Systems PLC",
+  "industry": "Media",
+  "lastDone": 397.86,
+  "prevClose": 13.9
+ },
+ {
+  "name": "Hooli Works Inc",
+  "industry": "Retail",
+  "lastDone": 367.9,
+  "prevClose": 25.84
+ },
+ {
+  "name": "Aperture Labs PLC",
+  "industry": "Energy",
+  "lastDone": 690.6,
+  "prevClose": 22.81
+ },
+ {
+  "name": "Monarch Industries and Sons",
+  "industry": "Software",
+  "lastDone": 811.26,
+  "prevClose": -61.8
+ },
+ {
+  "name": "Stark Partners PLC",
+  "industry": "Insurance",
+  "lastDone": 974.8,
+  "prevClose": -37.25
+ },
+ {
+  "name": "Globex Works LLC",
+  "industry": "Energy",
+  "lastDone": 595.72,
+  "prevClose": -54.16
+ },
+ {
+  "name": "Stark Holdings and Sons",
+  "industry": "Logistics",
+  "lastDone": 568.99,
+  "prevClose": 34.31
+ },
+ {
+  "name": "Wayne Works LLC",
+  "industry": "Media",
+  "lastDone": 860.31,
+  "prevClose": 22.07
+ },
+ {
+  "name": "Initech Group Ltd",
+  "industry": "Retail",
+  "lastDone": 111.38,
+  "prevClose": -5.27
+ },
+ {
+  "name": "Bluth Ventures Inc",
+  "industry": "Media",
+  "lastDone": 738.49,
+  "prevClose": 39.46
+ },
+ {
+  "name": "Globex Holdings Ltd",
+  "industry": "Insurance",
+  "lastDone": 405.24,
+  "prevClose": 12.99
+ },
+ {
+  "name": "Monarch Industries Inc",
+  "industry": "Media",
+  "lastDone": 988.68,
+  "prevClose": 97.52
+ },
+ {
+  "name": "Cyberdyne Industries PLC",
+  "industry": "Logistics",
+  "lastDone": 123.04,
+  "prevClose": 5.79
+ },
+ {
+  "name": "Vandelay Holdings Ltd",
+  "industry": "Insurance",
+  "lastDone": 448.09,
+  "prevClose": 31.34
+ },
+ {
+  "name": "Pied Ventures LLC",
+  "industry": "Media",
+  "lastDone": 386.64,
+  "prevClose": -15.26
+ },
+ {
+  "name": "Initech Dynamics Ltd",
+  "industry": "Software",
+  "lastDone": 481.76,
+  "prevClose": -2.98
+ },
+ {
+  "name": "Oscorp Industries LLC",
+  "industry": "Media",
+  "lastDone": 26.19,
+  "prevClose": 1.4
+ },
+ {
+  "name": "Initech Group Group",
+  "industry": "Energy",
+  "lastDone": 180.8,
+  "prevClose": -5.32
+ },
+ {
+  "name": "Monarch Dynamics Group",
+  "industry": "Software",
+  "lastDone": 885.78,
+  "prevClose": -49.63
+ },
+ {
+  "name": "Gringotts Holdings and Sons",
+  "industry": "Logistics",
+  "lastDone": 369.02,
+  "prevClose": 28.21
+ },
+ {
+  "name": "Oscorp Ventures Group",
+  "industry": "Insurance",
+  "lastDone": 698.36,
+  "prevClose": 22.38
+ },
+ {
+  "name": "Initech Systems and Sons",
+  "industry": "Logistics",
+  "lastDone": 277.79,
+  "prevClose": -16.45
+ },
+ {
+  "name": "Wayne Networks Ltd",
+  "industry": "Insurance",
+  "lastDone": 651.5,
+  "prevClose": -0.15
+ },
+ {
+  "name": "Oscorp Group Ltd",
+  "industry": "Insurance",
+  "lastDone": 391.2,
+  "prevClose": 12.55
+ },
+ {
+  "name": "Stark Industries Group",
+  "industry": "Media",
+  "lastDone": 184.18,
+  "prevClose": -1.81
+ },
+ {
+  "name": "Aperture Group Group",
+  "industry": "Insurance",
+  "lastDone": 346.87,
+  "prevClose": -5.28
+ },
+ {
+  "name": "Aperture Works PLC",
+  "industry": "Software",
+  "lastDone": 971.76,
+  "prevClose": -3.41
+ },
+ {
+  "name": "Gringotts Industries Group",
+  "industry": "Energy",
+  "lastDone": 891.15,
+  "prevClose": 77.81
+ },
+ {
+  "name": "Gringotts Works Ltd",
+  "industry": "Energy",
+  "lastDone": 157.17,
+  "prevClose": -14.45
+ },
+ {
+  "name": "Pied Dynamics and Sons",
+  "industry": "Energy",
+  "lastDone": 194.02,
+  "prevClose": -14.99
+ },
+ {
+  "name": "Hooli Systems LLC",
+  "industry": "Media",
+  "lastDone": 879.54,
+  "prevClose": -52.39
+ },
+ {
+  "name": "Tyrell Group Inc",
+  "industry": "Logistics",
+  "lastDone": 814.46,
+  "prevClose": 15.78
+ },
+ {
+  "name": "Initech Dynamics and Sons",
+  "industry": "Retail",
+  "lastDone": 149.61,
+  "prevClose": -2.41
+ },
+ {
+  "name": "Pied Systems Ltd",
+  "industry": "Retail",
+  "lastDone": 990.53,
+  "prevClose": 75.21
+ },
+ {
+  "name": "Massive Networks Inc",
+  "industry": "Insurance",
+  "lastDone": 33.46,
+  "prevClose": 2.81
+ },
+ {
+  "name": "Hooli Labs Group",
+  "industry": "Media",
+  "lastDone": 718.31,
+  "prevClose": -18.78
+ },
+ {
+  "name": "Tyrell Industries and Sons",
+  "industry": "Logistics",
+  "lastDone": 58,
+  "prevClose": 3.31
+ },
+ {
+  "name": "Wayne Industries and Sons",
+  "industry": "Energy",
+  "lastDone": 14.93,
+  "prevClose": -0.41
+ },
+ {
+  "name": "Wayne Networks LLC",
+  "industry": "Biotechnology",
+  "lastDone": 652.13,
+  "prevClose": -18.97
+ },
+ {
+  "name": "Soylent Works and Sons",
+  "industry": "Energy",
+  "lastDone": 419.34,
+  "prevClose": -13.54
+ },
+ {
+  "name": "Pied Works PLC",
+  "industry": "Media",
+  "lastDone": 344.91,
+  "prevClose": -14.7
+ },
+ {
+  "name": "Globex Industries LLC",
+  "industry": "Energy",
+  "lastDone": 129.31,
+  "prevClose": 12.05
+ },
+ {
+  "name": "Wonka Partners and Sons",
+  "industry": "Retail",
+  "lastDone": 151.25,
+  "prevClose": 1.03
+ },
+ {
+  "name": "Bluth Partners Inc",
+  "industry": "Energy",
+  "lastDone": 641.6,
+  "prevClose": -26.5
+ },
+ {
+  "name": "Hooli Group LLC",
+  "industry": "Logistics",
+  "lastDone": 817.29,
+  "prevClose": -33.62
+ },
+ {
+  "name": "Stark Works PLC",
+  "industry": "Logistics",
+  "lastDone": 754.77,
+  "prevClose": -15.73
+ },
+ {
+  "name": "Bluth Networks Group",
+  "industry": "Logistics",
+  "lastDone": 82.77,
+  "prevClose": -6.55
+ },
+ {
+  "name": "Umbrella Dynamics PLC",
+  "industry": "Software",
+  "lastDone": 191.32,
+  "prevClose": -9.13
+ },
+ {
+  "name": "Aperture Labs LLC",
+  "industry": "Media",
+  "lastDone": 238.38,
+  "prevClose": 9.02
+ },
+ {
+  "name": "Umbrella Systems Ltd",
+  "industry": "Software",
+  "lastDone": 582.49,
+  "prevClose": 18.38
+ },
+ {
+  "name": "Vandelay Works LLC",
+  "industry": "Software",
+  "lastDone": 573.52,
+  "prevClose": 49.16
+ },
+ {
+  "name": "Cyberdyne Holdings and Sons",
+  "industry": "Logistics",
+  "lastDone": 282.57,
+  "prevClose": 14.55
+ },
+ {
+  "name": "Soylent Systems Inc",
+  "industry": "Biotechnology",
+  "lastDone": 870.82,
+  "prevClose": 49.65
+ },
+ {
+  "name": "Aperture Ventures Inc",
+  "industry": "Software",
+  "lastDone": 460.56,
+  "prevClose": 42.24
+ },
+ {
+  "name": "Bluth Holdings Group",
+  "industry": "Software",
+  "lastDone": 574.45,
+  "prevClose": -31.7
+ },
+ {
+  "name": "Cyberdyne Networks and Sons",
+  "industry": "Biotechnology",
+  "lastDone": 695.98,
+  "prevClose": 19.41
+ },
+ {
+  "name": "Oscorp Dynamics Group",
+  "industry": "Biotechnology",
+  "lastDone": 975.28,
+  "prevClose": -70.85
+ },
+ {
+  "name": "Oscorp Ventures Inc",
+  "industry": "Retail",
+  "lastDone": 690.17,
+  "prevClose": 47.04
+ },
+ {
+  "name": "Wonka Labs Inc",
+  "industry": "Insurance",
+  "lastDone": 385.51,
+  "prevClose": 31.18
+ },
+ {
+  "name": "Acme Ventures Group",
+  "industry": "Biotechnology",
+  "lastDone": 866.4,
+  "prevClose": -21.07
+ },
+ {
+  "name": "Pied Dynamics and Sons",
+  "industry": "Media",
+  "lastDone": 375.33,
+  "prevClose": 2.61
+ },
+ {
+  "name": "Massive Ventures Group",
+  "industry": "Insurance",
+  "lastDone": 38.76,
+  "prevClose": 1.23
+ },
+ {
+  "name": "Cyberdyne Systems Inc",
+  "industry": "Logistics",
+  "lastDone": 151.78,
+  "prevClose": -3.31
+ },
+ {
+  "name": "Hooli Systems and Sons",
+  "industry": "Software",
+  "lastDone": 334.16,
+  "prevClose": -9.48
+ },
+ {
+  "name": "Vandelay Dynamics Inc",
+  "industry": "Logistics",
+  "lastDone": 68.07,
+  "prevClose": -4.2
+ },
+ {
+  "name": "Umbrella Partners Inc",
+  "industry": "Insurance",
+  "lastDone": 700.62,
+  "prevClose": -20.63
+ },
+ {
+  "name": "Bluth Dynamics Inc",
+  "industry": "Retail",
+  "lastDone": 387.76,
+  "prevClose": -3.98
+ },
+ {
+  "name": "Oscorp Dynamics LLC",
+  "industry": "Biotechnology",
+  "lastDone": 11.91,
+  "prevClose": 0.24
+ },
+ {
+  "name": "Acme Labs Group",
+  "industry": "Insurance",
+  "lastDone": 79.49,
+  "prevClose": 4.39
+ },
+ {
+  "name": "Hooli Networks PLC",
+  "industry": "Retail",
+  "lastDone": 241.61,
+  "prevClose": -6.45
+ },
+ {
+  "name": "Initech Systems Group",
+  "industry": "Biotechnology",
+  "lastDone": 131.1,
+  "prevClose": -6.56
+ },
+ {
+  "name": "Aperture Labs LLC",
+  "industry": "Logistics",
+  "lastDone": 929.94,
+  "prevClose": 9.56
+ },
+ {
+  "name": "Tyrell Labs PLC",
+  "industry": "Logistics",
+  "lastDone": 16.31,
+  "prevClose": 0.06
+ },
+ {
+  "name": "Soylent Labs PLC",
+  "industry": "Retail",
+  "lastDone": 257.46,
+  "prevClose": -11.54
+ },
+ {
+  "name": "Vandelay Dynamics LLC",
+  "industry": "Retail",
+  "lastDone": 243.96,
+  "prevClose": -10.15
+ },
+ {
+  "name": "Bluth Networks and Sons",
+  "industry": "Retail",
+  "lastDone": 229.26,
+  "prevClose": 10.26
+ },
+ {
+  "name": "Pied Partners and Sons",
+  "industry": "Logistics",
+  "lastDone": 775.92,
+  "prevClose": 18.31
+ },
+ {
+  "name": "Hooli Industries LLC",
+  "industry": "Biotechnology",
+  "lastDone": 587.62,
+  "prevClose": -52.43
+ },
+ {
+  "name": "Monarch Networks PLC",
+  "industry": "Media",
+  "lastDone": 10.24,
+  "prevClose": -0.71
+ },
+ {
+  "name": "Cyberdyne Works Inc",
+  "industry": "Retail",
+  "lastDone": 936.47,
+  "prevClose": 7.96
+ },
+ {
+  "name": "Initech Ventures PLC",
+  "industry": "Retail",
+  "lastDone": 232.82,
+  "prevClose": 11.38
+ },
+ {
+  "name": "Bluth Labs PLC",
+  "industry": "Banking",
+  "lastDone": 745.93,
+  "prevClose": 42.44
+ },
+ {
+  "name": "Wonka Labs LLC",
+  "industry": "Retail",
+  "lastDone": 337.15,
+  "prevClose": 31.6
+ },
+ {
+  "name": "Hooli Holdings Inc",
+  "industry": "Energy",
+  "lastDone": 590.06,
+  "prevClose": -6.17
+ },
+ {
+  "name": "Duff Works Inc",
+  "industry": "Logistics",
+  "lastDone": 52.32,
+  "prevClose": 3.35
+ },
+ {
+  "name": "Aperture Systems Inc",
+  "industry": "Insurance",
+  "lastDone": 875.22,
+  "prevClose": 63.21
+ },
+ {
+  "name": "Cyberdyne Labs Ltd",
+  "industry": "Biotechnology",
+  "lastDone": 619.4,
+  "prevClose": -56
+ },
+ {
+  "name": "Initech Networks PLC",
+  "industry": "Media",
+  "lastDone": 579.33,
+  "prevClose": 2.95
+ },
+ {
+  "name": "Hooli Group and Sons",
+  "industry": "Energy",
+  "lastDone": 843.04,
+  "prevClose": -57.78
+ },
+ {
+  "name": "Aperture Works Inc",
+  "industry": "Software",
+  "lastDone": 980.98,
+  "prevClose": 42.79
+ },
+ {
+  "name": "Wonka Group Inc",
+  "industry": "Logistics",
+  "lastDone": 491.78,
+  "prevClose": -11.51
+ },
+ {
+  "name": "Cyberdyne Dynamics Group",
+  "industry": "Biotechnology",
+  "lastDone": 375.76,
+  "prevClose": 16.67
+ },
+ {
+  "name": "Stark Networks Inc",
+  "industry": "Biotechnology",
+  "lastDone": 756.5,
+  "prevClose": 44.47
+ },
+ {
+  "name": "Globex Systems Inc",
+  "industry": "Banking",
+  "lastDone": 932.07,
+  "prevClose": -42.39
+ },
+ {
+  "name": "Initech Labs Inc",
+  "industry": "Biotechnology",
+  "lastDone": 190.13,
+  "prevClose": -7.14
+ },
+ {
+  "name": "Soylent Industries PLC",
+  "industry": "Insurance",
+  "lastDone": 279.23,
+  "prevClose": 10.7
+ },
+ {
+  "name": "Vandelay Networks and Sons",
+  "industry": "Media",
+  "lastDone": 922.7,
+  "prevClose": -9.74
+ },
+ {
+  "name": "Tyrell Holdings Inc",
+  "industry": "Software",
+  "lastDone": 204.19,
+  "prevClose": -16.33
+ },
+ {
+  "name": "Wonka Dynamics Ltd",
+  "industry": "Insurance",
+  "lastDone": 840.3,
+  "prevClose": 51.64
+ },
+ {
+  "name": "Hooli Labs Ltd",
+  "industry": "Banking",
+  "lastDone": 843.74,
+  "prevClose": 83.73
+ },
+ {
+  "name": "Initech Labs PLC",
+  "industry": "Insurance",
+  "lastDone": 739.56,
+  "prevClose": 9.72
+ },
+ {
+  "name": "Oscorp Holdings Group",
+  "industry": "Energy",
+  "lastDone": 505.42,
+  "prevClose": -44.27
+ },
+ {
+  "name": "Acme Group Inc",
+  "industry": "Insurance",
+  "lastDone": 780.1,
+  "prevClose": 77.73
+ },
+ {
+  "name": "Cyberdyne Systems and Sons",
+  "industry": "Biotechnology",
+  "lastDone": 327.55,
+  "prevClose": -31.46
+ },
+ {
+  "name": "Monarch Ventures PLC",
+  "industry": "Logistics",
+  "lastDone": 16.66,
+  "prevClose": -0.72
+ },
+ {
+  "name": "Vandelay Labs Ltd",
+  "industry": "Banking",
+  "lastDone": 375.73,
+  "prevClose": -35.17
+ },
+ {
+  "name": "Soylent Networks LLC",
+  "industry": "Software",
+  "lastDone": 410.3,
+  "prevClose": 27.54
+ },
+ {
+  "name": "Tyrell Group Ltd",
+  "industry": "Energy",
+  "lastDone": 726.49,
+  "prevClose": -1.45
+ },
+ {
+  "name": "Acme Works LLC",
+  "industry": "Biotechnology",
+  "lastDone": 95.41,
+  "prevClose": 2.39
+ },
+ {
+  "name": "Umbrella Holdings PLC",
+  "industry": "Software",
+  "lastDone": 87.94,
+  "prevClose": -5.71
+ },
+ {
+  "name": "Gringotts Labs Inc",
+  "industry": "Software",
+  "lastDone": 262.78,
+  "prevClose": 3.49
+ },
+ {
+  "name": "Bluth Systems and Sons",
+  "industry": "Media",
+  "lastDone": 541.59,
+  "prevClose": -22.7
+ },
+ {
+  "name": "Bluth Ventures Ltd",
+  "industry": "Software",
+  "lastDone": 15.77,
+  "prevClose": -1.2
+ },
+ {
+  "name": "Oscorp Partners and Sons",
+  "industry": "Biotechnology",
+  "lastDone": 168.21,
+  "prevClose": -8.82
+ },
+ {
+  "name": "Wayne Networks Group",
+  "industry": "Biotechnology",
+  "lastDone": 22.66,
+  "prevClose": -2.11
+ },
+ {
+  "name": "Massive Ventures PLC",
+  "industry": "Media",
+  "lastDone": 324.24,
+  "prevClose": 5.36
+ },
+ {
+  "name": "Aperture Labs LLC",
+  "industry": "Banking",
+  "lastDone": 193.91,
+  "prevClose": 3.29
+ },
+ {
+  "name": "Umbrella Systems Inc",
+  "industry": "Banking",
+  "lastDone": 396.26,
+  "prevClose": 4.63
+ },
+ {
+  "name": "Aperture Systems Inc",
+  "industry": "Retail",
+  "lastDone": 406.9,
+  "prevClose": -6.76
+ },
+ {
+  "name": "Vandelay Works PLC",
+  "industry": "Banking",
+  "lastDone": 15.78,
+  "prevClose": 1.21
+ },
+ {
+  "name": "Monarch Labs Ltd",
+  "industry": "Banking",
+  "lastDone": 85.45,
+  "prevClose": -0.12
+ },
+ {
+  "name": "Bluth Industries and Sons",
+  "industry": "Insurance",
+  "lastDone": 407.56,
+  "prevClose": 23.61
+ },
+ {
+  "name": "Wayne Partners Inc",
+  "industry": "Energy",
+  "lastDone": 711.65,
+  "prevClose": -49.89
+ },
+ {
+  "name": "Oscorp Systems LLC",
+  "industry": "Banking",
+  "lastDone": 677.54,
+  "prevClose": 35.87
+ },
+ {
+  "name": "Soylent Group LLC",
+  "industry": "Media",
+  "lastDone": 601.51,
+  "prevClose": -19.29
+ },
+ {
+  "name": "Gringotts Works and Sons",
+  "industry": "Software",
+  "lastDone": 545.17,
+  "prevClose": -1.14
+ },
+ {
+  "name": "Stark Networks LLC",
+  "industry": "Media",
+  "lastDone": 719.36,
+  "prevClose": 40.84
+ },
+ {
+  "name": "Bluth Group Group",
+  "industry": "Media",
+  "lastDone": 322.67,
+  "prevClose": -21.81
+ },
+ {
+  "name": "Hooli Systems and Sons",
+  "industry": "Retail",
+  "lastDone": 120.08,
+  "prevClose": -0.89
+ },
+ {
+  "name": "Monarch Ventures and Sons",
+  "industry": "Retail",
+  "lastDone": 225.87,
+  "prevClose": -0.52
+ },
+ {
+  "name": "Bluth Labs LLC",
+  "industry": "Software",
+  "lastDone": 467.59,
+  "prevClose": -15.54
+ },
+ {
+  "name": "Aperture Partners and Sons",
+  "industry": "Retail",
+  "lastDone": 541.95,
+  "prevClose": 48.27
+ },
+ {
+  "name": "Cyberdyne Dynamics LLC",
+  "industry": "Insurance",
+  "lastDone": 306.91,
+  "prevClose": 3.11
+ },
+ {
+  "name": "Globex Holdings Ltd",
+  "industry": "Biotechnology",
+  "lastDone": 279.69,
+  "prevClose": -22.29
+ },
+ {
+  "name": "Gringotts Systems Group",
+  "industry": "Biotechnology",
+  "lastDone": 688.39,
+  "prevClose": -5.74
+ },
+ {
+  "name": "Wayne Works and Sons",
+  "industry": "Media",
+  "lastDone": 179.46,
+  "prevClose": 3.9
+ },
+ {
+  "name": "Umbrella Industries and Sons",
+  "industry": "Banking",
+  "lastDone": 414.29,
+  "prevClose": -2.36
+ },
+ {
+  "name": "Vandelay Works Ltd",
+  "industry": "Logistics",
+  "lastDone": 178.24,
+  "prevClose": -15.37
+ },
+ {
+  "name": "Vandelay Labs Ltd",
+  "industry": "Biotechnology",
+  "lastDone": 784.67,
+  "prevClose": 7.46
+ },
+ {
+  "name": "Initech Industries and Sons",
+  "industry": "Software",
+  "lastDone": 483.5,
+  "prevClose": -27.7
+ },
+ {
+  "name": "Initech Ventures Ltd",
+  "industry": "Retail",
+  "lastDone": 759.78,
+  "prevClose": -44.43
+ },
+ {
+  "name": "Acme Networks Ltd",
+  "industry": "Logistics",
+  "lastDone": 549.78,
+  "prevClose": 39.39
+ },
+ {
+  "name": "Globex Partners Ltd",
+  "industry": "Banking",
+  "lastDone": 143.03,
+  "prevClose": 2.19
+ },
+ {
+  "name": "Globex Systems Group",
+  "industry": "Banking",
+  "lastDone": 863.83,
+  "prevClose": 41.4
+ },
+ {
+  "name": "Soylent Networks LLC",
+  "industry": "Biotechnology",
+  "lastDone": 367.31,
+  "prevClose": -34.6
+ },
+ {
+  "name": "Massive Holdings Inc",
+  "industry": "Media",
+  "lastDone": 874.25,
+  "prevClose": 83.16
+ },
+ {
+  "name": "Globex Works and Sons",
+  "industry": "Banking",
+  "lastDone": 103.08,
+  "prevClose": 3.15
+ },
+ {
+  "name": "Globex Dynamics LLC",
+  "industry": "Retail",
+  "lastDone": 644.25,
+  "prevClose": -62.28
+ },
+ {
+  "name": "Umbrella Ventures Inc",
+  "industry": "Logistics",
+  "lastDone": 85.22,
+  "prevClose": 5.18
+ },
+ {
+  "name": "Gringotts Systems PLC",
+  "industry": "Banking",
+  "lastDone": 752.23,
+  "prevClose": -71.6
+ },
+ {
+  "name": "Pied Dynamics LLC",
+  "industry": "Media",
+  "lastDone": 590.06,
+  "prevClose": 58.18
+ },
+ {
+  "name": "Globex Group and Sons",
+  "industry": "Logistics",
+  "lastDone": 310.37,
+  "prevClose": 21.7
+ },
+ {
+  "name": "Duff Partners Ltd",
+  "industry": "Biotechnology",
+  "lastDone": 566.08,
+  "prevClose": 50.1
+ },
+ {
+  "name": "Soylent Partners Group",
+  "industry": "Retail",
+  "lastDone": 576.62,
+  "prevClose": 56.06
+ },
+ {
+  "name": "Acme Industries PLC",
+  "industry": "Media",
+  "lastDone": 769.39,
+  "prevClose": -74.81
+ },
+ {
+  "name": "Vandelay Networks and Sons",
+  "industry": "Banking",
+  "lastDone": 610.26,
+  "prevClose": -2.93
+ },
+ {
+  "name": "Initech Dynamics Ltd",
+  "industry": "Energy",
+  "lastDone": 277.55,
+  "prevClose": 1.44
+ },
+ {
+  "name": "Acme Holdings Ltd",
+  "industry": "Insurance",
+  "lastDone": 635.35,
+  "prevClose": -18.93
+ },
+ {
+  "name": "Aperture Industries PLC",
+  "industry": "Energy",
+  "lastDone": 675.07,
+  "prevClose": 24.43
+ },
+ {
+  "name": "Acme Group and Sons",
+  "industry": "Logistics",
+  "lastDone": 12.88,
+  "prevClose": 1.11
+ },
+ {
+  "name": "Stark Networks PLC",
+  "industry": "Energy",
+  "lastDone": 682.94,
+  "prevClose": 0.26
+ },
+ {
+  "name": "Vandelay Networks and Sons",
+  "industry": "Retail",
+  "lastDone": 515.87,
+  "prevClose": -25.05
+ },
+ {
+  "name": "Bluth Ventures and Sons",
+  "industry": "Energy",
+  "lastDone": 15.25,
+  "prevClose": 0.3
+ },
+ {
+  "name": "Umbrella Systems PLC",
+  "industry": "Media",
+  "lastDone": 508.32,
+  "prevClose": -46.94
+ },
+ {
+  "name": "Aperture Holdings and Sons",
+  "industry": "Banking",
+  "lastDone": 743.85,
+  "prevClose": 13.18
+ },
+ {
+  "name": "Stark Group Inc",
+  "industry": "Media",
+  "lastDone": 946.2,
+  "prevClose": 4.22
+ },
+ {
+  "name": "Cyberdyne Holdings PLC",
+  "industry": "Biotechnology",
+  "lastDone": 209.86,
+  "prevClose": -13.11
+ },
+ {
+  "name": "Tyrell Dynamics LLC",
+  "industry": "Logistics",
+  "lastDone": 309.51,
+  "prevClose": 2.24
+ },
+ {
+  "name": "Cyberdyne Ventures Inc",
+  "industry": "Retail",
+  "lastDone": 678.71,
+  "prevClose": 0.28
+ }
+]

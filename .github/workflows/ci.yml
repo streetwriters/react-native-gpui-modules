@@ -54,6 +54,8 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npx react-native-gpui autolink
         working-directory: example
+      - run: npx react-native-gpui autolink
+        working-directory: gpui-kit-example
       - run: npm run test:rust
 
   clean-install:

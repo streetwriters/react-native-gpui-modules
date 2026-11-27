@@ -22,9 +22,12 @@ pub struct GpuiKitInput {
     count: Rc<Cell<i32>>,
     last: Rc<RefCell<String>>,
     applied_default: bool,
+    selection_focus: Option<gpui::FocusHandle>,
+    selection_held: bool,
     applied_text_align: Option<u8>,
     applied_context_menu_enabled: Option<bool>,
     applied_fold_background: Option<Option<i32>>,
+    applied_scrollbar_style_json: Option<String>,
     applied_placeholder: Option<String>,
     applied_clean_on_escape: Option<bool>,
     applied_submit_on_enter: Option<bool>,
@@ -34,6 +37,7 @@ pub struct GpuiKitInput {
     applied_mask_pattern: Option<String>,
     applied_masked: Option<bool>,
     applied_pattern: Option<String>,
+    applied_validation_rules: Option<String>,
     applied_step: Option<u64>,
     applied_min: Option<u64>,
     applied_max: Option<u64>,
@@ -48,9 +52,12 @@ impl GpuiKitInputSpec for GpuiKitInput {
             count: Rc::new(Cell::new(0)),
             last: Rc::new(RefCell::new(String::new())),
             applied_default: false,
+            selection_focus: None,
+            selection_held: false,
             applied_text_align: None,
             applied_context_menu_enabled: None,
             applied_fold_background: None,
+            applied_scrollbar_style_json: None,
             applied_placeholder: None,
             applied_clean_on_escape: None,
             applied_submit_on_enter: None,
@@ -60,6 +67,7 @@ impl GpuiKitInputSpec for GpuiKitInput {
             applied_mask_pattern: None,
             applied_masked: None,
             applied_pattern: None,
+            applied_validation_rules: None,
             applied_step: None,
             applied_min: None,
             applied_max: None,
@@ -239,6 +247,19 @@ impl GpuiKitInputSpec for GpuiKitInput {
         });
     }
 
+    fn hold_selection(&mut self, hold: bool, cx: &mut GpuiKitInputContext) {
+        let (Some(state), Some(handle)) = (self.state.clone(), self.selection_focus.clone()) else {
+            return;
+        };
+        cx.with_window(|window, app| {
+            if hold {
+                window.focus(&handle, app);
+            } else if handle.is_focused(window) {
+                state.update(app, |state, cx| state.focus(window, cx));
+            }
+        });
+    }
+
     fn render(
         &mut self,
         props: &GpuiKitInputProps,
@@ -321,6 +342,15 @@ impl GpuiKitInputSpec for GpuiKitInput {
             }
         }
         {
+            let value = props.scrollbar_style_json().to_string();
+            if self.applied_scrollbar_style_json.as_ref() != Some(&value) {
+                state.update(app, |state, _cx| {
+                    state.set_scrollbar_renderer(crate::manual::rules::scrollbar(&value))
+                });
+                self.applied_scrollbar_style_json = Some(value.clone());
+            }
+        }
+        {
             let value = props.placeholder().to_string();
             if self.applied_placeholder.as_ref() != Some(&value) {
                 state.update(app, |state, cx| {
@@ -382,15 +412,7 @@ impl GpuiKitInputSpec for GpuiKitInput {
             let value = props.mask_pattern().to_string();
             if self.applied_mask_pattern.as_ref() != Some(&value) {
                 state.update(app, |state, cx| {
-                    state.set_mask_pattern(
-                        if value.is_empty() {
-                            gpui_component::input::MaskPattern::None
-                        } else {
-                            value.as_str().into()
-                        },
-                        window,
-                        cx,
-                    )
+                    state.set_mask_pattern(crate::style::mask_pattern(&value), window, cx)
                 });
                 self.applied_mask_pattern = Some(value.clone());
             }
@@ -411,6 +433,25 @@ impl GpuiKitInputSpec for GpuiKitInput {
                     }
                 });
                 self.applied_pattern = Some(value.clone());
+            }
+        }
+        {
+            let value = props.validation_rules().to_string();
+            if self.applied_validation_rules.as_ref() != Some(&value) {
+                state.update(app, |state, cx| {
+                    state.set_validator(
+                        crate::manual::rules::validator(&value, {
+                            let sender = sender.clone();
+                            move |text, message| {
+                                sender.gpui_kit_input_validation_fail(
+                                    OnGpuiKitInputValidationFail { text, message },
+                                )
+                            }
+                        }),
+                        cx,
+                    )
+                });
+                self.applied_validation_rules = Some(value.clone());
             }
         }
         {
@@ -697,6 +738,26 @@ impl GpuiKitInputSpec for GpuiKitInput {
             element = element.open(true);
         }
         element = gpui_base::FocusableExt::focus_ring(element, props.focus_ring());
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
+        if props.token_render() {
+            let renderers = Rc::new(crate::manual::slots::Renderers::new(props.slots()));
+            let sender = sender.clone();
+            element = element.token(move |context, window, cx| {
+                let id = context.token().id().to_string();
+                match renderers.get(&format!("token:{id}")) {
+                    Some(render) => render(window, cx),
+                    None => {
+                        sender.gpui_kit_input_token_needed(OnGpuiKitInputTokenNeeded { id });
+                        gpui_component::input::InputToken::new(context).into_any_element()
+                    }
+                }
+            });
+        }
         if props.token_click_events() {
             let sender = sender.clone();
             element = element.on_token_click(move |event, _, _| {
@@ -758,6 +819,48 @@ impl GpuiKitInputSpec for GpuiKitInput {
         }
         if let Some(slot) = slots.take("suffix") {
             element = element.suffix(slot);
+        }
+        if self.selection_focus.is_none() {
+            let handle = app.focus_handle();
+            state.update(app, |state, cx| {
+                state.set_selection_focus(Some(handle.clone()), cx)
+            });
+            self.selection_focus = Some(handle);
+        }
+        let held = self
+            .selection_focus
+            .as_ref()
+            .is_some_and(|handle| handle.is_focused(window));
+        if held != self.selection_held {
+            self.selection_held = held;
+            sender.gpui_kit_input_selection_hold_change(OnGpuiKitInputSelectionHoldChange { held });
+        }
+        if crate::manual::addons::grouped(props.addons_json()) {
+            let size = match props.size() {
+                GpuiKitInputSize::Unset => None,
+                GpuiKitInputSize::Xsmall => Some(gpui_component::Size::XSmall),
+                GpuiKitInputSize::Small => Some(gpui_component::Size::Small),
+                GpuiKitInputSize::Medium => Some(gpui_component::Size::Medium),
+                GpuiKitInputSize::Large => Some(gpui_component::Size::Large),
+            };
+            let sender = sender.clone();
+            return crate::manual::addons::wrap(
+                element,
+                format!("gpui_kit_input-{}", state.entity_id()),
+                props.addons_json(),
+                size,
+                props.disabled(),
+                props.readonly(),
+                props.slots(),
+                &mut slots,
+                std::rc::Rc::new(move |addon, item, index| {
+                    sender.gpui_kit_input_addon_press(OnGpuiKitInputAddonPress {
+                        addon,
+                        item,
+                        index,
+                    })
+                }),
+            );
         }
         element.into_any_element()
     }

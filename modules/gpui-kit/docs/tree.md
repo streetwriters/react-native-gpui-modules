@@ -7,9 +7,18 @@ The kit's `Tree`, written by hand on the same specification as the generated com
 
 ## Native props
 
-| Name    | Type                      |
-| ------- | ------------------------- |
-| `items` | `ReadonlyArray<TreeNode>` |
+| Name           | Type                           |
+| -------------- | ------------------------------ |
+| `items`        | `ReadonlyArray<TreeNode>`      |
+| `indent`       | `WithDefault<Double, 16>`      |
+| `indentOffset` | `Double`                       |
+| `rowStyle`     | `string`                       |
+| `kitStyle`     | `string`                       |
+| `contextMenu`  | `ReadonlyArray<TreeMenuEntry>` |
+
+## Commands
+
+- `selectItem`
 
 ## Coverage
 

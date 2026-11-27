@@ -10,6 +10,9 @@ export type FormField = Readonly<{
   required: boolean;
   visible: boolean;
   colSpan: CodegenTypes.Int32;
+  colStart: CodegenTypes.Int32;
+  labelIndent: boolean;
+  kitStyle: string;
 }>;
 
 export interface NativeProps extends ViewProps {
@@ -18,6 +21,10 @@ export interface NativeProps extends ViewProps {
   columns?: CodegenTypes.Int32;
   fields?: ReadonlyArray<FormField>;
   slots?: string;
+  size?: CodegenTypes.WithDefault<
+    'unset' | 'xsmall' | 'small' | 'medium' | 'large',
+    'unset'
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitForm', {

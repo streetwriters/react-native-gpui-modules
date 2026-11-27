@@ -14,6 +14,7 @@ The kit's `DatePicker`, written by hand on the same specification as the generat
 | `range`          | `boolean`                                                                       |
 | `controlled`     | `boolean`                                                                       |
 | `dateFormat`     | `string`                                                                        |
+| `options`        | `string`                                                                        |
 | `placeholder`    | `string`                                                                        |
 | `cleanable`      | `boolean`                                                                       |
 | `appearance`     | `WithDefault<boolean, true>`                                                    |

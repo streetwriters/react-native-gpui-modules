@@ -1,0 +1,696 @@
+{
+  "background": "#ffffff",
+  "cases": [
+    {
+      "id": "button-primary",
+      "component": "Button",
+      "width": 160,
+      "height": 48,
+      "props": {
+        "label": "Save",
+        "variant": "primary"
+      },
+      "interact": "click"
+    },
+    {
+      "id": "button-outline",
+      "component": "Button",
+      "width": 160,
+      "height": 48,
+      "props": {
+        "label": "Cancel",
+        "outline": true
+      }
+    },
+    {
+      "id": "button-ghost-icon",
+      "component": "Button",
+      "width": 160,
+      "height": 48,
+      "props": {
+        "label": "Search",
+        "icon": "search",
+        "variant": "ghost",
+        "size": "small"
+      }
+    },
+    {
+      "id": "button-disabled",
+      "component": "Button",
+      "width": 160,
+      "height": 48,
+      "props": {
+        "label": "Disabled",
+        "disabled": true
+      },
+      "interact": "click"
+    },
+    {
+      "id": "button-custom",
+      "component": "Button",
+      "width": 160,
+      "height": 48,
+      "props": {
+        "label": "Custom",
+        "customColor": "#2563eb",
+        "customForeground": "#ffffff"
+      }
+    },
+    {
+      "id": "label",
+      "component": "Label",
+      "width": 200,
+      "height": 32,
+      "props": {
+        "text": "Hello world"
+      }
+    },
+    {
+      "id": "label-highlights",
+      "component": "Label",
+      "width": 200,
+      "height": 32,
+      "props": {
+        "text": "Hello world",
+        "highlights": "wor"
+      }
+    },
+    {
+      "id": "tag-danger",
+      "component": "Tag",
+      "width": 160,
+      "height": 32,
+      "props": {
+        "label": "Danger",
+        "variant": "danger"
+      }
+    },
+    {
+      "id": "tag-radius",
+      "component": "Tag",
+      "width": 160,
+      "height": 32,
+      "props": {
+        "label": "Square",
+        "radius": 0
+      }
+    },
+    {
+      "id": "icon-heart",
+      "component": "Icon",
+      "width": 48,
+      "height": 48,
+      "props": {
+        "name": "heart",
+        "size": "large",
+        "color": "#ff0000"
+      }
+    },
+    {
+      "id": "icon-rotate",
+      "component": "Icon",
+      "width": 48,
+      "height": 48,
+      "props": {
+        "name": "arrow-up",
+        "size": "large",
+        "rotate": 90
+      }
+    },
+    {
+      "id": "avatar",
+      "component": "Avatar",
+      "width": 64,
+      "height": 64,
+      "props": {
+        "name": "Grace Hopper",
+        "size": "large"
+      }
+    },
+    {
+      "id": "link",
+      "component": "Link",
+      "width": 160,
+      "height": 32,
+      "props": {
+        "text": "Open link"
+      },
+      "interact": "click"
+    },
+    {
+      "id": "progress",
+      "component": "Progress",
+      "width": 200,
+      "height": 24,
+      "props": {
+        "value": 50
+      },
+      "style": {
+        "width": 200,
+        "height": 8
+      }
+    },
+    {
+      "id": "progress-circle",
+      "component": "ProgressCircle",
+      "width": 48,
+      "height": 48,
+      "props": {
+        "value": 70
+      },
+      "style": {
+        "width": 32,
+        "height": 32
+      }
+    },
+    {
+      "id": "toggle",
+      "component": "Toggle",
+      "width": 120,
+      "height": 48,
+      "props": {
+        "label": "Bold"
+      },
+      "interact": "click"
+    },
+    {
+      "id": "alert",
+      "component": "Alert",
+      "width": 280,
+      "height": 64,
+      "props": {
+        "message": "Heads up",
+        "variant": "warning"
+      },
+      "style": {
+        "width": 260
+      }
+    },
+    {
+      "id": "checkbox",
+      "component": "Checkbox",
+      "width": 160,
+      "height": 32,
+      "props": {
+        "label": "Accept"
+      },
+      "interact": "click"
+    },
+    {
+      "id": "radio",
+      "component": "Radio",
+      "width": 160,
+      "height": 32,
+      "props": {
+        "label": "Option"
+      },
+      "interact": "click"
+    },
+    {
+      "id": "switch",
+      "component": "Switch",
+      "width": 160,
+      "height": 32,
+      "props": {
+        "label": "Wifi"
+      },
+      "interact": "click"
+    },
+    {
+      "id": "rating",
+      "component": "Rating",
+      "width": 160,
+      "height": 32,
+      "props": {
+        "value": 3
+      }
+    },
+    {
+      "id": "input",
+      "component": "Input",
+      "width": 240,
+      "height": 48,
+      "props": {
+        "defaultValue": "Hello"
+      },
+      "interact": "type",
+      "style": {
+        "width": 220,
+        "height": 32
+      }
+    },
+    {
+      "id": "input-placeholder",
+      "component": "Input",
+      "width": 240,
+      "height": 48,
+      "props": {
+        "placeholder": "Search"
+      },
+      "style": {
+        "width": 220,
+        "height": 32
+      }
+    },
+    {
+      "id": "textarea",
+      "component": "Textarea",
+      "width": 240,
+      "height": 96,
+      "props": {
+        "defaultValue": "Line one\nLine two"
+      },
+      "style": {
+        "width": 220,
+        "height": 80
+      }
+    },
+    {
+      "id": "number-input",
+      "component": "NumberInput",
+      "width": 200,
+      "height": 48,
+      "props": {
+        "defaultValue": "42"
+      },
+      "style": {
+        "width": 180,
+        "height": 32
+      }
+    },
+    {
+      "id": "otp-input",
+      "component": "OtpInput",
+      "width": 280,
+      "height": 56,
+      "props": {
+        "length": 4
+      },
+      "style": {
+        "width": 260,
+        "height": 40
+      }
+    },
+    {
+      "id": "slider",
+      "component": "Slider",
+      "width": 200,
+      "height": 32,
+      "props": {
+        "value": 50
+      },
+      "style": {
+        "width": 180,
+        "height": 20
+      }
+    },
+    {
+      "id": "pagination",
+      "component": "Pagination",
+      "width": 320,
+      "height": 48,
+      "props": {
+        "currentPage": 2,
+        "totalPages": 5
+      }
+    },
+    {
+      "id": "clipboard",
+      "component": "Clipboard",
+      "width": 48,
+      "height": 48,
+      "props": {
+        "value": "copied"
+      }
+    },
+    {
+      "id": "separator",
+      "component": "Separator",
+      "width": 200,
+      "height": 16,
+      "props": {},
+      "style": {
+        "width": 180
+      }
+    },
+    {
+      "id": "kbd",
+      "component": "Kbd",
+      "width": 80,
+      "height": 32,
+      "props": {
+        "keystroke": "cmd-k"
+      }
+    },
+    {
+      "id": "spinner",
+      "component": "Spinner",
+      "width": 64,
+      "height": 48,
+      "props": {
+        "size": "large"
+      }
+    },
+    {
+      "id": "skeleton",
+      "component": "Skeleton",
+      "width": 160,
+      "height": 32,
+      "props": {},
+      "style": {
+        "width": 120,
+        "height": 16
+      }
+    },
+    {
+      "id": "shimmer-text",
+      "component": "ShimmerText",
+      "width": 200,
+      "height": 32,
+      "props": {
+        "text": "Loading data"
+      }
+    },
+    {
+      "id": "badge-dot",
+      "component": "Badge",
+      "width": 160,
+      "height": 48,
+      "props": {
+        "dot": true
+      }
+    },
+    {
+      "id": "badge-count",
+      "component": "Badge",
+      "width": 160,
+      "height": 48,
+      "props": {
+        "count": 5
+      }
+    },
+    {
+      "id": "badge-max",
+      "component": "Badge",
+      "width": 160,
+      "height": 48,
+      "props": {
+        "count": 120,
+        "max": 99
+      }
+    },
+    {
+      "id": "badge-icon",
+      "component": "Badge",
+      "width": 160,
+      "height": 48,
+      "props": {
+        "icon": "check"
+      }
+    },
+    {
+      "id": "badge-icon-count",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "count": 3
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "icon",
+        "name": "bell"
+      }
+    },
+    {
+      "id": "badge-icon-max",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "count": 120,
+        "max": 99
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "icon",
+        "name": "inbox"
+      }
+    },
+    {
+      "id": "badge-avatar-count",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "count": 3
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "avatar",
+        "name": "Jason Lee"
+      }
+    },
+    {
+      "id": "badge-avatar-max",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "count": 120,
+        "max": 99
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "avatar",
+        "name": "Jason Lee"
+      }
+    },
+    {
+      "id": "badge-avatar-check",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "icon": "check"
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "avatar",
+        "name": "Jason Lee"
+      }
+    },
+    {
+      "id": "badge-avatar-dot",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "dot": true
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "avatar",
+        "name": "Jason Lee"
+      }
+    },
+    {
+      "id": "badge-color-count",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "count": 3,
+        "color": "#3b82f6"
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "avatar",
+        "name": "Jason Lee"
+      }
+    },
+    {
+      "id": "badge-color-dot",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "dot": true,
+        "color": "#22c55e"
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "avatar",
+        "name": "Jason Lee"
+      }
+    },
+    {
+      "id": "badge-small",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "count": 3,
+        "size": "small"
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "avatar",
+        "name": "Jason Lee"
+      }
+    },
+    {
+      "id": "badge-large",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "count": 3,
+        "size": "large"
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "avatar",
+        "name": "Jason Lee"
+      }
+    },
+    {
+      "id": "badge-nested-max-icon",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "count": 120,
+        "max": 99,
+        "size": "small"
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "badge",
+        "props": {
+          "icon": "check",
+          "size": "small"
+        },
+        "child": {
+          "kind": "avatar",
+          "name": "Jason Lee",
+          "size": "small"
+        }
+      }
+    },
+    {
+      "id": "badge-nested-large",
+      "component": "Badge",
+      "width": 120,
+      "height": 96,
+      "props": {
+        "count": 2,
+        "color": "#22c55e",
+        "size": "large"
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "badge",
+        "props": {
+          "icon": "check",
+          "color": "#eab308",
+          "size": "large"
+        },
+        "child": {
+          "kind": "avatar",
+          "name": "Jason Lee",
+          "size": "large"
+        }
+      }
+    },
+    {
+      "id": "badge-nested-count-icon",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "count": 3,
+        "size": "small"
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "badge",
+        "props": {
+          "icon": "check",
+          "size": "small"
+        },
+        "child": {
+          "kind": "avatar",
+          "name": "Jason Lee",
+          "size": "small"
+        }
+      }
+    },
+    {
+      "id": "badge-nested-dot-icon",
+      "component": "Badge",
+      "width": 80,
+      "height": 48,
+      "props": {
+        "dot": true,
+        "size": "small"
+      },
+      "style": {
+        "marginTop": 12,
+        "marginLeft": 12
+      },
+      "child": {
+        "kind": "badge",
+        "props": {
+          "icon": "check",
+          "color": "#ef4444",
+          "size": "small"
+        },
+        "child": {
+          "kind": "avatar",
+          "name": "Jason Lee",
+          "size": "small"
+        }
+      }
+    }
+  ]
+}

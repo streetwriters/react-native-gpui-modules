@@ -4,6 +4,7 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitSeparatorNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export interface SeparatorProps extends ViewProps {
   children?: React.ReactNode;
@@ -11,6 +12,7 @@ export interface SeparatorProps extends ViewProps {
   label?: string;
   color?: ColorValue;
   dashed?: boolean;
+  kitStyle?: KitStyle;
 }
 
 export const Separator = forwardRef<
@@ -18,7 +20,29 @@ export const Separator = forwardRef<
   SeparatorProps
 >(function Separator(props, ref) {
   const { style, children, ...rest } = props;
-  const height = 1;
-  const width = undefined;
-  return <Native ref={ref} {...rest} style={[{ height, width }, style]} />;
+  const vertical = props.orientation === 'vertical';
+  const labelled = !!props.label;
+  const height = vertical ? undefined : labelled ? 27 : 1;
+  const width = vertical
+    ? labelled
+      ? Math.ceil(props.label!.length * 6.5) + 16
+      : 1
+    : undefined;
+  const margin = labelled ? undefined : -1;
+  return (
+    <Native
+      ref={ref}
+      {...rest}
+      style={[
+        {
+          height,
+          width,
+          marginBottom: vertical ? undefined : margin,
+          marginRight: vertical ? margin : undefined,
+        },
+        style,
+      ]}
+      kitStyle={kitStyle(props.kitStyle)}
+    />
+  );
 });

@@ -22,6 +22,9 @@ The kit's `Combobox`, written by hand on the same specification as the generated
 | `size`              | `WithDefault< 'unset' \| 'xsmall' \| 'small' \| 'medium' \| 'large', 'unset' >` |
 | `multiple`          | `boolean`                                                                       |
 | `values`            | `string`                                                                        |
+| `defaultValues`     | `string`                                                                        |
+| `listJson`          | `string`                                                                        |
+| `checkIcon`         | `string`                                                                        |
 
 ## Native events
 
@@ -29,6 +32,11 @@ The kit's `Combobox`, written by hand on the same specification as the generated
 | -------------------------- | ---------------------------------------------------- |
 | `onGpuiKitComboboxChange`  | `DirectEventHandler< Readonly<{ values: string }> >` |
 | `onGpuiKitComboboxConfirm` | `DirectEventHandler< Readonly<{ values: string }> >` |
+| `onGpuiKitComboboxQuery`   | `DirectEventHandler< Readonly<{ query: string }> >`  |
+
+## Commands
+
+- `requestQuery`
 
 ## Coverage
 

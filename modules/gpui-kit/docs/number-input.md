@@ -9,48 +9,50 @@ A number input element with increment and decrement buttons.
 
 ## Props
 
-| Prop                     | Type                                               | Native method                               |
-| ------------------------ | -------------------------------------------------- | ------------------------------------------- |
-| `placeholder`            | `string`                                           | `NumberInput::placeholder`                  |
-| `appearance`             | `boolean`                                          | `NumberInput::appearance`                   |
-| `accessibilityLabel`     | `string`                                           | `NumberInput::accessibility_label`          |
-| `disabled`               | `boolean`                                          | `NumberInput::disabled`                     |
-| `focusRing`              | `WithDefault<boolean, true>`                       | `NumberInput::focus_ring`                   |
-| `size`                   | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `NumberInput::with_size`                    |
-| `textAlign`              | `WithDefault<'left'                                | 'center'                                    | 'right', 'left'>` | `NumberInput::set_text_align` |
-| `contextMenuEnabled`     | `WithDefault<boolean, true>`                       | `NumberInput::set_context_menu_enabled`     |
-| `foldBackground`         | `ColorValue`                                       | `NumberInput::set_fold_background`          |
-| `readonly`               | `boolean`                                          | `NumberInput::set_readonly`                 |
-| `cleanOnEscape`          | `boolean`                                          | `NumberInput::set_clean_on_escape`          |
-| `submitOnEnter`          | `boolean`                                          | `NumberInput::set_submit_on_enter`          |
-| `showWhitespaces`        | `boolean`                                          | `NumberInput::set_show_whitespaces`         |
-| `scrollBeyondLastLine`   | `Int32`                                            | `NumberInput::set_scroll_beyond_last_line`  |
-| `cursorSurroundingLines` | `Int32`                                            | `NumberInput::set_cursor_surrounding_lines` |
-| `maskPattern`            | `string`                                           | `NumberInput::set_mask_pattern`             |
-| `masked`                 | `boolean`                                          | `NumberInput::set_masked`                   |
-| `pattern`                | `string`                                           | `NumberInput::set_pattern`                  |
-| `step`                   | `Double`                                           | `NumberInput::set_step`                     |
-| `min`                    | `Double`                                           | `NumberInput::set_min`                      |
-| `max`                    | `Double`                                           | `NumberInput::set_max`                      |
-| `loading`                | `boolean`                                          | `NumberInput::set_loading`                  |
+| Prop                     | Type                                                                                                                             | Native method                               |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| `placeholder`            | `string`                                                                                                                         | `NumberInput::placeholder`                  |
+| `appearance`             | `boolean`                                                                                                                        | `NumberInput::appearance`                   |
+| `accessibilityLabel`     | `string`                                                                                                                         | `NumberInput::accessibility_label`          |
+| `disabled`               | `boolean`                                                                                                                        | `NumberInput::disabled`                     |
+| `focusRing`              | `WithDefault<boolean, true>`                                                                                                     | `NumberInput::focus_ring`                   |
+| `size`                   | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'`                                                                               | `NumberInput::with_size`                    |
+| `customSize`             | `Double`                                                                                                                         | constructor argument                        |
+| `kitStyle`               | `string`                                                                                                                         | constructor argument                        |
+| `textAlign`              | `WithDefault<'left'                                                                                                              | 'center'                                    | 'right', 'left'>` | `NumberInput::set_text_align` |
+| `contextMenuEnabled`     | `WithDefault<boolean, true>`                                                                                                     | `NumberInput::set_context_menu_enabled`     |
+| `foldBackground`         | `ColorValue`                                                                                                                     | `NumberInput::set_fold_background`          |
+| `scrollbarStyleJson`     | `string`                                                                                                                         | `NumberInput::set_scrollbar_renderer`       |
+| `readonly`               | `boolean`                                                                                                                        | `NumberInput::set_readonly`                 |
+| `cleanOnEscape`          | `boolean`                                                                                                                        | `NumberInput::set_clean_on_escape`          |
+| `submitOnEnter`          | `boolean`                                                                                                                        | `NumberInput::set_submit_on_enter`          |
+| `showWhitespaces`        | `boolean`                                                                                                                        | `NumberInput::set_show_whitespaces`         |
+| `scrollBeyondLastLine`   | `Int32`                                                                                                                          | `NumberInput::set_scroll_beyond_last_line`  |
+| `cursorSurroundingLines` | `Int32`                                                                                                                          | `NumberInput::set_cursor_surrounding_lines` |
+| `maskPattern`            | `string`                                                                                                                         | `NumberInput::set_mask_pattern`             |
+| `masked`                 | `boolean`                                                                                                                        | `NumberInput::set_masked`                   |
+| `pattern`                | `string`                                                                                                                         | `NumberInput::set_pattern`                  |
+| `validationRules`        | `string`                                                                                                                         | `NumberInput::set_validator`                |
+| `step`                   | `Double`                                                                                                                         | `NumberInput::set_step`                     |
+| `min`                    | `Double`                                                                                                                         | `NumberInput::set_min`                      |
+| `max`                    | `Double`                                                                                                                         | `NumberInput::set_max`                      |
+| `loading`                | `boolean`                                                                                                                        | `NumberInput::set_loading`                  |
+| `validation`             | `{ required?: boolean; minLength?: number; maxLength?: number; pattern?: string; min?: number; max?: number; message?: string }` | encoded as JSON for the native prop         |
+| `scrollbarStyle`         | `{ thumbColor?: string \| number; trackColor?: string \| number; width?: number; radius?: number; autoHide?: boolean }`          | encoded as JSON for the native prop         |
 
 ## Events
 
-| Event      | Payload              |
-| ---------- | -------------------- |
-| `onChange` | `text`, `eventCount` |
-| `onSubmit` | `secondary`, `shift` |
-| `onFocus`  |                      |
-| `onBlur`   |                      |
+| Event                   | Payload              |
+| ----------------------- | -------------------- |
+| `onValidationFail`      | `text`, `message`    |
+| `onSelectionHoldChange` | `held`               |
+| `onChange`              | `text`, `eventCount` |
+| `onSubmit`              | `secondary`, `shift` |
+| `onFocus`               |                      |
+| `onBlur`                |                      |
+| `onStep`                | `increment`          |
 
 ## Skipped
 
-| Method                                          | Reason                                                                                                                       |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `InputBaseState::set_selection_focus`           | shares the selection highlight with another element's FocusHandle; one React Native input has no second handle to pass       |
-| `InputBaseState::set_highlighter`               | sets the language of the code-editor mode, which Input, Textarea and NumberInput never use (the Code component has language) |
-| `InputBaseState::set_highlighter_factory`       | a Rust factory of tree-sitter highlighters; only the code-editor mode reads it                                               |
-| `InputBaseState::set_editor_style`              | a color table with a Rust highlight-style resolver for the code-editor mode; the theme supplies these colors                 |
-| `InputBaseState::set_fold_placeholder_renderer` | renders folded code regions; only the code-editor mode folds                                                                 |
-| `InputBaseState::set_scrollbar_renderer`        | a Rust closure that draws the scrollbar from scroll metrics each frame; the kit scrollbar is used                            |
-| `InputBaseState::set_validator`                 | a synchronous Rust closure on every edit, which JS cannot answer in time; pattern and maskPattern validate instead           |
+| Method | Reason |
+| ------ | ------ |

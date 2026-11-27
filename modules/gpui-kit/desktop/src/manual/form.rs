@@ -1,5 +1,6 @@
 use gpui::{px, AnyElement, Axis, IntoElement, ParentElement as _, Window};
 use gpui_component::form::{Field, Form};
+use gpui_component::Sizable as _;
 
 use super::slots::Slots;
 use crate::*;
@@ -54,10 +55,26 @@ impl GpuiKitFormSpec for GpuiKitForm {
             if spec.col_span() > 1 {
                 field = field.col_span(spec.col_span() as u16);
             }
+            if spec.col_start() > 0 {
+                field = field.col_start(spec.col_start() as i16);
+            }
+            if !spec.label_indent() {
+                field = field.label_indent(false);
+            }
+            if let Some(style) = crate::style::refinement(spec.kit_style()) {
+                gpui::Refineable::refine(gpui::Styled::style(&mut field), &style);
+            }
             if let Some(control) = slots.take(&format!("field-{index}")) {
                 field = field.child(control);
             }
             form = form.child(field);
+        }
+        match props.size() {
+            GpuiKitFormSize::Unset => {}
+            GpuiKitFormSize::Xsmall => form = form.with_size(gpui_component::Size::XSmall),
+            GpuiKitFormSize::Small => form = form.with_size(gpui_component::Size::Small),
+            GpuiKitFormSize::Medium => form = form.with_size(gpui_component::Size::Medium),
+            GpuiKitFormSize::Large => form = form.with_size(gpui_component::Size::Large),
         }
         if let Some(footer) = slots.take("footer") {
             form = form.footer(footer);

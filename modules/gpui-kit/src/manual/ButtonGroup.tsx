@@ -1,3 +1,4 @@
+import { NativeRoot } from '@react-native-gpui/core/desktop';
 import React, { type ReactNode } from 'react';
 import type { NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitButtonGroupNativeComponent';
@@ -28,38 +29,28 @@ export function ButtonGroup({
   ...rest
 }: ButtonGroupProps) {
   const buttons = childProps<ButtonProps>(children);
-  const widths = buttons.map(
-    button => (button.label?.length ?? 0) * 7.5 + (button.icon ? 20 : 0) + 22,
-  );
-  const vertical = rest.layout === 'vertical';
   return (
-    <Native
-      {...rest}
-      items={buttons.map(button => ({
-        label: button.label ?? '',
-        icon: button.icon ?? '',
-        selected: button.selected ?? false,
-        disabled: button.disabled ?? false,
-        variant: button.variant ?? '',
-      }))}
-      style={[
-        {
-          height: vertical ? buttons.length * 32 : 32,
-          width: vertical
-            ? Math.max(0, ...widths)
-            : widths.reduce((sum, width) => sum + width, 0),
-        },
-        style,
-      ]}
-      onGpuiKitButtonGroupPress={event => {
-        const pressed = indicesOf(event.nativeEvent.pressed);
-        for (const index of pressed)
-          buttons[index]?.onPress?.(syntheticPress as never);
-        onPress?.({
-          ...event,
-          nativeEvent: { pressed },
-        } as ButtonGroupPressEvent);
-      }}
-    />
+    <NativeRoot fitWidth style={style} testID={rest.testID}>
+      <Native
+        {...rest}
+        testID={undefined}
+        items={buttons.map(button => ({
+          label: button.label ?? '',
+          icon: button.icon ?? '',
+          selected: button.selected ?? false,
+          disabled: button.disabled ?? false,
+          variant: button.variant ?? '',
+        }))}
+        onGpuiKitButtonGroupPress={event => {
+          const pressed = indicesOf(event.nativeEvent.pressed);
+          for (const index of pressed)
+            buttons[index]?.onPress?.(syntheticPress as never);
+          onPress?.({
+            ...event,
+            nativeEvent: { pressed },
+          } as ButtonGroupPressEvent);
+        }}
+      />
+    </NativeRoot>
   );
 }

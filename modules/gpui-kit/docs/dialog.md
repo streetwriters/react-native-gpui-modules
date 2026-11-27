@@ -11,8 +11,8 @@ The kit's `Dialog`, written by hand on the same specification as the generated c
 | ----------------- | ---------------------------- |
 | `open`            | `boolean`                    |
 | `title`           | `string`                     |
-| `width`           | `Double`                     |
-| `marginTop`       | `Double`                     |
+| `dialogWidth`     | `Double`                     |
+| `offsetTop`       | `Double`                     |
 | `overlay`         | `WithDefault<boolean, true>` |
 | `overlayClosable` | `WithDefault<boolean, true>` |
 | `keyboard`        | `WithDefault<boolean, true>` |
@@ -21,6 +21,12 @@ The kit's `Dialog`, written by hand on the same specification as the generated c
 | `showCancel`      | `boolean`                    |
 | `okText`          | `string`                     |
 | `cancelText`      | `string`                     |
+| `description`     | `string`                     |
+| `entrance`        | `string`                     |
+| `kitStyle`        | `string`                     |
+| `headerStyle`     | `string`                     |
+| `footerStyle`     | `string`                     |
+| `buttonsJson`     | `string`                     |
 
 ## Native events
 

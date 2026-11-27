@@ -22,9 +22,12 @@ pub struct GpuiKitNumberInput {
     count: Rc<Cell<i32>>,
     last: Rc<RefCell<String>>,
     applied_default: bool,
+    selection_focus: Option<gpui::FocusHandle>,
+    selection_held: bool,
     applied_text_align: Option<u8>,
     applied_context_menu_enabled: Option<bool>,
     applied_fold_background: Option<Option<i32>>,
+    applied_scrollbar_style_json: Option<String>,
     applied_readonly: Option<bool>,
     applied_clean_on_escape: Option<bool>,
     applied_submit_on_enter: Option<bool>,
@@ -34,6 +37,7 @@ pub struct GpuiKitNumberInput {
     applied_mask_pattern: Option<String>,
     applied_masked: Option<bool>,
     applied_pattern: Option<String>,
+    applied_validation_rules: Option<String>,
     applied_step: Option<u64>,
     applied_min: Option<u64>,
     applied_max: Option<u64>,
@@ -48,9 +52,12 @@ impl GpuiKitNumberInputSpec for GpuiKitNumberInput {
             count: Rc::new(Cell::new(0)),
             last: Rc::new(RefCell::new(String::new())),
             applied_default: false,
+            selection_focus: None,
+            selection_held: false,
             applied_text_align: None,
             applied_context_menu_enabled: None,
             applied_fold_background: None,
+            applied_scrollbar_style_json: None,
             applied_readonly: None,
             applied_clean_on_escape: None,
             applied_submit_on_enter: None,
@@ -60,6 +67,7 @@ impl GpuiKitNumberInputSpec for GpuiKitNumberInput {
             applied_mask_pattern: None,
             applied_masked: None,
             applied_pattern: None,
+            applied_validation_rules: None,
             applied_step: None,
             applied_min: None,
             applied_max: None,
@@ -244,6 +252,19 @@ impl GpuiKitNumberInputSpec for GpuiKitNumberInput {
         });
     }
 
+    fn hold_selection(&mut self, hold: bool, cx: &mut GpuiKitNumberInputContext) {
+        let (Some(state), Some(handle)) = (self.state.clone(), self.selection_focus.clone()) else {
+            return;
+        };
+        cx.with_window(|window, app| {
+            if hold {
+                window.focus(&handle, app);
+            } else if handle.is_focused(window) {
+                state.update(app, |state, cx| state.focus(window, cx));
+            }
+        });
+    }
+
     fn render(
         &mut self,
         props: &GpuiKitNumberInputProps,
@@ -251,6 +272,7 @@ impl GpuiKitNumberInputSpec for GpuiKitNumberInput {
         cx: &mut GpuiKitNumberInputContext,
     ) -> AnyElement {
         let sender = cx.event_sender();
+        let sender_extra = sender.clone();
         let mut slots = crate::manual::slots::Slots::new(props.slots(), cx.children());
         let Some(app) = cx.app() else {
             return div().into_any_element();
@@ -290,6 +312,17 @@ impl GpuiKitNumberInputSpec for GpuiKitNumberInput {
                         _ => {}
                     }
                 }));
+            let sender = sender_extra.clone();
+            self.subscriptions.push(app.subscribe(
+                &state,
+                move |_state, event: &gpui_base::NumberInputEvent, _cx| match event {
+                    gpui_base::NumberInputEvent::Step(action) => {
+                        sender.gpui_kit_number_input_step(OnGpuiKitNumberInputStep {
+                            increment: matches!(action, gpui_base::StepAction::Increment),
+                        });
+                    }
+                },
+            ));
             self.state = Some(state);
         }
         let state = self.state.clone().unwrap();
@@ -323,6 +356,15 @@ impl GpuiKitNumberInputSpec for GpuiKitNumberInput {
                     state.set_fold_background(value.map(|c| crate::color::hsla(c as _)), cx)
                 });
                 self.applied_fold_background = Some(value);
+            }
+        }
+        {
+            let value = props.scrollbar_style_json().to_string();
+            if self.applied_scrollbar_style_json.as_ref() != Some(&value) {
+                state.update(app, |state, _cx| {
+                    state.set_scrollbar_renderer(crate::manual::rules::scrollbar(&value))
+                });
+                self.applied_scrollbar_style_json = Some(value.clone());
             }
         }
         {
@@ -385,15 +427,7 @@ impl GpuiKitNumberInputSpec for GpuiKitNumberInput {
             let value = props.mask_pattern().to_string();
             if self.applied_mask_pattern.as_ref() != Some(&value) {
                 state.update(app, |state, cx| {
-                    state.set_mask_pattern(
-                        if value.is_empty() {
-                            gpui_component::input::MaskPattern::None
-                        } else {
-                            value.as_str().into()
-                        },
-                        window,
-                        cx,
-                    )
+                    state.set_mask_pattern(crate::style::mask_pattern(&value), window, cx)
                 });
                 self.applied_mask_pattern = Some(value.clone());
             }
@@ -414,6 +448,25 @@ impl GpuiKitNumberInputSpec for GpuiKitNumberInput {
                     }
                 });
                 self.applied_pattern = Some(value.clone());
+            }
+        }
+        {
+            let value = props.validation_rules().to_string();
+            if self.applied_validation_rules.as_ref() != Some(&value) {
+                state.update(app, |state, cx| {
+                    state.set_validator(
+                        crate::manual::rules::validator(&value, {
+                            let sender = sender.clone();
+                            move |text, message| {
+                                sender.gpui_kit_number_input_validation_fail(
+                                    OnGpuiKitNumberInputValidationFail { text, message },
+                                )
+                            }
+                        }),
+                        cx,
+                    )
+                });
+                self.applied_validation_rules = Some(value.clone());
             }
         }
         {
@@ -521,11 +574,34 @@ impl GpuiKitNumberInputSpec for GpuiKitNumberInput {
                 element = element.with_size(gpui_component::Size::Large)
             }
         }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
         if let Some(slot) = slots.take("prefix") {
             element = element.prefix(slot);
         }
         if let Some(slot) = slots.take("suffix") {
             element = element.suffix(slot);
+        }
+        if self.selection_focus.is_none() {
+            let handle = app.focus_handle();
+            state.update(app, |state, cx| {
+                state.set_selection_focus(Some(handle.clone()), cx)
+            });
+            self.selection_focus = Some(handle);
+        }
+        let held = self
+            .selection_focus
+            .as_ref()
+            .is_some_and(|handle| handle.is_focused(window));
+        if held != self.selection_held {
+            self.selection_held = held;
+            sender.gpui_kit_number_input_selection_hold_change(
+                OnGpuiKitNumberInputSelectionHoldChange { held },
+            );
         }
         element.into_any_element()
     }

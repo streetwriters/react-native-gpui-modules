@@ -4,6 +4,7 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitLabelNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export interface LabelProps extends ViewProps {
   children?: React.ReactNode;
@@ -12,11 +13,19 @@ export interface LabelProps extends ViewProps {
   secondary?: string;
   masked?: boolean;
   highlights?: string;
+  kitStyle?: KitStyle;
 }
 
 export const Label = forwardRef<ComponentRef<typeof Native>, LabelProps>(
   function Label(props, ref) {
     const { style, children, ...rest } = props;
-    return <Native ref={ref} {...rest} style={[style]} />;
+    return (
+      <Native
+        ref={ref}
+        {...rest}
+        style={[style]}
+        kitStyle={kitStyle(props.kitStyle)}
+      />
+    );
   },
 );

@@ -24,6 +24,12 @@ export default function NumberInputScreen() {
           testID="number-input"
           style={{ width: 200, height: 40 }}
           {...(values as object)}
+          onValidationFail={event =>
+            note('onValidationFail ' + JSON.stringify(event.nativeEvent))
+          }
+          onSelectionHoldChange={event =>
+            note('onSelectionHoldChange ' + JSON.stringify(event.nativeEvent))
+          }
           onChange={event =>
             note('onChange ' + JSON.stringify(event.nativeEvent))
           }
@@ -34,6 +40,7 @@ export default function NumberInputScreen() {
             note('onFocus ' + JSON.stringify(event.nativeEvent))
           }
           onBlur={event => note('onBlur ' + JSON.stringify(event.nativeEvent))}
+          onStep={event => note('onStep ' + JSON.stringify(event.nativeEvent))}
           onChangeText={() => note('onChangeText')}
         />
       </View>
@@ -110,6 +117,12 @@ export default function NumberInputScreen() {
       >
         <Text>insertToken</Text>
       </Pressable>
+      <Pressable
+        testID="number-input-cmd-hold-selection"
+        onPress={() => ref.current?.holdSelection(true)}
+      >
+        <Text>holdSelection</Text>
+      </Pressable>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
         <TextInput
           testID="number-input-prop-placeholder"
@@ -166,6 +179,14 @@ export default function NumberInputScreen() {
             <Text>large</Text>
           </Pressable>
         </View>
+        <Pressable
+          testID="number-input-prop-custom-size"
+          onPress={() =>
+            set('customSize', ((values['customSize'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>customSize: {String(values['customSize'] ?? 0)}</Text>
+        </Pressable>
         <Pressable
           testID="number-input-prop-context-menu-enabled"
           onPress={() =>

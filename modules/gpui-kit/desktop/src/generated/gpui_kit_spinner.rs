@@ -45,10 +45,14 @@ impl GpuiKitSpinnerSpec for GpuiKitSpinner {
             GpuiKitSpinnerSize::Medium => element = element.with_size(gpui_component::Size::Medium),
             GpuiKitSpinnerSize::Large => element = element.with_size(gpui_component::Size::Large),
         }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
         match props.easing() {
             GpuiKitSpinnerEasing::Linear => element = element.ease(gpui::linear),
             GpuiKitSpinnerEasing::Quadratic => element = element.ease(gpui::quadratic),
             GpuiKitSpinnerEasing::EaseOutQuint => element = element.ease(gpui::ease_out_quint()),
+            GpuiKitSpinnerEasing::Bounce => element = element.ease(gpui::bounce(gpui::ease_in_out)),
             _ => {}
         }
         element.into_any_element()

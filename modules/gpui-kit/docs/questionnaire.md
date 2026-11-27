@@ -7,19 +7,22 @@ The kit's `Questionnaire`, written by hand on the same specification as the gene
 
 ## Native props
 
-| Name           | Type                                                    |
-| -------------- | ------------------------------------------------------- |
-| `items`        | `ReadonlyArray<QuestionnaireItemDef>`                   |
-| `choices`      | `ReadonlyArray<QuestionnaireChoiceDef>`                 |
-| `shortcuts`    | `WithDefault<'none' \| 'numbers' \| 'letters', 'none'>` |
-| `showProgress` | `WithDefault<boolean, true>`                            |
+| Name           | Type                                                                            |
+| -------------- | ------------------------------------------------------------------------------- |
+| `itemsJson`    | `string`                                                                        |
+| `shortcuts`    | `WithDefault<'none' \| 'numbers' \| 'letters', 'none'>`                         |
+| `showProgress` | `WithDefault<boolean, true>`                                                    |
+| `size`         | `WithDefault< 'unset' \| 'xsmall' \| 'small' \| 'medium' \| 'large', 'unset' >` |
+| `kitActions`   | `string`                                                                        |
+| `kitStyle`     | `string`                                                                        |
 
 ## Native events
 
-| Name                               | Type                                                  |
-| ---------------------------------- | ----------------------------------------------------- |
-| `onGpuiKitQuestionnaireItemChange` | `DirectEventHandler< Readonly<{ current: string }> >` |
-| `onGpuiKitQuestionnaireSubmit`     | `DirectEventHandler< Readonly<{ answers: string }> >` |
+| Name                                | Type                                                  |
+| ----------------------------------- | ----------------------------------------------------- |
+| `onGpuiKitQuestionnaireAnswer`      | `DirectEventHandler< Readonly<{ item: string`         |
+| `onGpuiKitQuestionnaireItemChange`  | `DirectEventHandler< Readonly<{ current: string }> >` |
+| `onGpuiKitQuestionnaireStateChange` | `DirectEventHandler< Readonly<{ state: string }> >`   |
 
 ## Commands
 
@@ -28,6 +31,11 @@ The kit's `Questionnaire`, written by hand on the same specification as the gene
 - `skip`
 - `submit`
 - `reset`
+- `setExternalError`
+- `clearExternalError`
+- `setAnswer`
+- `setCurrentItem`
+- `setItemDisabled`
 
 ## Coverage
 
@@ -43,4 +51,4 @@ The kit's `Questionnaire`, written by hand on the same specification as the gene
 - `QuestionnaireState::submit`: generated (submit()), command
 - `QuestionnaireState::reset`: generated (reset()), command
 - `QuestionnaireEvent`: generated (onAnswer, onItemChange, onSubmit)
-- `QuestionnaireItemDefinition::with_validator`: skipped, a synchronous Rust closure on every answer, which JS cannot answer in time; required and the onSubmit answers cover validation
+- `QuestionnaireItemDefinition::with_validator`: generated (questions), validation: declarative rules checked in Rust; the kit shows the message under the question

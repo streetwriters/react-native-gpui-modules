@@ -7,14 +7,26 @@ The kit's `Carousel`, written by hand on the same specification as the generated
 
 ## Native props
 
-| Name            | Type      |
-| --------------- | --------- |
-| `vertical`      | `boolean` |
-| `looping`       | `boolean` |
-| `controls`      | `boolean` |
-| `pagination`    | `boolean` |
-| `selectedIndex` | `Int32`   |
-| `controlled`    | `boolean` |
+| Name                         | Type                    |
+| ---------------------------- | ----------------------- |
+| `vertical`                   | `boolean`               |
+| `looping`                    | `boolean`               |
+| `controls`                   | `boolean`               |
+| `pagination`                 | `boolean`               |
+| `selectedIndex`              | `Int32`                 |
+| `controlled`                 | `boolean`               |
+| `size`                       | `string`                |
+| `slides`                     | `ReadonlyArray<string>` |
+| `slideStyle`                 | `string`                |
+| `kitStyle`                   | `string`                |
+| `contentStyle`               | `string`                |
+| `trackStyle`                 | `string`                |
+| `itemStyle`                  | `string`                |
+| `paginationLabels`           | `boolean`               |
+| `previousLabel`              | `string`                |
+| `nextLabel`                  | `string`                |
+| `previousAccessibilityLabel` | `string`                |
+| `nextAccessibilityLabel`     | `string`                |
 
 ## Native events
 

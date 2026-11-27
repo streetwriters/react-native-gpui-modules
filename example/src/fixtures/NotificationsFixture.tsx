@@ -45,7 +45,11 @@ export function NotificationsFixture() {
 
       const permission = await notifications.getPermission();
       record(
-        `permission ${['granted', 'denied', 'notDetermined'].includes(permission) ? 'ok' : `BAD ${permission}`}`,
+        `permission ${
+          ['granted', 'denied', 'notDetermined'].includes(permission)
+            ? 'ok'
+            : `BAD ${permission}`
+        }`,
       );
 
       const delivered = waitFor(
@@ -59,7 +63,9 @@ export function NotificationsFixture() {
       });
       const event = await delivered;
       record(
-        `show ${id === run && event.notification.body === 'shown now' ? 'ok' : 'BAD'}`,
+        `show ${
+          id === run && event.notification.body === 'shown now' ? 'ok' : 'BAD'
+        }`,
       );
 
       const generated = await notifications.show({ title: 'Generated id' });
@@ -102,11 +108,15 @@ export function NotificationsFixture() {
       );
       const firedEvent = await fired;
       record(
-        `fired ${firedEvent.notification.data?.type === 'reminder' ? 'ok' : 'BAD'}`,
+        `fired ${
+          firedEvent.notification.data?.type === 'reminder' ? 'ok' : 'BAD'
+        }`,
       );
       const after = await notifications.getScheduled();
       record(
-        `oneShotRemoved ${after.some(s => s.notification.id === soon) ? 'BAD' : 'ok'}`,
+        `oneShotRemoved ${
+          after.some(s => s.notification.id === soon) ? 'BAD' : 'ok'
+        }`,
       );
 
       const past = await notifications
@@ -129,7 +139,12 @@ export function NotificationsFixture() {
       const list = await notifications.getScheduled();
       const daily = list.find(s => s.notification.id === `${run}-daily`);
       record(
-        `repeat ${daily?.trigger.repeat === 'daily' && list[0]?.notification.id === `${run}-daily` ? 'ok' : 'BAD'}`,
+        `repeat ${
+          daily?.trigger.repeat === 'daily' &&
+          list[0]?.notification.id === `${run}-daily`
+            ? 'ok'
+            : 'BAD'
+        }`,
       );
 
       await notifications.cancelScheduled(`${run}-daily`);
@@ -142,7 +157,9 @@ export function NotificationsFixture() {
 
       await notifications.cancel(`${run}-monthly`);
       record(
-        `cancel ${(await notifications.getScheduled()).length === 0 ? 'ok' : 'BAD'}`,
+        `cancel ${
+          (await notifications.getScheduled()).length === 0 ? 'ok' : 'BAD'
+        }`,
       );
 
       await notifications.schedule(
@@ -155,18 +172,26 @@ export function NotificationsFixture() {
       );
       await notifications.cancelAll();
       record(
-        `cancelAll ${(await notifications.getScheduled()).length === 0 ? 'ok' : 'BAD'}`,
+        `cancelAll ${
+          (await notifications.getScheduled()).length === 0 ? 'ok' : 'BAD'
+        }`,
       );
 
       await notifications.cancelDisplayed();
       record(
-        `displayed ${Array.isArray(await notifications.getDisplayed()) ? 'ok' : 'BAD'}`,
+        `displayed ${
+          Array.isArray(await notifications.getDisplayed()) ? 'ok' : 'BAD'
+        }`,
       );
       record(
-        `initialEvent ${(await notifications.getInitialEvent()) === null ? 'ok' : 'BAD'}`,
+        `initialEvent ${
+          (await notifications.getInitialEvent()) === null ? 'ok' : 'BAD'
+        }`,
       );
       record(
-        `settings ${typeof notifications.openSettings === 'function' ? 'ok' : 'BAD'}`,
+        `settings ${
+          typeof notifications.openSettings === 'function' ? 'ok' : 'BAD'
+        }`,
       );
     })().catch(error => {
       if (!cancelled)

@@ -4,6 +4,8 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitCheckboxNativeComponent';
 import type { IconName } from './icons';
+import { NativeRoot, NativeSlot } from '@react-native-gpui/core/desktop';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export type CheckboxChangeEvent = NativeSyntheticEvent<
   Readonly<{ state: boolean }>
@@ -25,17 +27,38 @@ export interface CheckboxProps extends ViewProps {
   secondarySelected?: boolean;
   open?: boolean;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  customSize?: number;
+  kitStyle?: KitStyle;
   onChange?: (event: CheckboxChangeEvent) => void;
 }
 
 export const Checkbox = forwardRef<ComponentRef<typeof Native>, CheckboxProps>(
   function Checkbox(props, ref) {
     const { onChange, style, children, ...rest } = props;
+    if (React.Children.count(children) > 0) {
+      return (
+        <NativeRoot fitWidth style={style} testID={rest.testID}>
+          <Native
+            ref={ref}
+            {...rest}
+            testID={undefined}
+            slots={React.Children.count(children) > 0 ? 'children' : ''}
+            kitStyle={kitStyle(props.kitStyle)}
+            onGpuiKitCheckboxChange={onChange}
+          >
+            {React.Children.count(children) > 0 ? (
+              <NativeSlot>{children}</NativeSlot>
+            ) : null}
+          </Native>
+        </NativeRoot>
+      );
+    }
     return (
       <Native
         ref={ref}
         {...rest}
         style={[style]}
+        kitStyle={kitStyle(props.kitStyle)}
         onGpuiKitCheckboxChange={onChange}
       />
     );

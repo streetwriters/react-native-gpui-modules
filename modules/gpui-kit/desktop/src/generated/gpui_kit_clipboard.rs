@@ -62,6 +62,9 @@ impl GpuiKitClipboardSpec for GpuiKitClipboard {
             }
             GpuiKitClipboardSize::Large => element = element.with_size(gpui_component::Size::Large),
         }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
         {
             let sender = sender.clone();
             element = element.on_copied(move |event, _window, _cx| {

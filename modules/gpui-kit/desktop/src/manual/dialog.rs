@@ -1,5 +1,9 @@
-use gpui::{px, AnyElement, IntoElement, ParentElement as _, Window};
-use gpui_component::dialog::DialogButtonProps;
+use gpui::{px, AnyElement, IntoElement, ParentElement as _, Styled as _, Window};
+use gpui_component::dialog::{
+    DialogButtonProps, DialogDescription, DialogEntrance, DialogFooter, DialogHeader, DialogTitle,
+};
+
+use super::alert_dialog::{footer_button, FooterButton};
 use gpui_component::WindowExt as _;
 
 use super::slots::{Renderers, Shown};
@@ -35,7 +39,7 @@ impl GpuiKitDialogSpec for GpuiKitDialog {
         let title = props.title().to_string();
         let ok_text = props.ok_text().to_string();
         let cancel_text = props.cancel_text().to_string();
-        let (width, margin_top) = (props.width(), props.margin_top());
+        let (width, margin_top) = (props.dialog_width(), props.offset_top());
         let (overlay, closable, keyboard, close_button) = (
             props.overlay(),
             props.overlay_closable(),
@@ -43,6 +47,21 @@ impl GpuiKitDialogSpec for GpuiKitDialog {
             props.close_button(),
         );
         let (centered, show_cancel) = (props.centered(), props.show_cancel());
+        let description = props.description().to_string();
+        let entrance = match props.entrance() {
+            "fade" => Some(DialogEntrance::Fade),
+            "fade-slide" => Some(DialogEntrance::FadeSlide),
+            "none" => Some(DialogEntrance::None),
+            "slide-down" => Some(DialogEntrance::SlideDown),
+            _ => None,
+        };
+        let style = crate::style::refinement(props.kit_style());
+        let header_style = crate::style::refinement(props.header_style());
+        let footer_style = crate::style::refinement(props.footer_style());
+        let footer_buttons: Vec<FooterButton> =
+            serde_json::from_str(props.buttons_json()).unwrap_or_default();
+        let composed =
+            header_style.is_some() || footer_style.is_some() || !footer_buttons.is_empty();
         let shown = self.shown.clone();
         if let Some(app) = cx.app() {
             let closed = shown.clone();
@@ -51,8 +70,18 @@ impl GpuiKitDialogSpec for GpuiKitDialog {
                 window,
                 app,
                 move |window, app| {
-                    let (title, ok_text, cancel_text) =
-                        (title.clone(), ok_text.clone(), cancel_text.clone());
+                    let (title, ok_text, cancel_text, description) = (
+                        title.clone(),
+                        ok_text.clone(),
+                        cancel_text.clone(),
+                        description.clone(),
+                    );
+                    let (style, header_style, footer_style, footer_buttons) = (
+                        style.clone(),
+                        header_style.clone(),
+                        footer_style.clone(),
+                        footer_buttons.clone(),
+                    );
                     let renderers = (
                         renderers.get("title"),
                         renderers.get("body"),
@@ -93,11 +122,64 @@ impl GpuiKitDialogSpec for GpuiKitDialog {
                         if centered {
                             dialog = dialog.centered();
                         }
+                        if let Some(entrance) = entrance {
+                            dialog = dialog.entrance(entrance);
+                        }
+                        if let Some(style) = &style {
+                            gpui::Refineable::refine(gpui::Styled::style(&mut dialog), style);
+                        }
                         let (close, closed) = (close.clone(), closed.clone());
                         dialog = dialog.on_close(move |_, _, _| {
                             closed.0.set(false);
                             close.gpui_kit_dialog_close();
                         });
+                        if composed {
+                            let (title_slot, body_slot, footer_slot) = renderers.clone();
+                            let (title, description) = (title.clone(), description.clone());
+                            let (header_style, footer_style, footer_buttons) = (
+                                header_style.clone(),
+                                footer_style.clone(),
+                                footer_buttons.clone(),
+                            );
+                            return dialog.content(move |content, window, cx| {
+                                let mut header = DialogHeader::new();
+                                if let Some(style) = &header_style {
+                                    gpui::Refineable::refine(header.style(), style);
+                                }
+                                match &title_slot {
+                                    Some(render) => {
+                                        header = header
+                                            .child(DialogTitle::new().child(render(window, cx)))
+                                    }
+                                    None if !title.is_empty() => {
+                                        header =
+                                            header.child(DialogTitle::new().child(title.clone()))
+                                    }
+                                    None => {}
+                                }
+                                if !description.is_empty() {
+                                    header = header
+                                        .child(DialogDescription::new().child(description.clone()));
+                                }
+                                let mut content = content.child(header);
+                                if let Some(render) = &body_slot {
+                                    content = content.child(render(window, cx));
+                                }
+                                let mut footer = DialogFooter::new();
+                                if let Some(style) = &footer_style {
+                                    gpui::Refineable::refine(footer.style(), style);
+                                }
+                                match &footer_slot {
+                                    Some(render) => footer = footer.child(render(window, cx)),
+                                    None => {
+                                        for (index, spec) in footer_buttons.iter().enumerate() {
+                                            footer = footer.child(footer_button(index, spec));
+                                        }
+                                    }
+                                }
+                                content.child(footer)
+                            });
+                        }
                         match &renderers.0 {
                             Some(render) => {
                                 let render = render.clone();
@@ -110,9 +192,17 @@ impl GpuiKitDialogSpec for GpuiKitDialog {
                             dialog = dialog.footer(render(_window, _cx));
                         }
                         let body = renderers.1.clone();
-                        dialog.content(move |content, window, cx| match &body {
-                            Some(render) => content.child(render(window, cx)),
-                            None => content,
+                        let description = description.clone();
+                        dialog.content(move |content, window, cx| {
+                            let content = if description.is_empty() {
+                                content
+                            } else {
+                                content.child(DialogDescription::new().child(description.clone()))
+                            };
+                            match &body {
+                                Some(render) => content.child(render(window, cx)),
+                                None => content,
+                            }
                         })
                     });
                 },

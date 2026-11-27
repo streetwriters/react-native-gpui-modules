@@ -4,6 +4,7 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitRatingNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export type RatingChangeEvent = NativeSyntheticEvent<
   Readonly<{ value: number }>
@@ -17,6 +18,8 @@ export interface RatingProps extends ViewProps {
   value?: number;
   max?: number;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  customSize?: number;
+  kitStyle?: KitStyle;
   onChange?: (event: RatingChangeEvent) => void;
 }
 
@@ -30,6 +33,7 @@ export const Rating = forwardRef<ComponentRef<typeof Native>, RatingProps>(
         ref={ref}
         {...rest}
         style={[{ height, width }, style]}
+        kitStyle={kitStyle(props.kitStyle)}
         onGpuiKitRatingChange={onChange}
       />
     );

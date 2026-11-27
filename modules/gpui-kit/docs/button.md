@@ -12,6 +12,12 @@ A Button element.
 | Prop                        | Type                                                                                                                                     | Native method                 |
 | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
 | `focusable`                 | `boolean`                                                                                                                                | `Button::track_focus`         |
+| `loadingIconSvg`            | `string`                                                                                                                                 | constructor argument          |
+| `iconProgressColor`         | `ColorValue`                                                                                                                             | constructor argument          |
+| `iconProgress`              | `Double`                                                                                                                                 | constructor argument          |
+| `iconCustomSize`            | `Double`                                                                                                                                 | constructor argument          |
+| `iconColor`                 | `ColorValue`                                                                                                                             | constructor argument          |
+| `iconSvg`                   | `string`                                                                                                                                 | constructor argument          |
 | `customShadow`              | `boolean`                                                                                                                                | constructor argument          |
 | `customActive`              | `ColorValue`                                                                                                                             | constructor argument          |
 | `customHover`               | `ColorValue`                                                                                                                             | constructor argument          |
@@ -43,6 +49,8 @@ A Button element.
 | `size`                      | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'`                                                                                       | `Button::with_size`           |
 | `variant`                   | `'default'` \| `'primary'` \| `'secondary'` \| `'danger'` \| `'info'` \| `'success'` \| `'warning'` \| `'ghost'` \| `'link'` \| `'text'` | `Button::with_variant`        |
 | `customColor`               | `ColorValue`                                                                                                                             | `Button::custom`              |
+| `customSize`                | `Double`                                                                                                                                 | constructor argument          |
+| `kitStyle`                  | `string`                                                                                                                                 | constructor argument          |
 
 ## Events
 

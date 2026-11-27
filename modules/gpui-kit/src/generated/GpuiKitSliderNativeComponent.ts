@@ -7,6 +7,9 @@ import {
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
+  logarithmic?: boolean;
+  defaultEnd?: CodegenTypes.Double;
+  defaultValue?: CodegenTypes.Double;
   step?: CodegenTypes.Double;
   maximum?: CodegenTypes.Double;
   minimum?: CodegenTypes.Double;
@@ -15,14 +18,19 @@ export interface NativeProps extends ViewProps {
   disabled?: boolean;
   accessibilityLabel?: string;
   reverse?: boolean;
+  kitStyle?: string;
   value?: CodegenTypes.Double;
   controlled?: boolean;
   eventCount?: CodegenTypes.Int32;
   onGpuiKitSliderChange?: CodegenTypes.DirectEventHandler<
-    Readonly<{ current: CodegenTypes.Double; eventCount: CodegenTypes.Int32 }>
+    Readonly<{
+      current: CodegenTypes.Double;
+      end: CodegenTypes.Double;
+      eventCount: CodegenTypes.Int32;
+    }>
   >;
   onGpuiKitSliderRelease?: CodegenTypes.DirectEventHandler<
-    Readonly<{ current: CodegenTypes.Double }>
+    Readonly<{ current: CodegenTypes.Double; end: CodegenTypes.Double }>
   >;
 }
 

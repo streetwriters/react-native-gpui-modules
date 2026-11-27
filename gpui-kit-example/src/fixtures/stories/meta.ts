@@ -1,0 +1,5 @@
+/** The window of a story capture, in points, as in the reference app. */
+export const STORY_SIZE = { width: 960, height: 1100 };
+
+/** The official stories ported so far, by the story's file name. */
+export const STORY_NAMES = ['accordion', 'alert_dialog', 'alert', 'attachment', 'avatar', 'badge', 'breadcrumb', 'bubble', 'button', 'calendar', 'carousel', 'chart', 'checkbox', 'clipboard', 'collapsible', 'color_picker', 'combobox', 'command', 'data_table', 'date_picker', 'description_list', 'dialog', 'diff', 'dock', 'dropdown_button', 'editor', 'empty', 'form', 'grid_layout', 'group_box', 'hover_card', 'icon', 'image', 'input_group', 'input', 'kbd', 'label', 'list', 'marker', 'menu', 'message_scroller', 'message', 'native_menu', 'notification', 'number_input', 'otp_input', 'pagination', 'popover', 'progress', 'questionnaire', 'radio', 'rating', 'resizable', 'scrollbar', 'select', 'separator', 'settings', 'sheet', 'shell', 'shimmer', 'sidebar', 'skeleton', 'slider', 'speech', 'spinner', 'status_bar', 'stepper', 'switch', 'table', 'tabs', 'tag', 'textarea', 'theme_colors', 'time_field', 'toggle', 'toolbar', 'tooltip', 'tree', 'virtual_list', 'welcome'] as const;

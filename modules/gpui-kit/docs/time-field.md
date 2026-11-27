@@ -13,6 +13,8 @@ The kit's `TimeField`, written by hand on the same specification as the generate
 | `controlled` | `boolean`                                                                       |
 | `disabled`   | `boolean`                                                                       |
 | `invalid`    | `boolean`                                                                       |
+| `precision`  | `WithDefault<'minute' \| 'second', 'minute'>`                                   |
+| `hourCycle`  | `WithDefault<'h23' \| 'h12', 'h23'>`                                            |
 | `size`       | `WithDefault< 'unset' \| 'xsmall' \| 'small' \| 'medium' \| 'large', 'unset' >` |
 
 ## Native events

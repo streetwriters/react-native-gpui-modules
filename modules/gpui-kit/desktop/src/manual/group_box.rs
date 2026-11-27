@@ -47,6 +47,9 @@ impl GpuiKitGroupBoxSpec for GpuiKitGroupBox {
         if let Some(style) = crate::style::refinement(props.content_style()) {
             element = element.content_style(style);
         }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
         if let Some(title) = slots.take("title") {
             element = element.title(title);
         } else if !props.title().is_empty() {
@@ -54,6 +57,8 @@ impl GpuiKitGroupBoxSpec for GpuiKitGroupBox {
         }
         if let Some(footer) = slots.take("footer") {
             element = element.footer(footer);
+        } else if !props.footer().is_empty() {
+            element = element.footer(props.footer().to_string());
         }
         if let Some(body) = slots.take("body") {
             element = element.child(body);

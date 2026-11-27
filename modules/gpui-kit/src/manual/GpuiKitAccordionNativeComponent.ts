@@ -9,6 +9,12 @@ export type AccordionItem = Readonly<{
   icon: string;
   open: boolean;
   disabled: boolean;
+  /** Plain text content in the item's own type; empty for the slot. */
+  text: string;
+  /** Refines this item's title row (a KitStyle as JSON). */
+  titleStyle: string;
+  /** Refines this item's content (a KitStyle as JSON). */
+  contentStyle: string;
 }>;
 
 export interface NativeProps extends ViewProps {

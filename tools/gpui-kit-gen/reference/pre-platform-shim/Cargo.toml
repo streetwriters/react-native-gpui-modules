@@ -1,0 +1,15 @@
+[package]
+name = "gpui-pre-platform"
+version = "0.3.12"
+edition = "2021"
+publish = false
+
+# gpui-shell asks for gpui-pre-platform; this forwards it to the platform crate of the pinned gpui.
+[dependencies]
+gpui_platform = "0.1"
+
+[features]
+font-kit = []
+x11 = []
+wayland = []
+runtime_shaders = []

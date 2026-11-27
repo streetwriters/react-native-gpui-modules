@@ -6,7 +6,7 @@ import {
 
 export interface NativeProps extends ViewProps {
   text?: string;
-  width?: CodegenTypes.Double;
+  contentWidth?: CodegenTypes.Double;
   slots?: string;
 }
 

@@ -7,11 +7,16 @@ The kit's `Message`, written by hand on the same specification as the generated 
 
 ## Native props
 
-| Name     | Type      |
-| -------- | --------- |
-| `end`    | `boolean` |
-| `header` | `string`  |
-| `footer` | `string`  |
+| Name           | Type      |
+| -------------- | --------- |
+| `messagesJson` | `string`  |
+| `grouped`      | `boolean` |
+
+## Native events
+
+| Name                     | Type                                            |
+| ------------------------ | ----------------------------------------------- |
+| `onGpuiKitMessageAction` | `DirectEventHandler< Readonly<{ id: Int32 }> >` |
 
 ## Coverage
 

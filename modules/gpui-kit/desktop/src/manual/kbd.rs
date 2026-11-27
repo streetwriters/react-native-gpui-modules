@@ -8,7 +8,7 @@ use crate::*;
 
 /// `Keystroke::parse` takes a `'static` string, so each distinct source is
 /// leaked once and reused.
-fn interned(source: &str) -> &'static str {
+pub(crate) fn interned(source: &str) -> &'static str {
     static CACHE: OnceLock<Mutex<HashMap<String, &'static str>>> = OnceLock::new();
     let mut cache = CACHE
         .get_or_init(Default::default)

@@ -7,12 +7,17 @@ import { indicesOf } from './items';
 import { kitStyle, type KitStyle } from './kitStyle';
 
 export interface AccordionEntry {
-  title: string;
+  /** The title text, or React Native content for the title row. */
+  title: ReactNode;
   icon?: IconName;
   open?: boolean;
   disabled?: boolean;
-  /** React Native content shown while the item is open. */
+  /** Content shown while the item is open: a string is drawn in the kit's own type. */
   content?: ReactNode;
+  /** Refines this item's title row. */
+  titleStyle?: KitStyle;
+  /** Refines this item's content. */
+  contentStyle?: KitStyle;
 }
 
 export type AccordionToggleEvent = NativeSyntheticEvent<
@@ -60,10 +65,13 @@ export function Accordion({
         contentStyle: kitStyle(contentStyle),
         itemHoverStyle: kitStyle(itemHoverStyle),
         items: items.map(item => ({
-          title: item.title,
+          title: typeof item.title === 'string' ? item.title : '',
           icon: item.icon ?? '',
           open: item.open ?? false,
           disabled: item.disabled ?? false,
+          text: typeof item.content === 'string' ? item.content : '',
+          titleStyle: kitStyle(item.titleStyle),
+          contentStyle: kitStyle(item.contentStyle),
         })),
         onGpuiKitAccordionToggle: (event: { nativeEvent: { open: string } }) =>
           onToggle?.({
@@ -71,10 +79,16 @@ export function Accordion({
             nativeEvent: { open: indicesOf(event.nativeEvent.open) },
           } as AccordionToggleEvent),
       }}
-      slots={items.map((item, index) => ({
-        name: `item-${index}`,
-        content: item.content,
-      }))}
+      slots={items.flatMap((item, index) => [
+        {
+          name: `item-${index}`,
+          content: typeof item.content === 'string' ? null : item.content,
+        },
+        {
+          name: `title-${index}`,
+          content: typeof item.title === 'string' ? null : item.title,
+        },
+      ])}
     />
   );
 }

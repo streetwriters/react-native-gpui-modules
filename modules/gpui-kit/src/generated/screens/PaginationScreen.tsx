@@ -23,7 +23,7 @@ export default function PaginationScreen() {
       <View style={{ height: 64 }}>
         <Pagination
           testID="pagination"
-
+          style={{ height: 40 }}
           {...(values as object)}
           onChange={event =>
             note('onChange ' + JSON.stringify(event.nativeEvent))
@@ -95,6 +95,14 @@ export default function PaginationScreen() {
             <Text>large</Text>
           </Pressable>
         </View>
+        <Pressable
+          testID="pagination-prop-custom-size"
+          onPress={() =>
+            set('customSize', ((values['customSize'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>customSize: {String(values['customSize'] ?? 0)}</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );

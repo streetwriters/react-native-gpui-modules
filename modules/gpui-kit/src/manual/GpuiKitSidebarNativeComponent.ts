@@ -4,32 +4,35 @@ import {
   type ViewProps,
 } from 'react-native';
 
-export type SidebarGroupSpec = Readonly<{
-  label: string;
-}>;
-
-export type SidebarItemSpec = Readonly<{
-  group: CodegenTypes.Int32;
-  label: string;
-  icon: string;
-  depth: CodegenTypes.Int32;
-  active: boolean;
-  disabled: boolean;
-  open: boolean;
-}>;
-
 export interface NativeProps extends ViewProps {
-  width?: CodegenTypes.Double;
+  /** The groups and their items as JSON (see `Chrome.tsx`). */
+  groupsJson?: string;
+  /** `left` or `right`. */
+  side?: string;
+  sidebarWidth?: CodegenTypes.Double;
   collapsed?: boolean;
   collapsible?: CodegenTypes.WithDefault<
     'unset' | 'icon' | 'offcanvas' | 'none',
     'unset'
   >;
-  groups?: ReadonlyArray<SidebarGroupSpec>;
-  items?: ReadonlyArray<SidebarItemSpec>;
+  /** Wraps the header content in the kit's `SidebarHeader`. */
+  headerKit?: boolean;
+  /** The menu the header opens, as a menu model; empty for none. */
+  headerMenuJson?: string;
+  headerStyle?: string;
+  /** Wraps the footer content in the kit's `SidebarFooter`. */
+  footerKit?: boolean;
+  footerStyle?: string;
+  kitStyle?: string;
   slots?: string;
   onGpuiKitSidebarPress?: CodegenTypes.DirectEventHandler<
     Readonly<{ index: CodegenTypes.Int32 }>
+  >;
+  onGpuiKitSidebarHeaderMenu?: CodegenTypes.DirectEventHandler<
+    Readonly<{ id: CodegenTypes.Int32 }>
+  >;
+  onGpuiKitSidebarItemMenu?: CodegenTypes.DirectEventHandler<
+    Readonly<{ index: CodegenTypes.Int32; id: CodegenTypes.Int32 }>
   >;
 }
 

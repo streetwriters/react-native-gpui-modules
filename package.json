@@ -6,7 +6,8 @@
   "license": "MIT",
   "workspaces": [
     "modules/*",
-    "example"
+    "example",
+    "gpui-kit-example"
   ],
   "scripts": {
     "lint": "eslint .",
@@ -14,8 +15,9 @@
     "typecheck": "tsc -p tsconfig.json",
     "test:unit": "vitest run",
     "test:e2e": "npm run test:e2e --workspace example",
-    "test:rust": "node scripts/run-rust-tests.mjs",
-    "check:versions": "node scripts/ci/publish-npm.mjs --check-only --skip-ci --allow-unreleased"
+    "test:rust": "node scripts/run-rust-tests.mjs example && node scripts/run-rust-tests.mjs gpui-kit-example",
+    "check:versions": "node scripts/ci/publish-npm.mjs --check-only --skip-ci --allow-unreleased",
+    "test:e2e:gpui-kit": "npm run test:e2e --workspace gpui-kit-example"
   },
   "repository": {
     "type": "git",

@@ -72,18 +72,31 @@ export function UpdaterFixture({ feedUrl, mode, currentVersion }: Props) {
 
       use('same');
       record(
-        `version ${(await updater.getCurrentVersion()) === '1.0.0' ? 'ok' : 'BAD'}`,
+        `version ${
+          (await updater.getCurrentVersion()) === '1.0.0' ? 'ok' : 'BAD'
+        }`,
       );
       const none = await updater.checkForUpdates();
       record(
-        `notAvailable ${none === null && events.join() === 'checking,not-available' ? 'ok' : `BAD ${events.join()}`}`,
+        `notAvailable ${
+          none === null && events.join() === 'checking,not-available'
+            ? 'ok'
+            : `BAD ${events.join()}`
+        }`,
       );
 
       events.length = 0;
       use('newer');
       const info = await updater.checkForUpdates();
       record(
-        `available ${info?.version === '1.1.0' && info.size === 3145728 && info.releaseDate === '2026-01-02T03:04:05.000Z' && events.join() === 'checking,available' ? 'ok' : `BAD ${JSON.stringify(info)} ${events.join()}`}`,
+        `available ${
+          info?.version === '1.1.0' &&
+          info.size === 3145728 &&
+          info.releaseDate === '2026-01-02T03:04:05.000Z' &&
+          events.join() === 'checking,available'
+            ? 'ok'
+            : `BAD ${JSON.stringify(info)} ${events.join()}`
+        }`,
       );
 
       events.length = 0;
@@ -114,7 +127,9 @@ export function UpdaterFixture({ feedUrl, mode, currentVersion }: Props) {
       use('older', true);
       const downgrade = await updater.checkForUpdates();
       record(
-        `downgrade ${older === null && downgrade?.version === '0.9.0' ? 'ok' : 'BAD'}`,
+        `downgrade ${
+          older === null && downgrade?.version === '0.9.0' ? 'ok' : 'BAD'
+        }`,
       );
 
       use('badsum');
@@ -125,20 +140,32 @@ export function UpdaterFixture({ feedUrl, mode, currentVersion }: Props) {
         `${archive.slice(0, archive.indexOf('/updates/') + 9)}1.2.0`,
       );
       record(
-        `checksum ${mismatch?.message.includes('checksum') && events.includes('error') && leftovers.length === 0 ? 'ok' : `BAD ${mismatch?.message} ${leftovers.join()}`}`,
+        `checksum ${
+          mismatch?.message.includes('checksum') &&
+          events.includes('error') &&
+          leftovers.length === 0
+            ? 'ok'
+            : `BAD ${mismatch?.message} ${leftovers.join()}`
+        }`,
       );
 
       use('nozip');
       const noZip = await rejection(() => updater.checkForUpdates());
       record(
-        `noArchive ${noZip?.message.includes('.zip') ? 'ok' : `BAD ${noZip?.message}`}`,
+        `noArchive ${
+          noZip?.message.includes('.zip') ? 'ok' : `BAD ${noZip?.message}`
+        }`,
       );
 
       use('missing');
       events.length = 0;
       const missing = await rejection(() => updater.checkForUpdates());
       record(
-        `feedError ${missing?.message.includes('404') && events.join() === 'checking,error' ? 'ok' : `BAD ${missing?.message} ${events.join()}`}`,
+        `feedError ${
+          missing?.message.includes('404') && events.join() === 'checking,error'
+            ? 'ok'
+            : `BAD ${missing?.message} ${events.join()}`
+        }`,
       );
 
       use('slow');
@@ -150,7 +177,14 @@ export function UpdaterFixture({ feedUrl, mode, currentVersion }: Props) {
       const stopped = updater.cancelDownload();
       const cancelledError = await pending;
       record(
-        `cancel ${stopped && cancelledError?.code === 'ABORT_ERR' && events.includes('cancelled') && progress[progress.length - 1].percent < 100 ? 'ok' : `BAD ${cancelledError?.code}`}`,
+        `cancel ${
+          stopped &&
+          cancelledError?.code === 'ABORT_ERR' &&
+          events.includes('cancelled') &&
+          progress[progress.length - 1].percent < 100
+            ? 'ok'
+            : `BAD ${cancelledError?.code}`
+        }`,
       );
       record(`idle ${updater.cancelDownload() === false ? 'ok' : 'BAD'}`);
 
@@ -159,7 +193,11 @@ export function UpdaterFixture({ feedUrl, mode, currentVersion }: Props) {
       await updater.downloadUpdate();
       const unbundled = await rejection(() => updater.installUpdate());
       record(
-        `install ${unbundled?.message.includes('packaged app') ? 'ok' : `BAD ${unbundled?.message}`}`,
+        `install ${
+          unbundled?.message.includes('packaged app')
+            ? 'ok'
+            : `BAD ${unbundled?.message}`
+        }`,
       );
 
       subscriptions.forEach(subscription => subscription.remove());

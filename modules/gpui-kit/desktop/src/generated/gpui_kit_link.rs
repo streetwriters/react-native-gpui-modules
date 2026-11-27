@@ -55,6 +55,9 @@ impl GpuiKitLinkSpec for GpuiKitLink {
         if props.disabled() {
             element = element.disabled(true);
         }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
         {
             let sender = sender.clone();
             element = element.on_click(move |event, _window, _cx| {

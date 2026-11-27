@@ -4,7 +4,6 @@ import ButtonScreen from './ButtonScreen';
 import InputScreen from './InputScreen';
 import LabelScreen from './LabelScreen';
 import IconScreen from './IconScreen';
-import BadgeScreen from './BadgeScreen';
 import TagScreen from './TagScreen';
 import AvatarScreen from './AvatarScreen';
 import SpinnerScreen from './SpinnerScreen';
@@ -32,7 +31,6 @@ export const screens: Record<string, ComponentType> = {
   Input: InputScreen,
   Label: LabelScreen,
   Icon: IconScreen,
-  Badge: BadgeScreen,
   Tag: TagScreen,
   Avatar: AvatarScreen,
   Spinner: SpinnerScreen,

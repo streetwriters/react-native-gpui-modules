@@ -30,7 +30,7 @@ impl GpuiKitIconSpec for GpuiKitIcon {
         _cx: &mut GpuiKitIconContext,
     ) -> AnyElement {
         let mut element = Icon::new(
-            crate::generated::icons::parse(props.name()).unwrap_or(gpui_component::IconName::Info),
+            crate::generated::icons::parse(props.name()).unwrap_or(gpui_kit_assets::IconName::Info),
         );
         {
             let value = props.path();
@@ -62,6 +62,12 @@ impl GpuiKitIconSpec for GpuiKitIcon {
         }
         if let Some(color) = props.color() {
             element = element.text_color(crate::color::hsla(color));
+        }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
         }
         element.into_any_element()
     }

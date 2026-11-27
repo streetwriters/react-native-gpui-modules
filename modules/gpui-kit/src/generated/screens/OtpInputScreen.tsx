@@ -22,7 +22,7 @@ export default function OtpInputScreen() {
         <OtpInput
           ref={ref}
           testID="otp-input"
-          style={{ width: 200, height: 40 }}
+          style={{ height: 40 }}
           {...(values as object)}
           onChange={event =>
             note('onChange ' + JSON.stringify(event.nativeEvent))
@@ -90,6 +90,14 @@ export default function OtpInputScreen() {
             <Text>large</Text>
           </Pressable>
         </View>
+        <Pressable
+          testID="otp-input-prop-custom-size"
+          onPress={() =>
+            set('customSize', ((values['customSize'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>customSize: {String(values['customSize'] ?? 0)}</Text>
+        </Pressable>
         <Pressable
           testID="otp-input-prop-masked"
           onPress={() => set('masked', !values['masked'])}

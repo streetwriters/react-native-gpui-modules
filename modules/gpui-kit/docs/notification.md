@@ -22,6 +22,12 @@ The kit's `Notification`, written by hand on the same specification as the gener
 | ---------------------------- | ---------------------------------- |
 | `onGpuiKitNotificationClose` | `DirectEventHandler<Readonly<{}>>` |
 
+## Commands
+
+- `push`
+- `remove`
+- `clear`
+
 ## Coverage
 
 - `Notification::new`: generated, constructor

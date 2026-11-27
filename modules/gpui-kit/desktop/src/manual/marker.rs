@@ -95,6 +95,13 @@ impl GpuiKitMarkerSpec for GpuiKitMarker {
         if let Some(slot) = slots.take("content") {
             content = content.child(slot);
         }
-        element.content(content).into_any_element()
+        element = element.content(content);
+        if let Some(after) = slots.take("after") {
+            element = element.child(after);
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
+        element.into_any_element()
     }
 }

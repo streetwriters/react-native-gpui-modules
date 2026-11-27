@@ -33,6 +33,12 @@ export default function TextareaScreen() {
           onTokenHover={event =>
             note('onTokenHover ' + JSON.stringify(event.nativeEvent))
           }
+          onValidationFail={event =>
+            note('onValidationFail ' + JSON.stringify(event.nativeEvent))
+          }
+          onSelectionHoldChange={event =>
+            note('onSelectionHoldChange ' + JSON.stringify(event.nativeEvent))
+          }
           onChange={event =>
             note('onChange ' + JSON.stringify(event.nativeEvent))
           }
@@ -43,6 +49,9 @@ export default function TextareaScreen() {
             note('onFocus ' + JSON.stringify(event.nativeEvent))
           }
           onBlur={event => note('onBlur ' + JSON.stringify(event.nativeEvent))}
+          onCursorChange={event =>
+            note('onCursorChange ' + JSON.stringify(event.nativeEvent))
+          }
           onChangeText={() => note('onChangeText')}
         />
       </View>
@@ -125,7 +134,35 @@ export default function TextareaScreen() {
       >
         <Text>setAutoGrow</Text>
       </Pressable>
+      <Pressable
+        testID="textarea-cmd-hold-selection"
+        onPress={() => ref.current?.holdSelection(true)}
+      >
+        <Text>holdSelection</Text>
+      </Pressable>
+      <Pressable
+        testID="textarea-cmd-replace"
+        onPress={() => ref.current?.replace('x')}
+      >
+        <Text>replace</Text>
+      </Pressable>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+        <Pressable
+          testID="textarea-prop-auto-grow-max"
+          onPress={() =>
+            set('autoGrowMax', ((values['autoGrowMax'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>autoGrowMax: {String(values['autoGrowMax'] ?? 0)}</Text>
+        </Pressable>
+        <Pressable
+          testID="textarea-prop-auto-grow-min"
+          onPress={() =>
+            set('autoGrowMin', ((values['autoGrowMin'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>autoGrowMin: {String(values['autoGrowMin'] ?? 0)}</Text>
+        </Pressable>
         <Pressable
           testID="textarea-prop-hard-tabs"
           onPress={() => set('hardTabs', !values['hardTabs'])}
@@ -196,6 +233,14 @@ export default function TextareaScreen() {
             <Text>large</Text>
           </Pressable>
         </View>
+        <Pressable
+          testID="textarea-prop-custom-size"
+          onPress={() =>
+            set('customSize', ((values['customSize'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>customSize: {String(values['customSize'] ?? 0)}</Text>
+        </Pressable>
         <Pressable
           testID="textarea-prop-tab-size"
           onPress={() =>

@@ -22,14 +22,27 @@ impl GpuiKitLabelSpec for GpuiKitLabel {
     }
 
     fn measure(props: &GpuiKitLabelProps, constraint: &MeasureConstraint) -> Option<MeasuredSize> {
+        let size: f32 = crate::style::insets(props.kit_style())
+            .font_size
+            .unwrap_or(16.0);
         let style = TextStyle {
-            size: 16.0,
+            size,
+            line_height: crate::style::insets(props.kit_style())
+                .line_height
+                .unwrap_or(size * 1.25),
             ..TextStyle::default()
         };
-        let extent = measure_text(props.text(), &style, None)?;
-        let height: f32 = 20.0;
-        let mut width = extent.width.ceil() + 0.0;
-        width = width.max(height);
+        let insets = crate::style::insets(props.kit_style());
+        let padding: f32 = 0.0;
+        let outer = insets.width.unwrap_or(constraint.max_width);
+        let available = outer - insets.horizontal - padding;
+        let wrap = (available.is_finite() && available > 0.0).then_some(available);
+        let extent = measure_text(props.text(), &style, wrap)?;
+        let height: f32 = f32::max(0.0, extent.height.ceil()) + insets.vertical;
+        let width = insets
+            .width
+            .unwrap_or(extent.width.ceil() + padding + insets.horizontal)
+            .max(height);
         Some(constraint.clamp(MeasuredSize { width, height }))
     }
 
@@ -59,6 +72,9 @@ impl GpuiKitLabelSpec for GpuiKitLabel {
                     gpui_component::label::HighlightsMatch::Full(text)
                 });
             }
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
         }
         element.into_any_element()
     }

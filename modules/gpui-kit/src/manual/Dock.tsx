@@ -21,6 +21,8 @@ export interface DockPanelEntry {
   /** Panels of one placement with the same group share a tab bar. */
   group?: string;
   closable?: boolean;
+  /** The size of the panel's group within its split, in points. */
+  size?: number;
 }
 
 export interface DockHandle {
@@ -38,6 +40,14 @@ export interface DockProps extends SlotHostProps {
   locked?: boolean;
   /** The size of the left, right and bottom docks. */
   dockSize?: number;
+  /** Sizes of single docks, overriding `dockSize`. */
+  dockSizes?: Partial<Record<Exclude<DockPlacement, 'center'>, number>>;
+  /** Docks the user can collapse. */
+  collapsible?: Exclude<DockPlacement, 'center'>[];
+  /** Shows the dock toggle buttons (default true). */
+  toggleButtonVisible?: boolean;
+  /** Shows a close button on every tab. */
+  closeButtonVisible?: boolean;
   /**
    * A layout from `onLayoutChange` to start from. Its panels are matched to
    * `panels` by `id`, so the same React Native content mounts where the
@@ -64,6 +74,10 @@ export const Dock = forwardRef<DockHandle, DockProps>(function Dock(
     centerAxis,
     locked,
     dockSize,
+    dockSizes,
+    collapsible,
+    toggleButtonVisible,
+    closeButtonVisible,
     layout,
     onLayoutChange,
     onDockToggle,
@@ -94,10 +108,15 @@ export const Dock = forwardRef<DockHandle, DockProps>(function Dock(
           placement: panel.placement ?? 'center',
           group: panel.group ?? '',
           closable: panel.closable ?? true,
+          size: panel.size ?? 0,
         })),
         centerAxis: centerAxis ?? 'horizontal',
         locked: locked ?? false,
         dockSize: dockSize ?? 240,
+        dockSizes: JSON.stringify(dockSizes ?? {}),
+        collapsible: (collapsible ?? ['left', 'right', 'bottom']).join(','),
+        toggleButtonVisible: toggleButtonVisible ?? true,
+        closeButtonVisible: closeButtonVisible ?? false,
         layout: layout ?? '',
         onGpuiKitDockLayoutChange: (
           event: NativeSyntheticEvent<{ layout: string }>,

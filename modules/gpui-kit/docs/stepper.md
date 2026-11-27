@@ -15,6 +15,7 @@ The kit's `Stepper`, written by hand on the same specification as the generated 
 | `disabled`      | `boolean`                                                                       |
 | `layout`        | `WithDefault< 'unset' \| 'horizontal' \| 'vertical', 'unset' >`                 |
 | `size`          | `WithDefault< 'unset' \| 'xsmall' \| 'small' \| 'medium' \| 'large', 'unset' >` |
+| `kitStyle`      | `string`                                                                        |
 
 ## Native events
 
@@ -36,4 +37,6 @@ The kit's `Stepper`, written by hand on the same specification as the generated 
 - `Stepper::with_size`: generated (size)
 - `StepperItem::icon`: generated (items)
 - `StepperItem::disabled`: generated (items)
-- `StepperItem::child`: generated (items), the title of the item
+- `StepperItem::child`: generated (items), the title and description of the item, or its React Native content
+- `StepperItem (Styled)`: generated (items), an item's kitStyle
+- `Stepper (Styled)`: generated (kitStyle)

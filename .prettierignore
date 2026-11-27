@@ -7,6 +7,9 @@ package-lock.json
 Cargo.lock
 **/patches
 example/desktop/autolink
+gpui-kit-example/desktop/autolink
 CHANGELOG.md
 example/ios
 example/android
+tools/gpui-kit-gen/reference/src/story/fixtures
+gpui-kit-example/src/fixtures/stories/data

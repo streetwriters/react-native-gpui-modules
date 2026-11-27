@@ -1,0 +1,482 @@
+[
+  {
+    "klass": "WelcomeStory",
+    "title": "Introduction",
+    "description": "UI components for building fantastic desktop application by using GPUI.",
+    "file": "welcome_story"
+  },
+  {
+    "klass": "AccordionStory",
+    "title": "Accordion",
+    "description": "The accordion uses collapse internally to make it collapsible.",
+    "file": "accordion_story"
+  },
+  {
+    "klass": "AlertStory",
+    "title": "Alert",
+    "description": "Communicate important status changes without interrupting the user's workflow.",
+    "file": "alert_story"
+  },
+  {
+    "klass": "AlertDialogStory",
+    "title": "AlertDialog",
+    "description": "Require a response before the user can continue.",
+    "file": "alert_dialog_story"
+  },
+  {
+    "klass": "AttachmentStory",
+    "title": "Attachment",
+    "description": "Composable file and media attachments with lifecycle states and actions.",
+    "file": "attachment_story"
+  },
+  {
+    "klass": "AvatarStory",
+    "title": "Avatar",
+    "description": "Represent a person or organization with an image or fallback.",
+    "file": "avatar_story"
+  },
+  {
+    "klass": "BadgeStory",
+    "title": "Badge",
+    "description": "A red dot that indicates the number of unread messages.",
+    "file": "badge_story"
+  },
+  {
+    "klass": "BreadcrumbStory",
+    "title": "Breadcrumb",
+    "description": "A breadcrumb navigation element that shows the current location in a hierarchy.",
+    "file": "breadcrumb_story"
+  },
+  {
+    "klass": "BubbleStory",
+    "title": "Bubble",
+    "description": "A styleable chat surface for text, rich content, and reactions.",
+    "file": "bubble_story"
+  },
+  {
+    "klass": "ButtonStory",
+    "title": "Button",
+    "description": "Displays a button or a component that looks like a button.",
+    "file": "button_story"
+  },
+  {
+    "klass": "CalendarStory",
+    "title": "Calendar",
+    "description": "A calendar to select a date or date range.",
+    "file": "calendar_story"
+  },
+  {
+    "klass": "CarouselStory",
+    "title": "Carousel",
+    "description": "A carousel for browsing a set of related items with keyboard and pointer navigation.",
+    "file": "carousel_story"
+  },
+  {
+    "klass": "ChartStory",
+    "title": "Chart",
+    "description": "Beautiful Charts & Graphs.",
+    "file": "chart_story"
+  },
+  {
+    "klass": "CheckboxStory",
+    "title": "Checkbox",
+    "description": "Select one or more independent options.",
+    "file": "checkbox_story"
+  },
+  {
+    "klass": "ClipboardStory",
+    "title": "Clipboard",
+    "description": "Copy text or generated values to the clipboard.",
+    "file": "clipboard_story"
+  },
+  {
+    "klass": "CollapsibleStory",
+    "title": "Collapsible",
+    "description": "An interactive element that expands/collapses.",
+    "file": "collapsible_story"
+  },
+  {
+    "klass": "ColorPickerStory",
+    "title": "ColorPicker",
+    "description": "Choose and preview a color value.",
+    "file": "color_picker_story"
+  },
+  {
+    "klass": "ComboboxStory",
+    "title": "Combobox",
+    "description": "An autocomplete input paired with a searchable dropdown list.",
+    "file": "combobox_story"
+  },
+  {
+    "klass": "CommandStory",
+    "title": "Command",
+    "description": "A searchable list of commands and quick actions.",
+    "file": "command_story"
+  },
+  {
+    "klass": "DataTableStory",
+    "title": "DataTable",
+    "description": "A complex data table with selection, sorting, column moving, and loading more.",
+    "file": "data_table_story"
+  },
+  {
+    "klass": "DatePickerStory",
+    "title": "DatePicker",
+    "description": "A date picker to select a date or date range.",
+    "file": "date_picker_story"
+  },
+  {
+    "klass": "DescriptionListStory",
+    "title": "DescriptionList",
+    "description": "Present labels and values in a structured summary.",
+    "file": "description_list_story"
+  },
+  {
+    "klass": "DialogStory",
+    "title": "Dialog",
+    "description": "Present focused content above the current view.",
+    "file": "dialog_story"
+  },
+  {
+    "klass": "DiffStory",
+    "title": "Diff",
+    "description": "Readonly unified and Git patches, merge conflicts and source files, with review comments.",
+    "file": "diff_story"
+  },
+  {
+    "klass": "DockStory",
+    "title": "Dock",
+    "description": "Drag tabs between groups or towards an edge to split the workspace.",
+    "file": "dock_story"
+  },
+  {
+    "klass": "DropdownButtonStory",
+    "title": "DropdownButton",
+    "description": "A button with an attached dropdown menu for additional options.",
+    "file": "dropdown_button_story"
+  },
+  {
+    "klass": "EditorStory",
+    "title": "Editor",
+    "description": "Code editor with theme-aware syntax highlighting and folding.",
+    "file": "editor_story"
+  },
+  {
+    "klass": "EmptyStory",
+    "title": "Empty",
+    "description": "Compose empty states with icons, avatars, actions, and custom content.",
+    "file": "empty_story"
+  },
+  {
+    "klass": "FormStory",
+    "title": "Form",
+    "description": "Form to collect multiple inputs.",
+    "file": "form_story"
+  },
+  {
+    "klass": "GridLayoutStory",
+    "title": "GridLayout",
+    "description": "A grid whose items can be dragged and resized into place.",
+    "file": "grid_layout_story"
+  },
+  {
+    "klass": "GroupBoxStory",
+    "title": "GroupBox",
+    "description": "",
+    "file": "group_box_story"
+  },
+  {
+    "klass": "HoverCardStory",
+    "title": "HoverCard",
+    "description": "A hover card displays content when hovering over a trigger element, with configurable delays.",
+    "file": "hover_card_story"
+  },
+  {
+    "klass": "IconStory",
+    "title": "Icon",
+    "description": "SVG Icons based on Lucide.dev",
+    "file": "icon_story"
+  },
+  {
+    "klass": "ImageStory",
+    "title": "Image",
+    "description": "Image and SVG image supported.",
+    "file": "image_story"
+  },
+  {
+    "klass": "InputStory",
+    "title": "Input",
+    "description": "Capture and validate short-form text, credentials, identifiers, and formatted values.",
+    "file": "input_story"
+  },
+  {
+    "klass": "InputGroupStory",
+    "title": "Input Group",
+    "description": "Compose inputs and textareas with icons, text, actions, and toolbars in one frame.",
+    "file": "input_group_story"
+  },
+  {
+    "klass": "KbdStory",
+    "title": "Kbd",
+    "description": "A tag style to display keyboard shortcuts",
+    "file": "kbd_story"
+  },
+  {
+    "klass": "LabelStory",
+    "title": "Label",
+    "description": "Display concise text with hierarchy, highlighting, and masking.",
+    "file": "label_story"
+  },
+  {
+    "klass": "ListStory",
+    "title": "List",
+    "description": "A list displays a series of items.",
+    "file": "list_story"
+  },
+  {
+    "klass": "MenuStory",
+    "title": "Menu",
+    "description": "Popup menu and context menu",
+    "file": "menu_story"
+  },
+  {
+    "klass": "MarkerStory",
+    "title": "Marker",
+    "description": "A compact row for conversation status, notifications, and separators.",
+    "file": "marker_story"
+  },
+  {
+    "klass": "MessageStory",
+    "title": "Message",
+    "description": "Compose sender identity, metadata, rich content, and message actions.",
+    "file": "message_story"
+  },
+  {
+    "klass": "MessageScrollerStory",
+    "title": "MessageScroller",
+    "description": "A virtualized message list with tail following, unread navigation, and anchor preservation.",
+    "file": "message_scroller_story"
+  },
+  {
+    "klass": "NativeMenuStory",
+    "title": "NativeMenu",
+    "description": "",
+    "file": "native_menu_story"
+  },
+  {
+    "klass": "NotificationStory",
+    "title": "Notification",
+    "description": "Show transient feedback without interrupting the current task.",
+    "file": "notification_story"
+  },
+  {
+    "klass": "NumberInputStory",
+    "title": "NumberInput",
+    "description": "Adjust constrained numeric values precisely with typing or increment and decrement controls.",
+    "file": "number_input_story"
+  },
+  {
+    "klass": "OtpInputStory",
+    "title": "OtpInput",
+    "description": "Enter short verification and recovery codes with clear grouping and masking controls.",
+    "file": "otp_input_story"
+  },
+  {
+    "klass": "PaginationStory",
+    "title": "Pagination",
+    "description": "Pagination with page navigation, next and previous links.",
+    "file": "pagination_story"
+  },
+  {
+    "klass": "PopoverStory",
+    "title": "Popover",
+    "description": "Show focused content beside a trigger.",
+    "file": "popover_story"
+  },
+  {
+    "klass": "ProgressStory",
+    "title": "Progress",
+    "description": "Show task completion with determinate or loading indicators.",
+    "file": "progress_story"
+  },
+  {
+    "klass": "QuestionnaireStory",
+    "title": "Questionnaire",
+    "description": "Composable multi-step questions with answers, validation, progress, and navigation.",
+    "file": "questionnaire_story"
+  },
+  {
+    "klass": "RadioStory",
+    "title": "Radio",
+    "description": "Choose one option from a set.",
+    "file": "radio_story"
+  },
+  {
+    "klass": "RatingStory",
+    "title": "Rating",
+    "description": "A simple interactive star rating component.",
+    "file": "rating_story"
+  },
+  {
+    "klass": "ResizableStory",
+    "title": "Resizable",
+    "description": "The resizable panels.",
+    "file": "resizable_story"
+  },
+  {
+    "klass": "ScrollbarStory",
+    "title": "Scrollbar",
+    "description": "Add scrollbar to a scrollable element.",
+    "file": "scrollbar_story"
+  },
+  {
+    "klass": "SelectStory",
+    "title": "Select",
+    "description": "Displays a list of options for the user to pick from—triggered by a button.",
+    "file": "select_story"
+  },
+  {
+    "klass": "SeparatorStory",
+    "title": "Separator",
+    "description": "A separator that can be either vertical or horizontal.",
+    "file": "separator_story"
+  },
+  {
+    "klass": "SettingsStory",
+    "title": "Settings",
+    "description": "A collection of settings groups and items for the application.",
+    "file": "settings_story"
+  },
+  {
+    "klass": "ShellStory",
+    "title": "Shell",
+    "description": "",
+    "file": "shell_story"
+  },
+  {
+    "klass": "SheetStory",
+    "title": "Sheet",
+    "description": "Sheet for open a popup in the edge of the window",
+    "file": "sheet_story"
+  },
+  {
+    "klass": "ShimmerStory",
+    "title": "Shimmer",
+    "description": "Reusable, theme-aware text loading effects with composable timing and appearance.",
+    "file": "shimmer_story"
+  },
+  {
+    "klass": "SidebarStory",
+    "title": "Sidebar",
+    "description": "A composable, themeable and customizable sidebar component.",
+    "file": "sidebar_story"
+  },
+  {
+    "klass": "SkeletonStory",
+    "title": "Skeleton",
+    "description": "Use to show a placeholder while content is loading.",
+    "file": "skeleton_story"
+  },
+  {
+    "klass": "SliderStory",
+    "title": "Slider",
+    "description": "Displays a slider control for selecting a value within a range.",
+    "file": "slider_story"
+  },
+  {
+    "klass": "SpeechStory",
+    "title": "Speech",
+    "description": "Dictate text through the system recognizer or your own.",
+    "file": "speech_story"
+  },
+  {
+    "klass": "SpinnerStory",
+    "title": "Spinner",
+    "description": "Displays an spinner showing the completion progress of a task.",
+    "file": "spinner_story"
+  },
+  {
+    "klass": "StatusBarStory",
+    "title": "StatusBar",
+    "description": "A horizontal bar with left/center/right regions, usually placed at the bottom.",
+    "file": "status_bar_story"
+  },
+  {
+    "klass": "StepperStory",
+    "title": "Stepper",
+    "description": "A step-by-step process for users to navigate through a series of steps.",
+    "file": "stepper_story"
+  },
+  {
+    "klass": "SwitchStory",
+    "title": "Switch",
+    "description": "Turn a setting on or off.",
+    "file": "switch_story"
+  },
+  {
+    "klass": "TableStory",
+    "title": "Table",
+    "description": "A basic table component for directly rendering tabular data.",
+    "file": "table_story"
+  },
+  {
+    "klass": "TabsStory",
+    "title": "Tabs",
+    "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+    "file": "tabs_story"
+  },
+  {
+    "klass": "TagStory",
+    "title": "Tag",
+    "description": "A short item that can be used to categorize or label content.",
+    "file": "tag_story"
+  },
+  {
+    "klass": "TextareaStory",
+    "title": "Textarea",
+    "description": "Input with multi-line mode.",
+    "file": "textarea_story"
+  },
+  {
+    "klass": "ThemeColorsStory",
+    "title": "ThemeColors",
+    "description": "",
+    "file": null
+  },
+  {
+    "klass": "TimeFieldStory",
+    "title": "TimeField",
+    "description": "Edit a time of day segment by segment, on a 24-hour or 12-hour clock.",
+    "file": "time_field_story"
+  },
+  {
+    "klass": "ToggleStory",
+    "title": "Toggle",
+    "description": "Turn an option on or off, alone or in a group.",
+    "file": "toggle_story"
+  },
+  {
+    "klass": "ToolbarStory",
+    "title": "Toolbar",
+    "description": "Groups commands and controls into one keyboard-navigable row.",
+    "file": "toolbar_story"
+  },
+  {
+    "klass": "TooltipStory",
+    "title": "Tooltip",
+    "description": "Describe a control on hover.",
+    "file": "tooltip_story"
+  },
+  {
+    "klass": "TreeStory",
+    "title": "Tree",
+    "description": "",
+    "file": "tree_story"
+  },
+  {
+    "klass": "VirtualListStory",
+    "title": "VirtualList",
+    "description": "",
+    "file": "virtual_list_story"
+  }
+]

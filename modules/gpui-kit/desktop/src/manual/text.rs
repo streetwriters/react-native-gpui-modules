@@ -47,6 +47,9 @@ impl GpuiKitTextViewSpec for GpuiKitTextView {
             view = view.max_lines(props.max_lines() as usize);
         }
         let _ = cx;
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut view), &style);
+        }
         view.into_any_element()
     }
 }

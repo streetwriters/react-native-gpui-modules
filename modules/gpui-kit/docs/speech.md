@@ -7,18 +7,26 @@ The kit's `Speech`, written by hand on the same specification as the generated c
 
 ## Native props
 
-| Name                  | Type                         |
-| --------------------- | ---------------------------- |
-| `showWaveform`        | `WithDefault<boolean, true>` |
-| `showTranscript`      | `WithDefault<boolean, true>` |
-| `showWhenUnsupported` | `WithDefault<boolean, true>` |
+| Name                  | Type                                              |
+| --------------------- | ------------------------------------------------- |
+| `showWaveform`        | `WithDefault<boolean, true>`                      |
+| `showTranscript`      | `WithDefault<boolean, true>`                      |
+| `showWhenUnsupported` | `WithDefault<boolean, true>`                      |
+| `recognizer`          | `WithDefault<'system' \| 'js', 'system'>`         |
+| `audioInput`          | `WithDefault<'microphone' \| 'js', 'microphone'>` |
+| `variant`             | `WithDefault<'row' \| 'dictation', 'row'>`        |
+| `placeholder`         | `string`                                          |
 
 ## Native events
 
-| Name                    | Type                                                  |
-| ----------------------- | ----------------------------------------------------- |
-| `onGpuiKitSpeechStatus` | `DirectEventHandler< Readonly<{ status: string }> >`  |
-| `onGpuiKitSpeechError`  | `DirectEventHandler< Readonly<{ message: string }> >` |
+| Name                              | Type                                                  |
+| --------------------------------- | ----------------------------------------------------- |
+| `onGpuiKitSpeechRecognizerFinish` | `DirectEventHandler< Readonly<{}> >`                  |
+| `onGpuiKitSpeechRecognizerEnd`    | `DirectEventHandler<Readonly<{}>>`                    |
+| `onGpuiKitSpeechRecognizerAudio`  | `DirectEventHandler< Readonly<{ samples: Int32 }> >`  |
+| `onGpuiKitSpeechAudioStop`        | `DirectEventHandler<Readonly<{}>>`                    |
+| `onGpuiKitSpeechStatus`           | `DirectEventHandler< Readonly<{ status: string }> >`  |
+| `onGpuiKitSpeechError`            | `DirectEventHandler< Readonly<{ message: string }> >` |
 
 ## Commands
 
@@ -26,6 +34,12 @@ The kit's `Speech`, written by hand on the same specification as the generated c
 - `stop`
 - `cancel`
 - `toggle`
+- `recognizerReady`
+- `pushHypothesis`
+- `pushPhrase`
+- `finishRecognition`
+- `failRecognition`
+- `pushAudio`
 
 ## Coverage
 
@@ -38,5 +52,5 @@ The kit's `Speech`, written by hand on the same specification as the generated c
 - `SpeechButton::show_when_unsupported`: generated (showWhenUnsupported)
 - `SpeechWaveform::new`: generated (showWaveform)
 - `SpeechState::transcript`: generated (showTranscript), drawn beside the button and reported by onTranscript
-- `SpeechState::recognizer`: skipped, a custom recognizer is a Rust trait implementation; JS cannot provide one, the system recognizer is used
-- `SpeechState::input`: skipped, a custom audio source is a Rust trait implementation; the microphone is used
+- `SpeechState::recognizer`: generated (recognizer), recognizer js: a recognizer whose results JavaScript pushes with pushHypothesis, pushPhrase and finishRecognition, with onRecognizerStart, onRecognizerFinish and onRecognizerEnd
+- `SpeechState::input`: generated (audioInput), audioInput js: an audio source fed 16-bit PCM by pushAudio, between onAudioStart and onAudioStop

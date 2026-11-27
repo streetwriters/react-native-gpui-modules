@@ -5,6 +5,9 @@ export interface NativeProps extends ViewProps {
   description?: string;
   icon?: string;
   slots?: string;
+  kitStyle?: string;
+  headerStyle?: string;
+  contentStyle?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitEmpty', {

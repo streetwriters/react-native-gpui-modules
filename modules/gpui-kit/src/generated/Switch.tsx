@@ -4,6 +4,7 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitSwitchNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export type SwitchChangeEvent = NativeSyntheticEvent<
   Readonly<{ state: boolean }>
@@ -22,6 +23,8 @@ export interface SwitchProps extends ViewProps {
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   disabled?: boolean;
   focusRing?: boolean;
+  customSize?: number;
+  kitStyle?: KitStyle;
   onChange?: (event: SwitchChangeEvent) => void;
 }
 
@@ -33,6 +36,7 @@ export const Switch = forwardRef<ComponentRef<typeof Native>, SwitchProps>(
         ref={ref}
         {...rest}
         style={[style]}
+        kitStyle={kitStyle(props.kitStyle)}
         onGpuiKitSwitchChange={onChange}
       />
     );

@@ -4,6 +4,7 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitShimmerTextNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export interface ShimmerTextProps extends ViewProps {
   children?: React.ReactNode;
@@ -14,6 +15,7 @@ export interface ShimmerTextProps extends ViewProps {
   spread?: number;
   reverse?: boolean;
   once?: boolean;
+  kitStyle?: KitStyle;
 }
 
 export const ShimmerText = forwardRef<
@@ -21,5 +23,12 @@ export const ShimmerText = forwardRef<
   ShimmerTextProps
 >(function ShimmerText(props, ref) {
   const { style, children, ...rest } = props;
-  return <Native ref={ref} {...rest} style={[style]} />;
+  return (
+    <Native
+      ref={ref}
+      {...rest}
+      style={[style]}
+      kitStyle={kitStyle(props.kitStyle)}
+    />
+  );
 });

@@ -9,14 +9,15 @@ A One Time Password (OTP) input element.
 
 ## Props
 
-| Prop        | Type                                               | Native method          |
-| ----------- | -------------------------------------------------- | ---------------------- |
-| `length`    | `Int32`                                            | constructor argument   |
-| `groups`    | `Int32`                                            | `OtpInput::groups`     |
-| `disabled`  | `boolean`                                          | `OtpInput::disabled`   |
-| `focusRing` | `WithDefault<boolean, true>`                       | `OtpInput::focus_ring` |
-| `size`      | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `OtpInput::with_size`  |
-| `masked`    | `boolean`                                          | `OtpInput::set_masked` |
+| Prop         | Type                                               | Native method          |
+| ------------ | -------------------------------------------------- | ---------------------- |
+| `length`     | `Int32`                                            | constructor argument   |
+| `groups`     | `Int32`                                            | `OtpInput::groups`     |
+| `disabled`   | `boolean`                                          | `OtpInput::disabled`   |
+| `focusRing`  | `WithDefault<boolean, true>`                       | `OtpInput::focus_ring` |
+| `size`       | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `OtpInput::with_size`  |
+| `customSize` | `Double`                                           | constructor argument   |
+| `masked`     | `boolean`                                          | `OtpInput::set_masked` |
 
 ## Events
 

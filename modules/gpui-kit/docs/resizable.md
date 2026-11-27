@@ -7,16 +7,20 @@ The kit's `Resizable`, written by hand on the same specification as the generate
 
 ## Native props
 
-| Name       | Type                                |
-| ---------- | ----------------------------------- |
-| `vertical` | `boolean`                           |
-| `panels`   | `ReadonlyArray<ResizablePanelSpec>` |
+| Name         | Type      |
+| ------------ | --------- |
+| `vertical`   | `boolean` |
+| `panelsJson` | `string`  |
 
 ## Native events
 
 | Name                       | Type                                                |
 | -------------------------- | --------------------------------------------------- |
 | `onGpuiKitResizableResize` | `DirectEventHandler< Readonly<{ sizes: string }> >` |
+
+## Commands
+
+- `resizePanel`
 
 ## Coverage
 

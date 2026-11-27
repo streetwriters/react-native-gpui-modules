@@ -37,7 +37,13 @@ use gpui_component::tag::{Tag, TagVariant};
 use gpui_component::{Disableable as _, Icon, IconName, Sizable as _, Size};
 use serde_json::Value;
 
-const CASES: &str = include_str!("../../../../example/src/fixtures/gpuiKitParityCases.json");
+mod story;
+pub(crate) use story::stories;
+pub(crate) use story::support::{ChangeStorySize, Story, section, story_toolbar, story_toolbar_group};
+
+gpui::actions!(story, [TestAction]);
+
+const CASES: &str = include_str!("../../../../gpui-kit-example/src/fixtures/gpuiKitParityCases.json");
 
 type Log = Rc<RefCell<Vec<String>>>;
 
@@ -48,6 +54,7 @@ struct Case {
     height: f32,
     props: Value,
     style: Value,
+    child: Option<Value>,
 }
 
 struct States {
@@ -95,8 +102,56 @@ fn icon(name: &str) -> Option<IconName> {
         "heart" => IconName::Heart,
         "arrow-up" => IconName::ArrowUp,
         "info" => IconName::Info,
+        "check" => IconName::Check,
+        "bell" => IconName::Bell,
+        "inbox" => IconName::Inbox,
         _ => return None,
     })
+}
+
+fn kit_badge(props: &Value) -> Badge {
+    let n = |k: &str| props.get(k).and_then(Value::as_f64);
+    let st = |k: &str| props.get(k).and_then(Value::as_str).unwrap_or("").to_string();
+    let mut badge = Badge::new().count(n("count").unwrap_or(0.0) as usize);
+    if props.get("dot").and_then(Value::as_bool) == Some(true) {
+        badge = badge.dot();
+    }
+    if let Some(max) = n("max") {
+        badge = badge.max(max as usize);
+    }
+    if let Some(name) = icon(&st("icon")) {
+        badge = badge.icon(name);
+    }
+    if let Some(c) = color(&st("color")) {
+        badge = badge.color(c);
+    }
+    if let Some(size) = kit_size(&st("size")) {
+        badge = badge.with_size(size);
+    }
+    badge
+}
+
+/// The child a Badge case sits on: an icon, an avatar, or another badge.
+fn child_element(child: &Value) -> AnyElement {
+    let name = child["name"].as_str().unwrap_or("").to_string();
+    match child["kind"].as_str() {
+        Some("icon") => Icon::new(icon(&name).unwrap_or(IconName::Info)).into_any_element(),
+        Some("avatar") => {
+            let mut avatar = Avatar::new().name(name);
+            if let Some(size) = child["size"].as_str().and_then(kit_size) {
+                avatar = avatar.with_size(size);
+            }
+            avatar.into_any_element()
+        }
+        Some("badge") => {
+            let mut badge = kit_badge(&child["props"]);
+            if let Some(inner) = child.get("child") {
+                badge = badge.child(child_element(inner));
+            }
+            badge.into_any_element()
+        }
+        _ => gpui::div().into_any_element(),
+    }
 }
 
 impl CaseView {
@@ -172,9 +227,26 @@ impl CaseView {
                 }
                 tag.child(self.s("label")).into_any_element()
             }
-            "Badge" => Badge::new()
-                .count(self.n("count").unwrap_or(0.0) as usize)
+            "Spinner" => {
+                let mut spinner = gpui_component::spinner::Spinner::new();
+                if let Some(size) = size {
+                    spinner = spinner.with_size(size);
+                }
+                spinner.into_any_element()
+            }
+            "Skeleton" => gpui_component::skeleton::Skeleton::new()
+                .w(px(120.))
+                .h(px(16.))
                 .into_any_element(),
+            "ShimmerText" => gpui_component::shimmer::ShimmerText::new(self.s("text"))
+                .into_any_element(),
+            "Badge" => {
+                let mut badge = kit_badge(&self.case.props);
+                if let Some(child) = self.case.child.as_ref() {
+                    badge = badge.child(child_element(child));
+                }
+                badge.into_any_element()
+            }
             "Icon" => {
                 let mut element = Icon::new(icon(&self.s("name")).unwrap_or(IconName::Info));
                 if let Some(size) = size {
@@ -343,6 +415,12 @@ impl Render for CaseView {
         if let Some(h) = style.get("height").and_then(Value::as_f64) {
             frame = frame.h(px(h as f32));
         }
+        if let Some(m) = style.get("marginTop").and_then(Value::as_f64) {
+            frame = frame.mt(px(m as f32));
+        }
+        if let Some(m) = style.get("marginLeft").and_then(Value::as_f64) {
+            frame = frame.ml(px(m as f32));
+        }
         let background = serde_json::from_str::<Value>(CASES)
             .ok()
             .and_then(|v| v.get("background").and_then(Value::as_str).and_then(color))
@@ -363,11 +441,12 @@ struct Args {
     case: Option<String>,
     click: Option<(f32, f32)>,
     typed: Option<String>,
+    story: Option<String>,
 }
 
 fn args() -> Args {
     let mut out = PathBuf::from("out");
-    let (mut case, mut click, mut typed) = (None, None, None);
+    let (mut case, mut click, mut typed, mut story) = (None, None, None, None);
     let mut it = std::env::args().skip(1);
     while let Some(arg) = it.next() {
         match arg.as_str() {
@@ -380,10 +459,11 @@ fn args() -> Args {
                 })
             }
             "--type" => typed = it.next(),
+            "--story" => story = it.next(),
             _ => {}
         }
     }
-    Args { out, case, click, typed }
+    Args { out, case, click, typed, story }
 }
 
 fn cases() -> Vec<Rc<Case>> {
@@ -400,6 +480,7 @@ fn cases() -> Vec<Rc<Case>> {
                 height: c["height"].as_f64().unwrap() as f32,
                 props: c["props"].clone(),
                 style: c.get("style").cloned().unwrap_or(Value::Null),
+                child: c.get("child").cloned(),
             })
         })
         .collect()
@@ -413,17 +494,206 @@ fn capture(window: &mut Window, app: &mut App, path: &PathBuf) -> anyhow::Result
     Ok(())
 }
 
+/// The window of a story capture, in points; the React Native story fixtures
+/// use the same size.
+const STORY_SIZE: (f32, f32) = (960., 1100.);
+
+struct StoryFrame {
+    story: gpui::AnyView,
+    paddings: gpui::Pixels,
+}
+
+impl Render for StoryFrame {
+    fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
+        use gpui_component::ActiveTheme as _;
+        div()
+            .size_full()
+            .bg(cx.theme().background)
+            .text_color(cx.theme().foreground)
+            .child(div().size_full().p(self.paddings).child(self.story.clone()))
+    }
+}
+
+/// `Story::paddings` of the stories that override it.
+fn story_paddings(name: &str) -> gpui::Pixels {
+    match name {
+        "dock" | "settings" | "welcome" | "chart" => px(0.),
+        _ => px(16.),
+    }
+}
+
+fn story_view(name: &str, window: &mut Window, cx: &mut App) -> gpui::AnyView {
+    use story::stories::*;
+    match name {
+        "badge" => BadgeStory::new_view(window, cx).into(),
+        "avatar" => AvatarStory::new_view(window, cx).into(),
+        "button" => ButtonStory::new_view(window, cx).into(),
+        "tag" => TagStory::new_view(window, cx).into(),
+        "icon" => IconStory::new_view(window, cx).into(),
+        "label" => LabelStory::new_view(window, cx).into(),
+        "spinner" => SpinnerStory::new_view(window, cx).into(),
+        "skeleton" => SkeletonStory::new_view(window, cx).into(),
+        "progress" => ProgressStory::new_view(window, cx).into(),
+        "switch" => SwitchStory::new_view(window, cx).into(),
+        "checkbox" => CheckboxStory::new_view(window, cx).into(),
+        "radio" => RadioStory::new_view(window, cx).into(),
+        "rating" => RatingStory::new_view(window, cx).into(),
+        "slider" => SliderStory::new_view(window, cx).into(),
+        "kbd" => KbdStory::new_view(window, cx).into(),
+        "separator" => SeparatorStory::new_view(window, cx).into(),
+        "alert" => AlertStory::new_view(window, cx).into(),
+        "toggle" => ToggleStory::new_view(window, cx).into(),
+        "shimmer" => ShimmerStory::new_view(window, cx).into(),
+        "breadcrumb" => BreadcrumbStory::new_view(window, cx).into(),
+        "calendar" => CalendarStory::new_view(window, cx).into(),
+        "clipboard" => ClipboardStory::new_view(window, cx).into(),
+        "image" => ImageStory::new_view(window, cx).into(),
+        "pagination" => PaginationStory::new_view(window, cx).into(),
+        "group_box" => GroupBoxStory::new_view(window, cx).into(),
+        "otp_input" => OtpInputStory::new_view(window, cx).into(),
+        "time_field" => TimeFieldStory::new_view(window, cx).into(),
+        "description_list" => DescriptionListStory::new_view(window, cx).into(),
+        "empty" => EmptyStory::new_view(window, cx).into(),
+        "number_input" => NumberInputStory::new_view(window, cx).into(),
+        "color_picker" => ColorPickerStory::new_view(window, cx).into(),
+        "date_picker" => DatePickerStory::new_view(window, cx).into(),
+        "select" => SelectStory::new_view(window, cx).into(),
+        "form" => FormStory::new_view(window, cx).into(),
+        "textarea" => TextareaStory::new_view(window, cx).into(),
+        "input" => InputStory::new_view(window, cx).into(),
+        "input_group" => InputGroupStory::new_view(window, cx).into(),
+        "combobox" => ComboboxStory::new_view(window, cx).into(),
+        "table" => TableStory::new_view(window, cx).into(),
+        "dock" => DockStory::new_view(window, cx).into(),
+        "tree" => TreeStory::new_view(window, cx).into(),
+        "speech" => SpeechStory::new_view(window, cx).into(),
+        "tabs" => TabsStory::new_view(window, cx).into(),
+        "tooltip" => TooltipStory::new_view(window, cx).into(),
+        "stepper" => StepperStory::new_view(window, cx).into(),
+        "status_bar" => StatusBarStory::new_view(window, cx).into(),
+        "hover_card" => HoverCardStory::new_view(window, cx).into(),
+        "notification" => NotificationStory::new_view(window, cx).into(),
+        "dropdown_button" => DropdownButtonStory::new_view(window, cx).into(),
+        "native_menu" => NativeMenuStory::new_view(window, cx).into(),
+        "menu" => MenuStory::new_view(window, cx).into(),
+        "popover" => PopoverStory::new_view(window, cx).into(),
+        "alert_dialog" => AlertDialogStory::new_view(window, cx).into(),
+        "dialog" => DialogStory::new_view(window, cx).into(),
+        "sheet" => SheetStory::new_view(window, cx).into(),
+        "accordion" => AccordionStory::new_view(window, cx).into(),
+        "collapsible" => CollapsibleStory::new_view(window, cx).into(),
+        "toolbar" => ToolbarStory::new_view(window, cx).into(),
+        "resizable" => ResizableStory::new_view(window, cx).into(),
+        "virtual_list" => VirtualListStory::new_view(window, cx).into(),
+        "scrollbar" => ScrollbarStory::new_view(window, cx).into(),
+        "welcome" => WelcomeStory::new_view(window, cx).into(),
+        "bubble" => BubbleStory::new_view(window, cx).into(),
+        "attachment" => AttachmentStory::new_view(window, cx).into(),
+        "message" => MessageStory::new_view(window, cx).into(),
+        "marker" => MarkerStory::new_view(window, cx).into(),
+        "carousel" => CarouselStory::new_view(window, cx).into(),
+        "command" => CommandStory::new_view(window, cx).into(),
+        "list" => ListStory::new_view(window, cx).into(),
+        "grid_layout" => GridLayoutStory::new_view(window, cx).into(),
+        "settings" => SettingsStory::new_view(window, cx).into(),
+        "diff" => DiffStory::new_view(window, cx).into(),
+        "editor" => EditorStory::new_view(window, cx).into(),
+        "sidebar" => SidebarStory::new_view(window, cx).into(),
+        "questionnaire" => QuestionnaireStory::new_view(window, cx).into(),
+        "message_scroller" => MessageScrollerStory::new_view(window, cx).into(),
+        "theme_colors" => ThemeColorsStory::new_view(window, cx).into(),
+        "chart" => ChartStory::new_view(window, cx).into(),
+        "data_table" => DataTableStory::new_view(window, cx).into(),
+        "shell" => ShellStory::new_view(window, cx).into(),
+        other => panic!("no vendored story {other}"),
+    }
+}
+
+/// Opens the official story `name` in a window of [`STORY_SIZE`] and saves
+/// `<out>/story-<name>.png` once its images had time to load.
+fn run_story(args: Rc<Args>, name: String) {
+    gpui_platform::application()
+        .with_assets(gpui_kit_assets::AllAssets)
+        .with_http_client(std::sync::Arc::new(reqwest_client::ReqwestClient::new()))
+        .run(move |cx: &mut App| {
+            gpui_component::init(cx);
+            cx.set_reduce_motion(true);
+            cx.spawn(async move |cx| {
+                let bounds = Bounds::new(
+                    point(px(0.0), px(0.0)),
+                    size(px(STORY_SIZE.0), px(STORY_SIZE.1)),
+                );
+                let displays: Vec<Option<gpui::DisplayId>> = cx
+                    .update(|cx| cx.displays().iter().map(|d| Some(d.id())).collect::<Vec<_>>());
+                let mut handle = None;
+                for display_id in displays.into_iter().chain([None]) {
+                    let options = WindowOptions {
+                        window_bounds: Some(WindowBounds::Windowed(bounds)),
+                        titlebar: None,
+                        focus: false,
+                        show: false,
+                        display_id,
+                        ..Default::default()
+                    };
+                    let name = name.clone();
+                    let opened = cx
+                        .open_window(options, move |window, cx| {
+                            let view: gpui::AnyView =
+                                if window.scale_factor() < 2.0 && display_id.is_some() {
+                                    cx.new(|_| gpui::Empty).into()
+                                } else {
+                                    let story = story_view(&name, window, cx);
+                                    let paddings = story_paddings(&name);
+                                    cx.new(|_| StoryFrame { story, paddings }).into()
+                                };
+                            cx.new(|cx| gpui_base::Root::new(view, window, cx))
+                        })
+                        .expect("open window");
+                    let scale = cx
+                        .update_window(opened.into(), |_, window, _| window.scale_factor())
+                        .unwrap_or(1.0);
+                    if scale >= 2.0 || display_id.is_none() {
+                        handle = Some(opened);
+                        break;
+                    }
+                    let _ = cx.update_window(opened.into(), |_, window, _| window.remove_window());
+                }
+                let handle = handle.expect("open window");
+                for _ in 0..100 {
+                    cx.background_executor().timer(Duration::from_millis(100)).await;
+                    let _ = cx.update_window(handle.into(), |_, window, app| {
+                        window.refresh();
+                        window.draw(app).clear(app);
+                    });
+                }
+                let path = args.out.join(format!("story-{}.png", args.story.as_deref().unwrap_or("")));
+                let _ = cx.update_window(handle.into(), |_, window, app| {
+                    if let Err(error) = capture(window, app, &path) {
+                        eprintln!("story: {error}");
+                    }
+                });
+                let _ = cx.update(|cx| cx.quit());
+            })
+            .detach();
+        });
+}
+
 fn main() {
     let args = Rc::new(args());
     std::fs::create_dir_all(&args.out).expect("out dir");
+    if let Some(name) = args.story.clone() {
+        run_story(args, name);
+        return;
+    }
     let selected: Vec<Rc<Case>> = cases()
         .into_iter()
         .filter(|c| args.case.as_ref().is_none_or(|id| *id == c.id))
         .collect();
     gpui_platform::application()
-        .with_assets(gpui_kit_assets::Assets)
+        .with_assets(gpui_kit_assets::AllAssets)
         .run(move |cx: &mut App| {
             gpui_component::init(cx);
+            cx.set_reduce_motion(true);
             cx.spawn(async move |cx| {
                 for case in selected {
                     let log: Log = Rc::default();

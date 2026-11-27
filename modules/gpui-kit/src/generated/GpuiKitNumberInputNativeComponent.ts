@@ -20,9 +20,12 @@ export interface NativeProps extends ViewProps {
     'unset' | 'xsmall' | 'small' | 'medium' | 'large',
     'unset'
   >;
+  customSize?: CodegenTypes.Double;
+  kitStyle?: string;
   textAlign?: CodegenTypes.WithDefault<'left' | 'center' | 'right', 'left'>;
   contextMenuEnabled?: CodegenTypes.WithDefault<boolean, true>;
   foldBackground?: ColorValue;
+  scrollbarStyleJson?: string;
   readonly?: boolean;
   cleanOnEscape?: boolean;
   submitOnEnter?: boolean;
@@ -32,6 +35,7 @@ export interface NativeProps extends ViewProps {
   maskPattern?: string;
   masked?: boolean;
   pattern?: string;
+  validationRules?: string;
   step?: CodegenTypes.Double;
   min?: CodegenTypes.Double;
   max?: CodegenTypes.Double;
@@ -41,6 +45,12 @@ export interface NativeProps extends ViewProps {
   controlled?: boolean;
   eventCount?: CodegenTypes.Int32;
   slots?: string;
+  onGpuiKitNumberInputValidationFail?: CodegenTypes.DirectEventHandler<
+    Readonly<{ text: string; message: string }>
+  >;
+  onGpuiKitNumberInputSelectionHoldChange?: CodegenTypes.DirectEventHandler<
+    Readonly<{ held: boolean }>
+  >;
   onGpuiKitNumberInputChange?: CodegenTypes.DirectEventHandler<
     Readonly<{ text: string; eventCount: CodegenTypes.Int32 }>
   >;
@@ -49,6 +59,9 @@ export interface NativeProps extends ViewProps {
   >;
   onGpuiKitNumberInputFocus?: CodegenTypes.DirectEventHandler<null>;
   onGpuiKitNumberInputBlur?: CodegenTypes.DirectEventHandler<null>;
+  onGpuiKitNumberInputStep?: CodegenTypes.DirectEventHandler<
+    Readonly<{ increment: boolean }>
+  >;
 }
 
 interface NativeCommands {
@@ -96,6 +109,10 @@ interface NativeCommands {
     text: string,
     label: string,
   ) => void;
+  holdSelection: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    hold: boolean,
+  ) => void;
 }
 
 export const Commands = codegenNativeCommands<NativeCommands>({
@@ -112,6 +129,7 @@ export const Commands = codegenNativeCommands<NativeCommands>({
     'setSelectedRangeWithDirection',
     'setSearchQuery',
     'insertToken',
+    'holdSelection',
   ],
 });
 

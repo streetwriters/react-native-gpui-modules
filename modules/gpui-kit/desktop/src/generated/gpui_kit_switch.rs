@@ -32,17 +32,37 @@ impl GpuiKitSwitchSpec for GpuiKitSwitch {
     }
 
     fn measure(props: &GpuiKitSwitchProps, constraint: &MeasureConstraint) -> Option<MeasuredSize> {
+        let size: f32 =
+            crate::style::insets(props.kit_style())
+                .font_size
+                .unwrap_or(match props.size() {
+                    GpuiKitSwitchSize::Xsmall | GpuiKitSwitchSize::Small => 12.0,
+                    _ => 14.0,
+                });
         let style = TextStyle {
-            size: match props.size() {
-                GpuiKitSwitchSize::Xsmall | GpuiKitSwitchSize::Small => 12.0,
-                _ => 14.0,
-            },
+            size,
+            line_height: crate::style::insets(props.kit_style())
+                .line_height
+                .unwrap_or(20.0),
             ..TextStyle::default()
         };
-        let extent = measure_text(props.label(), &style, None)?;
-        let height: f32 = 20.0;
-        let mut width = extent.width.ceil() + 44.0;
-        width = width.max(height);
+        if props.label().is_empty() {
+            return Some(constraint.clamp(MeasuredSize {
+                width: 36.0,
+                height: 20.0,
+            }));
+        }
+        let insets = crate::style::insets(props.kit_style());
+        let padding: f32 = 44.0;
+        let outer = insets.width.unwrap_or(constraint.max_width);
+        let available = outer - insets.horizontal - padding;
+        let wrap = (available.is_finite() && available > 0.0).then_some(available);
+        let extent = measure_text(props.label(), &style, wrap)?;
+        let height: f32 = f32::max(20.0, extent.height.ceil()) + insets.vertical;
+        let width = insets
+            .width
+            .unwrap_or(extent.width.ceil() + padding + insets.horizontal)
+            .max(height);
         Some(constraint.clamp(MeasuredSize { width, height }))
     }
 
@@ -100,6 +120,12 @@ impl GpuiKitSwitchSpec for GpuiKitSwitch {
             element = element.disabled(true);
         }
         element = gpui_base::FocusableExt::focus_ring(element, props.focus_ring());
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
         {
             let sender = sender.clone();
             element = element.on_change(move |event, _window, _cx| {

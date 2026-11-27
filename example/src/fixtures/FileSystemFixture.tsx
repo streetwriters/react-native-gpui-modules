@@ -82,7 +82,9 @@ export function FileSystemFixture() {
         // The sync forms must work on the JS thread.
         record(`sync ${fs.existsSync(binPath) ? 'exists' : 'missing'}`);
         record(
-          `syncRead ${fs.readFileSync(textPath, 'utf8') === text ? 'ok' : 'MISMATCH'}`,
+          `syncRead ${
+            fs.readFileSync(textPath, 'utf8') === text ? 'ok' : 'MISMATCH'
+          }`,
         );
 
         // A missing file must reject with Node's code and message shape.
@@ -93,7 +95,11 @@ export function FileSystemFixture() {
           const code = (error as { code?: string }).code;
           const message = (error as Error).message;
           record(
-            `enoent ${code === 'ENOENT' && message.startsWith('ENOENT:') ? 'ok' : `BAD ${code} ${message}`}`,
+            `enoent ${
+              code === 'ENOENT' && message.startsWith('ENOENT:')
+                ? 'ok'
+                : `BAD ${code} ${message}`
+            }`,
           );
         }
 
@@ -126,7 +132,9 @@ export function FileSystemFixture() {
         await offsetHandle.close();
         const afterOffset = await fs.promises.readFile(handlePath, 'utf8');
         record(
-          `writeOffset ${afterOffset === 'ef23456789' ? 'ok' : `BAD ${afterOffset}`}`,
+          `writeOffset ${
+            afterOffset === 'ef23456789' ? 'ok' : `BAD ${afterOffset}`
+          }`,
         );
 
         // An out-of-range window is rejected before any bytes are consumed, so the
@@ -142,7 +150,9 @@ export function FileSystemFixture() {
         const afterRange = await rangeHandle.read(2, 0, 2, 0);
         await rangeHandle.close();
         record(
-          `rangeCursor ${afterRange.buffer[0] === 0x65 ? 'ok' : `BAD ${afterRange.buffer[0]}`}`,
+          `rangeCursor ${
+            afterRange.buffer[0] === 0x65 ? 'ok' : `BAD ${afterRange.buffer[0]}`
+          }`,
         );
 
         // A file position, which is the third argument; the second is an offset
@@ -201,7 +211,9 @@ export function FileSystemFixture() {
           await fs.promises.symlink(`${dir}/nested`, `${dir}/link`, 'dir');
           const through = await fs.promises.readdir(`${dir}/link`);
           record(
-            `symlinkDir ${through.includes('middle.txt') ? 'ok' : `BAD ${through.join(',')}`}`,
+            `symlinkDir ${
+              through.includes('middle.txt') ? 'ok' : `BAD ${through.join(',')}`
+            }`,
           );
         } catch (error) {
           record(

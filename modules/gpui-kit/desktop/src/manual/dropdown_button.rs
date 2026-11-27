@@ -47,6 +47,22 @@ impl GpuiKitDropdownButtonSpec for GpuiKitDropdownButton {
         if props.loading() {
             button = button.loading(true);
         }
+        if props.compact() {
+            button = button.compact();
+        }
+        if !props.tooltip().is_empty() {
+            button = button.tooltip(props.tooltip().to_string());
+        }
+        if let Some(variant) = button_variant(props.button_variant()) {
+            button = button.with_variant(variant);
+        }
+        match props.button_size() {
+            "xsmall" => button = button.with_size(Size::XSmall),
+            "small" => button = button.with_size(Size::Small),
+            "medium" => button = button.with_size(Size::Medium),
+            "large" => button = button.with_size(Size::Large),
+            _ => {}
+        }
         {
             let sender = sender.clone();
             button = button.on_click(move |_, _window, _cx| {

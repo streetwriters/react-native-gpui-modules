@@ -7,13 +7,40 @@ The kit's `Diff`, written by hand on the same specification as the generated com
 
 ## Native props
 
-| Name              | Type      |
-| ----------------- | --------- |
-| `patch`           | `string`  |
-| `lineNumbers`     | `boolean` |
-| `syntaxHighlight` | `boolean` |
-| `header`          | `boolean` |
-| `softWrap`        | `boolean` |
+| Name                  | Type                         |
+| --------------------- | ---------------------------- |
+| `patch`               | `string`                     |
+| `filesJson`           | `string`                     |
+| `lineNumbers`         | `boolean`                    |
+| `syntaxHighlight`     | `boolean`                    |
+| `header`              | `boolean`                    |
+| `softWrap`            | `boolean`                    |
+| `mode`                | `string`                     |
+| `contextLines`        | `WithDefault<Int32, -2>`     |
+| `inlineUnit`          | `string`                     |
+| `hunkSeparator`       | `string`                     |
+| `changeIndicator`     | `string`                     |
+| `changeBackground`    | `WithDefault<boolean, true>` |
+| `hoverHighlight`      | `string`                     |
+| `decorationsJson`     | `string`                     |
+| `markersJson`         | `string`                     |
+| `annotationsJson`     | `string`                     |
+| `addAnnotationEvents` | `boolean`                    |
+| `kitStyle`            | `string`                     |
+
+## Native events
+
+| Name                         | Type                                                      |
+| ---------------------------- | --------------------------------------------------------- |
+| `onGpuiKitDiffFilesChange`   | `DirectEventHandler< Readonly<{ hasChanges: boolean }> >` |
+| `onGpuiKitDiffAddAnnotation` | `DirectEventHandler< Readonly<{ path: string`             |
+
+## Commands
+
+- `nextChange`
+- `previousChange`
+- `expandUnchanged`
+- `collapseUnchanged`
 
 ## Coverage
 

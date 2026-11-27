@@ -75,6 +75,14 @@ export default function IconScreen() {
           placeholder="color"
           onChangeText={text => set('color', text)}
         />
+        <Pressable
+          testID="icon-prop-custom-size"
+          onPress={() =>
+            set('customSize', ((values['customSize'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>customSize: {String(values['customSize'] ?? 0)}</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );

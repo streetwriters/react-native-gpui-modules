@@ -2,15 +2,12 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 use gpui::{
-    px, AnyElement, AppContext as _, Entity, IntoElement, ParentElement as _, SharedString,
-    Styled as _, Subscription, Window,
+    AnyElement, AppContext as _, Entity, IntoElement, ParentElement as _, SharedString,
+    Subscription, Window,
 };
 use gpui_component::input::{Input, InputEvent, InputState};
 use gpui_component::input::{
     InputGroup, InputGroupAddon, InputGroupAddonAlignment, InputGroupText,
-};
-use gpui_component::sidebar::{
-    Sidebar, SidebarCollapsible, SidebarGroup, SidebarMenu, SidebarMenuItem,
 };
 use gpui_component::{Sizable as _, Size, Theme, ThemeMode};
 
@@ -19,11 +16,17 @@ use crate::*;
 
 pub struct GpuiKitTheme {
     applied: Option<String>,
+    shadow: Option<bool>,
+    notification: Option<(String, i32)>,
 }
 
 impl GpuiKitThemeSpec for GpuiKitTheme {
     fn create(_props: &GpuiKitThemeProps, _cx: &mut GpuiKitThemeContext) -> Self {
-        Self { applied: None }
+        Self {
+            applied: None,
+            shadow: None,
+            notification: None,
+        }
     }
 
     fn update(
@@ -53,6 +56,35 @@ impl GpuiKitThemeSpec for GpuiKitTheme {
                     }
                     let dark = Theme::global(app).is_dark();
                     sender.gpui_kit_theme_change(OnGpuiKitThemeChange { dark });
+                    window.refresh();
+                });
+            }
+        }
+        let shadow = props.shadow();
+        if self.shadow != Some(shadow) {
+            self.shadow = Some(shadow);
+            if let Some(app) = cx.app() {
+                window.defer(app, move |window, app| {
+                    Theme::global_mut(app).shadow = shadow;
+                    window.refresh();
+                });
+            }
+        }
+        let notification = (
+            props.notification_placement().to_string(),
+            props.notification_max_items(),
+        );
+        if self.notification.as_ref() != Some(&notification) {
+            self.notification = Some(notification.clone());
+            if let Some(app) = cx.app() {
+                window.defer(app, move |window, app| {
+                    let settings = &mut Theme::global_mut(app).notification;
+                    if let Some(placement) = super::notification::anchor(&notification.0) {
+                        settings.placement = placement;
+                    }
+                    if notification.1 > 0 {
+                        settings.max_items = notification.1 as usize;
+                    }
                     window.refresh();
                 });
             }
@@ -167,123 +199,5 @@ impl GpuiKitInputGroupSpec for GpuiKitInputGroup {
             GpuiKitInputGroupSize::Large => group = group.with_size(Size::Large),
         }
         group.into_any_element()
-    }
-}
-
-pub struct GpuiKitSidebar {
-    id: String,
-}
-
-impl GpuiKitSidebarSpec for GpuiKitSidebar {
-    fn create(_props: &GpuiKitSidebarProps, cx: &mut GpuiKitSidebarContext) -> Self {
-        Self {
-            id: format!("gpui_kit_sidebar-{}", cx.tag()),
-        }
-    }
-
-    fn update(
-        &mut self,
-        _props: &GpuiKitSidebarProps,
-        _changed: GpuiKitSidebarChanged,
-        _cx: &mut GpuiKitSidebarContext,
-    ) {
-    }
-
-    fn render(
-        &mut self,
-        props: &GpuiKitSidebarProps,
-        _window: &mut Window,
-        cx: &mut GpuiKitSidebarContext,
-    ) -> AnyElement {
-        let mut slots = Slots::new(props.slots(), cx.children());
-        let sender = cx.event_sender();
-        let list = props.items();
-        struct Entry {
-            depth: i32,
-            item: SidebarMenuItem,
-        }
-        let mut groups: Vec<(String, Vec<Entry>)> = Vec::new();
-        let groups_spec = props.groups();
-        for index in 0..groups_spec.len() {
-            if let Some(group) = groups_spec.get(index) {
-                groups.push((group.label().to_string(), Vec::new()));
-            }
-        }
-        if groups.is_empty() {
-            groups.push((String::new(), Vec::new()));
-        }
-        for index in 0..list.len() {
-            let Some(entry) = list.get(index) else {
-                continue;
-            };
-            let slot = (entry.group().max(0) as usize).min(groups.len() - 1);
-            let press = sender.clone();
-            let mut item = SidebarMenuItem::new(entry.label().to_string())
-                .active(entry.active())
-                .disable(entry.disabled())
-                .default_open(entry.open())
-                .click_to_toggle(true)
-                .on_click(move |_, _window, _cx| {
-                    press.gpui_kit_sidebar_press(OnGpuiKitSidebarPress {
-                        index: index as i32,
-                    });
-                });
-            if let Some(icon) = crate::generated::icons::parse(entry.icon()) {
-                item = item.icon(icon);
-            }
-            groups[slot].1.push(Entry {
-                depth: entry.depth(),
-                item,
-            });
-        }
-        let build = |entries: Vec<Entry>| -> Vec<SidebarMenuItem> {
-            let mut stack: Vec<Entry> = Vec::new();
-            let mut roots: Vec<SidebarMenuItem> = Vec::new();
-            let close = |stack: &mut Vec<Entry>, roots: &mut Vec<SidebarMenuItem>, until: i32| {
-                while stack.last().is_some_and(|top| top.depth >= until) {
-                    let done = stack.pop().unwrap();
-                    match stack.last_mut() {
-                        Some(parent) => {
-                            let current =
-                                std::mem::replace(&mut parent.item, SidebarMenuItem::new(""));
-                            parent.item = current.children(vec![done.item]);
-                        }
-                        None => roots.push(done.item),
-                    }
-                }
-            };
-            for entry in entries {
-                close(&mut stack, &mut roots, entry.depth);
-                stack.push(entry);
-            }
-            close(&mut stack, &mut roots, 0);
-            roots
-        };
-        let mut sidebar: Sidebar<SidebarGroup<SidebarMenu>> =
-            Sidebar::new(SharedString::from(self.id.clone())).collapsed(props.collapsed());
-        sidebar = match props.collapsible() {
-            GpuiKitSidebarCollapsible::Offcanvas => {
-                sidebar.collapsible(SidebarCollapsible::Offcanvas)
-            }
-            GpuiKitSidebarCollapsible::None => sidebar.collapsible(SidebarCollapsible::None),
-            GpuiKitSidebarCollapsible::Unset | GpuiKitSidebarCollapsible::Icon => {
-                sidebar.collapsible(SidebarCollapsible::Icon)
-            }
-        };
-        if let Some(header) = slots.take("header") {
-            sidebar = sidebar.header(header);
-        }
-        if let Some(footer) = slots.take("footer") {
-            sidebar = sidebar.footer(footer);
-        }
-        for (label, entries) in groups {
-            let menu = SidebarMenu::new().children(build(entries));
-            sidebar = sidebar.child(SidebarGroup::new(label).child(menu));
-        }
-        gpui::div()
-            .w(px(props.width().max(0.0) as f32))
-            .h_full()
-            .child(sidebar)
-            .into_any_element()
     }
 }

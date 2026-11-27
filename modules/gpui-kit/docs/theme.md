@@ -7,9 +7,12 @@ The kit's `Theme`, written by hand on the same specification as the generated co
 
 ## Native props
 
-| Name   | Type     |
-| ------ | -------- |
-| `mode` | `string` |
+| Name                    | Type                         |
+| ----------------------- | ---------------------------- |
+| `mode`                  | `string`                     |
+| `shadow`                | `WithDefault<boolean, true>` |
+| `notificationPlacement` | `string`                     |
+| `notificationMaxItems`  | `Int32`                      |
 
 ## Native events
 

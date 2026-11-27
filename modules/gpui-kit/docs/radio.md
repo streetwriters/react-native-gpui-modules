@@ -21,6 +21,8 @@ A Radio element.
 | `tabStop`            | `boolean`                                          | `Radio::tab_stop`            |
 | `size`               | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Radio::with_size`           |
 | `focusRing`          | `WithDefault<boolean, true>`                       | `Radio::focus_ring`          |
+| `customSize`         | `Double`                                           | constructor argument         |
+| `kitStyle`           | `string`                                           | constructor argument         |
 
 ## Events
 

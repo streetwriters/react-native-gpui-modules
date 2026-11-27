@@ -26,12 +26,31 @@ impl GpuiKitTagSpec for GpuiKitTag {
 
     fn measure(props: &GpuiKitTagProps, constraint: &MeasureConstraint) -> Option<MeasuredSize> {
         let style = TextStyle {
-            size: 12.0,
+            size: match props.size() {
+                GpuiKitTagSize::Unset => 12.0,
+                GpuiKitTagSize::Xsmall => 10.0,
+                GpuiKitTagSize::Small => 10.0,
+                GpuiKitTagSize::Medium => 12.0,
+                GpuiKitTagSize::Large => 14.0,
+            },
             ..TextStyle::default()
         };
         let extent = measure_text(props.label(), &style, None)?;
-        let height: f32 = 22.0;
-        let mut width = extent.width.ceil() + 22.0;
+        let height: f32 = match props.size() {
+            GpuiKitTagSize::Unset => 25.0,
+            GpuiKitTagSize::Xsmall => 19.0,
+            GpuiKitTagSize::Small => 19.0,
+            GpuiKitTagSize::Medium => 25.0,
+            GpuiKitTagSize::Large => 28.0,
+        };
+        let mut width = extent.width.ceil()
+            + match props.size() {
+                GpuiKitTagSize::Unset => 22.0,
+                GpuiKitTagSize::Xsmall => 14.0,
+                GpuiKitTagSize::Small => 14.0,
+                GpuiKitTagSize::Medium => 22.0,
+                GpuiKitTagSize::Large => 22.0,
+            };
         width = width.max(height);
         Some(constraint.clamp(MeasuredSize { width, height }))
     }
@@ -80,7 +99,27 @@ impl GpuiKitTagSpec for GpuiKitTag {
             GpuiKitTagSize::Medium => element = element.with_size(gpui_component::Size::Medium),
             GpuiKitTagSize::Large => element = element.with_size(gpui_component::Size::Large),
         }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
         element = element.child(props.label().to_string());
+        if let Ok(name) = gpui_component::ColorName::try_from(props.color_name()) {
+            element = element.with_variant(gpui_component::tag::TagVariant::Color(name));
+        }
+        if let (Some(color), Some(foreground), Some(border)) = (
+            props.custom_color(),
+            props.custom_foreground(),
+            props.custom_border(),
+        ) {
+            element = element.with_variant(gpui_component::tag::TagVariant::Custom {
+                color: crate::color::hsla(color),
+                foreground: crate::color::hsla(foreground),
+                border: crate::color::hsla(border),
+            });
+        }
         element.into_any_element()
     }
 }

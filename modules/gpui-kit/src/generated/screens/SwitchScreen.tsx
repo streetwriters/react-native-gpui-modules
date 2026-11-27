@@ -121,6 +121,14 @@ export default function SwitchScreen() {
         >
           <Text>focusRing: {String(Boolean(values['focusRing']))}</Text>
         </Pressable>
+        <Pressable
+          testID="switch-prop-custom-size"
+          onPress={() =>
+            set('customSize', ((values['customSize'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>customSize: {String(values['customSize'] ?? 0)}</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );

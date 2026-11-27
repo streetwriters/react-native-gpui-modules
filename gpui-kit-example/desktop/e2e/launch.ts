@@ -1,0 +1,50 @@
+import path from 'node:path';
+import { launchApp, type DesktopApp } from '@react-native-gpui/testing';
+
+let current: DesktopApp | undefined;
+
+export const bundle =
+  process.env.RN_GPUI_TEST_BUNDLE ?? path.resolve('desktop/build/index.bundle');
+
+export async function launch(
+  module: string,
+  scenario?: string,
+  initialProps: Record<string, unknown> = {},
+  { offscreen = true }: { offscreen?: boolean } = {},
+) {
+  if (current) await current.close();
+  current = await launchApp({
+    bundle,
+    env: {
+      RN_GPUI_MODULE: module,
+      RN_GPUI_BUNDLE: bundle,
+      RN_GPUI_DEV_PORT: '1',
+      RN_GPUI_WINDOW_STATE: path.resolve(
+        `.local/e2e-${module}-${scenario ?? 'default'}.json`,
+      ),
+    },
+    initialProps: { scenario, ...initialProps },
+    disableAnimations: true,
+    idleOptions: {
+      ignoreUrls: [
+        'user-attachments',
+        'githubusercontent',
+        'shields.io',
+        'docs.rs',
+      ],
+    },
+    logFile: process.env.RN_GPUI_E2E_LOG,
+    offscreen,
+  });
+  await current.setWindowSize(1024, 768);
+  return current;
+}
+
+export function currentApp() {
+  return current;
+}
+
+export async function closeApp() {
+  await current?.close();
+  current = undefined;
+}

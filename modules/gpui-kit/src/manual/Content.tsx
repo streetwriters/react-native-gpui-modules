@@ -3,6 +3,8 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import TextViewNative from './GpuiKitTextViewNativeComponent';
 import ScrollAreaNative from './GpuiKitScrollAreaNativeComponent';
 import { SlotHost } from './SlotHost';
+import { kitStyle, type KitStyle } from './kitStyle';
+import { NativeRoot } from '@react-native-gpui/core/desktop';
 
 interface Base {
   style?: StyleProp<ViewStyle>;
@@ -16,22 +18,31 @@ export interface TextViewProps extends Base {
   selectable?: boolean;
   scrollable?: boolean;
   maxLines?: number;
+  /** Refines the view: its text size and color, padding and so on. */
+  kitStyle?: KitStyle;
 }
 
-/** The kit's markdown and HTML renderer. */
+/**
+ * The kit's markdown and HTML renderer. It is as wide as its box and, unless
+ * the style sets a height, as high as its content.
+ */
 export function TextView({
   style,
+  testID,
   selectable,
   scrollable,
+  kitStyle: textStyle,
   ...rest
 }: TextViewProps) {
   return (
-    <TextViewNative
-      {...rest}
-      selectable={selectable ?? true}
-      scrollable={scrollable ?? false}
-      style={[{ width: 320, height: 160 }, style]}
-    />
+    <NativeRoot style={style} testID={testID}>
+      <TextViewNative
+        {...rest}
+        kitStyle={kitStyle(textStyle)}
+        selectable={selectable ?? true}
+        scrollable={scrollable ?? false}
+      />
+    </NativeRoot>
   );
 }
 

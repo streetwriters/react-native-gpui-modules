@@ -31,13 +31,6 @@ impl GpuiKitPopoverSpec for GpuiKitPopover {
         cx: &mut GpuiKitPopoverContext,
     ) -> AnyElement {
         let renderers = Renderers::new(props.slots());
-        eprintln!(
-            "POPDBG render slots={} open={} controlled={} content={}",
-            props.slots(),
-            props.open(),
-            props.controlled(),
-            renderers.get("content").is_some()
-        );
         let trigger = cx.children().into_iter().next();
         let sender = cx.event_sender();
         let mut element = Popover::new(self.id.clone())
@@ -55,14 +48,22 @@ impl GpuiKitPopoverSpec for GpuiKitPopover {
         if props.controlled() {
             element = element.open(props.open());
         }
-        let width = px(if props.width() > 0.0 {
-            props.width() as f32
-        } else {
-            240.0
-        });
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
+        let width = match props.content_width() {
+            width if width > 0.0 => Some(px(width as f32)),
+            width if width < 0.0 => None,
+            _ => Some(px(240.0)),
+        };
         if let Some(content) = renderers.get("content") {
-            element = element
-                .content(move |_state, window, cx| gpui::div().w(width).child(content(window, cx)));
+            element = element.content(move |_state, window, cx| {
+                let content = gpui::div().child(content(window, cx));
+                match width {
+                    Some(width) => content.w(width),
+                    None => content,
+                }
+            });
         }
         element.into_any_element()
     }

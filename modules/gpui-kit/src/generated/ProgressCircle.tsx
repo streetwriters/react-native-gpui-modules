@@ -4,6 +4,7 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitProgressCircleNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export interface ProgressCircleProps extends ViewProps {
   children?: React.ReactNode;
@@ -12,6 +13,8 @@ export interface ProgressCircleProps extends ViewProps {
   value?: number;
   accessibilityLabel?: string;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  customSize?: number;
+  kitStyle?: KitStyle;
 }
 
 export const ProgressCircle = forwardRef<
@@ -19,5 +22,12 @@ export const ProgressCircle = forwardRef<
   ProgressCircleProps
 >(function ProgressCircle(props, ref) {
   const { style, children, ...rest } = props;
-  return <Native ref={ref} {...rest} style={[style]} />;
+  return (
+    <Native
+      ref={ref}
+      {...rest}
+      style={[style]}
+      kitStyle={kitStyle(props.kitStyle)}
+    />
+  );
 });

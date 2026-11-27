@@ -16,6 +16,8 @@ export interface NativeProps extends ViewProps {
     'unset' | 'xsmall' | 'small' | 'medium' | 'large',
     'unset'
   >;
+  customSize?: CodegenTypes.Double;
+  kitStyle?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitProgress', {

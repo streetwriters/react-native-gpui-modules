@@ -14,6 +14,7 @@ A Link element like a `<a>` tag in HTML.
 | `text`     | `string`  | constructor argument |
 | `href`     | `string`  | `Link::href`         |
 | `disabled` | `boolean` | `Link::disabled`     |
+| `kitStyle` | `string`  | constructor argument |
 
 ## Events
 

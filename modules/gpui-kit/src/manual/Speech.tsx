@@ -10,6 +10,7 @@ import {
   type ViewProps,
   type ViewStyle,
 } from 'react-native';
+import { NativeRoot } from '@react-native-gpui/core/desktop';
 import SpeechNative, { Commands } from './GpuiKitSpeechNativeComponent';
 
 export interface SpeechHandle {
@@ -55,9 +56,22 @@ export interface SpeechProps extends Omit<ViewProps, 'style'> {
    * `onAudioStart` and `onAudioStop`.
    */
   audioInput?: 'microphone' | 'js';
-  onRecognizerStart?: (format: { sampleRate: number; channels: number }) => void;
+  onRecognizerStart?: (format: {
+    sampleRate: number;
+    channels: number;
+  }) => void;
   onRecognizerFinish?: () => void;
   onRecognizerEnd?: () => void;
+  /** With `recognizer="js"`: the session received this many audio samples. */
+  onRecognizerAudio?: (samples: number) => void;
+  /**
+   * `dictation` draws the kit's dictation field: an input with the button
+   * (and a waveform while capturing) as its suffix, a large waveform below
+   * it and the transcript while active. Final phrases are typed into it.
+   */
+  variant?: 'row' | 'dictation';
+  /** The dictation input's placeholder. */
+  placeholder?: string;
   onAudioStart?: (format: { sampleRate: number; channels: number }) => void;
   onAudioStop?: () => void;
 }
@@ -79,6 +93,9 @@ export const Speech = forwardRef<SpeechHandle, SpeechProps>(function Speech(
     onRecognizerEnd,
     onAudioStart,
     onAudioStop,
+    onRecognizerAudio,
+    variant,
+    placeholder,
     ...view
   },
   ref,
@@ -103,11 +120,18 @@ export const Speech = forwardRef<SpeechHandle, SpeechProps>(function Speech(
       native.current &&
       Commands.pushAudio(native.current, Array.from(samples).join(',')),
   }));
-  return (
+  const dictation = variant === 'dictation';
+  const element = (
     <SpeechNative
       {...view}
       ref={native}
-      style={[{ width: 320, height: 56 }, style]}
+      style={dictation ? { flex: 1 } : [{ width: 320, height: 56 }, style]}
+      testID={dictation ? undefined : view.testID}
+      variant={variant ?? 'row'}
+      placeholder={placeholder ?? ''}
+      onGpuiKitSpeechRecognizerAudio={(
+        event: NativeSyntheticEvent<{ samples: number }>,
+      ) => onRecognizerAudio?.(event.nativeEvent.samples)}
       showWaveform={showWaveform ?? true}
       showTranscript={showTranscript ?? true}
       showWhenUnsupported={showWhenUnsupported ?? true}
@@ -130,5 +154,12 @@ export const Speech = forwardRef<SpeechHandle, SpeechProps>(function Speech(
       }
       onGpuiKitSpeechAudioStop={() => onAudioStop?.()}
     />
+  );
+  return dictation ? (
+    <NativeRoot style={[{ width: 320 }, style]} testID={view.testID}>
+      {element}
+    </NativeRoot>
+  ) : (
+    element
   );
 });

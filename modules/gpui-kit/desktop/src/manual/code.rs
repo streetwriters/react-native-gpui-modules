@@ -2,10 +2,14 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 use gpui::{
-    AnyElement, AppContext as _, Entity, IntoElement, ParentElement as _, SharedString, Styled as _,
-    Subscription, Window,
+    AnyElement, AppContext as _, Entity, IntoElement, ParentElement as _, SharedString,
+    Styled as _, Subscription, Window,
 };
-use gpui_component::diff::{Diff, DiffFile, DiffState};
+use gpui_component::diff::{
+    Diff, DiffAnnotation, DiffChangeIndicator, DiffDecoration, DiffFile, DiffGutterMarker,
+    DiffHoverHighlight, DiffHunkSeparator, DiffInlineUnit, DiffLinePosition, DiffLineRange,
+    DiffMode, DiffSide, DiffState,
+};
 use gpui_component::input::InputEvent;
 use gpui_component::input::{Editor, EditorState};
 
@@ -16,6 +20,100 @@ pub struct GpuiKitEditor {
     subscription: Option<Subscription>,
     last: Rc<RefCell<String>>,
     applied: Option<(String, bool, bool, String, String)>,
+    decorations: Decorations,
+}
+
+/// The decoration collections of the editor and the props they were made from.
+#[derive(Default)]
+struct Decorations {
+    json: [String; 5],
+    text: Option<gpui_base::input::TextDecorationCollection>,
+    range: Option<gpui_base::input::RangeDecorationCollection>,
+    gutter: Option<gpui_base::input::GutterDecorationCollection>,
+    ruler: Option<gpui_base::input::OverviewRulerDecorationCollection>,
+}
+
+impl Decorations {
+    fn apply(
+        &mut self,
+        props: &GpuiKitEditorProps,
+        state: &Entity<EditorState>,
+        app: &mut gpui::App,
+    ) {
+        use super::editor_extras as extras;
+        let json = [
+            props.decorations_json().to_string(),
+            props.range_decorations_json().to_string(),
+            props.gutter_decorations_json().to_string(),
+            props.overview_ruler_decorations_json().to_string(),
+            props.completions_json().to_string(),
+        ];
+        if self.json == json {
+            return;
+        }
+        let changed: Vec<bool> = (0..5).map(|i| self.json[i] != json[i]).collect();
+        self.json = json.clone();
+        if changed[0] {
+            let list = extras::text_decorations(&json[0], app);
+            match &self.text {
+                Some(collection) => collection.set(list, app),
+                None => {
+                    self.text = Some(state.update(app, |state, cx| {
+                        state.create_decorations_collection(list, cx)
+                    }))
+                }
+            }
+        }
+        if changed[1] {
+            let list = extras::range_decorations(&json[1], app);
+            match &self.range {
+                Some(collection) => collection.set(list, app),
+                None => {
+                    self.range = Some(state.update(app, |state, cx| {
+                        state.create_range_decorations_collection(list, cx)
+                    }))
+                }
+            }
+        }
+        if changed[2] {
+            let list = extras::gutter_decorations(&json[2], app);
+            match &self.gutter {
+                Some(collection) => collection.set(list, app),
+                None if !list.is_empty() => {
+                    self.gutter = Some(state.update(app, |state, cx| {
+                        state.create_gutter_decorations_collection(list, cx)
+                    }))
+                }
+                None => {}
+            }
+        }
+        if changed[3] {
+            let list = extras::overview_ruler_decorations(&json[3], app);
+            match &self.ruler {
+                Some(collection) => collection.set(list, app),
+                None => {
+                    self.ruler = Some(state.update(app, |state, cx| {
+                        state.create_overview_ruler_decorations_collection(list, cx)
+                    }))
+                }
+            }
+        }
+        if changed[4] {
+            let completions = extras::completions(&json[4]);
+            state.update(app, |state, cx| {
+                let lsp = state.lsp_mut();
+                match completions {
+                    Some((words, mode)) => {
+                        lsp.set_completion_highlighter(mode.highlighter());
+                        lsp.completion_provider =
+                            Some(Rc::new(extras::WordCompletions { words, mode }));
+                    }
+                    None => lsp.completion_provider = None,
+                }
+                cx.notify();
+            });
+        }
+    }
 }
 
 impl GpuiKitEditorSpec for GpuiKitEditor {
@@ -25,6 +123,7 @@ impl GpuiKitEditorSpec for GpuiKitEditor {
             subscription: None,
             last: Rc::new(RefCell::new(String::new())),
             applied: None,
+            decorations: Decorations::default(),
         }
     }
 
@@ -51,18 +150,32 @@ impl GpuiKitEditorSpec for GpuiKitEditor {
             props.line_number(),
             props.soft_wrap(),
         );
+        let initial = if props.controlled() {
+            props.value().to_string()
+        } else {
+            props.default_value().to_string()
+        };
+        let tab = (props.tab_size() > 0).then(|| gpui_base::input::TabSize {
+            tab_size: props.tab_size() as usize,
+            hard_tabs: props.hard_tabs(),
+        });
         let state = self
             .state
             .get_or_insert_with(|| {
                 app.new(|cx| {
-                    let state = EditorState::new(window, cx)
+                    let mut state = EditorState::new(window, cx)
                         .line_number(line_number)
                         .soft_wrap(soft_wrap);
-                    if language.is_empty() {
-                        state
-                    } else {
-                        state.language(language.clone())
+                    if !language.is_empty() {
+                        state = state.language(language.clone());
                     }
+                    if let Some(tab) = tab {
+                        state = state.tab_size(tab);
+                    }
+                    if !initial.is_empty() {
+                        state = state.default_value(initial.clone());
+                    }
+                    state
                 })
             })
             .clone();
@@ -115,11 +228,18 @@ impl GpuiKitEditorSpec for GpuiKitEditor {
             *self.last.borrow_mut() = wanted.clone();
             state.update(app, |state, cx| state.set_value(wanted, window, cx));
         }
-        let editor = Editor::new(&state)
+        self.decorations.apply(props, &state, app);
+        let mut editor = Editor::new(&state)
             .bordered(props.bordered())
             .disabled(props.disabled())
-            .readonly(props.readonly())
-            .into_any_element();
+            .readonly(props.readonly());
+        if !props.font_family().is_empty() {
+            editor = gpui::Styled::font_family(editor, props.font_family().to_string());
+        }
+        if props.font_size() > 0.0 {
+            editor = gpui::Styled::text_size(editor, gpui::px(props.font_size() as f32));
+        }
+        let editor = gpui::Styled::size_full(editor).into_any_element();
         let theme = props.highlight_theme();
         let colors: Option<serde_json::Value> =
             serde_json::from_str(props.editor_style_json()).ok();
@@ -165,7 +285,13 @@ fn editor_style(
     gpui_base::input::InputEditorStyle {
         foreground: pick("foreground", app.foreground),
         muted_foreground: pick("mutedForeground", app.muted_foreground),
-        background: pick("background", app.editor_background()),
+        background: pick(
+            "background",
+            highlight
+                .style
+                .editor_background
+                .unwrap_or_else(|| app.input_background()),
+        ),
         border: pick("border", app.border),
         selection: pick("selection", app.selection),
         caret: pick("caret", app.caret),
@@ -183,7 +309,7 @@ fn editor_style(
         ),
         fold_icon_renderer: Some(Rc::new(|ix, is_folded| {
             use gpui_component::button::{Button, ButtonRounded, ButtonVariants as _};
-            use gpui_component::{IconName, Selectable as _, Sizable as _, StyledExt as _};
+            use gpui_component::{IconName, Selectable as _, Sizable as _};
             Button::new(("fold-icon", ix))
                 .ghost()
                 .icon(if is_folded {
@@ -270,14 +396,86 @@ impl gpui::Element for AfterLayout {
 
 pub struct GpuiKitDiff {
     state: Option<Entity<DiffState>>,
+    files: String,
+    /// The state settings last applied, so a prop change reaches the state once.
+    applied: Option<(DiffMode, i32, String)>,
+}
+
+#[derive(Default, serde::Deserialize)]
+#[serde(default)]
+struct FileSpec {
+    kind: String,
     patch: String,
+    path: String,
+    text: String,
+}
+
+#[derive(Default, serde::Deserialize)]
+#[serde(default)]
+struct LineSpec {
+    id: String,
+    path: String,
+    side: String,
+    line: usize,
+    start: usize,
+    end: usize,
+    label: String,
+}
+
+fn side_of(side: &str) -> DiffSide {
+    if side == "original" {
+        DiffSide::Original
+    } else {
+        DiffSide::Modified
+    }
+}
+
+fn side_name(side: DiffSide) -> &'static str {
+    match side {
+        DiffSide::Original => "original",
+        _ => "modified",
+    }
+}
+
+fn files_of(props: &GpuiKitDiffProps) -> Vec<DiffFile> {
+    if props.files_json().is_empty() {
+        return DiffFile::parse(props.patch()).unwrap_or_default();
+    }
+    let specs: Vec<FileSpec> = serde_json::from_str(props.files_json()).unwrap_or_default();
+    specs
+        .into_iter()
+        .flat_map(|spec| match spec.kind.as_str() {
+            "conflicts" => DiffFile::parse_conflicts(spec.path, &spec.text)
+                .map(|file| vec![file])
+                .unwrap_or_default(),
+            "unchanged" => vec![DiffFile::unchanged(spec.path, &spec.text)],
+            _ => DiffFile::parse(&spec.patch).unwrap_or_default(),
+        })
+        .collect()
+}
+
+fn lines_of(json: &str) -> Vec<LineSpec> {
+    serde_json::from_str(json).unwrap_or_default()
+}
+
+impl GpuiKitDiff {
+    fn with_state(
+        &self,
+        cx: &mut GpuiKitDiffContext,
+        f: impl FnOnce(&mut DiffState, &mut gpui::Context<DiffState>),
+    ) {
+        if let (Some(state), Some(app)) = (self.state.clone(), cx.app()) {
+            state.update(app, f);
+        }
+    }
 }
 
 impl GpuiKitDiffSpec for GpuiKitDiff {
     fn create(_props: &GpuiKitDiffProps, _cx: &mut GpuiKitDiffContext) -> Self {
         Self {
             state: None,
-            patch: String::new(),
+            files: String::new(),
+            applied: None,
         }
     }
 
@@ -289,30 +487,156 @@ impl GpuiKitDiffSpec for GpuiKitDiff {
     ) {
     }
 
+    fn next_change(&mut self, cx: &mut GpuiKitDiffContext) {
+        self.with_state(cx, |state, cx| state.next_change(cx));
+    }
+
+    fn previous_change(&mut self, cx: &mut GpuiKitDiffContext) {
+        self.with_state(cx, |state, cx| state.previous_change(cx));
+    }
+
+    fn expand_unchanged(&mut self, cx: &mut GpuiKitDiffContext) {
+        self.with_state(cx, |state, cx| state.expand_unchanged(cx));
+    }
+
+    fn collapse_unchanged(&mut self, cx: &mut GpuiKitDiffContext) {
+        self.with_state(cx, |state, cx| state.collapse_unchanged(cx));
+    }
+
     fn render(
         &mut self,
         props: &GpuiKitDiffProps,
         _window: &mut Window,
         cx: &mut GpuiKitDiffContext,
     ) -> AnyElement {
+        let renderers = Rc::new(super::slots::Renderers::new(props.slots()));
+        let sender = cx.event_sender();
         let Some(app) = cx.app() else {
             return gpui::div().into_any_element();
         };
-        let patch = props.patch().to_string();
-        let files = DiffFile::parse(&patch).unwrap_or_default();
         let state = self
             .state
             .get_or_insert_with(|| app.new(|cx| DiffState::new(Vec::<DiffFile>::new(), cx)))
             .clone();
-        if self.patch != patch {
-            self.patch = patch;
+        let key = format!("{}\u{0}{}", props.patch(), props.files_json());
+        if self.files != key {
+            self.files = key;
+            let files = files_of(props);
+            let has_changes = files.iter().any(DiffFile::has_changes);
             state.update(app, |state, cx| state.set_files(files, cx));
+            sender.gpui_kit_diff_files_change(OnGpuiKitDiffFilesChange { has_changes });
         }
-        Diff::new(&state)
+        let mode = if props.mode() == "split" {
+            DiffMode::Split
+        } else {
+            DiffMode::Unified
+        };
+        let settings = (mode, props.context_lines(), props.inline_unit().to_string());
+        if self.applied.as_ref() != Some(&settings) {
+            let first = self.applied.is_none();
+            self.applied = Some(settings.clone());
+            let (mode, context, inline) = settings;
+            state.update(app, |state, cx| {
+                if state.mode() != mode {
+                    state.set_mode(mode, cx);
+                }
+                if context != -2 || !first {
+                    let lines = match context {
+                        -1 => None,
+                        -2 => Some(3),
+                        lines => Some(lines.max(0) as usize),
+                    };
+                    if state.context_lines() != lines {
+                        state.set_context_lines(lines, cx);
+                    }
+                }
+                let unit = match inline.as_str() {
+                    "character" => Some(DiffInlineUnit::Character),
+                    "none" => None,
+                    _ => Some(DiffInlineUnit::Word),
+                };
+                if state.inline_unit() != unit {
+                    state.set_inline_unit(unit, cx);
+                }
+            });
+        }
+        let mut diff = Diff::new(&state)
             .line_number(props.line_numbers())
             .syntax_highlight(props.syntax_highlight())
             .header_visible(props.header())
             .soft_wrap(props.soft_wrap())
-            .into_any_element()
+            .change_background(props.change_background())
+            .hunk_separator(match props.hunk_separator() {
+                "line-info" => DiffHunkSeparator::LineInfo,
+                "simple" => DiffHunkSeparator::Simple,
+                _ => DiffHunkSeparator::Metadata,
+            })
+            .change_indicator(match props.change_indicator() {
+                "bars" => DiffChangeIndicator::Bars,
+                "none" => DiffChangeIndicator::None,
+                _ => DiffChangeIndicator::Signs,
+            })
+            .hover_highlight(match props.hover_highlight() {
+                "line" => DiffHoverHighlight::Line,
+                "line-number" => DiffHoverHighlight::LineNumber,
+                "both" => DiffHoverHighlight::Both,
+                _ => DiffHoverHighlight::None,
+            });
+        let decorations = lines_of(props.decorations_json());
+        if !decorations.is_empty() {
+            diff = diff.decorations(decorations.into_iter().map(|line| {
+                DiffDecoration::new(DiffLineRange::new(
+                    line.path,
+                    side_of(&line.side),
+                    line.start,
+                    line.end,
+                ))
+            }));
+        }
+        let markers = lines_of(props.markers_json());
+        if !markers.is_empty() {
+            diff = diff.gutter_markers(markers.into_iter().map(|line| {
+                let position = DiffLinePosition::new(line.path, side_of(&line.side), line.line);
+                DiffGutterMarker::new(SharedString::from(line.id), position).with_label(line.label)
+            }));
+            let renderers = renderers.clone();
+            diff = diff.render_gutter_marker(move |marker, window, cx| {
+                gpui::div().children(
+                    renderers
+                        .get(&format!("marker:{}", marker.id()))
+                        .map(|render| render(window, cx)),
+                )
+            });
+        }
+        let annotations = lines_of(props.annotations_json());
+        if !annotations.is_empty() {
+            diff = diff.annotations(annotations.into_iter().map(|line| {
+                let position = DiffLinePosition::new(line.path, side_of(&line.side), line.line);
+                DiffAnnotation::line(SharedString::from(line.id), position)
+            }));
+            let renderers = renderers.clone();
+            diff = diff.render_annotation(move |annotation, window, cx| {
+                gpui::div().w_full().children(
+                    renderers
+                        .get(&format!("annotation:{}", annotation.id()))
+                        .map(|render| render(window, cx)),
+                )
+            });
+        }
+        if props.add_annotation_events() {
+            diff = diff.on_add_annotation(move |range, _, _| {
+                sender.gpui_kit_diff_add_annotation(OnGpuiKitDiffAddAnnotation {
+                    path: range.path().to_string(),
+                    side: side_name(range.side()).to_string(),
+                    start: range.start() as i32,
+                    end: range.end() as i32,
+                    end_side: side_name(range.end_side()).to_string(),
+                });
+            });
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut diff), &style);
+        }
+        diff.into_any_element()
     }
 }

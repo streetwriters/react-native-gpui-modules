@@ -9,14 +9,16 @@ A simple star Rating element.
 
 ## Props
 
-| Prop       | Type                                               | Native method       |
-| ---------- | -------------------------------------------------- | ------------------- |
-| `withSize` | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Rating::with_size` |
-| `disabled` | `boolean`                                          | `Rating::disabled`  |
-| `color`    | `ColorValue`                                       | `Rating::color`     |
-| `value`    | `Int32`                                            | `Rating::value`     |
-| `max`      | `Int32`                                            | `Rating::max`       |
-| `size`     | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Rating::with_size` |
+| Prop         | Type                                               | Native method        |
+| ------------ | -------------------------------------------------- | -------------------- |
+| `withSize`   | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Rating::with_size`  |
+| `disabled`   | `boolean`                                          | `Rating::disabled`   |
+| `color`      | `ColorValue`                                       | `Rating::color`      |
+| `value`      | `Int32`                                            | `Rating::value`      |
+| `max`        | `Int32`                                            | `Rating::max`        |
+| `size`       | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Rating::with_size`  |
+| `customSize` | `Double`                                           | constructor argument |
+| `kitStyle`   | `string`                                           | constructor argument |
 
 ## Events
 

@@ -50,8 +50,8 @@ impl GpuiKitHoverCardSpec for GpuiKitHoverCard {
             element = element.close_delay(Duration::from_millis(props.close_delay() as u64));
         }
         if let Some(content) = renderers.get("content") {
-            let width = gpui::px(if props.width() > 0.0 {
-                props.width() as f32
+            let width = gpui::px(if props.card_width() > 0.0 {
+                props.card_width() as f32
             } else {
                 240.0
             });

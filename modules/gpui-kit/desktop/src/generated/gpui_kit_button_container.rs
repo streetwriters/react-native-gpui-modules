@@ -243,6 +243,12 @@ impl GpuiKitButtonContainerSpec for GpuiKitButtonContainer {
                 element = element.custom(variant);
             }
         }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
         {
             let sender = sender.clone();
             element = element.on_click(move |event, _window, _cx| {

@@ -1,3 +1,4 @@
+import { NativeRoot } from '@react-native-gpui/core/desktop';
 import React from 'react';
 import type { NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitBreadcrumbNativeComponent';
@@ -26,23 +27,21 @@ export function Breadcrumb({
   style,
   ...rest
 }: BreadcrumbProps) {
-  const width = items.reduce(
-    (sum, item) => sum + item.label.length * 7.5 + 28,
-    0,
-  );
   return (
-    <Native
-      {...rest}
-      items={items.map(item => ({
-        label: item.label,
-        disabled: item.disabled ?? false,
-        style: kitStyle(item.style),
-      }))}
-      style={[{ height: 24, width }, style]}
-      onGpuiKitBreadcrumbPress={event => {
-        items[event.nativeEvent.index]?.onPress?.();
-        onPress?.(event as BreadcrumbPressEvent);
-      }}
-    />
+    <NativeRoot fitWidth style={style} testID={rest.testID}>
+      <Native
+        {...rest}
+        testID={undefined}
+        items={items.map(item => ({
+          label: item.label,
+          disabled: item.disabled ?? false,
+          style: kitStyle(item.style),
+        }))}
+        onGpuiKitBreadcrumbPress={event => {
+          items[event.nativeEvent.index]?.onPress?.();
+          onPress?.(event as BreadcrumbPressEvent);
+        }}
+      />
+    </NativeRoot>
   );
 }

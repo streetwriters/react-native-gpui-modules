@@ -22,6 +22,8 @@ export interface NativeProps extends ViewProps {
   >;
   disabled?: boolean;
   focusRing?: CodegenTypes.WithDefault<boolean, true>;
+  customSize?: CodegenTypes.Double;
+  kitStyle?: string;
   onGpuiKitSwitchChange?: CodegenTypes.DirectEventHandler<
     Readonly<{ state: boolean }>
   >;

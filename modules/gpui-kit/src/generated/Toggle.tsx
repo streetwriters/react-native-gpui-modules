@@ -4,6 +4,7 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitToggleNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export type ToggleChangeEvent = NativeSyntheticEvent<
   Readonly<{ state: boolean }>
@@ -19,6 +20,8 @@ export interface ToggleProps extends ViewProps {
   variant?: 'ghost' | 'outline';
   disabled?: boolean;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  customSize?: number;
+  kitStyle?: KitStyle;
   onChange?: (event: ToggleChangeEvent) => void;
 }
 
@@ -30,6 +33,7 @@ export const Toggle = forwardRef<ComponentRef<typeof Native>, ToggleProps>(
         ref={ref}
         {...rest}
         style={[style]}
+        kitStyle={kitStyle(props.kitStyle)}
         onGpuiKitToggleChange={onChange}
       />
     );

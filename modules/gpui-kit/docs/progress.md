@@ -16,6 +16,8 @@ A linear horizontal progress bar element.
 | `value`              | `Double`                                           | `Progress::value`               |
 | `accessibilityLabel` | `string`                                           | `Progress::accessibility_label` |
 | `size`               | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Progress::with_size`           |
+| `customSize`         | `Double`                                           | constructor argument            |
+| `kitStyle`           | `string`                                           | constructor argument            |
 
 ## Events
 

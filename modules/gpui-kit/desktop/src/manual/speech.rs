@@ -5,11 +5,12 @@ use gpui::{
 use std::cell::RefCell;
 use std::rc::Rc;
 
+use gpui_component::input::{Input, InputState};
 use gpui_component::speech::{
-    AudioFormat, AudioInput, AudioSink, RecognitionSession, SpeechButton, SpeechError,
-    SpeechEvent, SpeechRecognizer, SpeechSink, SpeechState, SpeechStatus, SpeechWaveform,
+    AudioFormat, AudioInput, AudioSink, RecognitionSession, SpeechButton, SpeechError, SpeechEvent,
+    SpeechRecognizer, SpeechSink, SpeechState, SpeechStatus, SpeechWaveform,
 };
-use gpui_component::{h_flex, ActiveTheme as _};
+use gpui_component::{h_flex, v_flex, ActiveTheme as _, Sizable as _};
 
 use crate::*;
 
@@ -20,6 +21,7 @@ pub struct GpuiKitSpeech {
     mode: (bool, bool),
     speech_sink: Rc<RefCell<Option<SpeechSink>>>,
     audio_sink: Rc<RefCell<Option<AudioSink>>>,
+    input: Option<(Entity<InputState>, Subscription)>,
 }
 
 /// A recognizer whose results come from JavaScript through commands.
@@ -54,7 +56,12 @@ impl SpeechRecognizer for JsRecognizer {
 }
 
 impl RecognitionSession for JsSession {
-    fn push_audio(&mut self, _samples: &[i16], _cx: &mut gpui::App) {}
+    fn push_audio(&mut self, samples: &[i16], _cx: &mut gpui::App) {
+        self.events
+            .gpui_kit_speech_recognizer_audio(OnGpuiKitSpeechRecognizerAudio {
+                samples: samples.len() as i32,
+            });
+    }
 
     fn finish(&mut self, _cx: &mut gpui::App) {
         self.events.gpui_kit_speech_recognizer_finish();
@@ -113,6 +120,7 @@ impl GpuiKitSpeechSpec for GpuiKitSpeech {
             mode: (false, false),
             speech_sink: Rc::default(),
             audio_sink: Rc::default(),
+            input: None,
         }
     }
 
@@ -179,7 +187,7 @@ impl GpuiKitSpeechSpec for GpuiKitSpeech {
     fn render(
         &mut self,
         props: &GpuiKitSpeechProps,
-        _window: &mut Window,
+        window: &mut Window,
         cx: &mut GpuiKitSpeechContext,
     ) -> AnyElement {
         let sender = cx.event_sender();
@@ -194,6 +202,7 @@ impl GpuiKitSpeechSpec for GpuiKitSpeech {
             self.mode = mode;
             self.state = None;
             self.subscription = None;
+            self.input = None;
         }
         let (speech_sink, audio_sink) = (self.speech_sink.clone(), self.audio_sink.clone());
         let state = self
@@ -258,6 +267,57 @@ impl GpuiKitSpeechSpec for GpuiKitSpeech {
         }
         let transcript: SharedString = state.read(app).transcript();
         let theme = app.theme().clone();
+        if matches!(props.variant(), GpuiKitSpeechVariant::Dictation) {
+            if self.input.is_none() {
+                let placeholder = props.placeholder().to_string();
+                let input = app.new(|cx| InputState::new(window, cx).placeholder(placeholder));
+                let target = input.clone();
+                let subscription = app.subscribe(&state, move |_, event: &SpeechEvent, cx| {
+                    if let SpeechEvent::Final(text) = event {
+                        if !text.is_empty() {
+                            let text = text.clone();
+                            let target = target.clone();
+                            cx.defer(move |cx| {
+                                if let Some(window) = cx.windows().into_iter().next() {
+                                    let _ = window.update(cx, |_, window, cx| {
+                                        target
+                                            .update(cx, |input, cx| input.insert(text, window, cx))
+                                    });
+                                }
+                            });
+                        }
+                    }
+                });
+                self.input = Some((input, subscription));
+            }
+            let input = self.input.as_ref().unwrap().0.clone();
+            let capturing = status.is_capturing();
+            let mut suffix = h_flex().gap_2();
+            if capturing {
+                suffix = suffix.child(SpeechWaveform::new(&state).w(gpui::px(48.)).xsmall());
+            }
+            suffix = suffix.child(
+                SpeechButton::new(&state)
+                    .xsmall()
+                    .show_when_unsupported(props.show_when_unsupported()),
+            );
+            let mut column = v_flex()
+                .w_full()
+                .gap_2()
+                .child(Input::new(&input).suffix(suffix));
+            if capturing {
+                column = column.child(SpeechWaveform::new(&state).liquid().w_full().large());
+            }
+            if status.is_active() {
+                column = column.child(
+                    gpui::div()
+                        .text_sm()
+                        .text_color(theme.muted_foreground)
+                        .child(transcript),
+                );
+            }
+            return column.into_any_element();
+        }
         let mut row =
             h_flex().size_full().items_center().gap_3().child(
                 SpeechButton::new(&state).show_when_unsupported(props.show_when_unsupported()),

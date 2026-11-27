@@ -4,6 +4,7 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitLinkNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export type LinkPressEvent = NativeSyntheticEvent<
   Readonly<{
@@ -22,6 +23,7 @@ export interface LinkProps extends ViewProps {
   text?: string;
   href?: string;
   disabled?: boolean;
+  kitStyle?: KitStyle;
   onPress?: (event: LinkPressEvent) => void;
 }
 
@@ -33,6 +35,7 @@ export const Link = forwardRef<ComponentRef<typeof Native>, LinkProps>(
         ref={ref}
         {...rest}
         style={[style]}
+        kitStyle={kitStyle(props.kitStyle)}
         onGpuiKitLinkPress={onPress}
       />
     );

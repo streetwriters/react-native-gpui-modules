@@ -32,6 +32,13 @@ impl GpuiKitToggleSpec for GpuiKitToggle {
     }
 
     fn measure(props: &GpuiKitToggleProps, constraint: &MeasureConstraint) -> Option<MeasuredSize> {
+        if props.custom_size() > 0.0 && props.label().is_empty() {
+            let side = props.custom_size() as f32;
+            return Some(constraint.clamp(MeasuredSize {
+                width: side,
+                height: side,
+            }));
+        }
         let style = TextStyle {
             size: match props.size() {
                 GpuiKitToggleSize::Xsmall | GpuiKitToggleSize::Small => 12.0,
@@ -107,6 +114,12 @@ impl GpuiKitToggleSpec for GpuiKitToggle {
             GpuiKitToggleSize::Small => element = element.with_size(gpui_component::Size::Small),
             GpuiKitToggleSize::Medium => element = element.with_size(gpui_component::Size::Medium),
             GpuiKitToggleSize::Large => element = element.with_size(gpui_component::Size::Large),
+        }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
         }
         {
             let sender = sender.clone();

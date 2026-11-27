@@ -20,6 +20,9 @@ export interface NativeProps extends ViewProps {
     'unset'
   >;
   focusRing?: CodegenTypes.WithDefault<boolean, true>;
+  customSize?: CodegenTypes.Double;
+  kitStyle?: string;
+  slots?: string;
   onGpuiKitRadioChange?: CodegenTypes.DirectEventHandler<
     Readonly<{ state: boolean }>
   >;

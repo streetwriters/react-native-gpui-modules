@@ -20,7 +20,9 @@ function runChecks(changes: string[]) {
   results.number = String(storage.getNumber('num'));
   results.boolean = String(storage.getBoolean('bool'));
   results.buffer = bytes(storage.getBuffer('buf'));
-  results.contains = `${storage.contains('str')} ${storage.contains('missing')}`;
+  results.contains = `${storage.contains('str')} ${storage.contains(
+    'missing',
+  )}`;
   results.keys = storage.getAllKeys().sort().join(',');
   results.removed = `${storage.remove('str')} ${storage.getString('str')}`;
   results.length = String(storage.length);

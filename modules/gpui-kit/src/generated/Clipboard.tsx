@@ -15,6 +15,7 @@ export interface ClipboardProps extends ViewProps {
   tooltipShowDelay?: number;
   value?: string;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  customSize?: number;
   onCopied?: (event: ClipboardCopiedEvent) => void;
 }
 
@@ -23,8 +24,12 @@ export const Clipboard = forwardRef<
   ClipboardProps
 >(function Clipboard(props, ref) {
   const { onCopied, style, children, ...rest } = props;
-  const height = 32;
-  const width = 32;
+  const heights = { xsmall: 20, small: 24, medium: 32, large: 32 } as const;
+  const height =
+    props.customSize ??
+    heights[(props.size as keyof typeof heights) ?? 'xsmall'] ??
+    20;
+  const width = height;
   return (
     <Native
       ref={ref}

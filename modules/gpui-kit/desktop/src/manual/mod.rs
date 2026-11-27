@@ -1,10 +1,14 @@
 mod accordion;
+pub(crate) mod addons;
 mod alert_dialog;
 mod avatar_group;
+mod badge;
+mod basic_table;
 mod breadcrumb;
 mod button_group;
 mod calendar;
 mod chart;
+mod chart_spec;
 mod chat;
 mod chrome;
 mod code;
@@ -18,6 +22,7 @@ mod dialog;
 mod dock;
 mod dropdown_button;
 mod dropdown_menu;
+mod editor_extras;
 mod empty;
 mod form;
 mod group_box;
@@ -27,22 +32,29 @@ mod inspector;
 mod kbd;
 mod layout;
 mod list;
+mod list_model;
 mod marker;
+mod menu_model;
+mod native_menu;
 mod notification;
 mod plot;
 mod popover;
 mod popup_menu;
 mod questionnaire;
+mod radio_group;
 pub(crate) mod rules;
 mod select;
 mod setting;
 mod sheet;
+mod sidebar;
 pub(crate) mod slots;
 mod speech;
+mod stacked_chart;
 mod stepper;
 mod tab_bar;
 mod table;
 mod text;
+mod theme_registry;
 mod time_field;
 mod toggle_group;
 mod tooltip;
@@ -54,6 +66,16 @@ mod window;
 use slots::register;
 
 pub fn register() {
+    register!(
+        GpuiKitNativeMenuComponent,
+        gpui_kit_native_menu_component,
+        native_menu::GpuiKitNativeMenu
+    );
+    register!(
+        GpuiKitBasicTableComponent,
+        gpui_kit_basic_table_component,
+        basic_table::GpuiKitBasicTable
+    );
     register!(
         GpuiKitGridLayoutComponent,
         gpui_kit_grid_layout_component,
@@ -127,7 +149,17 @@ pub fn register() {
     register!(
         GpuiKitSidebarComponent,
         gpui_kit_sidebar_component,
-        chrome::GpuiKitSidebar
+        sidebar::GpuiKitSidebar
+    );
+    register!(
+        GpuiKitThemeRegistryComponent,
+        gpui_kit_theme_registry_component,
+        theme_registry::GpuiKitThemeRegistry
+    );
+    register!(
+        GpuiKitSidebarToggleComponent,
+        gpui_kit_sidebar_toggle_component,
+        sidebar::GpuiKitSidebarToggle
     );
     register!(
         GpuiKitThemeComponent,
@@ -346,13 +378,28 @@ pub fn register() {
     );
     register!(GpuiKitKbdComponent, gpui_kit_kbd_component, kbd::GpuiKitKbd);
     register!(
+        GpuiKitBadgeComponent,
+        gpui_kit_badge_component,
+        badge::GpuiKitBadge
+    );
+    register!(
         GpuiKitMarkerComponent,
         gpui_kit_marker_component,
         marker::GpuiKitMarker
+    );
+    register!(
+        GpuiKitRadioGroupComponent,
+        gpui_kit_radio_group_component,
+        radio_group::GpuiKitRadioGroup
     );
     register!(
         GpuiKitToggleGroupComponent,
         gpui_kit_toggle_group_component,
         toggle_group::GpuiKitToggleGroup
     );
+}
+
+pub(crate) fn init(cx: &mut gpui::App) {
+    native_menu::init(cx);
+    menu_model::init(cx);
 }

@@ -12,6 +12,7 @@ A skeleton loading placeholder element.
 | Prop        | Type      | Native method         |
 | ----------- | --------- | --------------------- |
 | `secondary` | `boolean` | `Skeleton::secondary` |
+| `kitStyle`  | `string`  | constructor argument  |
 
 ## Events
 

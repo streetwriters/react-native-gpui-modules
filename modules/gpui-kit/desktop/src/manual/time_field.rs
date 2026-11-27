@@ -1,6 +1,8 @@
 use chrono::{NaiveTime, Timelike};
 use gpui::{AnyElement, AppContext as _, Entity, IntoElement, Subscription, Window};
-use gpui_component::time_field::{TimeField, TimeFieldEvent, TimeFieldState};
+use gpui_component::time_field::{
+    HourCycle, TimeField, TimeFieldEvent, TimeFieldState, TimePrecision,
+};
 use gpui_component::{Disableable as _, Sizable as _, Size};
 
 use crate::*;
@@ -48,7 +50,19 @@ impl GpuiKitTimeFieldSpec for GpuiKitTimeField {
             return gpui::div().into_any_element();
         };
         if self.state.is_none() {
-            let state = app.new(|cx| TimeFieldState::new(window, cx));
+            let precision = match props.precision() {
+                GpuiKitTimeFieldPrecision::Second => TimePrecision::Second,
+                _ => TimePrecision::Minute,
+            };
+            let hour_cycle = match props.hour_cycle() {
+                GpuiKitTimeFieldHourCycle::H12 => HourCycle::H12,
+                _ => HourCycle::H23,
+            };
+            let state = app.new(|cx| {
+                TimeFieldState::new(window, cx)
+                    .precision(precision)
+                    .hour_cycle(hour_cycle)
+            });
             self.subscription = Some(app.subscribe(
                 &state,
                 move |_, event: &TimeFieldEvent, _cx| {
@@ -60,7 +74,7 @@ impl GpuiKitTimeFieldSpec for GpuiKitTimeField {
             self.state = Some(state);
         }
         let state = self.state.clone().unwrap();
-        if props.controlled() {
+        if props.controlled() || (self.applied.is_none() && !props.time().is_empty()) {
             let wanted = props.time().to_string();
             if self.applied.as_ref() != Some(&wanted) {
                 self.applied = Some(wanted.clone());

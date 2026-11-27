@@ -7,23 +7,29 @@ The kit's `Dock`, written by hand on the same specification as the generated com
 
 ## Native props
 
-| Name         | Type                                                      |
-| ------------ | --------------------------------------------------------- |
-| `panels`     | `ReadonlyArray<DockPanel>`                                |
-| `centerAxis` | `WithDefault< 'horizontal' \| 'vertical', 'horizontal' >` |
-| `locked`     | `boolean`                                                 |
-| `dockSize`   | `WithDefault<Double, 240>`                                |
+| Name                  | Type                                                      |
+| --------------------- | --------------------------------------------------------- |
+| `panels`              | `ReadonlyArray<DockPanel>`                                |
+| `centerAxis`          | `WithDefault< 'horizontal' \| 'vertical', 'horizontal' >` |
+| `locked`              | `boolean`                                                 |
+| `dockSize`            | `WithDefault<Double, 240>`                                |
+| `dockSizes`           | `string`                                                  |
+| `collapsible`         | `string`                                                  |
+| `toggleButtonVisible` | `WithDefault<boolean, true>`                              |
+| `closeButtonVisible`  | `boolean`                                                 |
+| `layout`              | `string`                                                  |
 
 ## Native events
 
-| Name                        | Type                               |
-| --------------------------- | ---------------------------------- |
-| `onGpuiKitDockLayoutChange` | `DirectEventHandler<Readonly<{}>>` |
+| Name                        | Type                                                 |
+| --------------------------- | ---------------------------------------------------- |
+| `onGpuiKitDockLayoutChange` | `DirectEventHandler< Readonly<{ layout: string }> >` |
 
 ## Commands
 
 - `toggleDock`
 - `selectPanel`
+- `restoreLayout`
 
 ## Coverage
 
@@ -39,4 +45,4 @@ The kit's `Dock`, written by hand on the same specification as the generated com
 - `DockArea::select_panel`: generated (selectPanel()), command
 - `DockEvent`: generated (onLayoutChange)
 - `DockToggleEvent`: generated (onDockToggle)
-- `DockArea::dump`: skipped, restoring a dump needs a Rust registry that rebuilds panels by name; React Native panels are rebuilt from props, so a dump could not be loaded back
+- `DockArea::dump`: generated (onLayoutChange), onLayoutChange carries the dump as JSON with panels named by their id; layout and restoreLayout load one back, mounting the same panels

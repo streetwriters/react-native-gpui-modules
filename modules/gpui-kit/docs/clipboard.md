@@ -15,6 +15,7 @@ An element that provides clipboard copy functionality.
 | `tooltipShowDelay` | `Double`                                           | `Clipboard::tooltip_show_delay` |
 | `value`            | `string`                                           | `Clipboard::value`              |
 | `size`             | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Clipboard::with_size`          |
+| `customSize`       | `Double`                                           | constructor argument            |
 
 ## Events
 

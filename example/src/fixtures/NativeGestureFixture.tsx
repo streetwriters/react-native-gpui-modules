@@ -52,18 +52,32 @@ function NativeGestureFixture() {
       console.log('[native-gesture] JS busy start');
       while (Date.now() - started < 2500) {}
       console.log(
-        `[native-gesture] JS busy end; UI starts=${nativeStarts.value} updates=${nativeUpdates.value} x=${Math.round(translationX.value)} y=${Math.round(translationY.value)}`,
+        `[native-gesture] JS busy end; UI starts=${
+          nativeStarts.value
+        } updates=${nativeUpdates.value} x=${Math.round(
+          translationX.value,
+        )} y=${Math.round(translationY.value)}`,
       );
       setStatus(
-        `JS resumed; native starts ${nativeStarts.value}, updates ${nativeUpdates.value}, x ${Math.round(translationX.value)}, y ${Math.round(translationY.value)}`,
+        `JS resumed; native starts ${nativeStarts.value}, updates ${
+          nativeUpdates.value
+        }, x ${Math.round(translationX.value)}, y ${Math.round(
+          translationY.value,
+        )}`,
       );
     }, 1000);
     const positionTimer = setTimeout(() => {
       console.log(
-        `[native-gesture] final position starts=${nativeStarts.value} x=${Math.round(translationX.value)} y=${Math.round(translationY.value)} updates=${nativeUpdates.value}`,
+        `[native-gesture] final position starts=${
+          nativeStarts.value
+        } x=${Math.round(translationX.value)} y=${Math.round(
+          translationY.value,
+        )} updates=${nativeUpdates.value}`,
       );
       setStatus(
-        `Final UI position: x ${Math.round(translationX.value)}, y ${Math.round(translationY.value)}; starts ${nativeStarts.value}; updates ${nativeUpdates.value}`,
+        `Final UI position: x ${Math.round(translationX.value)}, y ${Math.round(
+          translationY.value,
+        )}; starts ${nativeStarts.value}; updates ${nativeUpdates.value}`,
       );
     }, 7000);
     return () => {

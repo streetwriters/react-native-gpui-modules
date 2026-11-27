@@ -7,18 +7,29 @@ The kit's `GridLayout`, written by hand on the same specification as the generat
 
 ## Native props
 
-| Name        | Type                          |
-| ----------- | ----------------------------- |
-| `columns`   | `Int32`                       |
-| `draggable` | `boolean`                     |
-| `resizable` | `boolean`                     |
-| `areas`     | `ReadonlyArray<GridAreaSpec>` |
+| Name               | Type                         |
+| ------------------ | ---------------------------- |
+| `columns`          | `WithDefault<Int32, 12>`     |
+| `itemsDraggable`   | `WithDefault<boolean, true>` |
+| `itemsResizable`   | `WithDefault<boolean, true>` |
+| `compaction`       | `string`                     |
+| `preventCollision` | `boolean`                    |
+| `reflow`           | `Int32`                      |
+| `rowHeight`        | `Double`                     |
+| `label`            | `string`                     |
+| `areasJson`        | `string`                     |
+| `itemsJson`        | `string`                     |
 
 ## Native events
 
 | Name                        | Type                                                 |
 | --------------------------- | ---------------------------------------------------- |
 | `onGpuiKitGridLayoutChange` | `DirectEventHandler< Readonly<{ layout: string }> >` |
+| `onGpuiKitGridLayoutSelect` | `DirectEventHandler< Readonly<{ id: string }> >`     |
+
+## Commands
+
+- `setAreas`
 
 ## Coverage
 

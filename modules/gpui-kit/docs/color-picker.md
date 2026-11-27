@@ -11,6 +11,9 @@ The kit's `ColorPicker`, written by hand on the same specification as the genera
 | ---------------- | ------------------------------------------------------------------------------- |
 | `value`          | `Int32`                                                                         |
 | `controlled`     | `boolean`                                                                       |
+| `hasValue`       | `boolean`                                                                       |
+| `select`         | `boolean`                                                                       |
+| `placeholder`    | `string`                                                                        |
 | `label`          | `string`                                                                        |
 | `featuredColors` | `ReadonlyArray<Int32>`                                                          |
 | `size`           | `WithDefault< 'unset' \| 'xsmall' \| 'small' \| 'medium' \| 'large', 'unset' >` |

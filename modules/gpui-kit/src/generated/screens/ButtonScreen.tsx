@@ -45,6 +45,45 @@ export default function ButtonScreen() {
         >
           <Text>focusable: {String(Boolean(values['focusable']))}</Text>
         </Pressable>
+        <TextInput
+          testID="button-prop-loading-icon-svg"
+          placeholder="loadingIconSvg"
+          onChangeText={text => set('loadingIconSvg', text)}
+        />
+        <TextInput
+          testID="button-prop-icon-progress-color"
+          placeholder="iconProgressColor"
+          onChangeText={text => set('iconProgressColor', text)}
+        />
+        <Pressable
+          testID="button-prop-icon-progress"
+          onPress={() =>
+            set('iconProgress', ((values['iconProgress'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>iconProgress: {String(values['iconProgress'] ?? 0)}</Text>
+        </Pressable>
+        <Pressable
+          testID="button-prop-icon-custom-size"
+          onPress={() =>
+            set(
+              'iconCustomSize',
+              ((values['iconCustomSize'] as number) ?? 0) + 1,
+            )
+          }
+        >
+          <Text>iconCustomSize: {String(values['iconCustomSize'] ?? 0)}</Text>
+        </Pressable>
+        <TextInput
+          testID="button-prop-icon-color"
+          placeholder="iconColor"
+          onChangeText={text => set('iconColor', text)}
+        />
+        <TextInput
+          testID="button-prop-icon-svg"
+          placeholder="iconSvg"
+          onChangeText={text => set('iconSvg', text)}
+        />
         <Pressable
           testID="button-prop-custom-shadow"
           onPress={() => set('customShadow', !values['customShadow'])}
@@ -339,6 +378,14 @@ export default function ButtonScreen() {
             <Text>text</Text>
           </Pressable>
         </View>
+        <Pressable
+          testID="button-prop-custom-size"
+          onPress={() =>
+            set('customSize', ((values['customSize'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>customSize: {String(values['customSize'] ?? 0)}</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );

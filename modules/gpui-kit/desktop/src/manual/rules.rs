@@ -47,7 +47,10 @@ impl Rules {
     pub fn parse(json: &str) -> Option<Self> {
         let rules: Value = serde_json::from_str(json).ok()?;
         Some(Self {
-            required: rules.get("required").and_then(Value::as_bool).unwrap_or(false),
+            required: rules
+                .get("required")
+                .and_then(Value::as_bool)
+                .unwrap_or(false),
             min_length: number(&rules, "minLength").map(|n| n.max(0.0) as usize),
             max_length: number(&rules, "maxLength").map(|n| n.max(0.0) as usize),
             pattern: rules

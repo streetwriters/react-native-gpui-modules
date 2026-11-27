@@ -10,7 +10,8 @@ export interface NativeProps extends ViewProps {
   range?: boolean;
   controlled?: boolean;
   numberOfMonths?: CodegenTypes.Int32;
-  firstDayOfWeek?: CodegenTypes.Int32;
+  firstDayOfWeek?: CodegenTypes.WithDefault<CodegenTypes.Int32, -1>;
+  disabledWeekdays?: ReadonlyArray<CodegenTypes.Int32>;
   onGpuiKitCalendarChange?: CodegenTypes.DirectEventHandler<
     Readonly<{ start: string; end: string }>
   >;

@@ -54,15 +54,31 @@ export function WebauthnFixture() {
           userName: 'me',
         };
         record(
-          `noPin ${(await errorCode(() => register(base))) === 'ERR_WEBAUTHN_PIN_REQUIRED' ? 'ok' : 'BAD'}`,
+          `noPin ${
+            (await errorCode(() => register(base))) ===
+            'ERR_WEBAUTHN_PIN_REQUIRED'
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
         record(
-          `wrongPin ${(await errorCode(() => register({ ...base, pin: '0000' }))) === 'ERR_WEBAUTHN_PIN_INVALID' ? 'ok' : 'BAD'}`,
+          `wrongPin ${
+            (await errorCode(() => register({ ...base, pin: '0000' }))) ===
+            'ERR_WEBAUTHN_PIN_INVALID'
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
 
         const made = await register({ ...base, pin: PIN });
         record(
-          `register ${made.credentialId.length === 32 && made.prfEnabled && made.transports[0] === 'usb' ? 'ok' : 'BAD'}`,
+          `register ${
+            made.credentialId.length === 32 &&
+            made.prfEnabled &&
+            made.transports[0] === 'usb'
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
 
         const salt = new Uint8Array(32).fill(9);
@@ -79,7 +95,9 @@ export function WebauthnFixture() {
           pin: PIN,
         });
         record(
-          `prfSame ${first.length === 32 && same(first, second) ? 'ok' : 'BAD'}`,
+          `prfSame ${
+            first.length === 32 && same(first, second) ? 'ok' : 'BAD'
+          }`,
         );
         const other = await getPrf({
           rpId: RP,

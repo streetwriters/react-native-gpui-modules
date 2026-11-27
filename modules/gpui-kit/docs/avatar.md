@@ -15,6 +15,8 @@ User avatar element.
 | `name`        | `string`                                           | `Avatar::name`        |
 | `placeholder` | `string`                                           | `Avatar::placeholder` |
 | `size`        | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Avatar::with_size`   |
+| `customSize`  | `Double`                                           | constructor argument  |
+| `kitStyle`    | `string`                                           | constructor argument  |
 
 ## Events
 

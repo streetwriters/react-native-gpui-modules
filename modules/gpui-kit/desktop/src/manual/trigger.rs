@@ -99,10 +99,5 @@ pub fn build_menu(
 }
 
 pub fn anchor(name: &str) -> gpui::Anchor {
-    match name {
-        "top-right" => gpui::Anchor::TopRight,
-        "bottom-left" => gpui::Anchor::BottomLeft,
-        "bottom-right" => gpui::Anchor::BottomRight,
-        _ => gpui::Anchor::TopLeft,
-    }
+    super::notification::anchor(name).unwrap_or(gpui::Anchor::TopLeft)
 }

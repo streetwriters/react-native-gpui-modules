@@ -4,20 +4,34 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitTagNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export interface TagProps extends ViewProps {
   children?: React.ReactNode;
+  customBorder?: ColorValue;
+  customForeground?: ColorValue;
+  customColor?: ColorValue;
+  colorName?: string;
   label?: string;
   variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'info';
   outline?: boolean;
   radius?: number;
   roundedFull?: boolean;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  customSize?: number;
+  kitStyle?: KitStyle;
 }
 
 export const Tag = forwardRef<ComponentRef<typeof Native>, TagProps>(
   function Tag(props, ref) {
     const { style, children, ...rest } = props;
-    return <Native ref={ref} {...rest} style={[style]} />;
+    return (
+      <Native
+        ref={ref}
+        {...rest}
+        style={[style]}
+        kitStyle={kitStyle(props.kitStyle)}
+      />
+    );
   },
 );

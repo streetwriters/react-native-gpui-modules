@@ -18,6 +18,8 @@ export interface NativeProps extends ViewProps {
     'unset'
   >;
   color?: ColorValue;
+  customSize?: CodegenTypes.Double;
+  kitStyle?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitIcon', {

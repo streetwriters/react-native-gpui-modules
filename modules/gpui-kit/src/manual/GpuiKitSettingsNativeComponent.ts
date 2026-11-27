@@ -1,25 +1,28 @@
-import { codegenNativeComponent, type ViewProps } from 'react-native';
-import type { CodegenTypes } from 'react-native';
-
-export type SettingsItem = Readonly<{
-  page: string;
-  group: string;
-  title: string;
-  description: string;
-  vertical: boolean;
-  disabled: boolean;
-  kitField: boolean;
-}>;
+import {
+  codegenNativeComponent,
+  type CodegenTypes,
+  type ViewProps,
+} from 'react-native';
 
 export interface NativeProps extends ViewProps {
-  items?: ReadonlyArray<SettingsItem>;
+  /** The pages, their groups and items as JSON (see `Settings.tsx`). */
+  pagesJson?: string;
   size?: CodegenTypes.WithDefault<
     'unset' | 'xsmall' | 'small' | 'medium' | 'large',
     'unset'
   >;
+  /** `normal`, `outline` or `fill`; empty keeps the kit's. */
+  groupVariant?: string;
   sidebarWidth?: CodegenTypes.Double;
-  fieldWidth?: CodegenTypes.WithDefault<CodegenTypes.Double, 220>;
   slots?: string;
+  /** A kit field changed: the item's key and its new value as JSON. */
+  onGpuiKitSettingsChange?: CodegenTypes.DirectEventHandler<
+    Readonly<{ key: string; value: string }>
+  >;
+  /** The reset button of an item with React Native content was pressed. */
+  onGpuiKitSettingsReset?: CodegenTypes.DirectEventHandler<
+    Readonly<{ key: string }>
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitSettings', {

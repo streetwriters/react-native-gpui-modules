@@ -54,6 +54,12 @@ impl GpuiKitAvatarSpec for GpuiKitAvatar {
             GpuiKitAvatarSize::Medium => element = element.with_size(gpui_component::Size::Medium),
             GpuiKitAvatarSize::Large => element = element.with_size(gpui_component::Size::Large),
         }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
         element.into_any_element()
     }
 }

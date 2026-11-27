@@ -11,8 +11,10 @@ The kit's `GroupBox`, written by hand on the same specification as the generated
 | -------------- | -------------------------------------------------------------------- |
 | `variant`      | `WithDefault< 'unset' \| 'normal' \| 'fill' \| 'outline', 'unset' >` |
 | `title`        | `string`                                                             |
+| `footer`       | `string`                                                             |
 | `titleStyle`   | `string`                                                             |
 | `contentStyle` | `string`                                                             |
+| `kitStyle`     | `string`                                                             |
 
 ## Coverage
 

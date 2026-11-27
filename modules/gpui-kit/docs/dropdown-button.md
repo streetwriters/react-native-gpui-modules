@@ -17,6 +17,10 @@ The kit's `DropdownButton`, written by hand on the same specification as the gen
 | `outline`                | `boolean`                                                                                        |
 | `variant`                | `string`                                                                                         |
 | `menuAccessibilityLabel` | `string`                                                                                         |
+| `compact`                | `boolean`                                                                                        |
+| `tooltip`                | `string`                                                                                         |
+| `buttonVariant`          | `string`                                                                                         |
+| `buttonSize`             | `string`                                                                                         |
 | `anchor`                 | `WithDefault< 'unset' \| 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right', 'unset' ` |
 | `size`                   | `WithDefault< 'unset' \| 'xsmall' \| 'small' \| 'medium' \| 'large', 'unset' >`                  |
 | `items`                  | `ReadonlyArray<DropdownButtonItem>`                                                              |

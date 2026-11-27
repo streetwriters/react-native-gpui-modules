@@ -12,6 +12,7 @@ export interface NativeProps extends ViewProps {
   secondary?: string;
   masked?: boolean;
   highlights?: string;
+  kitStyle?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitLabel', {

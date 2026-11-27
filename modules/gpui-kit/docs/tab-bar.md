@@ -12,6 +12,8 @@ The kit's `TabBar`, written by hand on the same specification as the generated c
 | `items`         | `ReadonlyArray<TabItem>`                                                                           |
 | `selectedIndex` | `Int32`                                                                                            |
 | `menu`          | `boolean`                                                                                          |
+| `tabMaxWidth`   | `Double`                                                                                           |
+| `kitStyle`      | `string`                                                                                           |
 | `variant`       | `WithDefault< 'unset' \| 'tab' \| 'outline' \| 'pill' \| 'segmented' \| 'underline' \| 'folder', ` |
 | `size`          | `WithDefault< 'unset' \| 'xsmall' \| 'small' \| 'medium' \| 'large', 'unset' >`                    |
 

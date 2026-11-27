@@ -4,6 +4,69 @@ All notable changes to `@react-native-gpui/gpui-kit` are listed here. Each versi
 
 ## Unreleased
 
+- `Editor` highlights code in its language (the module builds gpui-component with its `syntect` highlighter).
+- `DataTable` takes cell colours and styles, group headers, `size`, `headerRowHeight`, `loopSelection`, `columnResize`, `columnOrder`, `sortable`, row, column and cell selection, `rowHeader`, `fixedColumns`, `loading`, `hasMore` with `onLoadMore`, a `contextMenu` with `onMenuSelect`, `onSort`, `onMoveColumn`, and `scrollToRow()`, `selectCell()` and `clearSelection()`.
+- `Chart` takes `spec`, a full chart specification (rows, series, fills, tick formats, bar alignment and corners, pie radii, radar labels, sankey nodes and links, stacked bars) for line, area, bar, pie, radar, candlestick, sankey and stacked charts.
+- The context menu opens when React content inside it is right-clicked.
+- Fixed: `TextView` selects by click and drag (needs core's pointer fix).
+
+- Fixed: native props named like a style key or view prop (`maxWidth` of `TabBar`, `width` of `Dialog`, `AlertDialog`, `HoverCard`, `Popover`, `Tooltip` and `Sidebar`, `marginTop` of `Dialog`, `maxHeight` of `Command`, `end` of `Bubble`) were also read as the view's style, so a tab bar with no `maxWidth` was 0 points wide. They have their own names now; the wrappers' props are unchanged. The generator refuses such names.
+- Fixed: `Tabs` draws its tabs with `prefix` and `suffix` content, and is as high as the kit's bar for its variant and size.
+- Fixed: `Input` with `renderToken` keeps its text when the first token is inserted (the input moved under a new root and lost its state), and its commands run inside a `NativeRoot`.
+- `GroupBox` takes `contentClip` (whether the body clips content drawn outside it).
+- `GridLayout`: `compaction`, `preventCollision`, `reflow`, `rowHeight`, `label`, areas with `minSpan`, `maxSpan` and `locked`, `onSelect`, `setAreas()`, and items with a drag `handle`, `dragHandleOnly`, `cardStyle` and content that fills the item.
+- `Settings` takes `pages`: groups with titles, descriptions and footers, and items that are the kit's switch, checkbox, dropdown, number or input fields (with default values and the reset button), React Native fields with `dirty` and `onReset`, or whole React Native rows; pages take an icon, a title suffix, `resettable` and `defaultOpen`; `groupVariant`, `onChange` and keywords for the search. `entries` still works.
+- `Diff` takes `files` (patches, merge conflicts or unchanged files), `mode`, `contextLines`, `inlineUnit`, `hunkSeparator`, `changeIndicator`, `changeBackground`, `hoverHighlight`, `decorations`, React Native `gutterMarkers` and `annotations`, `onAddAnnotation`, `onFilesChange`, and `nextChange()`, `previousChange()`, `expandUnchanged()` and `collapseUnchanged()`.
+- `Editor` takes `defaultValue`, `tabSize`, `hardTabs`, `fontFamily`, `fontSize`, text, range, gutter and scrollbar-track `decorations` (colors may name theme colors), and `completions` (words matched by prefix, substring or characters).
+- `Sidebar` takes `side`, item `suffix` content, `labelStyle`, `kitStyle`, `clickToOpen`, a `contextMenu`, `onPress`, the kit's header (`kitHeader`, with a `headerMenu`) and footer (`kitFooter`), and a single unlabelled group is a bare menu. `SidebarToggle` is the kit's collapse button.
+- `Questionnaire` takes `size`, `kitActions` (all, none or some of the kit's buttons), React Native `actions` and `actionsLeading`, inputs with a label, placeholder and starting text, choices with React Native `content` and `indicator`, a keyboard-key shortcut and styles, `externalError`, `onComplete`, `onStatusChange` (current item, navigation, statuses, errors, answers, drafts, focus) and `setExternalError()`, `clearExternalError()`, `setAnswer()`, `setCurrentItem()` and `setItemDisabled()`. It is as high as its content.
+- `MessageScroller` appends and prepends rows by their keys, keeping the reader's place, and takes `remeasureItems()`, `contentStyle`, `listStyle`, `rowStyle`, `bottomFade`, the jump button's label, text, variant, size, style and transition, and `onScrollChange`.
+- `ThemeRegistry` reports the kit's registered themes, the active one and the resolved colors of a theme, and applies one.
+- `List` takes `hasMore`, `loadMoreThreshold` and `onLoadMore`, and `draggableRows` with `onMove`.
+- `Clipboard` is as big as the kit's default extra-small button.
+- `Input` and `Textarea` take `addons` (the kit's `InputGroup`: text, labels, icons, keyboard keys, spinners, buttons with menus or popovers, and React Native content, at the start, end, top or bottom) and `invalid`.
+- `Select` and `Combobox` items take groups, icons, disabled and pinned rows and a badge; `Combobox` takes `defaultValues`, `checkIcon`, a `renderTrigger` slot, a `footer` and `requestQuery()` with `onQuery`.
+- `Table` is now the kit's basic table (rows of cells with header, body, footer and caption); the virtualized data table is `DataTable`.
+- `IconName` covers the whole icon set of `gpui-kit-assets` (Lucide and the kit's own icons). Renamed: `alarge-small` is `a-large-small`, `building2` is `building-2`, `redo2` is `redo-2`, `settings2` is `settings-2` and `undo2` is `undo-2`.
+- `Theme` takes `shadow` (whether buttons and inputs draw a shadow).
+- `Tree` takes `indent`, `indentOffset`, `rowStyle`, `kitStyle`, a right-click `contextMenu` with `onMenu`, and `selectItem(id)`. `Dock` panels take `size`, and the dock takes `dockSizes`, `collapsible`, `toggleButtonVisible` and `closeButtonVisible`. `Speech` takes the `dictation` variant and a `placeholder`, and reports `onRecognizerAudio`.
+- `KitStyle` also takes per-side padding and margins, `minWidth`, `aspectRatio`, `flexBasis` and percentage `width` and `height` (`'100%'`).
+- `Stepper` steps take a `description`, React Native `content` and `kitStyle`, the stepper takes `kitStyle`, and it is as high as its steps.
+- `StatusBar` takes `left`, centre (`children`) and `right` items as arrays, strings drawn in the bar's own type, `kitStyle`, and is as high as its content.
+- `Notifications`: `push`, `remove` and `clear` the kit's toasts from JavaScript (type, title, message, markdown content, placement, autohide, an action button, system delivery), with click, close and action events for keyed notifications. `Theme` takes `notificationPlacement` and `notificationMaxItems`.
+- Popups anchor to every side: `top-center`, `left-center`, `right-center` and `bottom-center` as well as the corners.
+- `DropdownMenu` and `ContextMenu` build their menu from a model: headings, links (`href`), submenus (`children`), custom rows (`content`), and `shortcut` keystrokes that run the item while focus is inside the trigger and show beside it; the menu takes `minWidth`, `maxWidth`, `maxHeight`, `scrollable`, `checkSide` and `externalLinkIcon`. An open menu updates in place when its items change, and an open submenu stays open. `ContextMenu` opens where it is right-clicked.
+- `NativeMenu`: a menu drawn by the operating system, opened from a right-click on its content or with `open()`, with icons (`icon` or `iconSvg`), checks, disabled items, separators and submenus.
+- `Popover`: `defaultOpen`, `mouseButton="right"`, `kitStyle` for the content box and `width="auto"`.
+- `DropdownButton`: `compact`, `tooltip`, and `buttonVariant` and `buttonSize` for the action half; it is as wide as its content.
+- `AlertDialog` and `Dialog` can be composed of a header and a footer (`headerStyle`, `footerStyle`, `buttons` with roles, variants and flex), take body and footer content, `kitStyle`, `okVariant`, `cancelVariant`, `closeButton`, and `closeOnOk` / `closeOnCancel` to keep the dialog open. `Dialog` takes `description` and `entrance`.
+- `Accordion` items take a string `content` drawn in the kit's type, React Native `title` content and their own `titleStyle` and `contentStyle`. `Collapsible` takes `kitStyle`, an `after` slot, and animates only with `animated`, as the kit does.
+- `Toolbar` takes `items`: buttons and toggles that become the kit's compact ghost controls of the toolbar's `size`, separators, spacers, labelled groups and React Native content.
+- `Resizable` panels nest (a panel whose child is a `Resizable`), take a `label`, `flexNone`, and the group has `resizePanel(index, size)`.
+- `VirtualList` draws generated rows from a `template` for lists too long for a view per row, with overlay `scrollbars`, `onVisibleRangeChange`, `kitStyle` and `scrollToItem(index, 'top' | 'center' | 'bottom')`.
+- `Bubble` takes `align`, `reactions` (a side, an alignment, text, an action button or content) and `contentStyle`; `BubbleGroup` groups plain bubbles.
+- `Attachment` takes `axis`, `size`, image or icon media with an overlay icon and `mediaStyle`, a title shimmer, `titleStyle` and `kitStyle`, and shows remove and retry controls only with their handlers; `AttachmentGroup` lays attachments out in a scrolling row with faded edges.
+- `Message` takes an avatar by name and image or an empty slot, header and footer items (text, colored text, buttons, content) with `inset` and `gap`, content `parts` (bubbles with reactions, attachments, text, content), `stackGap` and `kitStyle`; `MessageGroup` groups messages.
+- `Marker` takes `after` content, `kitStyle`, and is as high as its content.
+- `Carousel` draws text `slides` with `slideStyle`, takes `size`, numbered pagination, control labels, and styles for the carousel, its content, track and items.
+- `Command` takes groups and separators, `shortcut` keystrokes, custom rows, `header`, `footer` and `empty` content, `loading`, `maxHeight` and `autoFocus`; confirm events carry the item's section and row, query events the match count. It is as high as its list.
+
+- Every component the kit makes `Styled` takes `kitStyle` (borders, per-corner radius, padding, width, height, min height, max width, gap, flex direction and wrap, alignment, text align, line height, shadow), and every `Sizable` one takes `customSize` in points.
+- `RadioGroup`, with `Radio` children whose own children are drawn below their label; `Checkbox` and `Radio` take children the same way.
+- Components that size themselves to their content: `AvatarGroup`, `ButtonGroup`, `ToggleGroup`, `Breadcrumb`, `Calendar`, `TimeField`, `ColorPicker`, `Pagination`, `OtpInput`, `Alert` (height) and `TextView` (height). They used fixed or estimated sizes.
+- `Button`, `Tag`, `Switch`, `Checkbox`, `Radio`, `Label`, `ShimmerText` and `Separator` measure like the kit: per-size padding, font and icon width, wrapped labels, link and text variants without padding.
+- `Button`: `iconSvg`, `iconColor`, `iconCustomSize`, `iconProgress`, `iconProgressColor` and `loadingIconSvg`. `Tag`: `colorName` and `customColor`, `customForeground`, `customBorder`. `Spinner`: `bounce` easing. `Alert`: `markdown`.
+- `Slider`: `defaultValue`, `defaultEnd` for a range and `logarithmic`; change events carry `end`. `NumberInput`: `onStep` when no step is set, and `maskPattern` takes `{ "separator", "fraction" }` JSON for a number mask.
+- `TimeField`: `precision`, `hourCycle`, `defaultTime`. `Calendar`: `disabledWeekdays`. `ColorPicker`: `select` (the kit's `ColorSelect`), `placeholder`, `defaultValue`.
+- `GroupBox` takes `kitStyle`; `Empty` takes `kitStyle`, `headerStyle`, `contentStyle` and `extra`; `TextView` takes `kitStyle`.
+- `Badge` takes the child it sits on (React Native content, such as an `Icon` or `Avatar`); it is as big as the child and its indicator overflows the child's corner, as in the kit. A badge without a child is 0x0, like the kit's.
+- `Input` and `Textarea` draw inline tokens with React Native content through `renderToken`, one `NativeSlot` per token, next to `insertToken`, `onTokenClick` and `onTokenHover`.
+- `Input`, `Textarea` and `NumberInput`: `validation` (required, minLength, maxLength, pattern, min, max and a message) checked in Rust on every edit, with `onValidationFail`; `scrollbarStyle` (colors, width, radius, autoHide) drawn by the kit `Scrollbar`; `holdSelection()` and `onSelectionHoldChange` on a second focus handle the adapter owns.
+- `Editor` (the kit's code-editor mode): `highlightTheme`, `editorStyle`, `foldPlaceholder`, `folding`, `indentGuides`, `scrollbarStyle`, and a `language` that can change.
+- `Settings` entries of `kind: 'field'` are kit setting fields whose control is React Native content.
+- `Speech`: `recognizer="js"` takes results from JavaScript (`pushHypothesis`, `pushPhrase`, `finishRecognition`, `failRecognition`, with `onRecognizerStart`, `onRecognizerFinish` and `onRecognizerEnd`), and `audioInput="js"` takes 16-bit PCM from `pushAudio` between `onAudioStart` and `onAudioStop`.
+- `Dock`: `onLayoutChange` carries the kit's layout dump as JSON with panels named by their `id`; `layout` and `restoreLayout()` load one back onto the same panels.
+- `Questionnaire` questions take `validation` rules, checked by the kit before it moves on.
 - First version: `Button`, generated from gpui-kit 0.9.1.
 - `Input`: a text input on the kit's `InputState`, controlled from JS (`value` with an event counter so fast typing is never overwritten) or uncontrolled (`defaultValue`), with `onChangeText`, `onSubmit`, `onFocus`, `onBlur` and the commands `focus`, `selectAll`, `unselect`, `clean`, `insert`, `replaceAll`.
 - `Button` accepts React children; the chrome is native and the children are React views.

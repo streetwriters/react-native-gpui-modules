@@ -33,7 +33,11 @@ export function SpellcheckFixture() {
       try {
         const languages = await getLanguages();
         record(
-          `languages ${languages.some(l => /^en/.test(l.code) && l.name.length > 0) ? 'ok' : 'BAD'}`,
+          `languages ${
+            languages.some(l => /^en/.test(l.code) && l.name.length > 0)
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
         const sentence = 'This is a tset of teh checker';
         const wrong = await words(sentence);
@@ -46,7 +50,11 @@ export function SpellcheckFixture() {
         );
         const emoji = await check('\u{1F600} tset', ['en-US']);
         record(
-          `utf16 ${emoji.length === 1 && emoji[0].start === 3 && emoji[0].length === 4 ? 'ok' : 'BAD'}`,
+          `utf16 ${
+            emoji.length === 1 && emoji[0].start === 3 && emoji[0].length === 4
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
         const guesses = await suggest('tset', ['en-US']);
         record(`suggest ${guesses.includes('test') ? 'ok' : `BAD ${guesses}`}`);
@@ -60,11 +68,18 @@ export function SpellcheckFixture() {
         );
         await forget(WORD);
         record(
-          `forget ${(await words(`a ${WORD} b`)).length === 1 && !(await getLearnedWords()).includes(WORD) ? 'ok' : 'BAD'}`,
+          `forget ${
+            (await words(`a ${WORD} b`)).length === 1 &&
+            !(await getLearnedWords()).includes(WORD)
+              ? 'ok'
+              : 'BAD'
+          }`,
         );
         await ignore(IGNORED);
         record(
-          `ignore ${(await words(`a ${IGNORED} b`)).length === 0 ? 'ok' : 'BAD'}`,
+          `ignore ${
+            (await words(`a ${IGNORED} b`)).length === 0 ? 'ok' : 'BAD'
+          }`,
         );
         record('done ok');
       } catch (error) {

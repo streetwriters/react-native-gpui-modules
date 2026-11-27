@@ -10,9 +10,11 @@ export interface NativeProps extends ViewProps {
     'unset'
   >;
   title?: string;
+  footer?: string;
   slots?: string;
   titleStyle?: string;
   contentStyle?: string;
+  kitStyle?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitGroupBox', {

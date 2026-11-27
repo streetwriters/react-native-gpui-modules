@@ -36,6 +36,28 @@ export default function SliderScreen() {
       <Text testID="slider-log">{log.join('\n')}</Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
         <Pressable
+          testID="slider-prop-logarithmic"
+          onPress={() => set('logarithmic', !values['logarithmic'])}
+        >
+          <Text>logarithmic: {String(Boolean(values['logarithmic']))}</Text>
+        </Pressable>
+        <Pressable
+          testID="slider-prop-default-end"
+          onPress={() =>
+            set('defaultEnd', ((values['defaultEnd'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>defaultEnd: {String(values['defaultEnd'] ?? 0)}</Text>
+        </Pressable>
+        <Pressable
+          testID="slider-prop-default-value"
+          onPress={() =>
+            set('defaultValue', ((values['defaultValue'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>defaultValue: {String(values['defaultValue'] ?? 0)}</Text>
+        </Pressable>
+        <Pressable
           testID="slider-prop-step"
           onPress={() => set('step', ((values['step'] as number) ?? 0) + 1)}
         >

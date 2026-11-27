@@ -40,7 +40,13 @@ export function ImageManipulatorFixture({ source }: { source?: string }) {
         format: SaveFormat.PNG,
       });
       record(
-        `size ${whole.width === 400 && whole.height === 300 && whole.uri.startsWith('file://') ? 'ok' : `BAD ${JSON.stringify(whole)}`}`,
+        `size ${
+          whole.width === 400 &&
+          whole.height === 300 &&
+          whole.uri.startsWith('file://')
+            ? 'ok'
+            : `BAD ${JSON.stringify(whole)}`
+        }`,
       );
 
       const cropped = await manipulateAsync(
@@ -49,7 +55,11 @@ export function ImageManipulatorFixture({ source }: { source?: string }) {
         { format: SaveFormat.PNG },
       );
       record(
-        `crop ${cropped.width === 200 && cropped.height === 150 ? 'ok' : `BAD ${JSON.stringify(cropped)}`}`,
+        `crop ${
+          cropped.width === 200 && cropped.height === 150
+            ? 'ok'
+            : `BAD ${JSON.stringify(cropped)}`
+        }`,
       );
 
       const byWidth = await manipulateAsync(input, [
@@ -59,13 +69,24 @@ export function ImageManipulatorFixture({ source }: { source?: string }) {
         { resize: { width: 50, height: 50 } },
       ]);
       record(
-        `resize ${byWidth.width === 100 && byWidth.height === 75 && exact.width === 50 && exact.height === 50 ? 'ok' : 'BAD'}`,
+        `resize ${
+          byWidth.width === 100 &&
+          byWidth.height === 75 &&
+          exact.width === 50 &&
+          exact.height === 50
+            ? 'ok'
+            : 'BAD'
+        }`,
       );
 
       const turned = await manipulateAsync(input, [{ rotate: 90 }]);
       const flipped = await manipulateAsync(input, [{ flip: 'horizontal' }]);
       record(
-        `rotate ${turned.width === 300 && turned.height === 400 && flipped.width === 400 ? 'ok' : 'BAD'}`,
+        `rotate ${
+          turned.width === 300 && turned.height === 400 && flipped.width === 400
+            ? 'ok'
+            : 'BAD'
+        }`,
       );
 
       const result = await manipulateAsync(
@@ -77,7 +98,17 @@ export function ImageManipulatorFixture({ source }: { source?: string }) {
         { compress: 0.8, format: SaveFormat.JPEG, base64: true },
       );
       record(
-        `avatar ${result.width === 256 && result.height === 256 && result.base64?.startsWith('/9j/') && result.uri.endsWith('.jpg') ? 'ok' : `BAD ${JSON.stringify({ ...result, base64: result.base64?.slice(0, 8) })}`}`,
+        `avatar ${
+          result.width === 256 &&
+          result.height === 256 &&
+          result.base64?.startsWith('/9j/') &&
+          result.uri.endsWith('.jpg')
+            ? 'ok'
+            : `BAD ${JSON.stringify({
+                ...result,
+                base64: result.base64?.slice(0, 8),
+              })}`
+        }`,
       );
       setAvatar(`data:image/jpeg;base64,${result.base64}`);
 
@@ -102,7 +133,14 @@ export function ImageManipulatorFixture({ source }: { source?: string }) {
         manipulateAsync(input, [], { format: 'bmp' as SaveFormat }),
       );
       record(
-        `errors ${missing && outside && unknown && missing.code === 'ERR_IMAGE_MANIPULATOR' ? 'ok' : 'BAD'}`,
+        `errors ${
+          missing &&
+          outside &&
+          unknown &&
+          missing.code === 'ERR_IMAGE_MANIPULATOR'
+            ? 'ok'
+            : 'BAD'
+        }`,
       );
       record('done ok');
     })().catch(error => {

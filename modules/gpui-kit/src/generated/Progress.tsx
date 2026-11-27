@@ -4,6 +4,7 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitProgressNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export interface ProgressProps extends ViewProps {
   children?: React.ReactNode;
@@ -12,11 +13,26 @@ export interface ProgressProps extends ViewProps {
   value?: number;
   accessibilityLabel?: string;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  customSize?: number;
+  kitStyle?: KitStyle;
 }
 
 export const Progress = forwardRef<ComponentRef<typeof Native>, ProgressProps>(
   function Progress(props, ref) {
     const { style, children, ...rest } = props;
-    return <Native ref={ref} {...rest} style={[style]} />;
+    const heights = { xsmall: 4, small: 6, medium: 8, large: 10 } as const;
+    const height =
+      props.customSize ??
+      heights[(props.size as keyof typeof heights) ?? 'medium'] ??
+      4;
+    const width = undefined;
+    return (
+      <Native
+        ref={ref}
+        {...rest}
+        style={[{ height, width }, style]}
+        kitStyle={kitStyle(props.kitStyle)}
+      />
+    );
   },
 );

@@ -6,7 +6,6 @@ fn main() {
         "../src/generated/GpuiKitInputNativeComponent.ts",
         "../src/generated/GpuiKitLabelNativeComponent.ts",
         "../src/generated/GpuiKitIconNativeComponent.ts",
-        "../src/generated/GpuiKitBadgeNativeComponent.ts",
         "../src/generated/GpuiKitTagNativeComponent.ts",
         "../src/generated/GpuiKitAvatarNativeComponent.ts",
         "../src/generated/GpuiKitSpinnerNativeComponent.ts",
@@ -28,6 +27,7 @@ fn main() {
         "../src/generated/GpuiKitPaginationNativeComponent.ts",
         "../src/generated/GpuiKitClipboardNativeComponent.ts",
         "../src/generated/GpuiKitSeparatorNativeComponent.ts",
+        "../src/manual/GpuiKitBadgeNativeComponent.ts",
         "../src/manual/GpuiKitKbdNativeComponent.ts",
         "../src/manual/GpuiKitMarkerNativeComponent.ts",
         "../src/manual/GpuiKitGroupBoxNativeComponent.ts",
@@ -67,7 +67,9 @@ fn main() {
         "../src/manual/GpuiKitCarouselNativeComponent.ts",
         "../src/manual/GpuiKitInputGroupNativeComponent.ts",
         "../src/manual/GpuiKitSidebarNativeComponent.ts",
+        "../src/manual/GpuiKitSidebarToggleNativeComponent.ts",
         "../src/manual/GpuiKitThemeNativeComponent.ts",
+        "../src/manual/GpuiKitThemeRegistryNativeComponent.ts",
         "../src/manual/GpuiKitChartNativeComponent.ts",
         "../src/manual/GpuiKitFormNativeComponent.ts",
         "../src/manual/GpuiKitMessageNativeComponent.ts",
@@ -89,6 +91,9 @@ fn main() {
         "../src/manual/GpuiKitDockNativeComponent.ts",
         "../src/manual/GpuiKitQuestionnaireNativeComponent.ts",
         "../src/manual/GpuiKitPlotNativeComponent.ts",
+        "../src/manual/GpuiKitRadioGroupNativeComponent.ts",
+        "../src/manual/GpuiKitBasicTableNativeComponent.ts",
+        "../src/manual/GpuiKitNativeMenuNativeComponent.ts",
     ]);
     test_rpaths();
 }

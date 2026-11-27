@@ -1,8 +1,8 @@
 {
   "counts": {
-    "generated": 608,
-    "aliased": 103,
-    "skipped": 32
+    "generated": 750,
+    "aliased": 119,
+    "skipped": 5
   },
   "items": [
     {
@@ -315,6 +315,62 @@
     },
     {
       "component": "Button",
+      "item": "Button (prop iconSvg)",
+      "outcome": "generated",
+      "reason": "Button::icon with Icon::data: the icon drawn from SVG source",
+      "prop": "iconSvg"
+    },
+    {
+      "component": "Button",
+      "item": "Button (prop iconColor)",
+      "outcome": "generated",
+      "reason": "Button::icon with Icon::text_color",
+      "prop": "iconColor"
+    },
+    {
+      "component": "Button",
+      "item": "Button (prop iconCustomSize)",
+      "outcome": "generated",
+      "reason": "Button::icon with Icon::size, in points",
+      "prop": "iconCustomSize"
+    },
+    {
+      "component": "Button",
+      "item": "Button (prop iconProgress)",
+      "outcome": "generated",
+      "reason": "Button::icon with a ProgressCircle of this value (0 to 100)",
+      "prop": "iconProgress"
+    },
+    {
+      "component": "Button",
+      "item": "Button (prop iconProgressColor)",
+      "outcome": "generated",
+      "reason": "the ProgressCircle's color",
+      "prop": "iconProgressColor"
+    },
+    {
+      "component": "Button",
+      "item": "Button (prop loadingIconSvg)",
+      "outcome": "generated",
+      "reason": "Button::loading_icon with Icon::data",
+      "prop": "loadingIconSvg"
+    },
+    {
+      "component": "Button",
+      "item": "Button::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Button",
+      "item": "Button (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Button",
       "item": "Button::track_focus",
       "outcome": "generated",
       "reason": "a FocusHandle that is a tab stop, tracked while focusable is set; the focus command focuses it",
@@ -515,9 +571,31 @@
     },
     {
       "component": "Input",
+      "item": "Input (prop addonsJson)",
+      "outcome": "generated",
+      "reason": "the InputGroup addons, as JSON, from the addons prop",
+      "prop": "addonsJson"
+    },
+    {
+      "component": "Input",
+      "item": "Input::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Input",
+      "item": "Input (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Input",
       "item": "Input::token",
-      "outcome": "skipped",
-      "reason": "a Rust closure that draws every inline token during text layout; tokens draw with the kit chip, and insertToken, onTokenClick and onTokenHover cover them"
+      "outcome": "generated",
+      "reason": "renderToken draws each inline token as a NativeSlot of React Native content",
+      "prop": "tokenRender"
     },
     {
       "component": "Input",
@@ -564,8 +642,9 @@
     {
       "component": "Input",
       "item": "InputBaseState::set_selection_focus",
-      "outcome": "skipped",
-      "reason": "shares the selection highlight with another element's FocusHandle; one React Native input has no second handle to pass"
+      "outcome": "generated",
+      "reason": "the adapter owns the second FocusHandle: holdSelection(true) moves focus to it and keeps the selection highlighted, onSelectionHoldChange reports it",
+      "prop": "holdSelection"
     },
     {
       "component": "Input",
@@ -577,26 +656,30 @@
     {
       "component": "Input",
       "item": "InputBaseState::set_highlighter",
-      "outcome": "skipped",
-      "reason": "sets the language of the code-editor mode, which Input, Textarea and NumberInput never use (the Code component has language)"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_highlighter_factory",
-      "outcome": "skipped",
-      "reason": "a Rust factory of tree-sitter highlighters; only the code-editor mode reads it"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_editor_style",
-      "outcome": "skipped",
-      "reason": "a color table with a Rust highlight-style resolver for the code-editor mode; the theme supplies these colors"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "Input",
       "item": "InputBaseState::set_fold_placeholder_renderer",
-      "outcome": "skipped",
-      "reason": "renders folded code regions; only the code-editor mode folds"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "Input",
@@ -615,8 +698,9 @@
     {
       "component": "Input",
       "item": "InputBaseState::set_scrollbar_renderer",
-      "outcome": "skipped",
-      "reason": "a Rust closure that draws the scrollbar from scroll metrics each frame; the kit scrollbar is used"
+      "outcome": "generated",
+      "reason": "scrollbarStyle: thumb and track colors, width, radius and autoHide, drawn by the kit Scrollbar",
+      "prop": "scrollbarStyleJson"
     },
     {
       "component": "Input",
@@ -713,7 +797,7 @@
       "component": "Input",
       "item": "InputBaseState::set_mask_pattern",
       "outcome": "generated",
-      "reason": "MaskPattern::from(&str)",
+      "reason": "MaskPattern::from(&str), or MaskPattern::Number from {\"separator\", \"fraction\"} JSON",
       "prop": "maskPattern"
     },
     {
@@ -733,8 +817,9 @@
     {
       "component": "Input",
       "item": "InputBaseState::set_validator",
-      "outcome": "skipped",
-      "reason": "a synchronous Rust closure on every edit, which JS cannot answer in time; pattern and maskPattern validate instead"
+      "outcome": "generated",
+      "reason": "validation: required, minLength, maxLength, pattern, min and max, checked in Rust on every edit; a rejected edit fires onValidationFail",
+      "prop": "validationRules"
     },
     {
       "component": "Input",
@@ -884,6 +969,13 @@
     },
     {
       "component": "Label",
+      "item": "Label (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Label",
       "item": "Label::new",
       "outcome": "generated",
       "reason": "constructor; the id comes from the node tag"
@@ -960,6 +1052,20 @@
     },
     {
       "component": "Icon",
+      "item": "Icon::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Icon",
+      "item": "Icon (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Icon",
       "item": "Icon::view",
       "outcome": "skipped",
       "reason": "wraps the icon in an Entity<Icon> for Rust callers; the host component is already the view"
@@ -973,75 +1079,6 @@
     {
       "component": "Icon",
       "item": "Icon::empty",
-      "outcome": "generated",
-      "reason": "constructor; the id comes from the node tag"
-    },
-    {
-      "component": "Badge",
-      "item": "Badge::dot",
-      "outcome": "generated",
-      "reason": "",
-      "prop": "dot"
-    },
-    {
-      "component": "Badge",
-      "item": "Badge::count",
-      "outcome": "generated",
-      "reason": "",
-      "prop": "count"
-    },
-    {
-      "component": "Badge",
-      "item": "Badge::icon",
-      "outcome": "generated",
-      "reason": "",
-      "prop": "icon"
-    },
-    {
-      "component": "Badge",
-      "item": "Badge::max",
-      "outcome": "generated",
-      "reason": "",
-      "prop": "max"
-    },
-    {
-      "component": "Badge",
-      "item": "Badge::color",
-      "outcome": "generated",
-      "reason": "",
-      "prop": "color"
-    },
-    {
-      "component": "Badge",
-      "item": "Badge::with_size",
-      "outcome": "generated",
-      "reason": "",
-      "prop": "size"
-    },
-    {
-      "component": "Badge",
-      "item": "Badge::xsmall",
-      "outcome": "aliased",
-      "reason": "covered by with_size",
-      "prop": "size"
-    },
-    {
-      "component": "Badge",
-      "item": "Badge::small",
-      "outcome": "aliased",
-      "reason": "covered by with_size",
-      "prop": "size"
-    },
-    {
-      "component": "Badge",
-      "item": "Badge::large",
-      "outcome": "aliased",
-      "reason": "covered by with_size",
-      "prop": "size"
-    },
-    {
-      "component": "Badge",
-      "item": "Badge::new",
       "outcome": "generated",
       "reason": "constructor; the id comes from the node tag"
     },
@@ -1107,6 +1144,48 @@
       "outcome": "generated",
       "reason": "constructor argument",
       "prop": "label"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag (prop colorName)",
+      "outcome": "generated",
+      "reason": "Tag::color: a ColorName of the kit's palette, by name",
+      "prop": "colorName"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag (prop customColor)",
+      "outcome": "generated",
+      "reason": "Tag::custom: background",
+      "prop": "customColor"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag (prop customForeground)",
+      "outcome": "generated",
+      "reason": "Tag::custom: text",
+      "prop": "customForeground"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag (prop customBorder)",
+      "outcome": "generated",
+      "reason": "Tag::custom: border",
+      "prop": "customBorder"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Tag",
+      "item": "Tag (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
     },
     {
       "component": "Tag",
@@ -1213,6 +1292,20 @@
     },
     {
       "component": "Avatar",
+      "item": "Avatar::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Avatar",
+      "item": "Avatar (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Avatar",
       "item": "Avatar::new",
       "outcome": "generated",
       "reason": "constructor; the id comes from the node tag"
@@ -1261,6 +1354,13 @@
     },
     {
       "component": "Spinner",
+      "item": "Spinner::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Spinner",
       "item": "Spinner::ease",
       "outcome": "generated",
       "reason": "one of gpui's easing functions",
@@ -1278,6 +1378,13 @@
       "outcome": "generated",
       "reason": "",
       "prop": "secondary"
+    },
+    {
+      "component": "Skeleton",
+      "item": "Skeleton (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
     },
     {
       "component": "Skeleton",
@@ -1305,6 +1412,13 @@
       "outcome": "generated",
       "reason": "constructor argument",
       "prop": "text"
+    },
+    {
+      "component": "Link",
+      "item": "Link (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
     },
     {
       "component": "Link",
@@ -1377,6 +1491,20 @@
     },
     {
       "component": "Progress",
+      "item": "Progress::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Progress",
+      "item": "Progress (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Progress",
       "item": "Progress::new",
       "outcome": "generated",
       "reason": "constructor; the id comes from the node tag"
@@ -1436,6 +1564,20 @@
       "outcome": "aliased",
       "reason": "covered by with_size",
       "prop": "size"
+    },
+    {
+      "component": "ProgressCircle",
+      "item": "ProgressCircle::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "ProgressCircle",
+      "item": "ProgressCircle (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
     },
     {
       "component": "ProgressCircle",
@@ -1536,6 +1678,20 @@
     },
     {
       "component": "Toggle",
+      "item": "Toggle::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Toggle",
+      "item": "Toggle (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Toggle",
       "item": "Toggle::on_click",
       "outcome": "generated",
       "reason": "",
@@ -1616,6 +1772,27 @@
       "outcome": "generated",
       "reason": "constructor argument",
       "prop": "message"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert (prop markdown)",
+      "outcome": "generated",
+      "reason": "the message is Markdown, drawn with text::markdown",
+      "prop": "markdown"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Alert",
+      "item": "Alert (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
     },
     {
       "component": "Alert",
@@ -1716,6 +1893,13 @@
       "outcome": "generated",
       "reason": "constructor argument",
       "prop": "spreadPixels"
+    },
+    {
+      "component": "ShimmerText",
+      "item": "ShimmerText (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
     },
     {
       "component": "ShimmerText",
@@ -1844,6 +2028,20 @@
     },
     {
       "component": "Checkbox",
+      "item": "Checkbox::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Checkbox",
+      "item": "Checkbox (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Checkbox",
       "item": "Checkbox::on_click",
       "outcome": "aliased",
       "reason": "on_click calls on_change with the same handler; onChange covers it",
@@ -1952,6 +2150,20 @@
       "outcome": "generated",
       "reason": "",
       "prop": "focusRing"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Radio",
+      "item": "Radio (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
     },
     {
       "component": "Radio",
@@ -2073,6 +2285,20 @@
     },
     {
       "component": "Switch",
+      "item": "Switch::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Switch",
+      "item": "Switch (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Switch",
       "item": "Switch::on_click",
       "outcome": "aliased",
       "reason": "on_click calls on_change with the same handler; onChange covers it",
@@ -2160,6 +2386,20 @@
       "outcome": "aliased",
       "reason": "the same method from Disableable; covered by disabled",
       "prop": "disabled"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Rating",
+      "item": "Rating (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
     },
     {
       "component": "Rating",
@@ -2273,9 +2513,45 @@
     },
     {
       "component": "Textarea",
+      "item": "Textarea (prop autoGrowMin)",
+      "outcome": "generated",
+      "reason": "TextareaState::auto_grow: the fewest rows",
+      "prop": "autoGrowMin"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea (prop autoGrowMax)",
+      "outcome": "generated",
+      "reason": "TextareaState::auto_grow: the most rows; the box is then as high as the rows shown",
+      "prop": "autoGrowMax"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea (prop addonsJson)",
+      "outcome": "generated",
+      "reason": "the InputGroup addons, as JSON, from the addons prop",
+      "prop": "addonsJson"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Textarea",
+      "item": "Textarea (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Textarea",
       "item": "Textarea::token",
-      "outcome": "skipped",
-      "reason": "a Rust closure that draws every inline token during text layout; tokens draw with the kit chip, and insertToken, onTokenClick and onTokenHover cover them"
+      "outcome": "generated",
+      "reason": "renderToken draws each inline token as a NativeSlot of React Native content",
+      "prop": "tokenRender"
     },
     {
       "component": "Textarea",
@@ -2329,8 +2605,9 @@
     {
       "component": "Textarea",
       "item": "InputBaseState::set_selection_focus",
-      "outcome": "skipped",
-      "reason": "shares the selection highlight with another element's FocusHandle; one React Native input has no second handle to pass"
+      "outcome": "generated",
+      "reason": "the adapter owns the second FocusHandle: holdSelection(true) moves focus to it and keeps the selection highlighted, onSelectionHoldChange reports it",
+      "prop": "holdSelection"
     },
     {
       "component": "Textarea",
@@ -2342,26 +2619,30 @@
     {
       "component": "Textarea",
       "item": "InputBaseState::set_highlighter",
-      "outcome": "skipped",
-      "reason": "sets the language of the code-editor mode, which Input, Textarea and NumberInput never use (the Code component has language)"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "Textarea",
       "item": "InputBaseState::set_highlighter_factory",
-      "outcome": "skipped",
-      "reason": "a Rust factory of tree-sitter highlighters; only the code-editor mode reads it"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "Textarea",
       "item": "InputBaseState::set_editor_style",
-      "outcome": "skipped",
-      "reason": "a color table with a Rust highlight-style resolver for the code-editor mode; the theme supplies these colors"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "Textarea",
       "item": "InputBaseState::set_fold_placeholder_renderer",
-      "outcome": "skipped",
-      "reason": "renders folded code regions; only the code-editor mode folds"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "Textarea",
@@ -2380,8 +2661,9 @@
     {
       "component": "Textarea",
       "item": "InputBaseState::set_scrollbar_renderer",
-      "outcome": "skipped",
-      "reason": "a Rust closure that draws the scrollbar from scroll metrics each frame; the kit scrollbar is used"
+      "outcome": "generated",
+      "reason": "scrollbarStyle: thumb and track colors, width, radius and autoHide, drawn by the kit Scrollbar",
+      "prop": "scrollbarStyleJson"
     },
     {
       "component": "Textarea",
@@ -2478,7 +2760,7 @@
       "component": "Textarea",
       "item": "InputBaseState::set_mask_pattern",
       "outcome": "generated",
-      "reason": "MaskPattern::from(&str)",
+      "reason": "MaskPattern::from(&str), or MaskPattern::Number from {\"separator\", \"fraction\"} JSON",
       "prop": "maskPattern"
     },
     {
@@ -2574,6 +2856,13 @@
     },
     {
       "component": "Textarea",
+      "item": "InputBaseState::replace",
+      "outcome": "generated",
+      "reason": "command",
+      "prop": "replace"
+    },
+    {
+      "component": "Textarea",
       "item": "InputEvent::Change",
       "outcome": "generated",
       "reason": "event",
@@ -2599,6 +2888,13 @@
       "outcome": "generated",
       "reason": "event",
       "prop": "onBlur"
+    },
+    {
+      "component": "Textarea",
+      "item": "InputBaseState::cursor_position",
+      "outcome": "generated",
+      "reason": "reported when the cursor moves",
+      "prop": "onCursorChange"
     },
     {
       "component": "Textarea",
@@ -2685,6 +2981,20 @@
     },
     {
       "component": "NumberInput",
+      "item": "NumberInput::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "NumberInput",
+      "item": "NumberInput (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "NumberInput",
       "item": "InputBaseState::set_search_query",
       "outcome": "generated",
       "reason": "command",
@@ -2700,8 +3010,9 @@
     {
       "component": "NumberInput",
       "item": "InputBaseState::set_selection_focus",
-      "outcome": "skipped",
-      "reason": "shares the selection highlight with another element's FocusHandle; one React Native input has no second handle to pass"
+      "outcome": "generated",
+      "reason": "the adapter owns the second FocusHandle: holdSelection(true) moves focus to it and keeps the selection highlighted, onSelectionHoldChange reports it",
+      "prop": "holdSelection"
     },
     {
       "component": "NumberInput",
@@ -2713,26 +3024,30 @@
     {
       "component": "NumberInput",
       "item": "InputBaseState::set_highlighter",
-      "outcome": "skipped",
-      "reason": "sets the language of the code-editor mode, which Input, Textarea and NumberInput never use (the Code component has language)"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "NumberInput",
       "item": "InputBaseState::set_highlighter_factory",
-      "outcome": "skipped",
-      "reason": "a Rust factory of tree-sitter highlighters; only the code-editor mode reads it"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "NumberInput",
       "item": "InputBaseState::set_editor_style",
-      "outcome": "skipped",
-      "reason": "a color table with a Rust highlight-style resolver for the code-editor mode; the theme supplies these colors"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "NumberInput",
       "item": "InputBaseState::set_fold_placeholder_renderer",
-      "outcome": "skipped",
-      "reason": "renders folded code regions; only the code-editor mode folds"
+      "outcome": "aliased",
+      "reason": "code-editor mode is the Editor component, which takes language, highlightTheme, editorStyle and foldPlaceholder",
+      "prop": "Editor"
     },
     {
       "component": "NumberInput",
@@ -2751,8 +3066,9 @@
     {
       "component": "NumberInput",
       "item": "InputBaseState::set_scrollbar_renderer",
-      "outcome": "skipped",
-      "reason": "a Rust closure that draws the scrollbar from scroll metrics each frame; the kit scrollbar is used"
+      "outcome": "generated",
+      "reason": "scrollbarStyle: thumb and track colors, width, radius and autoHide, drawn by the kit Scrollbar",
+      "prop": "scrollbarStyleJson"
     },
     {
       "component": "NumberInput",
@@ -2849,7 +3165,7 @@
       "component": "NumberInput",
       "item": "InputBaseState::set_mask_pattern",
       "outcome": "generated",
-      "reason": "MaskPattern::from(&str)",
+      "reason": "MaskPattern::from(&str), or MaskPattern::Number from {\"separator\", \"fraction\"} JSON",
       "prop": "maskPattern"
     },
     {
@@ -2869,8 +3185,9 @@
     {
       "component": "NumberInput",
       "item": "InputBaseState::set_validator",
-      "outcome": "skipped",
-      "reason": "a synchronous Rust closure on every edit, which JS cannot answer in time; pattern and maskPattern validate instead"
+      "outcome": "generated",
+      "reason": "validation: required, minLength, maxLength, pattern, min and max, checked in Rust on every edit; a rejected edit fires onValidationFail",
+      "prop": "validationRules"
     },
     {
       "component": "NumberInput",
@@ -2979,6 +3296,13 @@
     },
     {
       "component": "NumberInput",
+      "item": "NumberInputEvent::Step",
+      "outcome": "generated",
+      "reason": "event",
+      "prop": "onStep"
+    },
+    {
+      "component": "NumberInput",
       "item": "NumberInput::new",
       "outcome": "generated",
       "reason": "constructor; the id comes from the node tag"
@@ -3038,6 +3362,13 @@
       "outcome": "generated",
       "reason": "constructor argument",
       "prop": "length"
+    },
+    {
+      "component": "OtpInput",
+      "item": "OtpInput::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
     },
     {
       "component": "OtpInput",
@@ -3145,6 +3476,34 @@
     },
     {
       "component": "Slider",
+      "item": "Slider (prop defaultValue)",
+      "outcome": "generated",
+      "reason": "SliderState::default_value",
+      "prop": "defaultValue"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider (prop defaultEnd)",
+      "outcome": "generated",
+      "reason": "SliderState::default_value with a range: defaultValue to defaultEnd",
+      "prop": "defaultEnd"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider (prop logarithmic)",
+      "outcome": "generated",
+      "reason": "SliderState::scale(SliderScale::Logarithmic)",
+      "prop": "logarithmic"
+    },
+    {
+      "component": "Slider",
+      "item": "Slider (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Slider",
       "item": "SliderState::set_value",
       "outcome": "generated",
       "reason": "controlled value",
@@ -3235,6 +3594,20 @@
     },
     {
       "component": "Pagination",
+      "item": "Pagination::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Pagination",
+      "item": "Pagination (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Pagination",
       "item": "Pagination::on_click",
       "outcome": "generated",
       "reason": "",
@@ -3304,6 +3677,13 @@
     },
     {
       "component": "Clipboard",
+      "item": "Clipboard::with_size (pixels)",
+      "outcome": "generated",
+      "reason": "Size::Size: a size in points, over size",
+      "prop": "customSize"
+    },
+    {
+      "component": "Clipboard",
       "item": "Clipboard::value_fn",
       "outcome": "aliased",
       "reason": "reads the value on demand; the value prop is current on every render",
@@ -3352,6 +3732,13 @@
     },
     {
       "component": "Separator",
+      "item": "Separator (Styled)",
+      "outcome": "generated",
+      "reason": "Styled refinements: borders, radius, padding, size, shadow",
+      "prop": "kitStyle"
+    },
+    {
+      "component": "Separator",
       "item": "Separator::vertical",
       "outcome": "generated",
       "reason": "constructor; the id comes from the node tag"
@@ -3373,6 +3760,83 @@
       "item": "Separator::horizontal_dashed",
       "outcome": "generated",
       "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "the wrapper is as big as its child, from a native-tree slot, and the indicator overflows its corner as in the kit"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::dot",
+      "outcome": "generated",
+      "prop": "dot",
+      "reason": ""
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::count",
+      "outcome": "generated",
+      "prop": "count",
+      "reason": ""
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::icon",
+      "outcome": "generated",
+      "prop": "icon",
+      "reason": ""
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::max",
+      "outcome": "generated",
+      "prop": "max",
+      "reason": ""
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::color",
+      "outcome": "generated",
+      "prop": "color",
+      "reason": ""
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::with_size",
+      "outcome": "generated",
+      "prop": "size",
+      "reason": ""
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::xsmall",
+      "outcome": "aliased",
+      "prop": "size",
+      "reason": "covered by with_size"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::small",
+      "outcome": "aliased",
+      "prop": "size",
+      "reason": "covered by with_size"
+    },
+    {
+      "component": "Badge",
+      "item": "Badge::large",
+      "outcome": "aliased",
+      "prop": "size",
+      "reason": "covered by with_size"
+    },
+    {
+      "component": "Badge",
+      "item": "ParentElement::extend",
+      "outcome": "generated",
+      "prop": "children",
+      "reason": "the child the badge sits on, as React Native content"
     },
     {
       "component": "Kbd",
@@ -4162,7 +4626,21 @@
       "item": "StepperItem::child",
       "outcome": "generated",
       "prop": "items",
-      "reason": "the title of the item"
+      "reason": "the title and description of the item, or its React Native content"
+    },
+    {
+      "component": "Stepper",
+      "item": "StepperItem (Styled)",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "an item's kitStyle"
+    },
+    {
+      "component": "Stepper",
+      "item": "Stepper (Styled)",
+      "outcome": "generated",
+      "prop": "kitStyle",
+      "reason": ""
     },
     {
       "component": "Collapsible",
@@ -4459,7 +4937,7 @@
       "reason": "constructor over its state entity and a delegate that holds the rows"
     },
     {
-      "component": "Table",
+      "component": "DataTable",
       "item": "DataTable::new",
       "outcome": "generated",
       "prop": "",
@@ -4471,6 +4949,34 @@
       "outcome": "generated",
       "prop": "",
       "reason": "constructor; React Native views are the slots of the component"
+    },
+    {
+      "component": "StatusBar",
+      "item": "StatusBar::left",
+      "outcome": "generated",
+      "prop": "left",
+      "reason": "each item of left; a string is drawn in the bar's type"
+    },
+    {
+      "component": "StatusBar",
+      "item": "StatusBar::right",
+      "outcome": "generated",
+      "prop": "right",
+      "reason": "each item of right"
+    },
+    {
+      "component": "StatusBar",
+      "item": "StatusBar (ParentElement)",
+      "outcome": "generated",
+      "prop": "children",
+      "reason": "the center region"
+    },
+    {
+      "component": "StatusBar",
+      "item": "StatusBar (Styled)",
+      "outcome": "generated",
+      "prop": "kitStyle",
+      "reason": ""
     },
     {
       "component": "Toolbar",
@@ -4505,7 +5011,91 @@
       "item": "Sidebar::new",
       "outcome": "generated",
       "prop": "",
-      "reason": "constructor"
+      "reason": "constructor; groups and their items are the menu"
+    },
+    {
+      "component": "Sidebar",
+      "item": "Sidebar::side",
+      "outcome": "generated",
+      "prop": "side",
+      "reason": ""
+    },
+    {
+      "component": "Sidebar",
+      "item": "Sidebar::collapsible",
+      "outcome": "generated",
+      "prop": "collapsible",
+      "reason": ""
+    },
+    {
+      "component": "Sidebar",
+      "item": "Sidebar::collapsed",
+      "outcome": "generated",
+      "prop": "collapsed",
+      "reason": ""
+    },
+    {
+      "component": "Sidebar",
+      "item": "Sidebar::header",
+      "outcome": "generated",
+      "prop": "header, kitHeader",
+      "reason": "React Native content, in the kit's SidebarHeader with kitHeader"
+    },
+    {
+      "component": "Sidebar",
+      "item": "Sidebar::footer",
+      "outcome": "generated",
+      "prop": "footer, kitFooter",
+      "reason": "React Native content, in the kit's SidebarFooter with kitFooter"
+    },
+    {
+      "component": "Sidebar",
+      "item": "SidebarHeader::dropdown_menu",
+      "outcome": "generated",
+      "prop": "headerMenu",
+      "reason": ""
+    },
+    {
+      "component": "Sidebar",
+      "item": "SidebarGroup::new",
+      "outcome": "generated",
+      "prop": "groups",
+      "reason": ""
+    },
+    {
+      "component": "Sidebar",
+      "item": "SidebarMenuItem::new",
+      "outcome": "generated",
+      "prop": "groups[].items",
+      "reason": "label, icon, active, disabled, open, clickToOpen, children"
+    },
+    {
+      "component": "Sidebar",
+      "item": "SidebarMenuItem::suffix",
+      "outcome": "generated",
+      "prop": "groups[].items[].suffix",
+      "reason": "React Native content"
+    },
+    {
+      "component": "Sidebar",
+      "item": "SidebarMenuItem::label_style",
+      "outcome": "generated",
+      "prop": "groups[].items[].labelStyle",
+      "reason": ""
+    },
+    {
+      "component": "Sidebar",
+      "item": "SidebarMenuItem::context_menu",
+      "outcome": "generated",
+      "prop": "groups[].items[].contextMenu",
+      "reason": "items, labels, links and separators"
+    },
+    {
+      "component": "SidebarToggle",
+      "item": "SidebarToggleButton::new",
+      "outcome": "generated",
+      "prop": "side, collapsed, onPress",
+      "reason": ""
     },
     {
       "component": "Theme",
@@ -4513,6 +5103,41 @@
       "outcome": "generated",
       "prop": "",
       "reason": "constructor"
+    },
+    {
+      "component": "ThemeRegistry",
+      "item": "ThemeRegistry::sorted_themes",
+      "outcome": "generated",
+      "prop": "onChange",
+      "reason": "the themes, with their mode"
+    },
+    {
+      "component": "ThemeRegistry",
+      "item": "Theme::theme_name",
+      "outcome": "generated",
+      "prop": "onChange",
+      "reason": "the active theme"
+    },
+    {
+      "component": "ThemeRegistry",
+      "item": "Theme::apply_config",
+      "outcome": "generated",
+      "prop": "apply()",
+      "reason": "command; also how a theme's colors are resolved over the default of its mode"
+    },
+    {
+      "component": "ThemeRegistry",
+      "item": "ThemeRegistry::default_light_theme",
+      "outcome": "generated",
+      "prop": "onChange",
+      "reason": "the isolated colors a viewer draws with"
+    },
+    {
+      "component": "ThemeRegistry",
+      "item": "ThemeRegistry::default_dark_theme",
+      "outcome": "generated",
+      "prop": "onChange",
+      "reason": "the isolated colors a viewer draws with"
     },
     {
       "component": "Chart",
@@ -4606,6 +5231,55 @@
       "reason": "the code editor; its `language` selects the kit's syntax highlighter, which is how Highlighter is exposed"
     },
     {
+      "component": "Editor",
+      "item": "InputBaseState::set_highlighter",
+      "outcome": "generated",
+      "prop": "language",
+      "reason": "changing language switches the kit highlighter"
+    },
+    {
+      "component": "Editor",
+      "item": "InputBaseState::set_highlighter_factory",
+      "outcome": "generated",
+      "prop": "language",
+      "reason": "the kit installs its own highlighter factory, which language selects from"
+    },
+    {
+      "component": "Editor",
+      "item": "InputBaseState::set_editor_style",
+      "outcome": "generated",
+      "prop": "editorStyle",
+      "reason": "highlightTheme picks the kit highlight theme; editorStyle overrides foreground, background, selection, caret, active line and gutter colors"
+    },
+    {
+      "component": "Editor",
+      "item": "InputBaseState::set_fold_placeholder_renderer",
+      "outcome": "generated",
+      "prop": "foldPlaceholder",
+      "reason": "the text drawn after a folded line"
+    },
+    {
+      "component": "Editor",
+      "item": "InputBaseState::set_scrollbar_renderer",
+      "outcome": "generated",
+      "prop": "scrollbarStyle",
+      "reason": "the kit Scrollbar with the style object"
+    },
+    {
+      "component": "Editor",
+      "item": "InputBaseState::set_folding",
+      "outcome": "generated",
+      "prop": "folding",
+      "reason": ""
+    },
+    {
+      "component": "Editor",
+      "item": "InputBaseState::set_indent_guides",
+      "outcome": "generated",
+      "prop": "indentGuides",
+      "reason": ""
+    },
+    {
       "component": "Diff",
       "item": "Diff::new",
       "outcome": "generated",
@@ -4664,8 +5338,9 @@
     {
       "component": "Settings",
       "item": "SettingItem::new",
-      "outcome": "skipped",
-      "reason": "a typed field reads and writes its value through Rust closures over app state; Settings takes React Native controls as items instead"
+      "outcome": "generated",
+      "prop": "entries",
+      "reason": "an entry with kind field is a kit setting item whose custom SettingField renders the React Native control"
     },
     {
       "component": "Settings",
@@ -4747,14 +5422,16 @@
     {
       "component": "Speech",
       "item": "SpeechState::recognizer",
-      "outcome": "skipped",
-      "reason": "a custom recognizer is a Rust trait implementation; JS cannot provide one, the system recognizer is used"
+      "outcome": "generated",
+      "prop": "recognizer",
+      "reason": "recognizer js: a recognizer whose results JavaScript pushes with pushHypothesis, pushPhrase and finishRecognition, with onRecognizerStart, onRecognizerFinish and onRecognizerEnd"
     },
     {
       "component": "Speech",
       "item": "SpeechState::input",
-      "outcome": "skipped",
-      "reason": "a custom audio source is a Rust trait implementation; the microphone is used"
+      "outcome": "generated",
+      "prop": "audioInput",
+      "reason": "audioInput js: an audio source fed 16-bit PCM by pushAudio, between onAudioStart and onAudioStop"
     },
     {
       "component": "History",
@@ -4955,8 +5632,9 @@
     {
       "component": "Dock",
       "item": "DockArea::dump",
-      "outcome": "skipped",
-      "reason": "restoring a dump needs a Rust registry that rebuilds panels by name; React Native panels are rebuilt from props, so a dump could not be loaded back"
+      "outcome": "generated",
+      "prop": "onLayoutChange",
+      "reason": "onLayoutChange carries the dump as JSON with panels named by their id; layout and restoreLayout load one back, mounting the same panels"
     },
     {
       "component": "Questionnaire",
@@ -5045,8 +5723,9 @@
     {
       "component": "Questionnaire",
       "item": "QuestionnaireItemDefinition::with_validator",
-      "outcome": "skipped",
-      "reason": "a synchronous Rust closure on every answer, which JS cannot answer in time; required and the onSubmit answers cover validation"
+      "outcome": "generated",
+      "prop": "questions",
+      "reason": "validation: declarative rules checked in Rust; the kit shows the message under the question"
     },
     {
       "component": "Plot",
@@ -5131,6 +5810,272 @@
       "outcome": "generated",
       "prop": "layers: sankey, links",
       "reason": "the points are nodes and links the flows"
+    },
+    {
+      "component": "RadioGroup",
+      "item": "RadioGroup::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; the id comes from the node tag"
+    },
+    {
+      "component": "RadioGroup",
+      "item": "RadioGroup::vertical",
+      "outcome": "generated",
+      "prop": "layout",
+      "reason": ""
+    },
+    {
+      "component": "RadioGroup",
+      "item": "RadioGroup::horizontal",
+      "outcome": "generated",
+      "prop": "layout",
+      "reason": ""
+    },
+    {
+      "component": "RadioGroup",
+      "item": "RadioGroup::layout",
+      "outcome": "aliased",
+      "prop": "layout",
+      "reason": "covered by layout"
+    },
+    {
+      "component": "RadioGroup",
+      "item": "RadioGroup::child",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "each Radio child of the React component becomes an item; its children are drawn below its label"
+    },
+    {
+      "component": "RadioGroup",
+      "item": "RadioGroup::children",
+      "outcome": "aliased",
+      "prop": "items",
+      "reason": "covered by items"
+    },
+    {
+      "component": "RadioGroup",
+      "item": "RadioGroup::selected_index",
+      "outcome": "generated",
+      "prop": "selectedIndex",
+      "reason": "-1 selects none"
+    },
+    {
+      "component": "RadioGroup",
+      "item": "RadioGroup::disabled",
+      "outcome": "generated",
+      "prop": "disabled",
+      "reason": ""
+    },
+    {
+      "component": "RadioGroup",
+      "item": "RadioGroup::on_click",
+      "outcome": "generated",
+      "prop": "onChange",
+      "reason": "reports the index clicked"
+    },
+    {
+      "component": "RadioGroup",
+      "item": "RadioGroup::on_change",
+      "outcome": "aliased",
+      "prop": "onChange",
+      "reason": "covered by onChange"
+    },
+    {
+      "component": "RadioGroup",
+      "item": "RadioGroup (Styled)",
+      "outcome": "generated",
+      "prop": "kitStyle",
+      "reason": ""
+    },
+    {
+      "component": "Table",
+      "item": "Table::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": "constructor; sections and rows come from the spec built by the Table wrapper"
+    },
+    {
+      "component": "Table",
+      "item": "Table::child",
+      "outcome": "generated",
+      "prop": "header, rows, footer",
+      "reason": "one TableHeader, TableBody and TableFooter"
+    },
+    {
+      "component": "Table",
+      "item": "Table::children",
+      "outcome": "generated",
+      "prop": "rows",
+      "reason": "covered by the rows of each section"
+    },
+    {
+      "component": "Table",
+      "item": "Table::accessibility_label",
+      "outcome": "generated",
+      "prop": "label",
+      "reason": ""
+    },
+    {
+      "component": "Table",
+      "item": "TableHeader::new",
+      "outcome": "generated",
+      "prop": "header",
+      "reason": ""
+    },
+    {
+      "component": "Table",
+      "item": "TableBody::new",
+      "outcome": "generated",
+      "prop": "rows",
+      "reason": ""
+    },
+    {
+      "component": "Table",
+      "item": "TableFooter::new",
+      "outcome": "generated",
+      "prop": "footer",
+      "reason": ""
+    },
+    {
+      "component": "Table",
+      "item": "TableRow::new",
+      "outcome": "generated",
+      "prop": "rows",
+      "reason": "a row's kitStyle refines it"
+    },
+    {
+      "component": "Table",
+      "item": "TableHead::new",
+      "outcome": "generated",
+      "prop": "header",
+      "reason": "cells of header rows"
+    },
+    {
+      "component": "Table",
+      "item": "TableHead::col_span",
+      "outcome": "generated",
+      "prop": "colSpan",
+      "reason": ""
+    },
+    {
+      "component": "Table",
+      "item": "TableHead::text_center",
+      "outcome": "generated",
+      "prop": "align",
+      "reason": ""
+    },
+    {
+      "component": "Table",
+      "item": "TableHead::text_right",
+      "outcome": "generated",
+      "prop": "align",
+      "reason": ""
+    },
+    {
+      "component": "Table",
+      "item": "TableCell::new",
+      "outcome": "generated",
+      "prop": "rows",
+      "reason": "text, or React Native content in the cell-S-R-C slot"
+    },
+    {
+      "component": "Table",
+      "item": "TableCell::col_span",
+      "outcome": "generated",
+      "prop": "colSpan",
+      "reason": ""
+    },
+    {
+      "component": "Table",
+      "item": "TableCell::text_center",
+      "outcome": "generated",
+      "prop": "align",
+      "reason": ""
+    },
+    {
+      "component": "Table",
+      "item": "TableCell::text_right",
+      "outcome": "generated",
+      "prop": "align",
+      "reason": ""
+    },
+    {
+      "component": "Table",
+      "item": "TableCaption::new",
+      "outcome": "generated",
+      "prop": "caption",
+      "reason": ""
+    },
+    {
+      "component": "NativeMenu",
+      "item": "NativeMenu::new",
+      "outcome": "generated",
+      "prop": "",
+      "reason": " built from items when the menu opens"
+    },
+    {
+      "component": "NativeMenu",
+      "item": "NativeMenu::menu",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": ""
+    },
+    {
+      "component": "NativeMenu",
+      "item": "NativeMenu::menu_with_disabled",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "an item's disabled"
+    },
+    {
+      "component": "NativeMenu",
+      "item": "NativeMenu::menu_with_check",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "an item's checked"
+    },
+    {
+      "component": "NativeMenu",
+      "item": "NativeMenu::menu_with_icon",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "an item's icon or iconSvg"
+    },
+    {
+      "component": "NativeMenu",
+      "item": "NativeMenu::menu_with_icon_disabled",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "an item with an icon and disabled"
+    },
+    {
+      "component": "NativeMenu",
+      "item": "NativeMenu::menu_with_icon_and_disabled",
+      "outcome": "aliased",
+      "prop": "items",
+      "reason": "covered by items"
+    },
+    {
+      "component": "NativeMenu",
+      "item": "NativeMenu::separator",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "an item's separator"
+    },
+    {
+      "component": "NativeMenu",
+      "item": "NativeMenu::submenu",
+      "outcome": "generated",
+      "prop": "items",
+      "reason": "an item's children"
+    },
+    {
+      "component": "NativeMenu",
+      "item": "NativeMenu::show",
+      "outcome": "generated",
+      "prop": "contextMenu",
+      "reason": "at a right-click on the content, or below it with open()"
     }
   ]
 }

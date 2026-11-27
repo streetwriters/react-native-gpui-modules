@@ -7,20 +7,35 @@ The kit's `List`, written by hand on the same specification as the generated com
 
 ## Native props
 
-| Name            | Type                     |
-| --------------- | ------------------------ |
-| `items`         | `ReadonlyArray<ListRow>` |
-| `selectedIndex` | `WithDefault<Int32, -1>` |
-| `controlled`    | `boolean`                |
-| `searchable`    | `boolean`                |
+| Name                | Type                         |
+| ------------------- | ---------------------------- |
+| `items`             | `ReadonlyArray<ListRow>`     |
+| `selectedIndex`     | `WithDefault<Int32, -1>`     |
+| `controlled`        | `boolean`                    |
+| `searchable`        | `boolean`                    |
+| `sectionCount`      | `WithDefault<Int32, 1>`      |
+| `selectable`        | `WithDefault<boolean, true>` |
+| `loading`           | `boolean`                    |
+| `hasMore`           | `boolean`                    |
+| `loadMoreThreshold` | `WithDefault<Int32, 20>`     |
+| `rowsDraggable`     | `boolean`                    |
+| `itemStyle`         | `string`                     |
+| `kitStyle`          | `string`                     |
 
 ## Native events
 
-| Name                   | Type                                               |
-| ---------------------- | -------------------------------------------------- |
-| `onGpuiKitListSelect`  | `DirectEventHandler< Readonly<{ index: Int32 }> >` |
-| `onGpuiKitListConfirm` | `DirectEventHandler< Readonly<{ index: Int32 }> >` |
-| `onGpuiKitListCancel`  | `DirectEventHandler<Readonly<{}>>`                 |
+| Name                    | Type                                               |
+| ----------------------- | -------------------------------------------------- |
+| `onGpuiKitListSelect`   | `DirectEventHandler< Readonly<{ index: Int32 }> >` |
+| `onGpuiKitListConfirm`  | `DirectEventHandler< Readonly<{ index: Int32 }> >` |
+| `onGpuiKitListCancel`   | `DirectEventHandler<Readonly<{}>>`                 |
+| `onGpuiKitListLoadMore` | `DirectEventHandler<Readonly<{}>>`                 |
+| `onGpuiKitListMove`     | `DirectEventHandler< Readonly<{ from: Int32`       |
+
+## Commands
+
+- `scrollToItem`
+- `scrollToSelected`
 
 ## Coverage
 

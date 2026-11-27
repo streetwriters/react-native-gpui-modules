@@ -17,6 +17,8 @@ title: Toggle
 | `variant`          | `'ghost'` \| `'outline'`                           | `Toggle::with_variant`       |
 | `disabled`         | `boolean`                                          | `Toggle::disabled`           |
 | `size`             | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Toggle::with_size`          |
+| `customSize`       | `Double`                                           | constructor argument         |
+| `kitStyle`         | `string`                                           | constructor argument         |
 
 ## Events
 

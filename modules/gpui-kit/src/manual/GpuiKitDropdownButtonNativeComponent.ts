@@ -23,6 +23,12 @@ export interface NativeProps extends ViewProps {
   outline?: boolean;
   variant?: string;
   menuAccessibilityLabel?: string;
+  compact?: boolean;
+  tooltip?: string;
+  /** The variant of the action half only; empty inherits the button's. */
+  buttonVariant?: string;
+  /** The size of the action half only; empty inherits the button's. */
+  buttonSize?: string;
   anchor?: CodegenTypes.WithDefault<
     'unset' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right',
     'unset'

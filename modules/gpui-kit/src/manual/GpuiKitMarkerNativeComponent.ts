@@ -20,6 +20,8 @@ export interface NativeProps extends ViewProps {
   loading?: boolean;
   text?: string;
   icon?: string;
+  /** Refines the marker (a KitStyle as JSON). */
+  kitStyle?: string;
   slots?: string;
   accessibilityRoleOverride?: string;
   separatorStyle?: string;

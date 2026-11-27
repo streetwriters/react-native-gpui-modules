@@ -5,18 +5,22 @@ import {
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
-  title?: string;
-  description?: string;
-  tooltip?: string;
-  progress?: CodegenTypes.WithDefault<CodegenTypes.Double, -1>;
-  status?: CodegenTypes.WithDefault<
-    'unset' | 'pending' | 'uploading' | 'processing' | 'failed' | 'complete',
-    'unset'
-  >;
+  /** The attachments as JSON, one for a single card; see `AttachmentProps`. */
+  itemsJson?: string;
+  /** Lays the attachments out as a scrolling row (`AttachmentGroup`). */
+  asGroup?: boolean;
+  /** The color the group's edges fade into; 0 for none. */
+  edgeFade?: CodegenTypes.Int32;
   slots?: string;
-  onGpuiKitAttachmentPress?: CodegenTypes.DirectEventHandler<Readonly<{}>>;
-  onGpuiKitAttachmentRemove?: CodegenTypes.DirectEventHandler<Readonly<{}>>;
-  onGpuiKitAttachmentRetry?: CodegenTypes.DirectEventHandler<Readonly<{}>>;
+  onGpuiKitAttachmentPress?: CodegenTypes.DirectEventHandler<
+    Readonly<{ index: CodegenTypes.Int32 }>
+  >;
+  onGpuiKitAttachmentRemove?: CodegenTypes.DirectEventHandler<
+    Readonly<{ index: CodegenTypes.Int32 }>
+  >;
+  onGpuiKitAttachmentRetry?: CodegenTypes.DirectEventHandler<
+    Readonly<{ index: CodegenTypes.Int32 }>
+  >;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitAttachment', {

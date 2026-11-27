@@ -61,35 +61,38 @@
         "large": 32
       },
       "charWidth": 7.5,
-      "padding": 21,
-      "iconWidth": 18
+      "padding": 20,
+      "paddings": {
+        "xsmall": 8,
+        "small": 16,
+        "medium": 20,
+        "large": 24
+      },
+      "caretProp": "dropdownCaret",
+      "borderWhen": "props.outline() || matches!(props.variant(), GpuiKitButtonVariant::Unset | GpuiKitButtonVariant::Default)",
+      "fontSizes": {
+        "xsmall": 12,
+        "small": 14,
+        "medium": 14,
+        "large": 16
+      },
+      "iconWidths": {
+        "xsmall": 16,
+        "small": 18,
+        "medium": 24,
+        "large": 32
+      },
+      "iconWidth": 24,
+      "iconExtra": " || !props.icon_svg().is_empty() || !props.icon_progress().is_nan()",
+      "bareVariants": ["link", "text"],
+      "bareHeight": 18
     },
     "container": {
       "insets": {
-        "xsmall": [
-          0,
-          4,
-          0,
-          4
-        ],
-        "small": [
-          0,
-          8,
-          0,
-          8
-        ],
-        "medium": [
-          0,
-          10,
-          0,
-          10
-        ],
-        "large": [
-          0,
-          12,
-          0,
-          12
-        ]
+        "xsmall": [0, 4, 0, 4],
+        "small": [0, 8, 0, 8],
+        "medium": [0, 10, 0, 10],
+        "large": [0, 12, 0, 12]
       }
     },
     "focus": true,
@@ -113,11 +116,42 @@
       {
         "name": "customShadow",
         "kind": "bool"
+      },
+      {
+        "name": "iconSvg",
+        "kind": "string",
+        "reason": "Button::icon with Icon::data: the icon drawn from SVG source"
+      },
+      {
+        "name": "iconColor",
+        "kind": "color",
+        "reason": "Button::icon with Icon::text_color"
+      },
+      {
+        "name": "iconCustomSize",
+        "kind": "float",
+        "reason": "Button::icon with Icon::size, in points"
+      },
+      {
+        "name": "iconProgress",
+        "kind": "optional-float",
+        "reason": "Button::icon with a ProgressCircle of this value (0 to 100)"
+      },
+      {
+        "name": "iconProgressColor",
+        "kind": "color",
+        "reason": "the ProgressCircle's color"
+      },
+      {
+        "name": "loadingIconSvg",
+        "kind": "string",
+        "reason": "Button::loading_icon with Icon::data"
       }
     ],
     "screenDefaults": {
       "label": "Press"
-    }
+    },
+    "rustBeforeReturn": "{\n            use gpui::Styled as _;\n            let mut icon = if !props.icon_svg().is_empty() {\n                Some(gpui_component::Icon::default().data(props.icon_svg().as_bytes()))\n            } else if props.icon_color().is_some() || props.icon_custom_size() > 0.0 {\n                crate::generated::icons::parse(props.icon()).map(gpui_component::Icon::new)\n            } else {\n                None\n            };\n            if let Some(color) = props.icon_color() {\n                icon = icon.map(|icon| icon.text_color(crate::color::hsla(color)));\n            }\n            if props.icon_custom_size() > 0.0 {\n                let size = gpui::px(props.icon_custom_size() as f32);\n                icon = icon.map(|icon| icon.size(size));\n            }\n            if let Some(icon) = icon {\n                element = element.icon(icon);\n            }\n            if !props.icon_progress().is_nan() {\n                let mut progress = gpui_component::progress::ProgressCircle::new(SharedString::from(format!(\"{}-progress\", self.id)))\n                    .value(props.icon_progress() as f32);\n                if let Some(color) = props.icon_progress_color() {\n                    progress = progress.color(crate::color::hsla(color));\n                }\n                element = element.icon(progress);\n            }\n            if !props.loading_icon_svg().is_empty() {\n                element = element.loading_icon(gpui_component::Icon::default().data(props.loading_icon_svg().as_bytes()));\n            }\n        }"
   },
   {
     "path": "gpui_component::input::input::Input",
@@ -130,9 +164,7 @@
     "state": {
       "path": "gpui_base::input::input::InputState",
       "ctor": "InputState::new(window, cx)",
-      "skipSetters": [
-        "set_value"
-      ],
+      "skipSetters": ["set_value"],
       "controlled": {
         "prop": "value",
         "setter": "set_value",
@@ -278,8 +310,8 @@
           "ty": "String",
           "read": "$v.to_string()",
           "trackClone": "value.clone()",
-          "call": "state.set_mask_pattern(if value.is_empty() { gpui_component::input::MaskPattern::None } else { value.as_str().into() }, window, cx)",
-          "reason": "MaskPattern::from(&str)"
+          "call": "state.set_mask_pattern(crate::style::mask_pattern(&value), window, cx)",
+          "reason": "MaskPattern::from(&str), or MaskPattern::Number from {\"separator\", \"fraction\"} JSON"
         },
         "set_pattern": {
           "kind": "custom",
@@ -397,10 +429,7 @@
         }
       }
     },
-    "slots": [
-      "prefix",
-      "suffix"
-    ],
+    "slots": ["prefix", "suffix"],
     "props": {
       "role": {
         "kind": "custom",
@@ -566,6 +595,27 @@
             "rust": "id"
           }
         ]
+      },
+      {
+        "name": "addonPress",
+        "internal": true,
+        "fields": [
+          {
+            "name": "addon",
+            "ts": "Int32",
+            "rust": "addon"
+          },
+          {
+            "name": "item",
+            "ts": "Int32",
+            "rust": "item"
+          },
+          {
+            "name": "index",
+            "ts": "Int32",
+            "rust": "index"
+          }
+        ]
       }
     ],
     "jsProps": [
@@ -590,8 +640,17 @@
         "init": "false"
       }
     ],
-    "rustBeforeReturn": "if self.selection_focus.is_none() {\n            let handle = app.focus_handle();\n            state.update(app, |state, cx| state.set_selection_focus(Some(handle.clone()), cx));\n            self.selection_focus = Some(handle);\n        }\n        let held = self.selection_focus.as_ref().is_some_and(|handle| handle.is_focused(window));\n        if held != self.selection_held {\n            self.selection_held = held;\n            sender.gpui_kit_input_selection_hold_change(OnGpuiKitInputSelectionHoldChange { held });\n        }",
-    "tokenSlots": true
+    "rustBeforeReturn": "if self.selection_focus.is_none() {\n            let handle = app.focus_handle();\n            state.update(app, |state, cx| state.set_selection_focus(Some(handle.clone()), cx));\n            self.selection_focus = Some(handle);\n        }\n        let held = self.selection_focus.as_ref().is_some_and(|handle| handle.is_focused(window));\n        if held != self.selection_held {\n            self.selection_held = held;\n            sender.gpui_kit_input_selection_hold_change(OnGpuiKitInputSelectionHoldChange { held });\n        }\n        if crate::manual::addons::grouped(props.addons_json()) {\n            let size = match props.size() {\n                GpuiKitInputSize::Unset => None,\n                GpuiKitInputSize::Xsmall => Some(gpui_component::Size::XSmall),\n                GpuiKitInputSize::Small => Some(gpui_component::Size::Small),\n                GpuiKitInputSize::Medium => Some(gpui_component::Size::Medium),\n                GpuiKitInputSize::Large => Some(gpui_component::Size::Large),\n            };\n            let sender = sender.clone();\n            return crate::manual::addons::wrap(\n                element,\n                format!(\"gpui_kit_input-{}\", state.entity_id()),\n                props.addons_json(),\n                size,\n                props.disabled(),\n                props.readonly(),\n                props.slots(),\n                &mut slots,\n                std::rc::Rc::new(move |addon, item, index| {\n                    sender.gpui_kit_input_addon_press(OnGpuiKitInputAddonPress { addon, item, index })\n                }),\n            );\n        }",
+    "tokenSlots": true,
+    "addons": true,
+    "extraProps": [
+      {
+        "name": "addonsJson",
+        "kind": "string",
+        "reason": "the InputGroup addons, as JSON, from the addons prop",
+        "internal": true
+      }
+    ]
   },
   {
     "path": "gpui_component::label::Label",
@@ -610,11 +669,13 @@
     ],
     "skip": {},
     "layout": {
-      "height": 20,
+      "height": 0,
       "text": {
         "prop": "text",
         "charWidth": 7.5,
-        "padding": 0
+        "padding": 0,
+        "wrap": true,
+        "lineHeightRatio": 1.25
       },
       "fontSize": 16
     },
@@ -633,7 +694,7 @@
     "path": "gpui_component::icon::Icon",
     "tag": "GpuiKitIcon",
     "group": "primitives",
-    "ctor": "Icon::new(crate::generated::icons::parse(props.name()).unwrap_or(gpui_component::IconName::Info))",
+    "ctor": "Icon::new(crate::generated::icons::parse(props.name()).unwrap_or(gpui_kit_assets::IconName::Info))",
     "extraProps": [
       {
         "name": "name",
@@ -689,16 +750,6 @@
     }
   },
   {
-    "path": "gpui_component::badge::Badge",
-    "tag": "GpuiKitBadge",
-    "group": "primitives",
-    "skip": {},
-    "layout": {
-      "height": 16,
-      "width": 16
-    }
-  },
-  {
     "path": "gpui_component::tag::Tag",
     "tag": "GpuiKitTag",
     "group": "primitives",
@@ -706,18 +757,54 @@
       {
         "name": "label",
         "kind": "string"
+      },
+      {
+        "name": "colorName",
+        "kind": "string",
+        "reason": "Tag::color: a ColorName of the kit's palette, by name"
+      },
+      {
+        "name": "customColor",
+        "kind": "color",
+        "reason": "Tag::custom: background"
+      },
+      {
+        "name": "customForeground",
+        "kind": "color",
+        "reason": "Tag::custom: text"
+      },
+      {
+        "name": "customBorder",
+        "kind": "color",
+        "reason": "Tag::custom: border"
       }
     ],
     "childText": "label",
     "skip": {},
     "layout": {
-      "height": 22,
       "text": {
         "prop": "label",
         "charWidth": 7,
         "padding": 22
       },
-      "fontSize": 12
+      "heights": {
+        "xsmall": 19,
+        "small": 19,
+        "medium": 25,
+        "large": 28
+      },
+      "fontSizes": {
+        "xsmall": 10,
+        "small": 10,
+        "medium": 12,
+        "large": 14
+      },
+      "paddings": {
+        "xsmall": 14,
+        "small": 14,
+        "medium": 22,
+        "large": 22
+      }
     },
     "props": {
       "rounded": {
@@ -728,7 +815,8 @@
         "apply": "if $v >= 0.0 {\n            element = element.$m(gpui::px($v as f32));\n        }",
         "reason": "pixels; -1 keeps the default"
       }
-    }
+    },
+    "rustBeforeReturn": "if let Ok(name) = gpui_component::ColorName::try_from(props.color_name()) {\n            element = element.with_variant(gpui_component::tag::TagVariant::Color(name));\n        }\n        if let (Some(color), Some(foreground), Some(border)) = (props.custom_color(), props.custom_foreground(), props.custom_border()) {\n            element = element.with_variant(gpui_component::tag::TagVariant::Custom {\n                color: crate::color::hsla(color),\n                foreground: crate::color::hsla(foreground),\n                border: crate::color::hsla(border),\n            });\n        }"
   },
   {
     "path": "gpui_component::avatar::avatar::Avatar",
@@ -737,10 +825,10 @@
     "skip": {},
     "layout": {
       "heights": {
-        "xsmall": 20,
+        "xsmall": 16,
         "small": 24,
-        "medium": 32,
-        "large": 48
+        "medium": 48,
+        "large": 80
       },
       "square": true
     }
@@ -763,9 +851,9 @@
       "ease": {
         "kind": "custom",
         "name": "easing",
-        "ts": "CodegenTypes.WithDefault<'ease-in-out' | 'linear' | 'quadratic' | 'ease-out-quint', 'ease-in-out'>",
-        "clean": "'ease-in-out' | 'linear' | 'quadratic' | 'ease-out-quint'",
-        "apply": "match $v {\n            GpuiKitSpinnerEasing::Linear => element = element.$m(gpui::linear),\n            GpuiKitSpinnerEasing::Quadratic => element = element.$m(gpui::quadratic),\n            GpuiKitSpinnerEasing::EaseOutQuint => element = element.$m(gpui::ease_out_quint()),\n            _ => {}\n        }",
+        "ts": "CodegenTypes.WithDefault<'ease-in-out' | 'linear' | 'quadratic' | 'ease-out-quint' | 'bounce', 'ease-in-out'>",
+        "clean": "'ease-in-out' | 'linear' | 'quadratic' | 'ease-out-quint' | 'bounce'",
+        "apply": "match $v {\n            GpuiKitSpinnerEasing::Linear => element = element.$m(gpui::linear),\n            GpuiKitSpinnerEasing::Quadratic => element = element.$m(gpui::quadratic),\n            GpuiKitSpinnerEasing::EaseOutQuint => element = element.$m(gpui::ease_out_quint()),\n            GpuiKitSpinnerEasing::Bounce => element = element.$m(gpui::bounce(gpui::ease_in_out)),\n            _ => {}\n        }",
         "reason": "one of gpui's easing functions"
       }
     }
@@ -807,7 +895,16 @@
     "tag": "GpuiKitProgress",
     "group": "primitives",
     "skip": {},
-    "fill": true
+    "fill": true,
+    "layout": {
+      "heights": {
+        "xsmall": 4,
+        "small": 6,
+        "medium": 8,
+        "large": 10
+      },
+      "width": "undefined"
+    }
   },
   {
     "path": "gpui_component::progress::progress_circle::ProgressCircle",
@@ -843,23 +940,24 @@
     "path": "gpui_component::alert::Alert",
     "tag": "GpuiKitAlert",
     "group": "primitives",
-    "ctor": "Alert::new(SharedString::from(self.id.clone()), props.message().to_string())",
+    "ctor": "if props.markdown() {\n            Alert::new(SharedString::from(self.id.clone()), gpui_component::text::markdown(props.message().to_string()))\n        } else {\n            Alert::new(SharedString::from(self.id.clone()), props.message().to_string())\n        }",
     "extraProps": [
       {
         "name": "message",
         "kind": "string"
+      },
+      {
+        "name": "markdown",
+        "kind": "bool",
+        "reason": "the message is Markdown, drawn with text::markdown"
       }
     ],
     "events": {
       "on_close": "close"
     },
     "skip": {},
-    "layout": {
-      "height": 44
-    },
-    "optionalEvents": [
-      "on_close"
-    ]
+    "optionalEvents": ["on_close"],
+    "root": "always"
   },
   {
     "path": "gpui_component::shimmer::ShimmerText",
@@ -878,11 +976,13 @@
     ],
     "skip": {},
     "layout": {
-      "height": 20,
+      "height": 0,
       "text": {
         "prop": "text",
         "charWidth": 7.5,
-        "padding": 0
+        "padding": 0,
+        "wrap": true,
+        "lineHeightRatio": 1.618
       },
       "fontSize": 16
     },
@@ -916,11 +1016,14 @@
     },
     "skip": {},
     "layout": {
-      "height": 20,
+      "height": 18,
       "text": {
         "prop": "label",
         "charWidth": 7.5,
-        "padding": 28
+        "padding": 28,
+        "wrap": true,
+        "emptySize": 16,
+        "lineHeight": 17.5
       }
     },
     "props": {
@@ -953,7 +1056,9 @@
         "reason": "on_click calls on_change with the same handler; onChange covers it",
         "prop": "onChange"
       }
-    }
+    },
+    "root": "children",
+    "childSlot": true
   },
   {
     "path": "gpui_component::radio::Radio",
@@ -968,7 +1073,10 @@
       "text": {
         "prop": "label",
         "charWidth": 7.5,
-        "padding": 28
+        "padding": 28,
+        "wrap": true,
+        "emptySize": 16,
+        "lineHeight": 17.5
       }
     },
     "props": {
@@ -993,7 +1101,9 @@
         "reason": "on_click calls on_change with the same handler; onChange covers it",
         "prop": "onChange"
       }
-    }
+    },
+    "root": "children",
+    "childSlot": true
   },
   {
     "path": "gpui_component::switch::Switch",
@@ -1008,7 +1118,10 @@
       "text": {
         "prop": "label",
         "charWidth": 7.5,
-        "padding": 44
+        "padding": 44,
+        "wrap": true,
+        "emptySize": [36, 20],
+        "lineHeight": 20
       }
     },
     "props": {
@@ -1060,10 +1173,8 @@
     },
     "state": {
       "path": "gpui_base::input::textarea::TextareaState",
-      "ctor": "TextareaState::new(window, cx)",
-      "skipSetters": [
-        "set_value"
-      ],
+      "ctor": "{ let state = TextareaState::new(window, cx); if props.auto_grow_max() > 0 { state.auto_grow(props.auto_grow_min().max(1) as usize, props.auto_grow_max() as usize) } else { state } }",
+      "skipSetters": ["set_value"],
       "controlled": {
         "prop": "value",
         "setter": "set_value",
@@ -1122,6 +1233,9 @@
           "hold": "boolean",
           "$name": "hold_selection",
           "$raw": "let (Some(state), Some(handle)) = (self.state.clone(), self.selection_focus.clone()) else { return };\n        cx.with_window(|window, app| {\n            if hold {\n                window.focus(&handle, app);\n            } else if handle.is_focused(window) {\n                state.update(app, |state, cx| state.focus(window, cx));\n            }\n        });"
+        },
+        "replace": {
+          "text": "string"
         }
       },
       "events": {
@@ -1214,8 +1328,8 @@
           "ty": "String",
           "read": "$v.to_string()",
           "trackClone": "value.clone()",
-          "call": "state.set_mask_pattern(if value.is_empty() { gpui_component::input::MaskPattern::None } else { value.as_str().into() }, window, cx)",
-          "reason": "MaskPattern::from(&str)"
+          "call": "state.set_mask_pattern(crate::style::mask_pattern(&value), window, cx)",
+          "reason": "MaskPattern::from(&str), or MaskPattern::Number from {\"separator\", \"fraction\"} JSON"
         },
         "set_pattern": {
           "kind": "custom",
@@ -1330,7 +1444,44 @@
           "reason": "the element placeholder prop sets it",
           "prop": "placeholder",
           "ifUsed": true
+        },
+        "set_rows": {
+          "kind": "custom",
+          "name": "rows",
+          "ts": "CodegenTypes.Int32",
+          "clean": "number",
+          "ty": "i32",
+          "read": "$v",
+          "call": "if value > 0 { state.set_rows(value as usize, cx) }"
+        },
+        "set_soft_wrap": {
+          "kind": "custom",
+          "name": "softWrap",
+          "ts": "CodegenTypes.WithDefault<boolean, true>",
+          "clean": "boolean",
+          "ty": "bool",
+          "read": "$v",
+          "call": "state.set_soft_wrap(value, window, cx)"
         }
+      },
+      "observe": {
+        "name": "cursorChange",
+        "item": "InputBaseState::cursor_position",
+        "reason": "reported when the cursor moves",
+        "before": "let position = state.read(cx).cursor_position();",
+        "key": "(position.line, position.character)",
+        "fields": [
+          {
+            "name": "line",
+            "ts": "Int32",
+            "rust": "position.line as i32"
+          },
+          {
+            "name": "character",
+            "ts": "Int32",
+            "rust": "position.character as i32"
+          }
+        ]
       }
     },
     "defaultStyle": {
@@ -1502,12 +1653,49 @@
             "rust": "id"
           }
         ]
+      },
+      {
+        "name": "addonPress",
+        "internal": true,
+        "fields": [
+          {
+            "name": "addon",
+            "ts": "Int32",
+            "rust": "addon"
+          },
+          {
+            "name": "item",
+            "ts": "Int32",
+            "rust": "item"
+          },
+          {
+            "name": "index",
+            "ts": "Int32",
+            "rust": "index"
+          }
+        ]
       }
     ],
     "extraProps": [
       {
         "name": "hardTabs",
         "kind": "bool"
+      },
+      {
+        "name": "autoGrowMin",
+        "kind": "int",
+        "reason": "TextareaState::auto_grow: the fewest rows"
+      },
+      {
+        "name": "autoGrowMax",
+        "kind": "int",
+        "reason": "TextareaState::auto_grow: the most rows; the box is then as high as the rows shown"
+      },
+      {
+        "name": "addonsJson",
+        "kind": "string",
+        "reason": "the InputGroup addons, as JSON, from the addons prop",
+        "internal": true
       }
     ],
     "jsProps": [
@@ -1532,8 +1720,11 @@
         "init": "false"
       }
     ],
-    "rustBeforeReturn": "if self.selection_focus.is_none() {\n            let handle = app.focus_handle();\n            state.update(app, |state, cx| state.set_selection_focus(Some(handle.clone()), cx));\n            self.selection_focus = Some(handle);\n        }\n        let held = self.selection_focus.as_ref().is_some_and(|handle| handle.is_focused(window));\n        if held != self.selection_held {\n            self.selection_held = held;\n            sender.gpui_kit_textarea_selection_hold_change(OnGpuiKitTextareaSelectionHoldChange { held });\n        }",
-    "tokenSlots": true
+    "rustBeforeReturn": "if self.selection_focus.is_none() {\n            let handle = app.focus_handle();\n            state.update(app, |state, cx| state.set_selection_focus(Some(handle.clone()), cx));\n            self.selection_focus = Some(handle);\n        }\n        let held = self.selection_focus.as_ref().is_some_and(|handle| handle.is_focused(window));\n        if held != self.selection_held {\n            self.selection_held = held;\n            sender.gpui_kit_textarea_selection_hold_change(OnGpuiKitTextareaSelectionHoldChange { held });\n        }\n        if crate::manual::addons::grouped(props.addons_json()) {\n            let size = match props.size() {\n                GpuiKitTextareaSize::Unset => None,\n                GpuiKitTextareaSize::Xsmall => Some(gpui_component::Size::XSmall),\n                GpuiKitTextareaSize::Small => Some(gpui_component::Size::Small),\n                GpuiKitTextareaSize::Medium => Some(gpui_component::Size::Medium),\n                GpuiKitTextareaSize::Large => Some(gpui_component::Size::Large),\n            };\n            let sender = sender.clone();\n            return crate::manual::addons::wrap(\n                element,\n                format!(\"gpui_kit_textarea-{}\", state.entity_id()),\n                props.addons_json(),\n                size,\n                props.disabled(),\n                props.readonly(),\n                props.slots(),\n                &mut slots,\n                std::rc::Rc::new(move |addon, item, index| {\n                    sender.gpui_kit_textarea_addon_press(OnGpuiKitTextareaAddonPress { addon, item, index })\n                }),\n            );\n        }",
+    "tokenSlots": true,
+    "autoRootProp": "autoGrowMax",
+    "addons": true,
+    "slots": []
   },
   {
     "path": "gpui_component::input::number_input::NumberInput",
@@ -1547,9 +1738,7 @@
     "state": {
       "path": "gpui_base::input::input::InputState",
       "ctor": "InputState::new(window, cx)",
-      "skipSetters": [
-        "set_value"
-      ],
+      "skipSetters": ["set_value"],
       "controlled": {
         "prop": "value",
         "setter": "set_value",
@@ -1695,8 +1884,8 @@
           "ty": "String",
           "read": "$v.to_string()",
           "trackClone": "value.clone()",
-          "call": "state.set_mask_pattern(if value.is_empty() { gpui_component::input::MaskPattern::None } else { value.as_str().into() }, window, cx)",
-          "reason": "MaskPattern::from(&str)"
+          "call": "state.set_mask_pattern(crate::style::mask_pattern(&value), window, cx)",
+          "reason": "MaskPattern::from(&str), or MaskPattern::Number from {\"separator\", \"fraction\"} JSON"
         },
         "set_pattern": {
           "kind": "custom",
@@ -1812,6 +2001,22 @@
           "prop": "placeholder",
           "ifUsed": true
         }
+      },
+      "extraEvents": {
+        "enum": "gpui_base::NumberInputEvent",
+        "events": {
+          "Step": {
+            "name": "step",
+            "pattern": "gpui_base::NumberInputEvent::Step(action)",
+            "fields": [
+              {
+                "name": "increment",
+                "ts": "boolean",
+                "rust": "matches!(action, gpui_base::StepAction::Increment)"
+              }
+            ]
+          }
+        }
       }
     },
     "defaultStyle": {
@@ -1875,10 +2080,7 @@
         "reason": "items appended to the native edit menu: a label and a registered action name; the label - is a separator"
       }
     },
-    "slots": [
-      "prefix",
-      "suffix"
-    ],
+    "slots": ["prefix", "suffix"],
     "extraEvents": [
       {
         "name": "validationFail",
@@ -1946,9 +2148,7 @@
     "state": {
       "path": "gpui_base::otp_input::OtpState",
       "ctor": "OtpState::new(if props.length() > 0 { props.length() as usize } else { 6 }, window, cx)",
-      "skipSetters": [
-        "set_value"
-      ],
+      "skipSetters": ["set_value"],
       "controlled": {
         "prop": "value",
         "setter": "set_value",
@@ -1997,18 +2197,16 @@
       }
     },
     "e2e": {
-      "keys": [
-        "1",
-        "2"
-      ]
-    }
+      "keys": ["1", "2"]
+    },
+    "root": "fit"
   },
   {
     "path": "gpui_component::slider::Slider",
     "tag": "GpuiKitSlider",
     "group": "inputs",
     "defaultStyle": {
-      "height": 20,
+      "height": 24,
       "minWidth": 120
     },
     "extraProps": [
@@ -2023,14 +2221,27 @@
       {
         "name": "step",
         "kind": "float"
+      },
+      {
+        "name": "defaultValue",
+        "kind": "optional-float",
+        "reason": "SliderState::default_value"
+      },
+      {
+        "name": "defaultEnd",
+        "kind": "optional-float",
+        "reason": "SliderState::default_value with a range: defaultValue to defaultEnd"
+      },
+      {
+        "name": "logarithmic",
+        "kind": "bool",
+        "reason": "SliderState::scale(SliderScale::Logarithmic)"
       }
     ],
     "state": {
       "path": "gpui_base::slider::SliderState",
-      "ctor": "SliderState::new().min(props.minimum() as f32).max(if props.maximum() > props.minimum() { props.maximum() as f32 } else { 100.0 }).step(if props.step() > 0.0 { props.step() as f32 } else { 1.0 })",
-      "skipSetters": [
-        "set_value"
-      ],
+      "ctor": "{ let state = SliderState::new().min(props.minimum() as f32).max(if props.maximum() > props.minimum() { props.maximum() as f32 } else { 100.0 }).step(if props.step() > 0.0 { props.step() as f32 } else { 1.0 }); let state = if !props.default_end().is_nan() { state.default_value(props.default_value() as f32..props.default_end() as f32) } else if !props.default_value().is_nan() { state.default_value(props.default_value() as f32) } else { state }; if props.logarithmic() { state.scale(gpui_base::slider::SliderScale::Logarithmic) } else { state } }",
+      "skipSetters": ["set_value"],
       "controlled": {
         "prop": "value",
         "type": "double",
@@ -2048,24 +2259,34 @@
         "Change": {
           "name": "change",
           "pattern": "SliderEvent::Change(value)",
-          "before": "let current = match value { gpui_component::slider::SliderValue::Single(v) => *v as f64, gpui_component::slider::SliderValue::Range(low, _) => *low as f64 };",
+          "before": "let (current, end) = match value { gpui_component::slider::SliderValue::Single(v) => (*v as f64, *v as f64), gpui_component::slider::SliderValue::Range(low, high) => (*low as f64, *high as f64) };",
           "fields": [
             {
               "name": "current",
               "ts": "Double",
               "rust": "current"
+            },
+            {
+              "name": "end",
+              "ts": "Double",
+              "rust": "end"
             }
           ]
         },
         "Release": {
           "name": "release",
           "pattern": "SliderEvent::Release(value)",
-          "before": "let current = match value { gpui_component::slider::SliderValue::Single(v) => *v as f64, gpui_component::slider::SliderValue::Range(low, _) => *low as f64 };",
+          "before": "let (current, end) = match value { gpui_component::slider::SliderValue::Single(v) => (*v as f64, *v as f64), gpui_component::slider::SliderValue::Range(low, high) => (*low as f64, *high as f64) };",
           "fields": [
             {
               "name": "current",
               "ts": "Double",
               "rust": "current"
+            },
+            {
+              "name": "end",
+              "ts": "Double",
+              "rust": "end"
             }
           ]
         }
@@ -2079,14 +2300,11 @@
     "events": {
       "on_click": "change"
     },
-    "layout": {
-      "height": 32,
-      "width": 360
-    },
     "screenDefaults": {
       "totalPages": 5,
       "currentPage": 1
-    }
+    },
+    "root": "fit"
   },
   {
     "path": "gpui_component::clipboard::Clipboard",
@@ -2097,8 +2315,14 @@
     },
     "skip": {},
     "layout": {
-      "height": 32,
-      "width": 32
+      "heights": {
+        "xsmall": 20,
+        "small": 24,
+        "medium": 32,
+        "large": 32
+      },
+      "square": true,
+      "defaultSize": "xsmall"
     },
     "props": {
       "value_fn": {
@@ -2129,15 +2353,20 @@
       {
         "name": "orientation",
         "kind": "enum",
-        "variants": [
-          "horizontal",
-          "vertical"
-        ],
+        "variants": ["horizontal", "vertical"],
         "reason": "selects Separator::horizontal or Separator::vertical"
       }
     ],
+    "e2e": { "unsized": true },
     "layout": {
-      "height": 1
+      "ts": [
+        "const vertical = props.orientation === 'vertical';",
+        "const labelled = !!props.label;",
+        "const height = vertical ? undefined : labelled ? 27 : 1;",
+        "const width = vertical ? (labelled ? Math.ceil(props.label!.length * 6.5) + 16 : 1) : undefined;",
+        "const margin = labelled ? undefined : -1;"
+      ],
+      "tsStyle": "{ height, width, marginBottom: vertical ? undefined : margin, marginRight: vertical ? margin : undefined }"
     }
   }
 ]

@@ -42,6 +42,9 @@ impl GpuiKitEmptySpec for GpuiKitEmpty {
             }
             header = header.media(element);
         }
+        if let Some(style) = crate::style::refinement(props.header_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut header), &style);
+        }
         if let Some(title) = slots.take("title") {
             header = header.title(EmptyTitle::new().child(title));
         } else if !props.title().is_empty() {
@@ -55,7 +58,17 @@ impl GpuiKitEmptySpec for GpuiKitEmpty {
         }
         let mut element = Empty::new().header(header);
         if let Some(content) = slots.take("content") {
-            element = element.content(EmptyContent::new().child(content));
+            let mut content_box = EmptyContent::new();
+            if let Some(style) = crate::style::refinement(props.content_style()) {
+                gpui::Refineable::refine(gpui::Styled::style(&mut content_box), &style);
+            }
+            element = element.content(content_box.child(content));
+        }
+        if let Some(extra) = slots.take("extra") {
+            element = element.child(extra);
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
         }
         element.into_any_element()
     }

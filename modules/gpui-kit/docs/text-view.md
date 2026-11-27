@@ -14,6 +14,7 @@ The kit's `TextView`, written by hand on the same specification as the generated
 | `selectable` | `boolean`                                               |
 | `scrollable` | `boolean`                                               |
 | `maxLines`   | `Int32`                                                 |
+| `kitStyle`   | `string`                                                |
 
 ## Coverage
 

@@ -11,6 +11,9 @@ A Slider element.
 
 | Prop                 | Type      | Native method                 |
 | -------------------- | --------- | ----------------------------- |
+| `logarithmic`        | `boolean` | constructor argument          |
+| `defaultEnd`         | `Double`  | constructor argument          |
+| `defaultValue`       | `Double`  | constructor argument          |
 | `step`               | `Double`  | constructor argument          |
 | `maximum`            | `Double`  | constructor argument          |
 | `minimum`            | `Double`  | constructor argument          |
@@ -19,13 +22,14 @@ A Slider element.
 | `disabled`           | `boolean` | `Slider::disabled`            |
 | `accessibilityLabel` | `string`  | `Slider::accessibility_label` |
 | `reverse`            | `boolean` | `Slider::reverse`             |
+| `kitStyle`           | `string`  | constructor argument          |
 
 ## Events
 
-| Event       | Payload                 |
-| ----------- | ----------------------- |
-| `onChange`  | `current`, `eventCount` |
-| `onRelease` | `current`               |
+| Event       | Payload                        |
+| ----------- | ------------------------------ |
+| `onChange`  | `current`, `end`, `eventCount` |
+| `onRelease` | `current`, `end`               |
 
 ## Skipped
 

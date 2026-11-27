@@ -4,15 +4,24 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitSkeletonNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export interface SkeletonProps extends ViewProps {
   children?: React.ReactNode;
   secondary?: boolean;
+  kitStyle?: KitStyle;
 }
 
 export const Skeleton = forwardRef<ComponentRef<typeof Native>, SkeletonProps>(
   function Skeleton(props, ref) {
     const { style, children, ...rest } = props;
-    return <Native ref={ref} {...rest} style={[style]} />;
+    return (
+      <Native
+        ref={ref}
+        {...rest}
+        style={[style]}
+        kitStyle={kitStyle(props.kitStyle)}
+      />
+    );
   },
 );

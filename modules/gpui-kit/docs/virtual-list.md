@@ -7,16 +7,20 @@ The kit's `VirtualList`, written by hand on the same specification as the genera
 
 ## Native props
 
-| Name         | Type                      |
-| ------------ | ------------------------- |
-| `count`      | `Int32`                   |
-| `itemSize`   | `WithDefault<Double, 32>` |
-| `crossSize`  | `Double`                  |
-| `horizontal` | `boolean`                 |
+| Name           | Type                      |
+| -------------- | ------------------------- |
+| `count`        | `Int32`                   |
+| `itemSize`     | `WithDefault<Double, 32>` |
+| `crossSize`    | `Double`                  |
+| `horizontal`   | `boolean`                 |
+| `templateJson` | `string`                  |
+| `kitStyle`     | `string`                  |
+| `scrollbars`   | `string`                  |
 
 ## Commands
 
 - `scrollToItem`
+- `scrollToItemWith`
 - `scrollToEnd`
 
 ## Coverage

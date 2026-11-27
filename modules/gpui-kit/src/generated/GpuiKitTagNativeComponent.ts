@@ -3,10 +3,15 @@
 import {
   codegenNativeComponent,
   type CodegenTypes,
+  type ColorValue,
   type ViewProps,
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
+  customBorder?: ColorValue;
+  customForeground?: ColorValue;
+  customColor?: ColorValue;
+  colorName?: string;
   label?: string;
   variant?: CodegenTypes.WithDefault<
     | 'unset'
@@ -25,6 +30,8 @@ export interface NativeProps extends ViewProps {
     'unset' | 'xsmall' | 'small' | 'medium' | 'large',
     'unset'
   >;
+  customSize?: CodegenTypes.Double;
+  kitStyle?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitTag', {

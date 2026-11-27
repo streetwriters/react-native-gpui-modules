@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
-  end?: boolean;
   text?: string;
   variant?: CodegenTypes.WithDefault<
     | 'unset'
@@ -18,6 +17,14 @@ export interface NativeProps extends ViewProps {
     | 'destructive',
     'unset'
   >;
+  /** `start` or `end`; empty follows the message around it. */
+  align?: string;
+  /** Reactions as JSON: `{ side, align, text, action: { label, icon, tooltip, size } }`. */
+  reactionsJson?: string;
+  /** Refines the bubble's surface (a KitStyle as JSON). */
+  contentStyle?: string;
+  /** A group of plain bubbles as JSON, `[{ text, variant, align }]`, instead of one bubble. */
+  groupJson?: string;
   slots?: string;
 }
 

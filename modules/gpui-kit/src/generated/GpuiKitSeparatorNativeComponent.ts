@@ -15,6 +15,7 @@ export interface NativeProps extends ViewProps {
   label?: string;
   color?: ColorValue;
   dashed?: boolean;
+  kitStyle?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitSeparator', {

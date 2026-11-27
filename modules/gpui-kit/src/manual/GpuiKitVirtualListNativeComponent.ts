@@ -14,7 +14,16 @@ export interface NativeProps extends ViewProps {
   /** The cross-axis size of the rows; 0 fills the list. */
   crossSize?: CodegenTypes.Double;
   horizontal?: boolean;
+  /** Generated rows as JSON, instead of the slots: `{ columns, text, firstText, rowStyle, cellStyle }`. */
+  templateJson?: string;
+  /** Refines the list (a KitStyle as JSON). */
+  kitStyle?: string;
+  /** Overlay scrollbars: `vertical`, `horizontal`, `both`, or empty for none. */
+  scrollbars?: string;
   slots?: string;
+  onGpuiKitVirtualListVisibleRange?: CodegenTypes.DirectEventHandler<
+    Readonly<{ start: CodegenTypes.Int32; end: CodegenTypes.Int32 }>
+  >;
 }
 
 interface NativeCommands {
@@ -22,11 +31,17 @@ interface NativeCommands {
     viewRef: React.ElementRef<HostComponent<NativeProps>>,
     index: CodegenTypes.Int32,
   ) => void;
+  /** `strategy` is `top`, `center` or `bottom`. */
+  scrollToItemWith: (
+    viewRef: React.ElementRef<HostComponent<NativeProps>>,
+    index: CodegenTypes.Int32,
+    strategy: string,
+  ) => void;
   scrollToEnd: (viewRef: React.ElementRef<HostComponent<NativeProps>>) => void;
 }
 
 export const Commands = codegenNativeCommands<NativeCommands>({
-  supportedCommands: ['scrollToItem', 'scrollToEnd'],
+  supportedCommands: ['scrollToItem', 'scrollToItemWith', 'scrollToEnd'],
 });
 
 export default codegenNativeComponent<NativeProps>('GpuiKitVirtualList', {

@@ -78,6 +78,7 @@ struct Entry {
     placement: String,
     group: String,
     closable: bool,
+    size: f64,
 }
 
 pub struct GpuiKitDock {
@@ -87,6 +88,8 @@ pub struct GpuiKitDock {
     panels: HashMap<String, Entity<KitPanel>>,
     signature: String,
     subscriptions: Vec<Subscription>,
+    skin: Option<std::rc::Rc<DockSkin>>,
+    buttons: Option<(bool, bool)>,
 }
 
 fn placement_of(name: &str) -> DockPlacement {
@@ -116,6 +119,8 @@ impl GpuiKitDockSpec for GpuiKitDock {
             panels: HashMap::new(),
             signature: String::new(),
             subscriptions: Vec::new(),
+            skin: None,
+            buttons: None,
         }
     }
 
@@ -192,11 +197,12 @@ impl GpuiKitDockSpec for GpuiKitDock {
                 placement: panel.placement().to_string(),
                 group: panel.group().to_string(),
                 closable: panel.closable(),
+                size: panel.size(),
             })
             .collect();
         let signature = entries
             .iter()
-            .map(|e| format!("{}|{}|{}", e.id, e.placement, e.group))
+            .map(|e| format!("{}|{}|{}|{}", e.id, e.placement, e.group, e.size))
             .collect::<Vec<_>>()
             .join(";")
             + &format!(
@@ -228,14 +234,20 @@ impl GpuiKitDockSpec for GpuiKitDock {
         }
 
         let id = self.id.clone();
-        let area = self
-            .area
-            .get_or_insert_with(|| {
-                app.new(|cx| {
-                    DockArea::new(id, Some(1), window, cx).with_renderer(DockSkin::new(cx))
-                })
-            })
-            .clone();
+        if self.area.is_none() {
+            let (area, skin) = DockSkin::dock_area(id, Some(1), window, app);
+            self.area = Some(area);
+            self.skin = Some(skin);
+        }
+        let area = self.area.clone().unwrap();
+        let buttons = (props.toggle_button_visible(), props.close_button_visible());
+        if self.buttons != Some(buttons) {
+            self.buttons = Some(buttons);
+            if let Some(skin) = &self.skin {
+                skin.set_toggle_button_visible(buttons.0, app);
+                skin.set_close_button_visible(buttons.1, app);
+            }
+        }
         PANELS.with(|panels| {
             panels
                 .borrow_mut()
@@ -300,7 +312,8 @@ impl GpuiKitDockSpec for GpuiKitDock {
                 let area = area.clone();
                 app.defer(move |app| {
                     if let Some(window) = app.windows().into_iter().next() {
-                        let _ = window.update(app, |_, window, cx| load(&area, &initial, window, cx));
+                        let _ =
+                            window.update(app, |_, window, cx| load(&area, &initial, window, cx));
                     }
                 });
             }
@@ -334,12 +347,17 @@ impl GpuiKitDockSpec for GpuiKitDock {
                 };
                 for (_, members) in groups {
                     let mut tabs = DockLayout::tabs();
+                    let size = members
+                        .iter()
+                        .map(|member| member.size)
+                        .find(|size| *size > 0.0)
+                        .map(|size| px(size as f32));
                     for member in members {
                         if let Some(panel) = self.panels.get(&member.id) {
                             tabs = tabs.panel(panel.clone());
                         }
                     }
-                    layout = layout.child(tabs, None);
+                    layout = layout.child(tabs, size);
                 }
                 area.update(app, |area, cx| {
                     area.set_dock(placement, layout, window, cx);
@@ -353,8 +371,17 @@ impl GpuiKitDockSpec for GpuiKitDock {
                 DockPlacement::Right,
                 DockPlacement::Bottom,
             ] {
+                let name = placement_name(placement);
                 if area.has_dock(placement) && area.dock_size(placement).is_none() {
-                    area.set_dock_size(placement, px(props.dock_size() as f32), window, cx);
+                    let size = serde_json::from_str::<serde_json::Value>(props.dock_sizes())
+                        .ok()
+                        .and_then(|sizes| sizes.get(name).and_then(serde_json::Value::as_f64))
+                        .unwrap_or(props.dock_size());
+                    area.set_dock_size(placement, px(size as f32), window, cx);
+                }
+                if area.has_dock(placement) {
+                    let collapsible = props.collapsible().split(',').any(|p| p == name);
+                    area.set_dock_collapsible(placement, collapsible, window, cx);
                 }
             }
         });

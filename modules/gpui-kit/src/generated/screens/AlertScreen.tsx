@@ -20,7 +20,7 @@ export default function AlertScreen() {
       <View style={{ height: 64 }}>
         <Alert
           testID="alert"
-
+          style={{ width: 200, height: 40 }}
           {...(values as object)}
           onClose={event =>
             note('onClose ' + JSON.stringify(event.nativeEvent))
@@ -29,6 +29,12 @@ export default function AlertScreen() {
       </View>
       <Text testID="alert-log">{log.join('\n')}</Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+        <Pressable
+          testID="alert-prop-markdown"
+          onPress={() => set('markdown', !values['markdown'])}
+        >
+          <Text>markdown: {String(Boolean(values['markdown']))}</Text>
+        </Pressable>
         <TextInput
           testID="alert-prop-message"
           placeholder="message"
@@ -116,6 +122,14 @@ export default function AlertScreen() {
             <Text>large</Text>
           </Pressable>
         </View>
+        <Pressable
+          testID="alert-prop-custom-size"
+          onPress={() =>
+            set('customSize', ((values['customSize'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>customSize: {String(values['customSize'] ?? 0)}</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );

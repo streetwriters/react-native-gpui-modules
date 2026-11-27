@@ -13,15 +13,20 @@ const repoRoot = path.resolve(
 );
 const env = { ...process.env };
 
+// The app whose autolink record lists the module crates to test: `example`, or
+// `gpui-kit-example` for the gpui-kit module, which only that app links.
+const app = process.argv[2] ?? 'example';
+
 // The crates are read from autolink's record rather than listed here, so a new
 // module's tests run without editing this script.
 const autolinkRecord = path.join(
   repoRoot,
-  'example/desktop/autolink/autolink.json',
+  app,
+  'desktop/autolink/autolink.json',
 );
 if (!fs.existsSync(autolinkRecord)) {
   throw new Error(
-    `${autolinkRecord} is missing; run \`npx react-native-gpui autolink\` in example first`,
+    `${autolinkRecord} is missing; run \`npx react-native-gpui autolink\` in ${app} first`,
   );
 }
 const record = JSON.parse(fs.readFileSync(autolinkRecord, 'utf8'));
@@ -33,7 +38,8 @@ const record = JSON.parse(fs.readFileSync(autolinkRecord, 'utf8'));
 env.RN_GPUI_AUTOLINK_MANIFEST ??= autolinkRecord;
 env.RN_GPUI_AUTOLINK_CMAKE ??= path.join(
   repoRoot,
-  'example/desktop/autolink/autolink.cmake',
+  app,
+  'desktop/autolink/autolink.cmake',
 );
 
 /// Crates whose tests cannot run, each with the reason, printed on every run.
@@ -83,7 +89,7 @@ for (const name of moduleCrates.filter(candidate => SKIPPED.has(candidate))) {
 
 const moduleRuns = [];
 if (fromTester.length > 0) {
-  const args = ['test', '--manifest-path', 'example/desktop/Cargo.toml'];
+  const args = ['test', '--manifest-path', `${app}/desktop/Cargo.toml`];
   for (const name of fromTester) args.push('-p', name);
   moduleRuns.push(
     spawnSync('cargo', args, { cwd: repoRoot, env, stdio: 'inherit' }),

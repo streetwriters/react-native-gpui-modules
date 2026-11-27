@@ -35,8 +35,14 @@ impl GpuiKitChartSpec for GpuiKitChart {
         &mut self,
         props: &GpuiKitChartProps,
         _window: &mut Window,
-        _cx: &mut GpuiKitChartContext,
+        cx: &mut GpuiKitChartContext,
     ) -> AnyElement {
+        if !props.spec_json().is_empty() {
+            let spec = serde_json::from_str(props.spec_json()).unwrap_or_default();
+            if let Some(app) = cx.app() {
+                return super::chart_spec::render(&spec, gpui_component::ActiveTheme::theme(&*app));
+            }
+        }
         let data = props.data();
         let points: Vec<Point> = (0..data.len())
             .filter_map(|index| data.get(index))

@@ -10,7 +10,7 @@ The kit's `HoverCard`, written by hand on the same specification as the generate
 | Name         | Type                         |
 | ------------ | ---------------------------- |
 | `anchor`     | `string`                     |
-| `width`      | `Double`                     |
+| `cardWidth`  | `Double`                     |
 | `appearance` | `WithDefault<boolean, true>` |
 | `openDelay`  | `WithDefault<Double, -1>`    |
 | `closeDelay` | `WithDefault<Double, -1>`    |

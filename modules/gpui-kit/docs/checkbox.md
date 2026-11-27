@@ -25,6 +25,8 @@ A Checkbox element.
 | `secondarySelected`         | `boolean`                                          | `Checkbox::secondary_selected`  |
 | `open`                      | `boolean`                                          | `Checkbox::open`                |
 | `size`                      | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Checkbox::with_size`           |
+| `customSize`                | `Double`                                           | constructor argument            |
+| `kitStyle`                  | `string`                                           | constructor argument            |
 
 ## Events
 

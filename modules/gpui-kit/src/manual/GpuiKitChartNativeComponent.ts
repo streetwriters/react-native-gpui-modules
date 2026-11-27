@@ -42,6 +42,7 @@ export interface NativeProps extends ViewProps {
   smooth?: boolean;
   innerRadius?: CodegenTypes.Double;
   outerRadius?: CodegenTypes.Double;
+  specJson?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitChart', {

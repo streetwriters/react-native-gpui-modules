@@ -56,7 +56,15 @@ impl GpuiKitCalendarSpec for GpuiKitCalendar {
         if self.state.is_none() {
             let range = props.range();
             let state = app.new(|cx| {
+                let weekdays: Vec<u32> = props
+                    .disabled_weekdays()
+                    .iter()
+                    .map(|day| *day as u32)
+                    .collect();
                 let mut state = CalendarState::new(window, cx);
+                if !weekdays.is_empty() {
+                    state = state.disabled_matcher(weekdays);
+                }
                 if range {
                     state.set_date(Date::Range(None, None), window, cx);
                 }
@@ -87,8 +95,10 @@ impl GpuiKitCalendarSpec for GpuiKitCalendar {
         if props.number_of_months() > 0 {
             element = element.number_of_months(props.number_of_months() as usize);
         }
-        if let Ok(day) = Weekday::try_from(props.first_day_of_week().clamp(0, 6) as u8) {
-            element = element.first_day_of_week(day);
+        if props.first_day_of_week() >= 0 {
+            if let Ok(day) = Weekday::try_from(props.first_day_of_week().clamp(0, 6) as u8) {
+                element = element.first_day_of_week(day);
+            }
         }
         element.into_any_element()
     }

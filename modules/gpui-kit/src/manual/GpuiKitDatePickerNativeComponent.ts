@@ -10,6 +10,7 @@ export interface NativeProps extends ViewProps {
   range?: boolean;
   controlled?: boolean;
   dateFormat?: string;
+  options?: string;
   placeholder?: string;
   cleanable?: boolean;
   appearance?: CodegenTypes.WithDefault<boolean, true>;

@@ -30,14 +30,21 @@ impl GpuiKitCollapsibleSpec for GpuiKitCollapsible {
         cx: &mut GpuiKitCollapsibleContext,
     ) -> AnyElement {
         let mut slots = Slots::new(props.slots(), cx.children());
-        let mut element = Collapsible::new()
-            .motion_id(SharedString::from(self.id.clone()))
-            .open(props.open());
+        let mut element = Collapsible::new().open(props.open());
+        if props.animated() {
+            element = element.motion_id(SharedString::from(self.id.clone()));
+        }
         if let Some(trigger) = slots.take("trigger") {
             element = element.child(trigger);
         }
         if let Some(content) = slots.take("content") {
             element = element.content(content);
+        }
+        if let Some(after) = slots.take("after") {
+            element = element.child(after);
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
         }
         element.into_any_element()
     }

@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 export interface NativeProps extends ViewProps {
+  markdown?: boolean;
   message?: string;
   variant?: CodegenTypes.WithDefault<
     'unset' | 'default' | 'info' | 'success' | 'warning' | 'error',
@@ -20,6 +21,8 @@ export interface NativeProps extends ViewProps {
     'unset' | 'xsmall' | 'small' | 'medium' | 'large',
     'unset'
   >;
+  customSize?: CodegenTypes.Double;
+  kitStyle?: string;
   closeEvents?: boolean;
   onGpuiKitAlertClose?: CodegenTypes.DirectEventHandler<
     Readonly<{

@@ -9,6 +9,8 @@ export interface NativeProps extends ViewProps {
   controlled?: boolean;
   disabled?: boolean;
   invalid?: boolean;
+  precision?: CodegenTypes.WithDefault<'minute' | 'second', 'minute'>;
+  hourCycle?: CodegenTypes.WithDefault<'h23' | 'h12', 'h23'>;
   size?: CodegenTypes.WithDefault<
     'unset' | 'xsmall' | 'small' | 'medium' | 'large',
     'unset'

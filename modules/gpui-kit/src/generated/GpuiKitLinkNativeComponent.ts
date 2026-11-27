@@ -10,6 +10,7 @@ export interface NativeProps extends ViewProps {
   text?: string;
   href?: string;
   disabled?: boolean;
+  kitStyle?: string;
   onGpuiKitLinkPress?: CodegenTypes.DirectEventHandler<
     Readonly<{
       x: CodegenTypes.Double;

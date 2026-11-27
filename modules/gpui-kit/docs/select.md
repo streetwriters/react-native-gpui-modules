@@ -19,8 +19,14 @@ The kit's `Select`, written by hand on the same specification as the generated c
 | `menuWidth`         | `Double`                                                                        |
 | `icon`              | `string`                                                                        |
 | `controlled`        | `boolean`                                                                       |
+| `defaultValue`      | `string`                                                                        |
+| `titlePrefix`       | `string`                                                                        |
+| `menuMaxHeight`     | `Double`                                                                        |
+| `emptyText`         | `string`                                                                        |
+| `kitStyle`          | `string`                                                                        |
 | `size`              | `WithDefault< 'unset' \| 'xsmall' \| 'small' \| 'medium' \| 'large', 'unset' >` |
 | `value`             | `string`                                                                        |
+| `listJson`          | `string`                                                                        |
 
 ## Coverage
 

@@ -8,6 +8,7 @@ import {
 
 export interface NativeProps extends ViewProps {
   secondary?: boolean;
+  kitStyle?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitSkeleton', {

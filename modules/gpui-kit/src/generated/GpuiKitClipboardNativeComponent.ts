@@ -14,6 +14,7 @@ export interface NativeProps extends ViewProps {
     'unset' | 'xsmall' | 'small' | 'medium' | 'large',
     'unset'
   >;
+  customSize?: CodegenTypes.Double;
   onGpuiKitClipboardCopied?: CodegenTypes.DirectEventHandler<
     Readonly<{ value: string }>
   >;

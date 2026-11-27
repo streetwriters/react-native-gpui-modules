@@ -12,6 +12,7 @@ import NativeContainer, {
   Commands as ContainerCommands,
 } from './GpuiKitButtonContainerNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export type ButtonPressEvent = NativeSyntheticEvent<
   Readonly<{
@@ -31,6 +32,12 @@ export type ButtonHoverChangeEvent = NativeSyntheticEvent<
 export interface ButtonProps extends ViewProps {
   children?: React.ReactNode;
   focusable?: boolean;
+  loadingIconSvg?: string;
+  iconProgressColor?: ColorValue;
+  iconProgress?: number;
+  iconCustomSize?: number;
+  iconColor?: ColorValue;
+  iconSvg?: string;
   customShadow?: boolean;
   customActive?: ColorValue;
   customHover?: ColorValue;
@@ -72,6 +79,8 @@ export interface ButtonProps extends ViewProps {
     | 'link'
     | 'text';
   customColor?: ColorValue;
+  customSize?: number;
+  kitStyle?: KitStyle;
   onPress?: (event: ButtonPressEvent) => void;
   onHoverChange?: (event: ButtonHoverChangeEvent) => void;
 }
@@ -96,7 +105,7 @@ export const Button = forwardRef<ButtonHandle, ButtonProps>(
       heights[(props.size as keyof typeof heights) ?? 'medium'] ?? 32;
     const width = Math.max(
       height,
-      Math.ceil((props.label?.length ?? 0) * 7.5 + 21 + (props.icon ? 18 : 0)),
+      Math.ceil((props.label?.length ?? 0) * 7.5 + 20 + (props.icon ? 24 : 0)),
     );
     if (React.Children.count(children) > 0) {
       return (
@@ -113,6 +122,7 @@ export const Button = forwardRef<ButtonHandle, ButtonProps>(
             },
             style,
           ]}
+          kitStyle={kitStyle(props.kitStyle)}
           onPointerUp={
             onPress && !props.disabled
               ? (event: any) =>
@@ -140,6 +150,8 @@ export const Button = forwardRef<ButtonHandle, ButtonProps>(
         ref={native}
         {...rest}
         style={[style]}
+        iconProgress={props.iconProgress ?? NaN}
+        kitStyle={kitStyle(props.kitStyle)}
         onGpuiKitButtonPress={onPress}
         onGpuiKitButtonHoverChange={onHoverChange}
       />

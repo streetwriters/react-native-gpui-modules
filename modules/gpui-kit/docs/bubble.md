@@ -7,11 +7,14 @@ The kit's `Bubble`, written by hand on the same specification as the generated c
 
 ## Native props
 
-| Name      | Type                                                                                                |
-| --------- | --------------------------------------------------------------------------------------------------- |
-| `end`     | `boolean`                                                                                           |
-| `text`    | `string`                                                                                            |
-| `variant` | `WithDefault< \| 'unset' \| 'filled' \| 'secondary' \| 'muted' \| 'tinted' \| 'outline' \| 'ghost'` |
+| Name            | Type                                                                                                |
+| --------------- | --------------------------------------------------------------------------------------------------- |
+| `text`          | `string`                                                                                            |
+| `variant`       | `WithDefault< \| 'unset' \| 'filled' \| 'secondary' \| 'muted' \| 'tinted' \| 'outline' \| 'ghost'` |
+| `align`         | `string`                                                                                            |
+| `reactionsJson` | `string`                                                                                            |
+| `contentStyle`  | `string`                                                                                            |
+| `groupJson`     | `string`                                                                                            |
 
 ## Coverage
 

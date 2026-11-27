@@ -7,6 +7,9 @@ import {
 export interface NativeProps extends ViewProps {
   value?: CodegenTypes.Int32;
   controlled?: boolean;
+  hasValue?: boolean;
+  select?: boolean;
+  placeholder?: string;
   label?: string;
   featuredColors?: ReadonlyArray<CodegenTypes.Int32>;
   size?: CodegenTypes.WithDefault<

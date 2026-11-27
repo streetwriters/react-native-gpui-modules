@@ -7,9 +7,11 @@ The kit's `Collapsible`, written by hand on the same specification as the genera
 
 ## Native props
 
-| Name   | Type      |
-| ------ | --------- |
-| `open` | `boolean` |
+| Name       | Type      |
+| ---------- | --------- |
+| `open`     | `boolean` |
+| `animated` | `boolean` |
+| `kitStyle` | `string`  |
 
 ## Coverage
 

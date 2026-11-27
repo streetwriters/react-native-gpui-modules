@@ -1,18 +1,18 @@
 use gpui::{
     px, AnyElement, AppContext as _, Entity, IntoElement, SharedString, Subscription, Window,
 };
-use gpui_component::searchable_list::SearchableVec;
 use gpui_component::select::{Select, SelectEvent, SelectState};
 use gpui_component::{Sizable as _, Size};
 
+use super::list_model::{KitList, ListSpec};
 use crate::*;
 
-type Items = SearchableVec<SharedString>;
+type Items = KitList;
 
 pub struct GpuiKitSelect {
     state: Option<Entity<SelectState<Items>>>,
     subscription: Option<Subscription>,
-    items: Vec<String>,
+    spec: ListSpec,
     value: Option<String>,
 }
 
@@ -21,7 +21,7 @@ impl GpuiKitSelectSpec for GpuiKitSelect {
         Self {
             state: None,
             subscription: None,
-            items: Vec::new(),
+            spec: ListSpec::default(),
             value: None,
         }
     }
@@ -44,48 +44,47 @@ impl GpuiKitSelectSpec for GpuiKitSelect {
         let Some(app) = cx.app() else {
             return gpui::div().into_any_element();
         };
-        let list = props.items();
-        let items: Vec<String> = (0..list.len())
-            .filter_map(|index| list.get(index))
-            .map(|item| item.to_string())
-            .collect();
-        let shared = |items: &[String]| {
-            SearchableVec::new(
-                items
-                    .iter()
-                    .cloned()
-                    .map(SharedString::from)
-                    .collect::<Vec<_>>(),
+        let spec = if props.list_json().is_empty() {
+            let list = props.items();
+            ListSpec::plain(
+                (0..list.len())
+                    .filter_map(|index| list.get(index))
+                    .map(|item| item.to_string())
+                    .collect(),
             )
+        } else {
+            ListSpec::parse(props.list_json())
         };
         if self.state.is_none() {
-            let initial = items.clone();
+            let list = KitList::new(&spec);
+            let selected = list.index_of(props.default_value());
             let state = app.new(|cx| {
-                SelectState::new(shared(&initial), None, window, cx).searchable(props.searchable())
+                SelectState::new(list, selected, window, cx).searchable(props.searchable())
             });
-            let events = items.clone();
             self.subscription = Some(app.subscribe(
                 &state,
-                move |_, event: &SelectEvent<Items>, _cx| {
+                move |state, event: &SelectEvent<Items>, cx| {
                     let SelectEvent::Confirm(value) = event;
                     let value = value
                         .as_ref()
                         .map(|value| value.to_string())
                         .unwrap_or_default();
-                    let index = events
-                        .iter()
-                        .position(|item| *item == value)
-                        .map_or(-1, |index| index as i32);
+                    let index = state
+                        .read(cx)
+                        .selected_index(cx)
+                        .map_or(-1, |ix| ix.row as i32);
                     sender.gpui_kit_select_change(OnGpuiKitSelectChange { value, index });
                 },
             ));
             self.state = Some(state);
-            self.items = items.clone();
+            self.spec = spec.clone();
         }
         let state = self.state.clone().unwrap();
-        if self.items != items {
-            self.items = items.clone();
-            state.update(app, |state, cx| state.set_items(shared(&items), window, cx));
+        if self.spec != spec {
+            self.spec = spec.clone();
+            state.update(app, |state, cx| {
+                state.set_items(KitList::new(&spec), window, cx)
+            });
             self.value = None;
         }
         let wanted = props.controlled().then(|| props.value().to_string());
@@ -111,6 +110,27 @@ impl GpuiKitSelectSpec for GpuiKitSelect {
         }
         if let Some(icon) = crate::generated::icons::parse(props.icon()) {
             element = element.icon(icon);
+        }
+        if !props.title_prefix().is_empty() {
+            element = element.title_prefix(props.title_prefix().to_string());
+        }
+        if props.menu_max_height() > 0.0 {
+            element = element.menu_max_h(px(props.menu_max_height() as f32));
+        }
+        if !props.empty_text().is_empty() {
+            let text = SharedString::from(props.empty_text().to_string());
+            element = element.empty(move |_, cx| {
+                use gpui::{ParentElement as _, Styled as _};
+                use gpui_component::ActiveTheme as _;
+                gpui_component::h_flex()
+                    .h_24()
+                    .justify_center()
+                    .text_color(cx.theme().muted_foreground)
+                    .child(text.clone())
+            });
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
         }
         match props.size() {
             GpuiKitSelectSize::Unset => {}

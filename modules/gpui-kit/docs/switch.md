@@ -22,6 +22,8 @@ A Switch element that can be toggled on or off.
 | `size`               | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Switch::with_size`           |
 | `disabled`           | `boolean`                                          | `Switch::disabled`            |
 | `focusRing`          | `WithDefault<boolean, true>`                       | `Switch::focus_ring`          |
+| `customSize`         | `Double`                                           | constructor argument          |
+| `kitStyle`           | `string`                                           | constructor argument          |
 
 ## Events
 

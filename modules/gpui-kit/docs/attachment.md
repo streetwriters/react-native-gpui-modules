@@ -7,21 +7,19 @@ The kit's `Attachment`, written by hand on the same specification as the generat
 
 ## Native props
 
-| Name          | Type                                                                                              |
-| ------------- | ------------------------------------------------------------------------------------------------- |
-| `title`       | `string`                                                                                          |
-| `description` | `string`                                                                                          |
-| `tooltip`     | `string`                                                                                          |
-| `progress`    | `WithDefault<Double, -1>`                                                                         |
-| `status`      | `WithDefault< 'unset' \| 'pending' \| 'uploading' \| 'processing' \| 'failed' \| 'complete', 'un` |
+| Name        | Type      |
+| ----------- | --------- |
+| `itemsJson` | `string`  |
+| `asGroup`   | `boolean` |
+| `edgeFade`  | `Int32`   |
 
 ## Native events
 
-| Name                        | Type                               |
-| --------------------------- | ---------------------------------- |
-| `onGpuiKitAttachmentPress`  | `DirectEventHandler<Readonly<{}>>` |
-| `onGpuiKitAttachmentRemove` | `DirectEventHandler<Readonly<{}>>` |
-| `onGpuiKitAttachmentRetry`  | `DirectEventHandler<Readonly<{}>>` |
+| Name                        | Type                                               |
+| --------------------------- | -------------------------------------------------- |
+| `onGpuiKitAttachmentPress`  | `DirectEventHandler< Readonly<{ index: Int32 }> >` |
+| `onGpuiKitAttachmentRemove` | `DirectEventHandler< Readonly<{ index: Int32 }> >` |
+| `onGpuiKitAttachmentRetry`  | `DirectEventHandler< Readonly<{ index: Int32 }> >` |
 
 ## Coverage
 

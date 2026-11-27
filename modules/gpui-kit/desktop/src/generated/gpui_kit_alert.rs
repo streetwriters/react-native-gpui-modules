@@ -33,10 +33,17 @@ impl GpuiKitAlertSpec for GpuiKitAlert {
         cx: &mut GpuiKitAlertContext,
     ) -> AnyElement {
         let sender = cx.event_sender();
-        let mut element = Alert::new(
-            SharedString::from(self.id.clone()),
-            props.message().to_string(),
-        );
+        let mut element = if props.markdown() {
+            Alert::new(
+                SharedString::from(self.id.clone()),
+                gpui_component::text::markdown(props.message().to_string()),
+            )
+        } else {
+            Alert::new(
+                SharedString::from(self.id.clone()),
+                props.message().to_string(),
+            )
+        };
         match props.variant() {
             GpuiKitAlertVariant::Unset => {}
             GpuiKitAlertVariant::Default => {
@@ -79,6 +86,12 @@ impl GpuiKitAlertSpec for GpuiKitAlert {
             GpuiKitAlertSize::Small => element = element.with_size(gpui_component::Size::Small),
             GpuiKitAlertSize::Medium => element = element.with_size(gpui_component::Size::Medium),
             GpuiKitAlertSize::Large => element = element.with_size(gpui_component::Size::Large),
+        }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
         }
         if props.close_events() {
             let sender = sender.clone();

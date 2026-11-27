@@ -14,8 +14,9 @@ export interface NativeProps extends ViewProps {
     'unset' | 'xsmall' | 'small' | 'medium' | 'large',
     'unset'
   >;
+  customSize?: CodegenTypes.Double;
   easing?: CodegenTypes.WithDefault<
-    'ease-in-out' | 'linear' | 'quadratic' | 'ease-out-quint',
+    'ease-in-out' | 'linear' | 'quadratic' | 'ease-out-quint' | 'bounce',
     'ease-in-out'
   >;
 }

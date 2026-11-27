@@ -7,12 +7,13 @@ The kit's `DropdownMenu`, written by hand on the same specification as the gener
 
 ## Native props
 
-| Name         | Type                      |
-| ------------ | ------------------------- |
-| `open`       | `boolean`                 |
-| `controlled` | `boolean`                 |
-| `anchor`     | `string`                  |
-| `items`      | `ReadonlyArray<MenuItem>` |
+| Name         | Type      |
+| ------------ | --------- |
+| `open`       | `boolean` |
+| `controlled` | `boolean` |
+| `anchor`     | `string`  |
+| `mode`       | `string`  |
+| `menuJson`   | `string`  |
 
 ## Native events
 

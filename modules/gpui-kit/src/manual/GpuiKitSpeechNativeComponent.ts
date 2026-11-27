@@ -13,6 +13,10 @@ export interface NativeProps extends ViewProps {
   showWhenUnsupported?: CodegenTypes.WithDefault<boolean, true>;
   recognizer?: CodegenTypes.WithDefault<'system' | 'js', 'system'>;
   audioInput?: CodegenTypes.WithDefault<'microphone' | 'js', 'microphone'>;
+  /** `dictation` is an input with the button and waveform as its suffix. */
+  variant?: CodegenTypes.WithDefault<'row' | 'dictation', 'row'>;
+  /** The dictation input's placeholder. */
+  placeholder?: string;
   onGpuiKitSpeechRecognizerStart?: CodegenTypes.DirectEventHandler<
     Readonly<{ sampleRate: CodegenTypes.Int32; channels: CodegenTypes.Int32 }>
   >;
@@ -20,6 +24,10 @@ export interface NativeProps extends ViewProps {
     Readonly<{}>
   >;
   onGpuiKitSpeechRecognizerEnd?: CodegenTypes.DirectEventHandler<Readonly<{}>>;
+  /** With `recognizer="js"`: how many samples of audio the session received. */
+  onGpuiKitSpeechRecognizerAudio?: CodegenTypes.DirectEventHandler<
+    Readonly<{ samples: CodegenTypes.Int32 }>
+  >;
   onGpuiKitSpeechAudioStart?: CodegenTypes.DirectEventHandler<
     Readonly<{ sampleRate: CodegenTypes.Int32; channels: CodegenTypes.Int32 }>
   >;

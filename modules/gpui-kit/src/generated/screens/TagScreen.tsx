@@ -27,6 +27,26 @@ export default function TagScreen() {
       <Text testID="tag-log">{log.join('\n')}</Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
         <TextInput
+          testID="tag-prop-custom-border"
+          placeholder="customBorder"
+          onChangeText={text => set('customBorder', text)}
+        />
+        <TextInput
+          testID="tag-prop-custom-foreground"
+          placeholder="customForeground"
+          onChangeText={text => set('customForeground', text)}
+        />
+        <TextInput
+          testID="tag-prop-custom-color"
+          placeholder="customColor"
+          onChangeText={text => set('customColor', text)}
+        />
+        <TextInput
+          testID="tag-prop-color-name"
+          placeholder="colorName"
+          onChangeText={text => set('colorName', text)}
+        />
+        <TextInput
           testID="tag-prop-label"
           placeholder="label"
           onChangeText={text => set('label', text)}
@@ -115,6 +135,14 @@ export default function TagScreen() {
             <Text>large</Text>
           </Pressable>
         </View>
+        <Pressable
+          testID="tag-prop-custom-size"
+          onPress={() =>
+            set('customSize', ((values['customSize'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>customSize: {String(values['customSize'] ?? 0)}</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );

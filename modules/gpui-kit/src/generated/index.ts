@@ -3,7 +3,6 @@ export { Button, type ButtonProps, type ButtonHandle } from './Button';
 export { Input, type InputProps, type InputHandle } from './Input';
 export { Label, type LabelProps } from './Label';
 export { Icon, type IconProps } from './Icon';
-export { Badge, type BadgeProps } from './Badge';
 export { Tag, type TagProps } from './Tag';
 export { Avatar, type AvatarProps } from './Avatar';
 export { Spinner, type SpinnerProps } from './Spinner';

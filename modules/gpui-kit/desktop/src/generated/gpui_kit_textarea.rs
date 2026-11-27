@@ -20,10 +20,13 @@ pub struct GpuiKitTextarea {
     count: Rc<Cell<i32>>,
     last: Rc<RefCell<String>>,
     applied_default: bool,
+    selection_focus: Option<gpui::FocusHandle>,
+    selection_held: bool,
     applied_tab_size: Option<(i32, bool)>,
     applied_text_align: Option<u8>,
     applied_context_menu_enabled: Option<bool>,
     applied_fold_background: Option<Option<i32>>,
+    applied_scrollbar_style_json: Option<String>,
     applied_placeholder: Option<String>,
     applied_clean_on_escape: Option<bool>,
     applied_submit_on_enter: Option<bool>,
@@ -46,10 +49,13 @@ impl GpuiKitTextareaSpec for GpuiKitTextarea {
             count: Rc::new(Cell::new(0)),
             last: Rc::new(RefCell::new(String::new())),
             applied_default: false,
+            selection_focus: None,
+            selection_held: false,
             applied_tab_size: None,
             applied_text_align: None,
             applied_context_menu_enabled: None,
             applied_fold_background: None,
+            applied_scrollbar_style_json: None,
             applied_placeholder: None,
             applied_clean_on_escape: None,
             applied_submit_on_enter: None,
@@ -249,6 +255,29 @@ impl GpuiKitTextareaSpec for GpuiKitTextarea {
         });
     }
 
+    fn hold_selection(&mut self, hold: bool, cx: &mut GpuiKitTextareaContext) {
+        let (Some(state), Some(handle)) = (self.state.clone(), self.selection_focus.clone()) else {
+            return;
+        };
+        cx.with_window(|window, app| {
+            if hold {
+                window.focus(&handle, app);
+            } else if handle.is_focused(window) {
+                state.update(app, |state, cx| state.focus(window, cx));
+            }
+        });
+    }
+
+    fn replace(&mut self, text: String, cx: &mut GpuiKitTextareaContext) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        cx.with_window(|window, app| {
+            let _ = &window;
+            state.update(app, |state, cx| state.replace(text.clone(), window, cx));
+        });
+    }
+
     fn render(
         &mut self,
         props: &GpuiKitTextareaProps,
@@ -256,11 +285,23 @@ impl GpuiKitTextareaSpec for GpuiKitTextarea {
         cx: &mut GpuiKitTextareaContext,
     ) -> AnyElement {
         let sender = cx.event_sender();
+        let sender_extra = sender.clone();
+        let mut slots = crate::manual::slots::Slots::new(props.slots(), cx.children());
         let Some(app) = cx.app() else {
             return div().into_any_element();
         };
         if self.state.is_none() {
-            let state = app.new(|cx| TextareaState::new(window, cx));
+            let state = app.new(|cx| {
+                let state = TextareaState::new(window, cx);
+                if props.auto_grow_max() > 0 {
+                    state.auto_grow(
+                        props.auto_grow_min().max(1) as usize,
+                        props.auto_grow_max() as usize,
+                    )
+                } else {
+                    state
+                }
+            });
             let count = self.count.clone();
             let last = self.last.clone();
             let sender = sender.clone();
@@ -292,6 +333,20 @@ impl GpuiKitTextareaSpec for GpuiKitTextarea {
                         }
                         #[allow(unreachable_patterns)]
                         _ => {}
+                    }
+                }));
+            let sender = sender_extra.clone();
+            let seen = std::cell::Cell::new(None);
+            self.subscriptions
+                .push(app.observe(&state, move |state, cx| {
+                    let position = state.read(cx).cursor_position();
+                    let key = Some((position.line, position.character));
+                    if seen.get() != key {
+                        seen.set(key);
+                        sender.gpui_kit_textarea_cursor_change(OnGpuiKitTextareaCursorChange {
+                            line: position.line as i32,
+                            character: position.character as i32,
+                        });
                     }
                 }));
             self.state = Some(state);
@@ -342,6 +397,15 @@ impl GpuiKitTextareaSpec for GpuiKitTextarea {
                     state.set_fold_background(value.map(|c| crate::color::hsla(c as _)), cx)
                 });
                 self.applied_fold_background = Some(value);
+            }
+        }
+        {
+            let value = props.scrollbar_style_json().to_string();
+            if self.applied_scrollbar_style_json.as_ref() != Some(&value) {
+                state.update(app, |state, _cx| {
+                    state.set_scrollbar_renderer(crate::manual::rules::scrollbar(&value))
+                });
+                self.applied_scrollbar_style_json = Some(value.clone());
             }
         }
         {
@@ -406,15 +470,7 @@ impl GpuiKitTextareaSpec for GpuiKitTextarea {
             let value = props.mask_pattern().to_string();
             if self.applied_mask_pattern.as_ref() != Some(&value) {
                 state.update(app, |state, cx| {
-                    state.set_mask_pattern(
-                        if value.is_empty() {
-                            gpui_component::input::MaskPattern::None
-                        } else {
-                            value.as_str().into()
-                        },
-                        window,
-                        cx,
-                    )
+                    state.set_mask_pattern(crate::style::mask_pattern(&value), window, cx)
                 });
                 self.applied_mask_pattern = Some(value.clone());
             }
@@ -459,7 +515,11 @@ impl GpuiKitTextareaSpec for GpuiKitTextarea {
         {
             let value = props.rows();
             if self.applied_rows.as_ref() != Some(&value) {
-                state.update(app, |state, cx| state.set_rows(value as usize, cx));
+                state.update(app, |state, cx| {
+                    if value > 0 {
+                        state.set_rows(value as usize, cx)
+                    }
+                });
                 self.applied_rows = Some(value);
             }
         }
@@ -513,6 +573,26 @@ impl GpuiKitTextareaSpec for GpuiKitTextarea {
                 element = element.with_size(gpui_component::Size::Medium)
             }
             GpuiKitTextareaSize::Large => element = element.with_size(gpui_component::Size::Large),
+        }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
+        if props.token_render() {
+            let renderers = Rc::new(crate::manual::slots::Renderers::new(props.slots()));
+            let sender = sender.clone();
+            element = element.token(move |context, window, cx| {
+                let id = context.token().id().to_string();
+                match renderers.get(&format!("token:{id}")) {
+                    Some(render) => render(window, cx),
+                    None => {
+                        sender.gpui_kit_textarea_token_needed(OnGpuiKitTextareaTokenNeeded { id });
+                        gpui_component::input::InputToken::new(context).into_any_element()
+                    }
+                }
+            });
         }
         if props.token_click_events() {
             let sender = sender.clone();
@@ -570,7 +650,53 @@ impl GpuiKitTextareaSpec for GpuiKitTextarea {
                 false
             });
         }
-        element = element.size_full();
+        if props.auto_grow_max() <= 0 {
+            element = element.size_full();
+        }
+        if self.selection_focus.is_none() {
+            let handle = app.focus_handle();
+            state.update(app, |state, cx| {
+                state.set_selection_focus(Some(handle.clone()), cx)
+            });
+            self.selection_focus = Some(handle);
+        }
+        let held = self
+            .selection_focus
+            .as_ref()
+            .is_some_and(|handle| handle.is_focused(window));
+        if held != self.selection_held {
+            self.selection_held = held;
+            sender.gpui_kit_textarea_selection_hold_change(OnGpuiKitTextareaSelectionHoldChange {
+                held,
+            });
+        }
+        if crate::manual::addons::grouped(props.addons_json()) {
+            let size = match props.size() {
+                GpuiKitTextareaSize::Unset => None,
+                GpuiKitTextareaSize::Xsmall => Some(gpui_component::Size::XSmall),
+                GpuiKitTextareaSize::Small => Some(gpui_component::Size::Small),
+                GpuiKitTextareaSize::Medium => Some(gpui_component::Size::Medium),
+                GpuiKitTextareaSize::Large => Some(gpui_component::Size::Large),
+            };
+            let sender = sender.clone();
+            return crate::manual::addons::wrap(
+                element,
+                format!("gpui_kit_textarea-{}", state.entity_id()),
+                props.addons_json(),
+                size,
+                props.disabled(),
+                props.readonly(),
+                props.slots(),
+                &mut slots,
+                std::rc::Rc::new(move |addon, item, index| {
+                    sender.gpui_kit_textarea_addon_press(OnGpuiKitTextareaAddonPress {
+                        addon,
+                        item,
+                        index,
+                    })
+                }),
+            );
+        }
         element.into_any_element()
     }
 }

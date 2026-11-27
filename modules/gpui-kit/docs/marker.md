@@ -15,6 +15,7 @@ The kit's `Marker`, written by hand on the same specification as the generated c
 | `loading`                   | `boolean`                                                               |
 | `text`                      | `string`                                                                |
 | `icon`                      | `string`                                                                |
+| `kitStyle`                  | `string`                                                                |
 | `accessibilityRoleOverride` | `string`                                                                |
 | `separatorStyle`            | `string`                                                                |
 | `shimmerDuration`           | `Double`                                                                |

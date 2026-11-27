@@ -16,6 +16,8 @@ A circular progress indicator element.
 | `value`              | `Double`                                           | `ProgressCircle::value`               |
 | `accessibilityLabel` | `string`                                           | `ProgressCircle::accessibility_label` |
 | `size`               | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `ProgressCircle::with_size`           |
+| `customSize`         | `Double`                                           | constructor argument                  |
+| `kitStyle`           | `string`                                           | constructor argument                  |
 
 ## Events
 

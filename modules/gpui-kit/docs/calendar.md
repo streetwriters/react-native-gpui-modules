@@ -7,14 +7,15 @@ The kit's `Calendar`, written by hand on the same specification as the generated
 
 ## Native props
 
-| Name             | Type      |
-| ---------------- | --------- |
-| `date`           | `string`  |
-| `endDate`        | `string`  |
-| `range`          | `boolean` |
-| `controlled`     | `boolean` |
-| `numberOfMonths` | `Int32`   |
-| `firstDayOfWeek` | `Int32`   |
+| Name               | Type                     |
+| ------------------ | ------------------------ |
+| `date`             | `string`                 |
+| `endDate`          | `string`                 |
+| `range`            | `boolean`                |
+| `controlled`       | `boolean`                |
+| `numberOfMonths`   | `Int32`                  |
+| `firstDayOfWeek`   | `WithDefault<Int32, -1>` |
+| `disabledWeekdays` | `ReadonlyArray<Int32>`   |
 
 ## Coverage
 

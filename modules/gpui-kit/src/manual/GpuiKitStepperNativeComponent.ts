@@ -6,8 +6,10 @@ import {
 
 export type StepperItem = Readonly<{
   title: string;
+  description: string;
   icon: string;
   disabled: boolean;
+  kitStyle: string;
 }>;
 
 export interface NativeProps extends ViewProps {
@@ -23,6 +25,8 @@ export interface NativeProps extends ViewProps {
     'unset' | 'xsmall' | 'small' | 'medium' | 'large',
     'unset'
   >;
+  kitStyle?: string;
+  slots?: string;
   onGpuiKitStepperSelect?: CodegenTypes.DirectEventHandler<
     Readonly<{ index: CodegenTypes.Int32 }>
   >;

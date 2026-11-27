@@ -7,9 +7,18 @@ The kit's `Toolbar`, written by hand on the same specification as the generated 
 
 ## Native props
 
-| Name       | Type      |
-| ---------- | --------- |
-| `disabled` | `boolean` |
+| Name        | Type      |
+| ----------- | --------- |
+| `disabled`  | `boolean` |
+| `size`      | `string`  |
+| `itemsJson` | `string`  |
+| `kitStyle`  | `string`  |
+
+## Native events
+
+| Name                    | Type                                            |
+| ----------------------- | ----------------------------------------------- |
+| `onGpuiKitToolbarPress` | `DirectEventHandler< Readonly<{ id: Int32 }> >` |
 
 ## Coverage
 

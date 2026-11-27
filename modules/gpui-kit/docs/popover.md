@@ -12,11 +12,12 @@ The kit's `Popover`, written by hand on the same specification as the generated 
 | `open`            | `boolean`                    |
 | `controlled`      | `boolean`                    |
 | `anchor`          | `string`                     |
-| `width`           | `Double`                     |
+| `contentWidth`    | `Double`                     |
 | `offset`          | `Double`                     |
 | `arrow`           | `boolean`                    |
 | `appearance`      | `WithDefault<boolean, true>` |
 | `overlayClosable` | `WithDefault<boolean, true>` |
+| `kitStyle`        | `string`                     |
 
 ## Native events
 

@@ -21,6 +21,7 @@ The kit's `Chart`, written by hand on the same specification as the generated co
 | `smooth`      | `boolean`                                                                                            |
 | `innerRadius` | `Double`                                                                                             |
 | `outerRadius` | `Double`                                                                                             |
+| `specJson`    | `string`                                                                                             |
 
 ## Coverage
 

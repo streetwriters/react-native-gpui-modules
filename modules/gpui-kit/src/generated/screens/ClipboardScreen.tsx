@@ -81,6 +81,14 @@ export default function ClipboardScreen() {
             <Text>large</Text>
           </Pressable>
         </View>
+        <Pressable
+          testID="clipboard-prop-custom-size"
+          onPress={() =>
+            set('customSize', ((values['customSize'] as number) ?? 0) + 1)
+          }
+        >
+          <Text>customSize: {String(values['customSize'] ?? 0)}</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );

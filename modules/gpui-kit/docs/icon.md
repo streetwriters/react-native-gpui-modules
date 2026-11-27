@@ -7,15 +7,17 @@ title: Icon
 
 ## Props
 
-| Prop     | Type                                               | Native method        |
-| -------- | -------------------------------------------------- | -------------------- |
-| `name`   | `string`                                           | constructor argument |
-| `path`   | `string`                                           | `Icon::path`         |
-| `svg`    | `string`                                           | `Icon::data`         |
-| `scale`  | `WithDefault<CodegenTypes.Double, 1.0>`            | `Icon::transform`    |
-| `rotate` | `Double`                                           | `Icon::rotate`       |
-| `size`   | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Icon::with_size`    |
-| `color`  | `ColorValue`                                       | `Icon::text_color`   |
+| Prop         | Type                                               | Native method        |
+| ------------ | -------------------------------------------------- | -------------------- |
+| `name`       | `string`                                           | constructor argument |
+| `path`       | `string`                                           | `Icon::path`         |
+| `svg`        | `string`                                           | `Icon::data`         |
+| `scale`      | `WithDefault<CodegenTypes.Double, 1.0>`            | `Icon::transform`    |
+| `rotate`     | `Double`                                           | `Icon::rotate`       |
+| `size`       | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Icon::with_size`    |
+| `color`      | `ColorValue`                                       | `Icon::text_color`   |
+| `customSize` | `Double`                                           | constructor argument |
+| `kitStyle`   | `string`                                           | constructor argument |
 
 ## Events
 

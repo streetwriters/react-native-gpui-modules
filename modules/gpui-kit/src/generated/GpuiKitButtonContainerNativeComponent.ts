@@ -12,6 +12,12 @@ import {
 
 export interface NativeProps extends ViewProps {
   focusable?: boolean;
+  loadingIconSvg?: string;
+  iconProgressColor?: ColorValue;
+  iconProgress?: CodegenTypes.Double;
+  iconCustomSize?: CodegenTypes.Double;
+  iconColor?: ColorValue;
+  iconSvg?: string;
   customShadow?: boolean;
   customActive?: ColorValue;
   customHover?: ColorValue;
@@ -62,6 +68,8 @@ export interface NativeProps extends ViewProps {
     'unset'
   >;
   customColor?: ColorValue;
+  customSize?: CodegenTypes.Double;
+  kitStyle?: string;
   onGpuiKitButtonContainerPress?: CodegenTypes.DirectEventHandler<
     Readonly<{
       x: CodegenTypes.Double;

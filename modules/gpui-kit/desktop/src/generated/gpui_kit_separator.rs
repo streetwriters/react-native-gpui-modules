@@ -44,6 +44,9 @@ impl GpuiKitSeparatorSpec for GpuiKitSeparator {
         if props.dashed() {
             element = element.dashed();
         }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
+        }
         element = element.size_full();
         element.into_any_element()
     }

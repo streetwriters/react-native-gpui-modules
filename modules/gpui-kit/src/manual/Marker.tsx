@@ -29,6 +29,10 @@ export interface MarkerProps extends SlotHostProps {
   shimmerOnce?: boolean;
   /** React Native content after the text. */
   children?: ReactNode;
+  /** React Native content after the content, such as an action button. */
+  after?: ReactNode;
+  /** Refines the marker: padding, radius, background, text color, border color. */
+  kitStyle?: KitStyle;
 }
 
 export function Marker({
@@ -40,6 +44,8 @@ export function Marker({
   icon,
   iconSlot,
   children,
+  after,
+  kitStyle: markerStyle,
   style,
   accessibilityRoleOverride,
   separatorStyle,
@@ -53,7 +59,7 @@ export function Marker({
   return (
     <SlotHost
       {...view}
-      style={[{ height: 24, width: '100%' }, style]}
+      style={[{ width: '100%' }, style]}
       native={Native as never}
       nativeProps={{
         variant,
@@ -64,6 +70,7 @@ export function Marker({
         icon,
         accessibilityRoleOverride,
         separatorStyle: kitStyle(separatorStyle),
+        kitStyle: kitStyle(markerStyle),
         shimmerDuration,
         shimmerHighlightColor:
           shimmerHighlightColor == null
@@ -74,8 +81,9 @@ export function Marker({
         shimmerOnce,
       }}
       slots={[
-        { name: 'icon', content: iconSlot },
+        { name: 'icon', content: iconSlot, fit: true },
         { name: 'content', content: children },
+        { name: 'after', content: after, fit: true },
       ]}
     />
   );

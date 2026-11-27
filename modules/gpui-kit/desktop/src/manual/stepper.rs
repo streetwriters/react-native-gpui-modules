@@ -1,6 +1,11 @@
-use gpui::{AnyElement, Axis, IntoElement, ParentElement as _, SharedString, Window};
+use gpui::{
+    prelude::FluentBuilder as _, AnyElement, Axis, IntoElement, ParentElement as _, SharedString,
+    Styled as _, Window,
+};
 use gpui_component::stepper::{Stepper, StepperItem};
-use gpui_component::{Sizable as _, Size};
+use gpui_component::{v_flex, Sizable as _, Size};
+
+use super::slots::Slots;
 
 use crate::*;
 
@@ -34,16 +39,34 @@ impl GpuiKitStepperSpec for GpuiKitStepper {
             .selected_index(props.selected_index().max(0) as usize)
             .text_center(props.text_center())
             .disabled(props.disabled());
+        let mut slots = Slots::new(props.slots(), cx.children());
         let items = props.items();
-        for item in (0..items.len()).filter_map(|index| items.get(index)) {
+        for index in 0..items.len() {
+            let Some(item) = items.get(index) else {
+                continue;
+            };
             let mut entry = StepperItem::new().disabled(item.disabled());
             if let Some(icon) = crate::generated::icons::parse(item.icon()) {
                 entry = entry.icon(icon);
             }
-            if !item.title().is_empty() {
+            if let Some(content) = slots.take(&format!("step-{index}")) {
+                entry = entry.child(content);
+            } else if !item.description().is_empty() {
+                let content = v_flex()
+                    .when(props.text_center(), |this| this.items_center())
+                    .child(item.title().to_string())
+                    .child(item.description().to_string());
+                entry = entry.child(content);
+            } else if !item.title().is_empty() {
                 entry = entry.child(item.title().to_string());
             }
+            if let Some(style) = crate::style::refinement(item.kit_style()) {
+                gpui::Refineable::refine(gpui::Styled::style(&mut entry), &style);
+            }
             element = element.item(entry);
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
         }
         match props.layout() {
             GpuiKitStepperLayout::Unset | GpuiKitStepperLayout::Horizontal => {

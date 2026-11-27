@@ -9,8 +9,17 @@ import TooltipNative from './GpuiKitTooltipNativeComponent';
 import PopupMenuNative from './GpuiKitPopupMenuNativeComponent';
 import CommandNative from './GpuiKitCommandNativeComponent';
 import type { IconName } from '../generated/icons';
+import { kitStyle, type KitStyle } from './kitStyle';
 
-type Anchor = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+type Anchor =
+  | 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'left-center'
+  | 'right-center'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right';
 type OpenEvent = NativeSyntheticEvent<Readonly<{ open: boolean }>>;
 type SelectEvent = NativeSyntheticEvent<Readonly<{ index: number }>>;
 
@@ -24,9 +33,15 @@ interface Base {
 export interface PopoverProps extends Base {
   /** Controls the popover; leave it out for the kit's own open state. */
   open?: boolean;
+  /** Opens on the first render, when `open` is left out. */
+  defaultOpen?: boolean;
+  /** The button that opens it: `left` (default) or `right`. */
+  mouseButton?: 'left' | 'right';
+  /** Refines the content box: padding, gap, colors, radius, shadow and so on. */
+  kitStyle?: KitStyle;
   anchor?: Anchor;
-  /** Width of the content, in points. */
-  width?: number;
+  /** Width of the content, in points (default 240); `auto` sizes it to the content. */
+  width?: number | 'auto';
   offset?: number;
   arrow?: boolean;
   appearance?: boolean;
@@ -40,18 +55,25 @@ export function Popover({
   children,
   content,
   open,
+  defaultOpen,
+  mouseButton,
+  kitStyle: contentStyle,
+  width,
   onOpenChange,
   ...rest
 }: PopoverProps) {
   const { style, testID, ...native } = rest;
-  const toggle = useToggle(open, onOpenChange);
+  const toggle = useToggle(open, onOpenChange, defaultOpen);
   return (
     <SlotHost
+      fitWidth
       style={style}
       testID={testID}
       native={PopoverNative as never}
       nativeProps={{
         ...native,
+        contentWidth: width === 'auto' ? -1 : width,
+        kitStyle: kitStyle(contentStyle),
         appearance: native.appearance ?? true,
         overlayClosable: native.overlayClosable ?? true,
         open: toggle.current,
@@ -59,7 +81,13 @@ export function Popover({
         onGpuiKitPopoverOpenChange: toggle.onChange,
       }}
       slots={[
-        { name: 'trigger', content: toggle.wrap(children) },
+        {
+          name: 'trigger',
+          content:
+            mouseButton === 'right'
+              ? toggle.wrapRight(children)
+              : toggle.wrap(children),
+        },
         { name: 'content', content },
       ]}
     />
@@ -86,14 +114,16 @@ export function HoverCard({
   onOpenChange,
   ...rest
 }: HoverCardProps) {
-  const { style, testID, ...native } = rest;
+  const { style, testID, width, ...native } = rest;
   return (
     <SlotHost
+      fitWidth
       style={style}
       testID={testID}
       native={HoverCardNative as never}
       nativeProps={{
         ...native,
+        cardWidth: width,
         appearance: native.appearance ?? true,
         openDelay: native.openDelay ?? 0,
         closeDelay: native.closeDelay ?? 0,
@@ -124,10 +154,11 @@ export function Tooltip({
   const text = typeof content === 'string' ? content : undefined;
   return (
     <SlotHost
+      fitWidth
       style={style}
       testID={testID}
       native={TooltipNative as never}
-      nativeProps={{ text, width }}
+      nativeProps={{ text, contentWidth: width }}
       slots={[
         { name: 'trigger', content: children },
         { name: 'content', content: text === undefined ? content : null },
@@ -142,22 +173,76 @@ export interface MenuEntry {
   checked?: boolean;
   disabled?: boolean;
   separator?: boolean;
+  /** A heading row that cannot be chosen. */
+  heading?: boolean;
+  /** Opens this URL when chosen, and shows the external link mark. */
+  href?: string;
+  /** A keystroke such as `cmd-c` that chooses the item while focus is inside the trigger; shown beside it. */
+  shortcut?: string;
+  /** React Native content drawn as the row, instead of `label`. */
+  content?: ReactNode;
+  /** Entries of a submenu that opens from this item. */
+  children?: MenuEntry[];
   onSelect?: () => void;
 }
 
-const entries = (items: MenuEntry[]) =>
-  items.map(item => ({
-    label: item.label ?? '',
-    icon: item.icon ?? '',
-    checked: item.checked ?? false,
-    disabled: item.disabled ?? false,
-    separator: item.separator ?? false,
-  }));
+/** Options of the menu itself. */
+export interface MenuOptions {
+  minWidth?: number;
+  maxWidth?: number;
+  maxHeight?: number;
+  /** Scrolls when the entries are taller than `maxHeight`. */
+  scrollable?: boolean;
+  /** Which side checked items show their mark on. */
+  checkSide?: 'left' | 'right';
+  /** Shows the external link mark on link items (default `true`). */
+  externalLinkIcon?: boolean;
+}
 
-export interface DropdownMenuProps extends Base {
+type FlatEntry = { entry: MenuEntry };
+
+/** The menu as the JSON the native side reads, and its entries by id. */
+export function menuModel(items: MenuEntry[], options: MenuOptions = {}) {
+  const flat: FlatEntry[] = [];
+  const toJson = (list: MenuEntry[]): unknown[] =>
+    list.map(entry => {
+      const id = flat.length;
+      flat.push({ entry });
+      const kind = entry.separator
+        ? 'separator'
+        : entry.heading
+          ? 'label'
+          : entry.children
+            ? 'submenu'
+            : entry.href
+              ? 'link'
+              : 'item';
+      return {
+        kind,
+        id,
+        label: entry.label ?? '',
+        icon: entry.icon ?? '',
+        checked: entry.checked ?? false,
+        disabled: entry.disabled ?? false,
+        href: entry.href ?? '',
+        shortcut: entry.shortcut ?? '',
+        content: entry.content != null,
+        children: entry.children ? toJson(entry.children) : [],
+      };
+    });
+  const json = JSON.stringify({ ...options, items: toJson(items) });
+  const slots = flat.map(({ entry }, id) => ({
+    name: `item-${id}`,
+    content: entry.content,
+  }));
+  return { json, flat, slots };
+}
+
+export interface DropdownMenuProps extends Base, MenuOptions {
   items: MenuEntry[];
   anchor?: Anchor;
   onOpenChange?: (event: OpenEvent) => void;
+  /** An entry was chosen; `index` counts every entry, submenus' included, in order. */
   onSelect?: (event: SelectEvent) => void;
 }
 
@@ -169,73 +254,65 @@ export function DropdownMenu({
   style,
   testID,
   anchor,
+  ...options
 }: DropdownMenuProps) {
   const toggle = useToggle(undefined, onOpenChange);
+  const model = menuModel(items, options);
   return (
     <SlotHost
+      fitWidth
       style={style}
       testID={testID}
       native={DropdownMenuNative as never}
       nativeProps={{
         anchor,
+        mode: 'dropdown',
         open: toggle.current,
         controlled: true,
-        items: entries(items),
+        menuJson: model.json,
         onGpuiKitDropdownMenuOpenChange: toggle.onChange,
         onGpuiKitDropdownMenuSelect: (event: SelectEvent) => {
-          items[event.nativeEvent.index]?.onSelect?.();
+          model.flat[event.nativeEvent.index]?.entry.onSelect?.();
           onSelect?.(event);
         },
       }}
-      slots={[{ name: 'trigger', content: toggle.wrap(children) }]}
+      slots={[
+        { name: 'trigger', content: toggle.wrap(children) },
+        ...model.slots,
+      ]}
     />
   );
 }
 
-export interface ContextMenuProps extends Base {
+export interface ContextMenuProps extends Base, MenuOptions {
   items: MenuEntry[];
   onSelect?: (event: SelectEvent) => void;
 }
 
+/** A menu that opens where its content is right-clicked. */
 export function ContextMenu({
   children,
   items,
   onSelect,
   style,
   testID,
+  ...options
 }: ContextMenuProps) {
-  const [open, setOpen] = useState(false);
+  const model = menuModel(items, options);
   return (
     <SlotHost
       style={style}
       testID={testID}
       native={DropdownMenuNative as never}
       nativeProps={{
-        anchor: 'top-left',
-        open,
-        controlled: true,
-        items: entries(items),
-        onGpuiKitDropdownMenuOpenChange: (event: OpenEvent) =>
-          setOpen(event.nativeEvent.open),
+        mode: 'context',
+        menuJson: model.json,
         onGpuiKitDropdownMenuSelect: (event: SelectEvent) => {
-          items[event.nativeEvent.index]?.onSelect?.();
+          model.flat[event.nativeEvent.index]?.entry.onSelect?.();
           onSelect?.(event);
         },
       }}
-      slots={[
-        {
-          name: 'trigger',
-          content: (
-            <View
-              onPointerDown={event => {
-                if (event.nativeEvent.button === 2) setOpen(true);
-              }}
-            >
-              {children}
-            </View>
-          ),
-        },
-      ]}
+      slots={[{ name: 'trigger', content: children }, ...model.slots]}
     />
   );
 }
@@ -248,8 +325,9 @@ export function ContextMenu({
 function useToggle(
   open: boolean | undefined,
   onOpenChange?: (event: OpenEvent) => void,
+  initial = false,
 ) {
-  const [state, setState] = useState(false);
+  const [state, setState] = useState(initial);
   const current = open ?? state;
   const report = (next: boolean) => {
     setState(next);
@@ -261,8 +339,26 @@ function useToggle(
     wrap: (children: ReactNode) => (
       <Pressable onPress={() => report(!current)}>{children}</Pressable>
     ),
+    wrapRight: (children: ReactNode) => (
+      <View
+        onPointerDown={event => {
+          if (event.nativeEvent.button === 2) report(!current);
+        }}
+      >
+        {children}
+      </View>
+    ),
   };
 }
+
+const entries = (items: MenuEntry[]) =>
+  items.map(item => ({
+    label: item.label ?? '',
+    icon: item.icon ?? '',
+    checked: item.checked ?? false,
+    disabled: item.disabled ?? false,
+    separator: item.separator ?? false,
+  }));
 
 export interface PopupMenuProps {
   items: MenuEntry[];
@@ -290,55 +386,136 @@ export interface CommandEntry {
   label: string;
   icon?: IconName;
   checked?: boolean;
+  disabled?: boolean;
   /** Extra words the search matches. */
   keywords?: string[];
+  /** A keystroke such as `cmd-p` that runs the item while focus is in the palette; shown beside it. */
+  shortcut?: string;
+  /** React Native content drawn as the row; `label` is still what the search matches. */
+  content?: ReactNode;
+  onSelect?: () => void;
 }
 
-export interface CommandProps {
+export interface CommandGroupEntry {
+  group: string;
   items: CommandEntry[];
+}
+
+export type CommandListEntry = CommandEntry | CommandGroupEntry | 'separator';
+
+export interface CommandProps {
+  /** Items, titled groups and separators. */
+  items: CommandListEntry[];
   placeholder?: string;
   searchable?: boolean;
   filterable?: boolean;
   bordered?: boolean;
+  /** The tallest the palette's list may be, in points. */
+  maxHeight?: number;
+  /** React Native content above the list. */
+  header?: ReactNode;
+  /** React Native content below the list. */
+  footer?: ReactNode;
+  /** Focuses the search field when the palette first shows. */
+  autoFocus?: boolean;
+  /** Shows the loading state while results are fetched. */
+  loading?: boolean;
+  /** React Native content shown when nothing matches. */
+  empty?: ReactNode;
+  kitStyle?: KitStyle;
   style?: StyleProp<ViewStyle>;
   testID?: string;
+  /** `index` counts the items in order, groups' items included. */
   onSelect?: (event: SelectEvent) => void;
-  onConfirm?: (event: SelectEvent) => void;
+  /** An item was chosen: `index` as for `onSelect`, and its `section` and `row` in the palette. */
+  onConfirm?: (
+    event: NativeSyntheticEvent<
+      Readonly<{ index: number; section: number; row: number }>
+    >,
+  ) => void;
   onCancel?: () => void;
-  onQuery?: (text: string) => void;
+  /** The search text changed; `matched` is how many items match it. */
+  onQuery?: (text: string, matched: number) => void;
 }
 
-/** A searchable command list. */
+/** A searchable command palette. Without a height in `style` it is as high as its list. */
 export function Command({
   items,
   onSelect,
   onConfirm,
   onCancel,
   onQuery,
+  header,
+  footer,
+  empty,
+  kitStyle: commandStyle,
   style,
   testID,
   ...rest
 }: CommandProps) {
+  const flat: CommandEntry[] = [];
+  const item = (entry: CommandEntry) => {
+    const id = flat.length;
+    flat.push(entry);
+    return {
+      kind: 'item',
+      id,
+      label: entry.label,
+      icon: entry.icon ?? '',
+      checked: entry.checked ?? false,
+      disabled: entry.disabled ?? false,
+      keywords: entry.keywords ?? [],
+      shortcut: entry.shortcut ?? '',
+      content: entry.content != null,
+    };
+  };
+  const json = JSON.stringify(
+    items.map(entry =>
+      entry === 'separator'
+        ? { kind: 'separator' }
+        : 'group' in entry
+          ? { kind: 'group', label: entry.group, items: entry.items.map(item) }
+          : item(entry),
+    ),
+  );
   return (
-    <CommandNative
+    <SlotHost
       testID={testID}
-      style={[{ width: 360, height: 300 }, style]}
-      items={items.map(item => ({
-        label: item.label,
-        icon: item.icon ?? '',
-        checked: item.checked ?? false,
-        keywords: (item.keywords ?? []).join(','),
-      }))}
-      placeholder={rest.placeholder}
-      searchable={rest.searchable ?? true}
-      filterable={rest.filterable ?? true}
-      bordered={rest.bordered ?? true}
-      onGpuiKitCommandSelect={onSelect as never}
-      onGpuiKitCommandConfirm={onConfirm as never}
-      onGpuiKitCommandCancel={() => onCancel?.()}
-      onGpuiKitCommandQuery={(event: { nativeEvent: { text: string } }) =>
-        onQuery?.(event.nativeEvent.text)
-      }
+      style={[{ width: 360 }, style]}
+      native={CommandNative as never}
+      nativeProps={{
+        entriesJson: json,
+        placeholder: rest.placeholder ?? '',
+        searchable: rest.searchable ?? true,
+        filterable: rest.filterable ?? true,
+        bordered: rest.bordered ?? true,
+        listMaxHeight: rest.maxHeight ?? 0,
+        autoFocus: rest.autoFocus ?? false,
+        loading: rest.loading ?? false,
+        kitStyle: kitStyle(commandStyle),
+        onGpuiKitCommandSelect: (event: SelectEvent) => onSelect?.(event),
+        onGpuiKitCommandConfirm: (
+          event: NativeSyntheticEvent<
+            Readonly<{ index: number; section: number; row: number }>
+          >,
+        ) => {
+          flat[event.nativeEvent.index]?.onSelect?.();
+          onConfirm?.(event);
+        },
+        onGpuiKitCommandCancel: () => onCancel?.(),
+        onGpuiKitCommandQuery: (event: {
+          nativeEvent: { text: string; matched: number };
+        }) => onQuery?.(event.nativeEvent.text, event.nativeEvent.matched),
+      }}
+      slots={[
+        { name: 'header', content: header },
+        { name: 'footer', content: footer },
+        { name: 'empty', content: empty },
+        ...flat.map((entry, id) => ({
+          name: `item-${id}`,
+          content: entry.content,
+        })),
+      ]}
     />
   );
 }

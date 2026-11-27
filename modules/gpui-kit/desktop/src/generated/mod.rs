@@ -4,8 +4,6 @@ pub mod gpui_kit_alert;
 #[cfg(feature = "primitives")]
 pub mod gpui_kit_avatar;
 #[cfg(feature = "primitives")]
-pub mod gpui_kit_badge;
-#[cfg(feature = "primitives")]
 pub mod gpui_kit_button;
 #[cfg(feature = "primitives")]
 pub mod gpui_kit_button_container;
@@ -92,13 +90,6 @@ pub fn register() {
             gpui_kit_icon::GpuiKitIcon,
         >());
         crate::GpuiKitIconComponent::<gpui_kit_icon::GpuiKitIcon>::register_native_tree();
-    }
-    #[cfg(feature = "primitives")]
-    {
-        react_native_gpui::host_component::register_component(crate::gpui_kit_badge_component::<
-            gpui_kit_badge::GpuiKitBadge,
-        >());
-        crate::GpuiKitBadgeComponent::<gpui_kit_badge::GpuiKitBadge>::register_native_tree();
     }
     #[cfg(feature = "primitives")]
     {

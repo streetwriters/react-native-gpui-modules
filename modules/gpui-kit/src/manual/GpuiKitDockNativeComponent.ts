@@ -15,6 +15,8 @@ export type DockPanel = Readonly<{
   /** Panels of one placement with the same group share a tab bar. */
   group: string;
   closable: boolean;
+  /** The size of the panel's group within its split; 0 for an even share. */
+  size: CodegenTypes.Double;
 }>;
 
 export interface NativeProps extends ViewProps {
@@ -26,6 +28,12 @@ export interface NativeProps extends ViewProps {
   >;
   locked?: boolean;
   dockSize?: CodegenTypes.WithDefault<CodegenTypes.Double, 240>;
+  /** JSON of sizes by placement, such as `{"bottom":160}`. */
+  dockSizes?: string;
+  /** Comma-separated placements whose docks can be collapsed. */
+  collapsible?: string;
+  toggleButtonVisible?: CodegenTypes.WithDefault<boolean, true>;
+  closeButtonVisible?: boolean;
   slots?: string;
   /** A layout from `onLayoutChange` to start from. */
   layout?: string;

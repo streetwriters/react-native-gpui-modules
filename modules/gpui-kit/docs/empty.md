@@ -7,11 +7,14 @@ The kit's `Empty`, written by hand on the same specification as the generated co
 
 ## Native props
 
-| Name          | Type     |
-| ------------- | -------- |
-| `title`       | `string` |
-| `description` | `string` |
-| `icon`        | `string` |
+| Name           | Type     |
+| -------------- | -------- |
+| `title`        | `string` |
+| `description`  | `string` |
+| `icon`         | `string` |
+| `kitStyle`     | `string` |
+| `headerStyle`  | `string` |
+| `contentStyle` | `string` |
 
 ## Coverage
 

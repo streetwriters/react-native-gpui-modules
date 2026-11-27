@@ -35,6 +35,8 @@ export interface ChartProps extends ViewProps {
   smooth?: boolean;
   innerRadius?: number;
   outerRadius?: number;
+  /** A full chart specification as an object; replaces the simple props. */
+  spec?: object;
 }
 
 export function Chart({
@@ -46,6 +48,7 @@ export function Chart({
   grid,
   xAxis,
   yAxis,
+  spec,
   style,
   ...rest
 }: ChartProps) {
@@ -54,6 +57,7 @@ export function Chart({
       {...rest}
       style={[{ width: 320, height: 200 }, style]}
       kind={kind}
+      specJson={spec === undefined ? undefined : JSON.stringify(spec)}
       data={data.map(point => ({
         label: point.label,
         value: point.value ?? 0,

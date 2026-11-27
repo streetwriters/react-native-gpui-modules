@@ -4,6 +4,8 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitPaginationNativeComponent';
 import type { IconName } from './icons';
+import { NativeRoot } from '@react-native-gpui/core/desktop';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export type PaginationChangeEvent = NativeSyntheticEvent<
   Readonly<{ page: number }>
@@ -17,6 +19,8 @@ export interface PaginationProps extends ViewProps {
   visiblePages?: number;
   disabled?: boolean;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  customSize?: number;
+  kitStyle?: KitStyle;
   onChange?: (event: PaginationChangeEvent) => void;
 }
 
@@ -25,14 +29,15 @@ export const Pagination = forwardRef<
   PaginationProps
 >(function Pagination(props, ref) {
   const { onChange, style, children, ...rest } = props;
-  const height = 32;
-  const width = 360;
   return (
-    <Native
-      ref={ref}
-      {...rest}
-      style={[{ height, width }, style]}
-      onGpuiKitPaginationChange={onChange}
-    />
+    <NativeRoot fitWidth style={style} testID={rest.testID}>
+      <Native
+        ref={ref}
+        {...rest}
+        testID={undefined}
+        kitStyle={kitStyle(props.kitStyle)}
+        onGpuiKitPaginationChange={onChange}
+      ></Native>
+    </NativeRoot>
   );
 });

@@ -15,6 +15,7 @@ A separator that can be either vertical or horizontal.
 | `label`       | `string`                       | `Separator::label`   |
 | `color`       | `ColorValue`                   | `Separator::color`   |
 | `dashed`      | `boolean`                      | `Separator::dashed`  |
+| `kitStyle`    | `string`                       | constructor argument |
 
 ## Events
 

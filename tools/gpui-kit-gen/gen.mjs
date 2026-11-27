@@ -179,6 +179,7 @@ function buildModel(entry) {
       method: null,
       extra: true,
       kind: extra.kind,
+      internal: extra.internal ?? false,
     };
     if (extra.kind === 'enum')
       prop.info = {
@@ -204,6 +205,45 @@ function buildModel(entry) {
       outcome: 'generated',
       reason: 'Styled::text_color',
       prop: 'color',
+    });
+  }
+
+  const sizeProp = props.find(
+    p => p.name === 'size' && p.method === 'with_size',
+  );
+  if (sizeProp) {
+    props.push({
+      name: 'customSize',
+      method: null,
+      kind: 'custom',
+      ts: 'CodegenTypes.Double',
+      clean: 'number',
+      apply:
+        'if $v > 0.0 {\n            element = element.with_size(gpui::px($v as f32));\n        }',
+    });
+    coverage.push({
+      item: `${component.name}::with_size (pixels)`,
+      outcome: 'generated',
+      reason: 'Size::Size: a size in points, over size',
+      prop: 'customSize',
+    });
+  }
+  if (component.traits.some(t => t.split('::').pop() === 'Styled')) {
+    props.push({
+      name: 'kitStyle',
+      method: null,
+      kind: 'custom',
+      ts: 'string',
+      clean: 'KitStyle',
+      jsMap: 'kitStyle(props.kitStyle)',
+      apply:
+        'if let Some(style) = crate::style::refinement($v) {\n            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);\n        }',
+    });
+    coverage.push({
+      item: `${component.name} (Styled)`,
+      outcome: 'generated',
+      reason: 'Styled refinements: borders, radius, padding, size, shadow',
+      prop: 'kitStyle',
     });
   }
 
@@ -532,6 +572,49 @@ function buildModel(entry) {
         payload: { fields: [...e.fields, ...extra] },
       });
     }
+    if (entry.state.observe) {
+      const o = entry.state.observe;
+      events.push({
+        method: null,
+        name: o.name,
+        prop: `on${pascal(o.name)}`,
+        nativeProp: `on${entry.tag}${pascal(o.name)}`,
+        source: 'observe',
+        variant: o.name,
+        pattern: '',
+        before: o.before,
+        key: o.key,
+        payload: { fields: o.fields },
+      });
+      coverage.push({
+        item: o.item,
+        outcome: 'generated',
+        reason: o.reason,
+        prop: `on${pascal(o.name)}`,
+      });
+    }
+    for (const [variant, spec] of Object.entries(
+      entry.state.extraEvents?.events ?? {},
+    )) {
+      events.push({
+        method: null,
+        name: spec.name,
+        prop: `on${pascal(spec.name)}`,
+        nativeProp: `on${entry.tag}${pascal(spec.name)}`,
+        source: 'stateExtra',
+        enumPath: entry.state.extraEvents.enum,
+        variant,
+        pattern: spec.pattern,
+        before: spec.before ?? '',
+        payload: { fields: spec.fields },
+      });
+      coverage.push({
+        item: `${entry.state.extraEvents.enum.split('::').pop()}::${variant}`,
+        outcome: 'generated',
+        reason: 'event',
+        prop: `on${pascal(spec.name)}`,
+      });
+    }
   }
 
   for (const method of component.others) {
@@ -588,7 +671,7 @@ function measureFn(entry, props, tag) {
   const text = layout.text ? layout.text.prop : layout.labelProp;
   const sized = props.some(p => p.name === 'size');
   const heightExpr = layout.heights
-    ? `match props.size() {\n            ${tag}Size::Unset => ${layout.heights.medium ?? Object.values(layout.heights)[0]}.0,\n${Object.entries(
+    ? `match props.size() {\n            ${tag}Size::Unset => ${layout.heights[layout.defaultSize ?? 'medium'] ?? Object.values(layout.heights)[0]}.0,\n${Object.entries(
         layout.heights,
       )
         .map(
@@ -597,18 +680,44 @@ function measureFn(entry, props, tag) {
         )
         .join('\n')}\n        }`
     : `${layout.height}.0`;
-  const padding = layout.text ? (layout.text.padding ?? 0) : layout.padding;
+  const bySize = (map, fallback) =>
+    `match props.size() {\n            ${tag}Size::Unset => ${map[layout.defaultSize ?? 'medium'] ?? fallback}.0,\n${Object.entries(
+      map,
+    )
+      .map(
+        ([k, v]) => `            ${tag}Size::${enumVariantRust(k)} => ${v}.0,`,
+      )
+      .join('\n')}\n        }`;
+  const padding =
+    sized && layout.paddings
+      ? bySize(layout.paddings, layout.padding)
+      : `${layout.text ? (layout.text.padding ?? 0) : layout.padding}.0`;
+  const iconWidth =
+    sized && layout.iconWidths
+      ? bySize(layout.iconWidths, layout.iconWidth)
+      : `${layout.iconWidth}.0`;
   const icon =
     layout.kind === 'inline-label'
-      ? `\n        if !props.${snake(layout.iconProp)}().is_empty() {\n            width += ${layout.iconWidth}.0;\n        }`
+      ? `\n        if !props.${snake(layout.iconProp)}().is_empty()${layout.iconExtra ?? ''} {\n            width += ${iconWidth};\n        }`
       : '';
+  const caret = layout.caretProp
+    ? `\n        if props.${snake(layout.caretProp)}() {\n            width += ${iconWidth};\n        }`
+    : '';
   const base = layout.fontSize ?? 14;
   const fontSize = layout.fontSize
     ? `${base}.0`
-    : sized
-      ? `match props.size() {\n                ${tag}Size::Xsmall | ${tag}Size::Small => 12.0,\n                _ => 14.0,\n            }`
-      : '14.0';
-  return `    fn measure(props: &${tag}Props, constraint: &MeasureConstraint) -> Option<MeasuredSize> {\n        let style = TextStyle {\n            size: ${fontSize},\n            ..TextStyle::default()\n        };\n        let extent = measure_text(props.${snake(text)}(), &style, None)?;\n        let height: f32 = ${heightExpr};\n        let mut width = extent.width.ceil() + ${padding}.0;${icon}\n        width = width.max(height);\n        Some(constraint.clamp(MeasuredSize { width, height }))\n    }\n`;
+    : sized && layout.fontSizes
+      ? bySize(layout.fontSizes, base)
+      : sized
+        ? `match props.size() {\n                ${tag}Size::Xsmall | ${tag}Size::Small => 12.0,\n                _ => 14.0,\n            }`
+        : '14.0';
+  if (layout.text?.wrap)
+    return `    fn measure(props: &${tag}Props, constraint: &MeasureConstraint) -> Option<MeasuredSize> {\n        let size: f32 = crate::style::insets(props.kit_style()).font_size.unwrap_or(${fontSize});\n        let style = TextStyle {\n            size,\n            line_height: crate::style::insets(props.kit_style()).line_height.unwrap_or(${layout.text.lineHeightRatio ? `size * ${layout.text.lineHeightRatio}` : (layout.text.lineHeight ?? 0).toFixed(1)}),\n            ..TextStyle::default()\n        };\n${layout.text.emptySize ? `        if props.${snake(text)}().is_empty() {\n            return Some(constraint.clamp(MeasuredSize { width: ${[layout.text.emptySize].flat()[0]}.0, height: ${[layout.text.emptySize].flat().at(-1)}.0 }));\n        }\n` : ''}        let insets = crate::style::insets(props.kit_style());\n        let padding: f32 = ${padding};\n        let outer = insets.width.unwrap_or(constraint.max_width);\n        let available = outer - insets.horizontal - padding;\n        let wrap = (available.is_finite() && available > 0.0).then_some(available);\n        let extent = measure_text(props.${snake(text)}(), &style, wrap)?;\n        let height: f32 = f32::max(${heightExpr}, extent.height.ceil()) + insets.vertical;\n        let width = insets\n            .width\n            .unwrap_or(extent.width.ceil() + padding + insets.horizontal)\n            .max(height);\n        Some(constraint.clamp(MeasuredSize { width, height }))\n    }\n`;
+  const square =
+    layout.kind === 'inline-label' && props.some(p => p.name === 'customSize')
+      ? `        if props.custom_size() > 0.0 && props.${snake(text)}().is_empty() {\n            let side = props.custom_size() as f32;\n            return Some(constraint.clamp(MeasuredSize { width: side, height: side }));\n        }\n`
+      : '';
+  return `    fn measure(props: &${tag}Props, constraint: &MeasureConstraint) -> Option<MeasuredSize> {\n${square}        let style = TextStyle {\n            size: ${fontSize},\n            ..TextStyle::default()\n        };\n        let extent = measure_text(props.${snake(text)}(), &style, None)?;\n        let height: f32 = ${heightExpr};\n        let mut width = extent.width.ceil() + ${padding};${icon}${caret}${layout.borderWhen ? `\n        if ${layout.borderWhen} {\n            width += ${layout.border ?? 2}.0;\n        }` : ''}\n        width = width.max(height);${layout.bareVariants ? `\n        if matches!(props.variant(), ${layout.bareVariants.map(v => `${tag}Variant::${enumVariantRust(v)}`).join(' | ')}) {\n            let mut width = extent.width.ceil();${icon}${caret}${layout.borderWhen ? `\n            if ${layout.borderWhen} {\n                width += ${layout.border ?? 2}.0;\n            }` : ''}\n            return Some(constraint.clamp(MeasuredSize { width, height: ${layout.bareHeight}.0 }));\n        }` : ''}\n        Some(constraint.clamp(MeasuredSize { width, height }))\n    }\n`;
 }
 
 function eventProp(event, tag) {
@@ -656,10 +765,43 @@ function visibleProps(model, container) {
     : model.props;
 }
 
+/**
+ * Fabric flattens `style` into a view's props, so a native prop named like a
+ * layout or view style key, or like a view prop, is read by Yoga and the view
+ * as that too.
+ */
+const STYLE_KEYS = new Set(
+  (
+    'width height minWidth maxWidth minHeight maxHeight flex flexGrow flexShrink ' +
+    'flexBasis flexDirection flexWrap direction display position overflow ' +
+    'top left right bottom start end inset insetBlock insetInline ' +
+    'margin marginTop marginBottom marginLeft marginRight marginStart marginEnd ' +
+    'marginHorizontal marginVertical padding paddingTop paddingBottom paddingLeft ' +
+    'paddingRight paddingStart paddingEnd paddingHorizontal paddingVertical ' +
+    'gap rowGap columnGap alignItems alignSelf alignContent justifyContent ' +
+    'aspectRatio boxSizing borderWidth borderTopWidth borderBottomWidth ' +
+    'borderLeftWidth borderRightWidth borderStartWidth borderEndWidth ' +
+    'borderRadius borderColor backgroundColor opacity transform zIndex ' +
+    'pointerEvents backfaceVisibility draggable'
+  ).split(' '),
+);
+
+function checkPropNames(tag, names) {
+  const clashes = names.filter(name => STYLE_KEYS.has(name));
+  if (clashes.length)
+    throw new Error(
+      `${tag}: native props ${clashes.join(', ')} clash with view props or style keys; rename them`,
+    );
+}
+
 function emitSpec(model, container = false) {
   const { entry, events } = model;
   const props = visibleProps(model, container);
   const tag = container ? `${entry.tag}Container` : entry.tag;
+  checkPropNames(
+    tag,
+    props.map(p => p.name),
+  );
   const usesColor = props.some(
     p => /color/.test(p.kind) || p.ts?.includes('ColorValue'),
   );
@@ -677,7 +819,8 @@ function emitSpec(model, container = false) {
       `  ${c.prop}?: ${valueType};\n${c.type === 'double' ? '' : `  default${pascal(c.prop)}?: ${valueType};\n`}  controlled?: boolean;\n  eventCount?: CodegenTypes.Int32;`,
     );
   }
-  if (!container && entry.slots) lines.push('  slots?: string;');
+  if (!container && (entry.slots || entry.tokenSlots || entry.childSlot))
+    lines.push('  slots?: string;');
   for (const event of events) {
     lines.push(
       `  ${eventProp(event, tag)}?: CodegenTypes.DirectEventHandler<${eventPayloadTs(event)}>;`,
@@ -784,7 +927,8 @@ function emitRust(model, container = false) {
   out.push(`use gpui::{AnyElement, IntoElement, SharedString, Window};`);
   if (container || entry.fill || entry.textColor)
     out.push(`use gpui::Styled as _;`);
-  if (entry.childText) out.push(`use gpui::ParentElement as _;`);
+  if (entry.childText || entry.childSlot)
+    out.push(`use gpui::ParentElement as _;`);
   out.push(
     `use ${docs.publicPath(docs.find(component.path).index, docs.find(component.path).id) ?? component.path};`,
   );
@@ -840,7 +984,7 @@ function emitRust(model, container = false) {
   }
   if (!container && isMeasured(entry)) out.push(measureFn(entry, props, tag));
   out.push(
-    `    fn render(&mut self, props: &${tag}Props, _window: &mut Window, ${events.length || focus ? 'cx' : '_cx'}: &mut ${tag}Context) -> AnyElement {`,
+    `    fn render(&mut self, props: &${tag}Props, _window: &mut Window, ${events.length || focus || entry.childSlot ? 'cx' : '_cx'}: &mut ${tag}Context) -> AnyElement {`,
   );
   if (events.length) out.push(`        let sender = cx.event_sender();`);
   if (focus)
@@ -871,12 +1015,18 @@ function emitRust(model, container = false) {
           : `        {\n${body}\n        }`,
     );
   }
+  if (entry.childSlot)
+    out.push(
+      `        let mut slots = crate::manual::slots::Slots::new(props.slots(), cx.children());\n        if let Some(content) = slots.take("children") {\n            element = element.child(content);\n        }`,
+    );
   if (entry.childText)
     out.push(
       `        element = element.child(props.${snake(entry.childText)}().to_string());`,
     );
   if (container || entry.fill)
     out.push(`        element = element.size_full();`);
+  if (entry.rustBeforeReturn && !container)
+    out.push(`        ${entry.rustBeforeReturn}`);
   out.push(`        element.into_any_element()\n    }\n}\n`);
   return out.join('\n');
 }
@@ -1074,7 +1224,7 @@ function emitRustStateful(model) {
     `    fn render(&mut self, props: &${tag}Props, window: &mut Window, cx: &mut ${tag}Context) -> AnyElement {`,
   );
   out.push(
-    `        let sender = cx.event_sender();${entry.slots ? '\n        let mut slots = crate::manual::slots::Slots::new(props.slots(), cx.children());' : ''}\n        let Some(app) = cx.app() else { return div().into_any_element() };`,
+    `        let sender = cx.event_sender();${events.some(ev => ev.source === 'stateExtra' || ev.source === 'observe') ? '\n        let sender_extra = sender.clone();' : ''}${entry.slots ? '\n        let mut slots = crate::manual::slots::Slots::new(props.slots(), cx.children());' : ''}\n        let Some(app) = cx.app() else { return div().into_any_element() };`,
   );
   out.push(
     `        if self.state.is_none() {\n            let state = app.new(|${/\bcx\b/.test(state.ctor) ? 'cx' : '_cx'}| ${state.ctor});`,
@@ -1107,7 +1257,33 @@ function emitRustStateful(model) {
     );
   }
   out.push(
-    `                    #[allow(unreachable_patterns)]\n                    _ => {}\n                }\n            }));\n            self.state = Some(state);\n        }\n        let state = self.state.clone().unwrap();`,
+    `                    #[allow(unreachable_patterns)]\n                    _ => {}\n                }\n            }));`,
+  );
+  const extra = events.filter(ev => ev.source === 'stateExtra');
+  if (extra.length) {
+    out.push(
+      `            let sender = sender_extra.clone();\n            self.subscriptions.push(app.subscribe(&state, move |_state, event: &${extra[0].enumPath}, _cx| {\n                match event {`,
+    );
+    for (const e of extra) {
+      const fields = e.payload.fields
+        .map(f => `${snake(f.name)}: ${f.rust}`)
+        .join(', ');
+      out.push(
+        `                    ${e.pattern} => {\n                        ${e.before ?? ''}\n                        sender.${snake(tag + pascal(e.name))}(On${tag}${pascal(e.name)} { ${fields} });\n                    }`,
+      );
+    }
+    out.push(`                }\n            }));`);
+  }
+  for (const o of events.filter(ev => ev.source === 'observe')) {
+    const fields = o.payload.fields
+      .map(f => `${snake(f.name)}: ${f.rust}`)
+      .join(', ');
+    out.push(
+      `            let sender = sender_extra.clone();\n            let seen = std::cell::Cell::new(None);\n            self.subscriptions.push(app.observe(&state, move |state, cx| {\n                ${o.before}\n                let key = Some(${o.key});\n                if seen.get() != key {\n                    seen.set(key);\n                    sender.${snake(tag + pascal(o.name))}(On${tag}${pascal(o.name)} { ${fields} });\n                }\n            }));`,
+    );
+  }
+  out.push(
+    `            self.state = Some(state);\n        }\n        let state = self.state.clone().unwrap();`,
   );
   for (const x of setters) out.push(`        ${x.code}`);
   if (controlled) {
@@ -1131,7 +1307,12 @@ function emitRustStateful(model) {
     out.push(
       `        if let Some(slot) = slots.take("${slot}") {\n            element = element.${slot}(slot);\n        }`,
     );
-  if (entry.fill) out.push(`        element = element.size_full();`);
+  if (entry.fill)
+    out.push(
+      entry.autoRootProp
+        ? `        if props.${snake(entry.autoRootProp)}() <= 0 {\n            element = element.size_full();\n        }`
+        : `        element = element.size_full();`,
+    );
   if (entry.rustBeforeReturn) out.push(`        ${entry.rustBeforeReturn}`);
   out.push(`        element.into_any_element()\n    }\n}\n`);
   return out.join('\n');
@@ -1194,7 +1375,7 @@ function emitWrapper(model) {
   const lines = [HEADER_TS];
   const focus = !!entry.focus;
   lines.push(
-    `import React, { forwardRef, ${focus ? 'useImperativeHandle, useRef, ' : ''}type ComponentRef } from 'react';\nimport type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';\nimport Native${focus ? ', { Commands }' : ''} from './${entry.tag}NativeComponent';\n${entry.container ? `import NativeContainer${focus ? ', { Commands as ContainerCommands }' : ''} from './${entry.tag}ContainerNativeComponent';\n` : ''}import type { IconName } from './icons';\n`,
+    `import React, { forwardRef, ${focus ? 'useImperativeHandle, useRef, ' : ''}type ComponentRef } from 'react';\nimport type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';\nimport Native${focus ? ', { Commands }' : ''} from './${entry.tag}NativeComponent';\n${entry.container ? `import NativeContainer${focus ? ', { Commands as ContainerCommands }' : ''} from './${entry.tag}ContainerNativeComponent';\n` : ''}import type { IconName } from './icons';\n${entry.root ? `import { NativeRoot${entry.childSlot ? ', NativeSlot' : ''} } from '@react-native-gpui/core/desktop';\n` : ''}${model.props.some(p => p.name === 'kitStyle') ? "import { kitStyle, type KitStyle } from '../manual/kitStyle';\n" : ''}`,
   );
   for (const event of events) {
     const fields = event.payload.fields
@@ -1233,13 +1414,15 @@ function emitWrapper(model) {
       `  const native = useRef<ComponentRef<typeof Native>>(null);\n  ${entry.container ? 'const container = useRef<ComponentRef<typeof NativeContainer>>(null);\n  ' : ''}useImperativeHandle(ref, () => ({\n    focus: () => {\n      if (native.current) Commands.focus(native.current);\n${entry.container ? '      else if (container.current) ContainerCommands.focus(container.current);\n' : ''}    },\n  }));`,
     );
   }
-  if (layout && layout.kind !== 'inline-label') {
+  if (layout?.ts) {
+    lines.push(...layout.ts.map(line => `  ${line}`));
+  } else if (layout && layout.kind !== 'inline-label') {
     if (layout.heights) {
       lines.push(
         `  const heights = ${JSON.stringify(layout.heights)} as const;`,
       );
       lines.push(
-        `  const height = heights[(props.size as keyof typeof heights) ?? '${layout.defaultSize ?? 'medium'}'] ?? ${Object.values(layout.heights)[0]};`,
+        `  const height = ${props.some(p => p.name === 'customSize') ? 'props.customSize ?? ' : ''}heights[(props.size as keyof typeof heights) ?? '${layout.defaultSize ?? 'medium'}'] ?? ${Object.values(layout.heights)[0]};`,
       );
     } else {
       lines.push(`  const height = ${layout.height};`);
@@ -1250,7 +1433,7 @@ function emitWrapper(model) {
       );
     } else if (layout.square) {
       lines.push(`  const width = height;`);
-    } else if (layout.width) {
+    } else if (layout.width !== undefined) {
       lines.push(`  const width = ${layout.width};`);
     } else {
       lines.push(`  const width = undefined;`);
@@ -1278,8 +1461,27 @@ function emitWrapper(model) {
       ? `        onPointerUp={${pressEvent.prop} && !props.disabled ? (event: any) => ${pressEvent.prop}({ nativeEvent: { x: event.nativeEvent.offsetX ?? 0, y: event.nativeEvent.offsetY ?? 0, rightClick: false, shift: false, control: false, alt: false, meta: false } } as ${name}${pascal(pressEvent.name)}Event) : undefined}\n`
       : '';
     lines.push(
-      `  if (React.Children.count(children) > 0) {\n    return (\n      <NativeContainer\n        ref={${focus ? 'container' : 'ref as never'}}\n        {...rest}\n        style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, minHeight: ${layout ? 'height' : 0} }, style]}\n${pointer}${forwarded}\n      >\n        {children}\n      </NativeContainer>\n    );\n  }`,
+      `  if (React.Children.count(children) > 0) {\n    return (\n      <NativeContainer\n        ref={${focus ? 'container' : 'ref as never'}}\n        {...rest}\n        style={[{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, minHeight: ${layout ? 'height' : 0} }, style]}\n${props.some(p => p.name === 'kitStyle') ? '        kitStyle={kitStyle(props.kitStyle)}\n' : ''}${pointer}${forwarded}\n      >\n        {children}\n      </NativeContainer>\n    );\n  }`,
     );
+  }
+  if (entry.root) {
+    const root = [
+      `    <NativeRoot${entry.root === 'children' || entry.root === 'fit' ? ' fitWidth' : ''} style={style} testID={rest.testID}>\n      <Native\n        ref={${focus ? 'native' : 'ref'}}\n        {...rest}\n        testID={undefined}${entry.childSlot ? `\n        slots={React.Children.count(children) > 0 ? 'children' : ''}` : ''}`,
+      ...wrapperDefaults(props).map(l => `  ${l}`),
+      ...events.map(
+        e =>
+          `        ${e.nativeProp}={${e.prop}${e.payload.fields.length ? '' : ' as never'}}`,
+      ),
+      `      >\n        ${entry.childSlot ? '{React.Children.count(children) > 0 ? <NativeSlot>{children}</NativeSlot> : null}' : ''}\n      </Native>\n    </NativeRoot>`,
+    ].join('\n');
+    if (entry.root === 'children')
+      lines.push(
+        `  if (React.Children.count(children) > 0) {\n    return (\n${root}\n    );\n  }`,
+      );
+    else {
+      lines.push(`  return (\n${root}\n  );\n});\n`);
+      return lines.join('\n');
+    }
   }
   lines.push(
     `  return (\n    <Native\n      ref={${focus ? 'native' : 'ref'}}\n      {...rest}`,
@@ -1289,7 +1491,7 @@ function emitWrapper(model) {
   }
   const renamed = props.filter(p => p.kind === 'enum' || p.kind === 'icon');
   lines.push(
-    `      style={[${layout && !measured ? '{ height, width }, ' : ''}style]}`,
+    `      style={[${layout && !measured ? `${layout.tsStyle ?? '{ height, width }'}, ` : ''}style]}`,
   );
   lines.push(...wrapperDefaults(props));
   for (const e of events)
@@ -1306,7 +1508,7 @@ function emitWrapperStateful(model) {
   const c = state.controlled;
   const lines = [HEADER_TS];
   lines.push(
-    `import React, { forwardRef, useImperativeHandle, useRef${entry.tokenSlots ? ', useState' : ''} } from 'react';\n${entry.slots || entry.tokenSlots ? "import { Text } from 'react-native';\nimport { NativeRoot, NativeSlot } from '@react-native-gpui/core/desktop';\n" : ''}import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';\nimport Native${state.commands.length ? ', { Commands }' : ''} from './${entry.tag}NativeComponent';\n`,
+    `import React, { forwardRef, useImperativeHandle, useRef${entry.tokenSlots ? ', useState' : ''} } from 'react';\n${entry.slots || entry.tokenSlots ? "import { Text } from 'react-native';\nimport { NativeRoot, NativeSlot } from '@react-native-gpui/core/desktop';\n" : ''}${!(entry.slots || entry.tokenSlots) && entry.root === 'fit' ? "import { NativeRoot } from '@react-native-gpui/core/desktop';\n" : ''}import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';\nimport Native${state.commands.length ? ', { Commands }' : ''} from './${entry.tag}NativeComponent';\n${model.props.some(p => p.name === 'kitStyle') ? "import { kitStyle, type KitStyle } from '../manual/kitStyle';\n" : ''}${entry.addons ? "import { addonsJson, addonSlots, pressAddon, type InputAddon } from '../manual/addons';\n" : ''}`,
   );
   const named = events.map(ev => {
     const fields = ev.payload.fields
@@ -1343,6 +1545,10 @@ function emitWrapperStateful(model) {
     lines.push(
       '  /** Draws each inline token with React Native content instead of the kit chip. */\n  renderToken?: (token: { id: string }) => React.ReactNode;',
     );
+  if (entry.addons)
+    lines.push(
+      "  /** Places the control in the kit's `InputGroup` with these addons. */\n  addons?: InputAddon[];\n  /** The group's invalid state; needs `addons`. */\n  invalid?: boolean;",
+    );
   lines.push('}\n');
   const commandSig = state.commands.map(
     cmd =>
@@ -1353,6 +1559,7 @@ function emitWrapperStateful(model) {
   const jsOnly = [
     ...(entry.jsProps ?? []).map(p => p.name),
     ...(entry.tokenSlots ? ['renderToken'] : []),
+    ...(entry.addons ? ['addons', 'invalid'] : []),
   ];
   lines.push(
     `export const ${name} = forwardRef<${name}Handle, ${name}Props>(function ${name}(props, ref) {`,
@@ -1361,9 +1568,7 @@ function emitWrapperStateful(model) {
     `  const { ${c.prop}, ${eventNames.join(', ')}, ${(c.callback ?? { prop: 'onChangeText' }).prop}, ${(entry.slots ?? []).map(s => `${s}, `).join('')}${jsOnly.map(s => `${s}, `).join('')}style, ...rest } = props;`,
   );
   if (entry.tokenSlots)
-    lines.push(
-      `  const [tokenIds, setTokenIds] = useState<string[]>([]);`,
-    );
+    lines.push(`  const [tokenIds, setTokenIds] = useState<string[]>([]);`);
   lines.push(
     `  const native = useRef<React.ComponentRef<typeof Native>>(null);\n  const count = useRef(0);`,
   );
@@ -1372,6 +1577,9 @@ function emitWrapperStateful(model) {
   );
   const slots = entry.slots ?? [];
   const hasSlots = slots.length > 0 || !!entry.tokenSlots;
+  // A component that may get slots stays under one root while they come and
+  // go, so its native view, and the state it holds, is not made again.
+  const rooted = `present.length${entry.tokenSlots ? ' || renderToken !== undefined' : ''}${entry.autoRootProp ? ` || props.${entry.autoRootProp}` : ''}${entry.addons ? ' || grouped' : ''}`;
   if (hasSlots)
     lines.push(
       `  const present: [string, React.ReactNode][] = ([${slots.map(s => `['${s}', ${s}]`).join(', ')}] as [string, React.ReactNode][]).filter(([, content]) => content != null && content !== false);`,
@@ -1380,16 +1588,27 @@ function emitWrapperStateful(model) {
     lines.push(
       `  if (renderToken) for (const id of tokenIds) present.push([\`token:\${id}\`, renderToken({ id }) ?? null]);`,
     );
+  if (entry.addons)
+    lines.push(
+      '  present.push(...addonSlots(addons));\n  const grouped = !!addons?.length;',
+    );
   lines.push(
-    `  const element = (\n    <Native\n      ref={native}\n      {...rest}\n      style={[${JSON.stringify(entry.defaultStyle ?? { minHeight: 32 })}, ${hasSlots ? 'present.length ? { flex: 1 } : style' : 'style'}]}\n      ${c.prop}={${c.prop}}\n      controlled={${c.prop} !== undefined}\n      eventCount={count.current}`,
+    `  const element = (\n    <Native\n      ref={native}\n      {...rest}\n      style={[${JSON.stringify(entry.defaultStyle ?? { minHeight: 32 })}, ${hasSlots ? `${rooted} ? { flex: 1 } : style` : entry.root === 'fit' ? '{}' : 'style'}]}\n      ${c.prop}={${c.prop}}\n      controlled={${c.prop} !== undefined}\n      eventCount={count.current}`,
   );
   if (hasSlots)
     lines.push(
-      `      slots={present.map(([name]) => name).join(',')}\n      testID={present.length ? undefined : rest.testID}`,
+      `      slots={present.map(([name]) => name).join(',')}\n      testID={${rooted} ? undefined : rest.testID}`,
     );
+  if (!hasSlots && entry.root === 'fit') lines.push('      testID={undefined}');
+  if (entry.addons)
+    lines.push('      addonsJson={addonsJson(addons, invalid)}');
   lines.push(...wrapperDefaults(props));
   for (const { ev } of named) {
-    if (ev.internal && ev.name === 'tokenNeeded') {
+    if (ev.internal && ev.name === 'addonPress') {
+      lines.push(
+        `      ${ev.nativeProp}={event => pressAddon(addons, event.nativeEvent)}`,
+      );
+    } else if (ev.internal && ev.name === 'tokenNeeded') {
       lines.push(
         `      ${ev.nativeProp}={event => {\n        const id = event.nativeEvent.id;\n        setTokenIds(ids => (ids.includes(id) ? ids : [...ids, id]));\n      }}`,
       );
@@ -1405,21 +1624,46 @@ function emitWrapperStateful(model) {
   }
   if (hasSlots)
     lines.push(
-      `    >\n      {present.map(([name, content]) => (\n        <NativeSlot key={name}>{typeof content === 'string' || typeof content === 'number' ? <Text>{content}</Text> : content}</NativeSlot>\n      ))}\n    </Native>\n  );\n  return present.length ? <NativeRoot style={style} testID={rest.testID}>{element}</NativeRoot> : element;\n});\n`,
+      `    >\n      {present.map(([name, content]) => (\n        <NativeSlot key={name} fit={name.startsWith('token:')}>{typeof content === 'string' || typeof content === 'number' ? <Text>{content}</Text> : content}</NativeSlot>\n      ))}\n    </Native>\n  );\n  return ${rooted} ? <NativeRoot style={style} testID={rest.testID}>{element}</NativeRoot> : element;\n});\n`,
+    );
+  else if (entry.root === 'fit')
+    lines.push(
+      `    />\n  );\n  return <NativeRoot fitWidth style={style} testID={rest.testID}>{element}</NativeRoot>;\n});\n`,
     );
   else lines.push(`    />\n  );\n  return element;\n});\n`);
   return lines.join('\n');
 }
 
 function emitIcons() {
-  const hit = docs.find('gpui_component::icon::IconName');
-  const variants = hit.item.inner.enum.variants.map(
-    id => docs.item(hit.index, id).name,
+  const metadata = JSON.parse(
+    spawnSync(
+      'cargo',
+      [
+        'metadata',
+        '--format-version',
+        '1',
+        '--manifest-path',
+        join(here, 'reference/Cargo.toml'),
+      ],
+      { encoding: 'utf8', maxBuffer: 1 << 28 },
+    ).stdout,
   );
-  const kebabs = variants.map(kebab);
-  const ts = `${HEADER_TS}export type IconName =\n${kebabs.map(k => `  | '${k}'`).join('\n')};\n`;
-  const rs = `${HEADER_RS}use gpui_component::IconName;\n\npub fn parse(name: &str) -> Option<IconName> {\n    Some(match name {\n${variants.map((v, i) => `        "${kebabs[i]}" => IconName::${v},`).join('\n')}\n        _ => return None,\n    })\n}\n`;
-  return { ts, rs, count: variants.length };
+  const assets = metadata.packages.find(p => p.name === 'gpui-kit-assets');
+  const stems = readdirSync(join(dirname(assets.manifest_path), 'assets/icons'))
+    .filter(f => f.endsWith('.svg'))
+    .map(f => f.slice(0, -4));
+  const variant = stem =>
+    stem
+      .split(/[-_.]/)
+      .filter(Boolean)
+      .map(part => part[0].toUpperCase() + part.slice(1).toLowerCase())
+      .join('');
+  const entries = stems
+    .map(stem => [variant(stem), stem.toLowerCase().replace(/[_.]/g, '-')])
+    .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+  const ts = `${HEADER_TS}export type IconName =\n${entries.map(([, k]) => `  | '${k}'`).join('\n')};\n`;
+  const rs = `${HEADER_RS}use gpui_kit_assets::IconName;\n\npub fn parse(name: &str) -> Option<IconName> {\n    Some(match name {\n${entries.map(([v, k]) => `        "${k}" => IconName::${v},`).join('\n')}\n        _ => return None,\n    })\n}\n`;
+  return { ts, rs, count: entries.length };
 }
 
 function emitManualDoc(m) {
@@ -1428,6 +1672,12 @@ function emitManualDoc(m) {
     'utf8',
   );
   const body = spec.slice(spec.indexOf('export interface NativeProps'));
+  checkPropNames(
+    m.tag,
+    [...body.slice(0, body.indexOf('\n}\n')).matchAll(/^ {2}(\w+)\??: /gm)].map(
+      ([, name]) => name,
+    ),
+  );
   const props = [];
   const events = [];
   for (const [, name, type] of body
@@ -1471,8 +1721,16 @@ function emitDoc(model) {
       `| \`${prop.name}\` | ${type} | ${prop.method ? `\`${component.name}::${prop.method}\`` : prop.name === 'focusable' ? `\`${component.name}::track_focus\`` : 'constructor argument'} |`,
     );
   }
+  for (const extra of entry.jsProps ?? [])
+    lines.push(
+      `| \`${extra.name}\` | \`${extra.ts.replace(/\|/g, '\\|')}\` | encoded as JSON for the native prop |`,
+    );
+  if (entry.tokenSlots)
+    lines.push(
+      '| `renderToken` | `(token: { id: string }) => ReactNode` | `token`, one `NativeSlot` per token |',
+    );
   lines.push('\n## Events\n\n| Event | Payload |\n| --- | --- |');
-  for (const event of events)
+  for (const event of events.filter(e => !e.internal))
     lines.push(
       `| \`${event.prop}\` | ${event.payload.fields.map(f => `\`${f.name}\``).join(', ')} |`,
     );
@@ -1546,10 +1804,10 @@ function emitScreen(model) {
     `  return (\n    <ScrollView testID="${kebab(name)}-screen" style={{ flex: 1 }} contentContainerStyle={{ padding: 16, gap: 8 }}>`,
   );
   lines.push(
-    `      <View style={{ height: 64 }}>\n        <${name}${handle ? '\n          ref={ref}' : ''}\n          testID="${kebab(name)}"\n          ${isMeasured(model.entry) || model.entry.layout ? '' : 'style={{ width: 200, height: 40 }}'}`,
+    `      <View style={{ height: 64 }}>\n        <${name}${handle ? '\n          ref={ref}' : ''}\n          testID="${kebab(name)}"\n          ${isMeasured(model.entry) || model.entry.layout ? '' : model.entry.root === 'fit' ? 'style={{ height: 40 }}' : 'style={{ width: 200, height: 40 }}'}`,
   );
   lines.push(`          {...(values as object)}`);
-  for (const event of events) {
+  for (const event of events.filter(e => !e.internal)) {
     lines.push(
       `          ${event.prop}={event => note('${event.prop} ' + JSON.stringify(event.nativeEvent))}`,
     );
@@ -1659,7 +1917,7 @@ function main() {
     write(
       join(
         here,
-        '../../example/desktop/e2e',
+        '../../gpui-kit-example/desktop/e2e',
         `gpui-kit-c-${kebab(component.name)}.e2e.ts`,
       ),
       emitE2e(model),

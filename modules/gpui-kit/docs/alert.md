@@ -11,6 +11,7 @@ Alert used to display a message to the user.
 
 | Prop          | Type                                                               | Native method         |
 | ------------- | ------------------------------------------------------------------ | --------------------- |
+| `markdown`    | `boolean`                                                          | constructor argument  |
 | `message`     | `string`                                                           | constructor argument  |
 | `variant`     | `'default'` \| `'info'` \| `'success'` \| `'warning'` \| `'error'` | `Alert::with_variant` |
 | `icon`        | `string`                                                           | `Alert::icon`         |
@@ -18,6 +19,8 @@ Alert used to display a message to the user.
 | `banner`      | `boolean`                                                          | `Alert::banner`       |
 | `visible`     | `boolean`                                                          | `Alert::visible`      |
 | `size`        | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'`                 | `Alert::with_size`    |
+| `customSize`  | `Double`                                                           | constructor argument  |
+| `kitStyle`    | `string`                                                           | constructor argument  |
 | `closeEvents` | `boolean`                                                          | constructor argument  |
 
 ## Events

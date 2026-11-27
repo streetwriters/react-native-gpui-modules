@@ -2,6 +2,7 @@ import React, { type ReactNode } from 'react';
 import Native from './GpuiKitEmptyNativeComponent';
 import { SlotHost, type SlotHostProps } from './SlotHost';
 import type { IconName } from '../generated/icons';
+import { kitStyle, type KitStyle } from './kitStyle';
 
 export interface EmptyProps extends SlotHostProps {
   /** A string, or React Native content. */
@@ -14,6 +15,14 @@ export interface EmptyProps extends SlotHostProps {
   media?: ReactNode;
   /** Content below the header, such as actions. */
   children?: ReactNode;
+  /** Content after the content box (`Empty::child`). */
+  extra?: ReactNode;
+  /** Refines the empty state (border, background, padding, alignment). */
+  kitStyle?: KitStyle;
+  /** Refines the header. */
+  headerStyle?: KitStyle;
+  /** Refines the content box. */
+  contentStyle?: KitStyle;
 }
 
 export function Empty({
@@ -22,6 +31,10 @@ export function Empty({
   icon,
   media,
   children,
+  extra,
+  kitStyle: emptyStyle,
+  headerStyle,
+  contentStyle,
   ...view
 }: EmptyProps) {
   const text = (value: ReactNode) =>
@@ -30,7 +43,14 @@ export function Empty({
     <SlotHost
       {...view}
       native={Native as never}
-      nativeProps={{ title: text(title), description: text(description), icon }}
+      nativeProps={{
+        title: text(title),
+        description: text(description),
+        icon,
+        kitStyle: kitStyle(emptyStyle),
+        headerStyle: kitStyle(headerStyle),
+        contentStyle: kitStyle(contentStyle),
+      }}
       slots={[
         { name: 'media', content: media },
         { name: 'title', content: text(title) === undefined ? title : null },
@@ -39,6 +59,7 @@ export function Empty({
           content: text(description) === undefined ? description : null,
         },
         { name: 'content', content: children },
+        { name: 'extra', content: extra },
       ]}
     />
   );

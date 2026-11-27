@@ -18,6 +18,7 @@ Text with a smooth, theme-aware loading highlight.
 | `spread`         | `Double`     | `ShimmerText::spread`          |
 | `reverse`        | `boolean`    | `ShimmerText::reverse`         |
 | `once`           | `boolean`    | `ShimmerText::once`            |
+| `kitStyle`       | `string`     | constructor argument           |
 
 ## Events
 

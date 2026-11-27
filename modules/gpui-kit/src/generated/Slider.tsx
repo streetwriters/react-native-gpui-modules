@@ -3,15 +3,19 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitSliderNativeComponent';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export type SliderChangeEvent = NativeSyntheticEvent<
-  Readonly<{ current: number; eventCount: number }>
+  Readonly<{ current: number; end: number; eventCount: number }>
 >;
 export type SliderReleaseEvent = NativeSyntheticEvent<
-  Readonly<{ current: number }>
+  Readonly<{ current: number; end: number }>
 >;
 
 export interface SliderProps extends ViewProps {
+  logarithmic?: boolean;
+  defaultEnd?: number;
+  defaultValue?: number;
   step?: number;
   maximum?: number;
   minimum?: number;
@@ -20,6 +24,7 @@ export interface SliderProps extends ViewProps {
   disabled?: boolean;
   accessibilityLabel?: string;
   reverse?: boolean;
+  kitStyle?: KitStyle;
   value?: number;
   onValueChange?: (current: number) => void;
   onChange?: (event: SliderChangeEvent) => void;
@@ -38,10 +43,13 @@ export const Slider = forwardRef<SliderHandle, SliderProps>(
       <Native
         ref={native}
         {...rest}
-        style={[{ height: 20, minWidth: 120 }, style]}
+        style={[{ height: 24, minWidth: 120 }, style]}
         value={value}
         controlled={value !== undefined}
         eventCount={count.current}
+        defaultEnd={props.defaultEnd ?? NaN}
+        defaultValue={props.defaultValue ?? NaN}
+        kitStyle={kitStyle(props.kitStyle)}
         onGpuiKitSliderChange={event => {
           count.current = event.nativeEvent.eventCount;
           onChange?.(event as never);

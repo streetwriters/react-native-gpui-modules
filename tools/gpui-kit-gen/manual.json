@@ -1,5 +1,77 @@
 [
   {
+    "tag": "GpuiKitBadge",
+    "name": "Badge",
+    "coverage": [
+      {
+        "item": "Badge::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "the wrapper is as big as its child, from a native-tree slot, and the indicator overflows its corner as in the kit"
+      },
+      {
+        "item": "Badge::dot",
+        "outcome": "generated",
+        "prop": "dot",
+        "reason": ""
+      },
+      {
+        "item": "Badge::count",
+        "outcome": "generated",
+        "prop": "count",
+        "reason": ""
+      },
+      {
+        "item": "Badge::icon",
+        "outcome": "generated",
+        "prop": "icon",
+        "reason": ""
+      },
+      {
+        "item": "Badge::max",
+        "outcome": "generated",
+        "prop": "max",
+        "reason": ""
+      },
+      {
+        "item": "Badge::color",
+        "outcome": "generated",
+        "prop": "color",
+        "reason": ""
+      },
+      {
+        "item": "Badge::with_size",
+        "outcome": "generated",
+        "prop": "size",
+        "reason": ""
+      },
+      {
+        "item": "Badge::xsmall",
+        "outcome": "aliased",
+        "prop": "size",
+        "reason": "covered by with_size"
+      },
+      {
+        "item": "Badge::small",
+        "outcome": "aliased",
+        "prop": "size",
+        "reason": "covered by with_size"
+      },
+      {
+        "item": "Badge::large",
+        "outcome": "aliased",
+        "prop": "size",
+        "reason": "covered by with_size"
+      },
+      {
+        "item": "ParentElement::extend",
+        "outcome": "generated",
+        "prop": "children",
+        "reason": "the child the badge sits on, as React Native content"
+      }
+    ]
+  },
+  {
     "tag": "GpuiKitKbd",
     "name": "Kbd",
     "coverage": [
@@ -738,7 +810,19 @@
         "item": "StepperItem::child",
         "outcome": "generated",
         "prop": "items",
-        "reason": "the title of the item"
+        "reason": "the title and description of the item, or its React Native content"
+      },
+      {
+        "item": "StepperItem (Styled)",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "an item's kitStyle"
+      },
+      {
+        "item": "Stepper (Styled)",
+        "outcome": "generated",
+        "prop": "kitStyle",
+        "reason": ""
       }
     ]
   },
@@ -1121,7 +1205,7 @@
   },
   {
     "tag": "GpuiKitTable",
-    "name": "Table",
+    "name": "DataTable",
     "coverage": [
       {
         "item": "DataTable::new",
@@ -1140,6 +1224,30 @@
         "outcome": "generated",
         "prop": "",
         "reason": "constructor; React Native views are the slots of the component"
+      },
+      {
+        "item": "StatusBar::left",
+        "outcome": "generated",
+        "prop": "left",
+        "reason": "each item of left; a string is drawn in the bar's type"
+      },
+      {
+        "item": "StatusBar::right",
+        "outcome": "generated",
+        "prop": "right",
+        "reason": "each item of right"
+      },
+      {
+        "item": "StatusBar (ParentElement)",
+        "outcome": "generated",
+        "prop": "children",
+        "reason": "the center region"
+      },
+      {
+        "item": "StatusBar (Styled)",
+        "outcome": "generated",
+        "prop": "kitStyle",
+        "reason": ""
       }
     ]
   },
@@ -1199,7 +1307,85 @@
         "item": "Sidebar::new",
         "outcome": "generated",
         "prop": "",
-        "reason": "constructor"
+        "reason": "constructor; groups and their items are the menu"
+      },
+      {
+        "item": "Sidebar::side",
+        "outcome": "generated",
+        "prop": "side",
+        "reason": ""
+      },
+      {
+        "item": "Sidebar::collapsible",
+        "outcome": "generated",
+        "prop": "collapsible",
+        "reason": ""
+      },
+      {
+        "item": "Sidebar::collapsed",
+        "outcome": "generated",
+        "prop": "collapsed",
+        "reason": ""
+      },
+      {
+        "item": "Sidebar::header",
+        "outcome": "generated",
+        "prop": "header, kitHeader",
+        "reason": "React Native content, in the kit's SidebarHeader with kitHeader"
+      },
+      {
+        "item": "Sidebar::footer",
+        "outcome": "generated",
+        "prop": "footer, kitFooter",
+        "reason": "React Native content, in the kit's SidebarFooter with kitFooter"
+      },
+      {
+        "item": "SidebarHeader::dropdown_menu",
+        "outcome": "generated",
+        "prop": "headerMenu",
+        "reason": ""
+      },
+      {
+        "item": "SidebarGroup::new",
+        "outcome": "generated",
+        "prop": "groups",
+        "reason": ""
+      },
+      {
+        "item": "SidebarMenuItem::new",
+        "outcome": "generated",
+        "prop": "groups[].items",
+        "reason": "label, icon, active, disabled, open, clickToOpen, children"
+      },
+      {
+        "item": "SidebarMenuItem::suffix",
+        "outcome": "generated",
+        "prop": "groups[].items[].suffix",
+        "reason": "React Native content"
+      },
+      {
+        "item": "SidebarMenuItem::label_style",
+        "outcome": "generated",
+        "prop": "groups[].items[].labelStyle",
+        "reason": ""
+      },
+      {
+        "item": "SidebarMenuItem::context_menu",
+        "outcome": "generated",
+        "prop": "groups[].items[].contextMenu",
+        "reason": "items, labels, links and separators"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitSidebarToggle",
+    "name": "SidebarToggle",
+    "coverage": [
+      {
+        "item": "SidebarToggleButton::new",
+        "outcome": "generated",
+        "prop": "side, collapsed, onPress",
+        "reason": ""
       }
     ]
   },
@@ -1212,6 +1398,42 @@
         "outcome": "generated",
         "prop": "",
         "reason": "constructor"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitThemeRegistry",
+    "name": "ThemeRegistry",
+    "coverage": [
+      {
+        "item": "ThemeRegistry::sorted_themes",
+        "outcome": "generated",
+        "prop": "onChange",
+        "reason": "the themes, with their mode"
+      },
+      {
+        "item": "Theme::theme_name",
+        "outcome": "generated",
+        "prop": "onChange",
+        "reason": "the active theme"
+      },
+      {
+        "item": "Theme::apply_config",
+        "outcome": "generated",
+        "prop": "apply()",
+        "reason": "command; also how a theme's colors are resolved over the default of its mode"
+      },
+      {
+        "item": "ThemeRegistry::default_light_theme",
+        "outcome": "generated",
+        "prop": "onChange",
+        "reason": "the isolated colors a viewer draws with"
+      },
+      {
+        "item": "ThemeRegistry::default_dark_theme",
+        "outcome": "generated",
+        "prop": "onChange",
+        "reason": "the isolated colors a viewer draws with"
       }
     ]
   },
@@ -1344,6 +1566,48 @@
         "outcome": "generated",
         "prop": "",
         "reason": "the code editor; its `language` selects the kit's syntax highlighter, which is how Highlighter is exposed"
+      },
+      {
+        "item": "InputBaseState::set_highlighter",
+        "outcome": "generated",
+        "prop": "language",
+        "reason": "changing language switches the kit highlighter"
+      },
+      {
+        "item": "InputBaseState::set_highlighter_factory",
+        "outcome": "generated",
+        "prop": "language",
+        "reason": "the kit installs its own highlighter factory, which language selects from"
+      },
+      {
+        "item": "InputBaseState::set_editor_style",
+        "outcome": "generated",
+        "prop": "editorStyle",
+        "reason": "highlightTheme picks the kit highlight theme; editorStyle overrides foreground, background, selection, caret, active line and gutter colors"
+      },
+      {
+        "item": "InputBaseState::set_fold_placeholder_renderer",
+        "outcome": "generated",
+        "prop": "foldPlaceholder",
+        "reason": "the text drawn after a folded line"
+      },
+      {
+        "item": "InputBaseState::set_scrollbar_renderer",
+        "outcome": "generated",
+        "prop": "scrollbarStyle",
+        "reason": "the kit Scrollbar with the style object"
+      },
+      {
+        "item": "InputBaseState::set_folding",
+        "outcome": "generated",
+        "prop": "folding",
+        "reason": ""
+      },
+      {
+        "item": "InputBaseState::set_indent_guides",
+        "outcome": "generated",
+        "prop": "indentGuides",
+        "reason": ""
       }
     ]
   },
@@ -1425,8 +1689,9 @@
       },
       {
         "item": "SettingItem::new",
-        "outcome": "skipped",
-        "reason": "a typed field reads and writes its value through Rust closures over app state; Settings takes React Native controls as items instead"
+        "outcome": "generated",
+        "prop": "entries",
+        "reason": "an entry with kind field is a kit setting item whose custom SettingField renders the React Native control"
       },
       {
         "item": "Settings::sidebar_width",
@@ -1502,13 +1767,15 @@
       },
       {
         "item": "SpeechState::recognizer",
-        "outcome": "skipped",
-        "reason": "a custom recognizer is a Rust trait implementation; JS cannot provide one, the system recognizer is used"
+        "outcome": "generated",
+        "prop": "recognizer",
+        "reason": "recognizer js: a recognizer whose results JavaScript pushes with pushHypothesis, pushPhrase and finishRecognition, with onRecognizerStart, onRecognizerFinish and onRecognizerEnd"
       },
       {
         "item": "SpeechState::input",
-        "outcome": "skipped",
-        "reason": "a custom audio source is a Rust trait implementation; the microphone is used"
+        "outcome": "generated",
+        "prop": "audioInput",
+        "reason": "audioInput js: an audio source fed 16-bit PCM by pushAudio, between onAudioStart and onAudioStop"
       }
     ]
   },
@@ -1704,8 +1971,9 @@
       },
       {
         "item": "DockArea::dump",
-        "outcome": "skipped",
-        "reason": "restoring a dump needs a Rust registry that rebuilds panels by name; React Native panels are rebuilt from props, so a dump could not be loaded back"
+        "outcome": "generated",
+        "prop": "onLayoutChange",
+        "reason": "onLayoutChange carries the dump as JSON with panels named by their id; layout and restoreLayout load one back, mounting the same panels"
       }
     ]
   },
@@ -1787,8 +2055,9 @@
       },
       {
         "item": "QuestionnaireItemDefinition::with_validator",
-        "outcome": "skipped",
-        "reason": "a synchronous Rust closure on every answer, which JS cannot answer in time; required and the onSubmit answers cover validation"
+        "outcome": "generated",
+        "prop": "questions",
+        "reason": "validation: declarative rules checked in Rust; the kit shows the message under the question"
       }
     ]
   },
@@ -1867,6 +2136,252 @@
         "outcome": "generated",
         "prop": "layers: sankey, links",
         "reason": "the points are nodes and links the flows"
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitRadioGroup",
+    "name": "RadioGroup",
+    "coverage": [
+      {
+        "item": "RadioGroup::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; the id comes from the node tag"
+      },
+      {
+        "item": "RadioGroup::vertical",
+        "outcome": "generated",
+        "prop": "layout",
+        "reason": ""
+      },
+      {
+        "item": "RadioGroup::horizontal",
+        "outcome": "generated",
+        "prop": "layout",
+        "reason": ""
+      },
+      {
+        "item": "RadioGroup::layout",
+        "outcome": "aliased",
+        "prop": "layout",
+        "reason": "covered by layout"
+      },
+      {
+        "item": "RadioGroup::child",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "each Radio child of the React component becomes an item; its children are drawn below its label"
+      },
+      {
+        "item": "RadioGroup::children",
+        "outcome": "aliased",
+        "prop": "items",
+        "reason": "covered by items"
+      },
+      {
+        "item": "RadioGroup::selected_index",
+        "outcome": "generated",
+        "prop": "selectedIndex",
+        "reason": "-1 selects none"
+      },
+      {
+        "item": "RadioGroup::disabled",
+        "outcome": "generated",
+        "prop": "disabled",
+        "reason": ""
+      },
+      {
+        "item": "RadioGroup::on_click",
+        "outcome": "generated",
+        "prop": "onChange",
+        "reason": "reports the index clicked"
+      },
+      {
+        "item": "RadioGroup::on_change",
+        "outcome": "aliased",
+        "prop": "onChange",
+        "reason": "covered by onChange"
+      },
+      {
+        "item": "RadioGroup (Styled)",
+        "outcome": "generated",
+        "prop": "kitStyle",
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitBasicTable",
+    "name": "Table",
+    "coverage": [
+      {
+        "item": "Table::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": "constructor; sections and rows come from the spec built by the Table wrapper"
+      },
+      {
+        "item": "Table::child",
+        "outcome": "generated",
+        "prop": "header, rows, footer",
+        "reason": "one TableHeader, TableBody and TableFooter"
+      },
+      {
+        "item": "Table::children",
+        "outcome": "generated",
+        "prop": "rows",
+        "reason": "covered by the rows of each section"
+      },
+      {
+        "item": "Table::accessibility_label",
+        "outcome": "generated",
+        "prop": "label",
+        "reason": ""
+      },
+      {
+        "item": "TableHeader::new",
+        "outcome": "generated",
+        "prop": "header",
+        "reason": ""
+      },
+      {
+        "item": "TableBody::new",
+        "outcome": "generated",
+        "prop": "rows",
+        "reason": ""
+      },
+      {
+        "item": "TableFooter::new",
+        "outcome": "generated",
+        "prop": "footer",
+        "reason": ""
+      },
+      {
+        "item": "TableRow::new",
+        "outcome": "generated",
+        "prop": "rows",
+        "reason": "a row's kitStyle refines it"
+      },
+      {
+        "item": "TableHead::new",
+        "outcome": "generated",
+        "prop": "header",
+        "reason": "cells of header rows"
+      },
+      {
+        "item": "TableHead::col_span",
+        "outcome": "generated",
+        "prop": "colSpan",
+        "reason": ""
+      },
+      {
+        "item": "TableHead::text_center",
+        "outcome": "generated",
+        "prop": "align",
+        "reason": ""
+      },
+      {
+        "item": "TableHead::text_right",
+        "outcome": "generated",
+        "prop": "align",
+        "reason": ""
+      },
+      {
+        "item": "TableCell::new",
+        "outcome": "generated",
+        "prop": "rows",
+        "reason": "text, or React Native content in the cell-S-R-C slot"
+      },
+      {
+        "item": "TableCell::col_span",
+        "outcome": "generated",
+        "prop": "colSpan",
+        "reason": ""
+      },
+      {
+        "item": "TableCell::text_center",
+        "outcome": "generated",
+        "prop": "align",
+        "reason": ""
+      },
+      {
+        "item": "TableCell::text_right",
+        "outcome": "generated",
+        "prop": "align",
+        "reason": ""
+      },
+      {
+        "item": "TableCaption::new",
+        "outcome": "generated",
+        "prop": "caption",
+        "reason": ""
+      }
+    ]
+  },
+  {
+    "tag": "GpuiKitNativeMenu",
+    "name": "NativeMenu",
+    "coverage": [
+      {
+        "item": "NativeMenu::new",
+        "outcome": "generated",
+        "prop": "",
+        "reason": " built from items when the menu opens"
+      },
+      {
+        "item": "NativeMenu::menu",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": ""
+      },
+      {
+        "item": "NativeMenu::menu_with_disabled",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "an item's disabled"
+      },
+      {
+        "item": "NativeMenu::menu_with_check",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "an item's checked"
+      },
+      {
+        "item": "NativeMenu::menu_with_icon",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "an item's icon or iconSvg"
+      },
+      {
+        "item": "NativeMenu::menu_with_icon_disabled",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "an item with an icon and disabled"
+      },
+      {
+        "item": "NativeMenu::menu_with_icon_and_disabled",
+        "outcome": "aliased",
+        "prop": "items",
+        "reason": "covered by items"
+      },
+      {
+        "item": "NativeMenu::separator",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "an item's separator"
+      },
+      {
+        "item": "NativeMenu::submenu",
+        "outcome": "generated",
+        "prop": "items",
+        "reason": "an item's children"
+      },
+      {
+        "item": "NativeMenu::show",
+        "outcome": "generated",
+        "prop": "contextMenu",
+        "reason": "at a right-click on the content, or below it with open()"
       }
     ]
   }

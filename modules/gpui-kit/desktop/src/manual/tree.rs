@@ -3,8 +3,9 @@ use gpui::{
     Styled as _, Subscription, Window,
 };
 use gpui_component::list::ListItem;
+use gpui_component::menu::PopupMenuItem;
 use gpui_component::tree::{tree, TreeEvent, TreeItem, TreeState};
-use gpui_component::{h_flex, Icon, IconName};
+use gpui_component::{h_flex, Icon, IconName, StyledExt as _};
 
 use crate::*;
 
@@ -66,6 +67,21 @@ impl GpuiKitTreeSpec for GpuiKitTree {
         _changed: GpuiKitTreeChanged,
         _cx: &mut GpuiKitTreeContext,
     ) {
+    }
+
+    fn select_item(&mut self, id: String, cx: &mut GpuiKitTreeContext) {
+        let Some(state) = self.state.clone() else {
+            return;
+        };
+        if let Some(app) = cx.app() {
+            state.update(app, |state, cx| {
+                let item = state
+                    .index_of(&SharedString::from(id.clone()))
+                    .and_then(|ix| state.entry(ix))
+                    .map(|entry| entry.item().clone());
+                state.set_selected_item(item.as_ref(), cx);
+            });
+        }
     }
 
     fn render(
@@ -136,12 +152,23 @@ impl GpuiKitTreeSpec for GpuiKitTree {
                 });
             })
         };
-        tree(&state, move |ix, entry, selected, _window, _app| {
+        let (indent, offset) = (props.indent() as f32, props.indent_offset() as f32);
+        let row_style = crate::style::refinement(props.row_style());
+        let menu = props.context_menu();
+        let entries: Vec<(String, bool, bool)> = (0..menu.len())
+            .filter_map(|index| menu.get(index))
+            .map(|e| (e.label().to_string(), e.separator(), e.files_only()))
+            .collect();
+        let menu_sender = cx.event_sender();
+        let mut element = tree(&state, move |ix, entry, selected, _window, _app| {
             let select = select.clone();
-            ListItem::new(ix)
-                .selected(selected)
+            let mut row = ListItem::new(ix);
+            if let Some(style) = &row_style {
+                row = row.refine_style(style);
+            }
+            row.selected(selected)
                 .disabled(entry.is_disabled())
-                .pl(gpui::px(16. * entry.depth() as f32))
+                .pl(gpui::px(indent * entry.depth() as f32 + offset))
                 .on_click(move |_, _window, app| select(ix, app))
                 .child(
                     h_flex()
@@ -157,7 +184,34 @@ impl GpuiKitTreeSpec for GpuiKitTree {
                         }))
                         .child(SharedString::from(entry.item().label.to_string())),
                 )
-        })
-        .into_any_element()
+        });
+        if !entries.is_empty() {
+            element = element.context_menu(move |_ix, entry, mut menu, _window, _cx| {
+                let folder = entry.is_folder();
+                let id = entry.item().id.to_string();
+                for (item, (label, separator, files_only)) in entries.iter().enumerate() {
+                    if *files_only && folder {
+                        continue;
+                    }
+                    if *separator {
+                        menu = menu.separator();
+                        continue;
+                    }
+                    let sender = menu_sender.clone();
+                    let id = id.clone();
+                    menu = menu.item(PopupMenuItem::new(label.clone()).on_click(move |_, _, _| {
+                        sender.gpui_kit_tree_menu(OnGpuiKitTreeMenu {
+                            id: id.clone(),
+                            item: item as i32,
+                        })
+                    }));
+                }
+                menu
+            });
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            element = element.refine_style(&style);
+        }
+        element.into_any_element()
     }
 }

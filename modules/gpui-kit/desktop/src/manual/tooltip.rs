@@ -36,8 +36,8 @@ impl GpuiKitTooltipSpec for GpuiKitTooltip {
         let renderers = Renderers::new(props.slots());
         let trigger = cx.children().into_iter().next();
         let text = props.text().to_string();
-        let width = gpui::px(if props.width() > 0.0 {
-            props.width() as f32
+        let width = gpui::px(if props.content_width() > 0.0 {
+            props.content_width() as f32
         } else {
             200.0
         });

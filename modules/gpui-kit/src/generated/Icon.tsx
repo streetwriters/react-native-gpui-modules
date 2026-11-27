@@ -4,6 +4,7 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitIconNativeComponent';
 import type { IconName } from './icons';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export interface IconProps extends ViewProps {
   children?: React.ReactNode;
@@ -14,6 +15,8 @@ export interface IconProps extends ViewProps {
   rotate?: number;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   color?: ColorValue;
+  customSize?: number;
+  kitStyle?: KitStyle;
 }
 
 export const Icon = forwardRef<ComponentRef<typeof Native>, IconProps>(
@@ -21,8 +24,17 @@ export const Icon = forwardRef<ComponentRef<typeof Native>, IconProps>(
     const { style, children, ...rest } = props;
     const heights = { xsmall: 12, small: 14, medium: 16, large: 24 } as const;
     const height =
-      heights[(props.size as keyof typeof heights) ?? 'medium'] ?? 12;
+      props.customSize ??
+      heights[(props.size as keyof typeof heights) ?? 'medium'] ??
+      12;
     const width = height;
-    return <Native ref={ref} {...rest} style={[{ height, width }, style]} />;
+    return (
+      <Native
+        ref={ref}
+        {...rest}
+        style={[{ height, width }, style]}
+        kitStyle={kitStyle(props.kitStyle)}
+      />
+    );
   },
 );

@@ -7,12 +7,13 @@ The kit's `Form`, written by hand on the same specification as the generated com
 
 ## Native props
 
-| Name         | Type                       |
-| ------------ | -------------------------- |
-| `horizontal` | `boolean`                  |
-| `labelWidth` | `Double`                   |
-| `columns`    | `Int32`                    |
-| `fields`     | `ReadonlyArray<FormField>` |
+| Name         | Type                                                                            |
+| ------------ | ------------------------------------------------------------------------------- |
+| `horizontal` | `boolean`                                                                       |
+| `labelWidth` | `Double`                                                                        |
+| `columns`    | `Int32`                                                                         |
+| `fields`     | `ReadonlyArray<FormField>`                                                      |
+| `size`       | `WithDefault< 'unset' \| 'xsmall' \| 'small' \| 'medium' \| 'large', 'unset' >` |
 
 ## Coverage
 

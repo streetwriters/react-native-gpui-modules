@@ -5,7 +5,14 @@ import { Text } from 'react-native';
 import { NativeRoot, NativeSlot } from '@react-native-gpui/core/desktop';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native, { Commands } from './GpuiKitNumberInputNativeComponent';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
+export type NumberInputValidationFailEvent = NativeSyntheticEvent<
+  Readonly<{ text: string; message: string }>
+>;
+export type NumberInputSelectionHoldChangeEvent = NativeSyntheticEvent<
+  Readonly<{ held: boolean }>
+>;
 export type NumberInputChangeEvent = NativeSyntheticEvent<
   Readonly<{ text: string; eventCount: number }>
 >;
@@ -14,6 +21,9 @@ export type NumberInputSubmitEvent = NativeSyntheticEvent<
 >;
 export type NumberInputFocusEvent = NativeSyntheticEvent<Readonly<{}>>;
 export type NumberInputBlurEvent = NativeSyntheticEvent<Readonly<{}>>;
+export type NumberInputStepEvent = NativeSyntheticEvent<
+  Readonly<{ increment: boolean }>
+>;
 
 export interface NumberInputProps extends ViewProps {
   placeholder?: string;
@@ -22,6 +32,8 @@ export interface NumberInputProps extends ViewProps {
   disabled?: boolean;
   focusRing?: boolean;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  customSize?: number;
+  kitStyle?: KitStyle;
   textAlign?: 'left' | 'center' | 'right';
   contextMenuEnabled?: boolean;
   foldBackground?: ColorValue;
@@ -43,10 +55,29 @@ export interface NumberInputProps extends ViewProps {
   value?: string;
   defaultValue?: string;
   onChangeText?: (text: string) => void;
+  onValidationFail?: (event: NumberInputValidationFailEvent) => void;
+  onSelectionHoldChange?: (event: NumberInputSelectionHoldChangeEvent) => void;
   onChange?: (event: NumberInputChangeEvent) => void;
   onSubmit?: (event: NumberInputSubmitEvent) => void;
   onFocus?: (event: NumberInputFocusEvent) => void;
   onBlur?: (event: NumberInputBlurEvent) => void;
+  onStep?: (event: NumberInputStepEvent) => void;
+  validation?: {
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+    pattern?: string;
+    min?: number;
+    max?: number;
+    message?: string;
+  };
+  scrollbarStyle?: {
+    thumbColor?: string | number;
+    trackColor?: string | number;
+    width?: number;
+    radius?: number;
+    autoHide?: boolean;
+  };
 }
 
 export interface NumberInputHandle {
@@ -66,19 +97,25 @@ export interface NumberInputHandle {
   ): void;
   setSearchQuery(query: string, caseInsensitive: boolean): void;
   insertToken(id: string, text: string, label: string): void;
+  holdSelection(hold: boolean): void;
 }
 
 export const NumberInput = forwardRef<NumberInputHandle, NumberInputProps>(
   function NumberInput(props, ref) {
     const {
       value,
+      onValidationFail,
+      onSelectionHoldChange,
       onChange,
       onSubmit,
       onFocus,
       onBlur,
+      onStep,
       onChangeText,
       prefix,
       suffix,
+      validation,
+      scrollbarStyle,
       style,
       ...rest
     } = props;
@@ -135,12 +172,15 @@ export const NumberInput = forwardRef<NumberInputHandle, NumberInputProps>(
         if (native.current)
           Commands.insertToken(native.current, id, text, label);
       },
+      holdSelection: (hold: boolean) => {
+        if (native.current) Commands.holdSelection(native.current, hold);
+      },
     }));
-    const present = (
+    const present: [string, React.ReactNode][] = (
       [
         ['prefix', prefix],
         ['suffix', suffix],
-      ] as const
+      ] as [string, React.ReactNode][]
     ).filter(([, content]) => content != null && content !== false);
     const element = (
       <Native
@@ -152,11 +192,20 @@ export const NumberInput = forwardRef<NumberInputHandle, NumberInputProps>(
         eventCount={count.current}
         slots={present.map(([name]) => name).join(',')}
         testID={present.length ? undefined : rest.testID}
+        kitStyle={kitStyle(props.kitStyle)}
+        scrollbarStyleJson={
+          props.scrollbarStyle ? JSON.stringify(props.scrollbarStyle) : ''
+        }
         scrollBeyondLastLine={props.scrollBeyondLastLine ?? -1}
         cursorSurroundingLines={props.cursorSurroundingLines ?? -1}
+        validationRules={
+          props.validation ? JSON.stringify(props.validation) : ''
+        }
         step={props.step ?? NaN}
         min={props.min ?? NaN}
         max={props.max ?? NaN}
+        onGpuiKitNumberInputValidationFail={onValidationFail}
+        onGpuiKitNumberInputSelectionHoldChange={onSelectionHoldChange}
         onGpuiKitNumberInputChange={event => {
           count.current = event.nativeEvent.eventCount;
           onChange?.(event as never);
@@ -165,9 +214,10 @@ export const NumberInput = forwardRef<NumberInputHandle, NumberInputProps>(
         onGpuiKitNumberInputSubmit={onSubmit}
         onGpuiKitNumberInputFocus={onFocus as never}
         onGpuiKitNumberInputBlur={onBlur as never}
+        onGpuiKitNumberInputStep={onStep}
       >
         {present.map(([name, content]) => (
-          <NativeSlot key={name}>
+          <NativeSlot key={name} fit={name.startsWith('token:')}>
             {typeof content === 'string' || typeof content === 'number' ? (
               <Text>{content}</Text>
             ) : (

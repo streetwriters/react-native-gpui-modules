@@ -141,6 +141,9 @@ impl GpuiKitOtpInputSpec for GpuiKitOtpInput {
             }
             GpuiKitOtpInputSize::Large => element = element.with_size(gpui_component::Size::Large),
         }
+        if props.custom_size() > 0.0 {
+            element = element.with_size(gpui::px(props.custom_size() as f32));
+        }
         element.into_any_element()
     }
 }

@@ -4,6 +4,8 @@ import React, { forwardRef, type ComponentRef } from 'react';
 import type { ColorValue, NativeSyntheticEvent, ViewProps } from 'react-native';
 import Native from './GpuiKitAlertNativeComponent';
 import type { IconName } from './icons';
+import { NativeRoot } from '@react-native-gpui/core/desktop';
+import { kitStyle, type KitStyle } from '../manual/kitStyle';
 
 export type AlertCloseEvent = NativeSyntheticEvent<
   Readonly<{
@@ -19,6 +21,7 @@ export type AlertCloseEvent = NativeSyntheticEvent<
 
 export interface AlertProps extends ViewProps {
   children?: React.ReactNode;
+  markdown?: boolean;
   message?: string;
   variant?: 'default' | 'info' | 'success' | 'warning' | 'error';
   icon?: IconName;
@@ -26,22 +29,25 @@ export interface AlertProps extends ViewProps {
   banner?: boolean;
   visible?: boolean;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  customSize?: number;
+  kitStyle?: KitStyle;
   onClose?: (event: AlertCloseEvent) => void;
 }
 
 export const Alert = forwardRef<ComponentRef<typeof Native>, AlertProps>(
   function Alert(props, ref) {
     const { onClose, style, children, ...rest } = props;
-    const height = 44;
-    const width = undefined;
     return (
-      <Native
-        ref={ref}
-        {...rest}
-        style={[{ height, width }, style]}
-        closeEvents={props.onClose !== undefined}
-        onGpuiKitAlertClose={onClose}
-      />
+      <NativeRoot style={style} testID={rest.testID}>
+        <Native
+          ref={ref}
+          {...rest}
+          testID={undefined}
+          kitStyle={kitStyle(props.kitStyle)}
+          closeEvents={props.onClose !== undefined}
+          onGpuiKitAlertClose={onClose}
+        ></Native>
+      </NativeRoot>
     );
   },
 );

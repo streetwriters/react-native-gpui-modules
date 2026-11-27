@@ -17,6 +17,8 @@ Pagination with page navigation, next and previous links.
 | `visiblePages` | `Int32`                                            | `Pagination::visible_pages` |
 | `disabled`     | `boolean`                                          | `Pagination::disabled`      |
 | `size`         | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'` | `Pagination::with_size`     |
+| `customSize`   | `Double`                                           | constructor argument        |
+| `kitStyle`     | `string`                                           | constructor argument        |
 
 ## Events
 

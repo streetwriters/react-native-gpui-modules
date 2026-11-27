@@ -15,11 +15,17 @@ export interface NativeProps extends ViewProps {
   menuWidth?: CodegenTypes.Double;
   icon?: string;
   controlled?: boolean;
+  defaultValue?: string;
+  titlePrefix?: string;
+  menuMaxHeight?: CodegenTypes.Double;
+  emptyText?: string;
+  kitStyle?: string;
   size?: CodegenTypes.WithDefault<
     'unset' | 'xsmall' | 'small' | 'medium' | 'large',
     'unset'
   >;
   value?: string;
+  listJson?: string;
   onGpuiKitSelectChange?: CodegenTypes.DirectEventHandler<
     Readonly<{ value: string; index: CodegenTypes.Int32 }>
   >;

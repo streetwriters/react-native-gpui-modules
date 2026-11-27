@@ -9,14 +9,20 @@ Tag is a small status indicator.
 
 ## Props
 
-| Prop          | Type                                                                                 | Native method        |
-| ------------- | ------------------------------------------------------------------------------------ | -------------------- |
-| `label`       | `string`                                                                             | constructor argument |
-| `variant`     | `'primary'` \| `'secondary'` \| `'danger'` \| `'success'` \| `'warning'` \| `'info'` | `Tag::with_variant`  |
-| `outline`     | `boolean`                                                                            | `Tag::outline`       |
-| `radius`      | `WithDefault<CodegenTypes.Double, -1.0>`                                             | `Tag::rounded`       |
-| `roundedFull` | `boolean`                                                                            | `Tag::rounded_full`  |
-| `size`        | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'`                                   | `Tag::with_size`     |
+| Prop               | Type                                                                                 | Native method        |
+| ------------------ | ------------------------------------------------------------------------------------ | -------------------- |
+| `customBorder`     | `ColorValue`                                                                         | constructor argument |
+| `customForeground` | `ColorValue`                                                                         | constructor argument |
+| `customColor`      | `ColorValue`                                                                         | constructor argument |
+| `colorName`        | `string`                                                                             | constructor argument |
+| `label`            | `string`                                                                             | constructor argument |
+| `variant`          | `'primary'` \| `'secondary'` \| `'danger'` \| `'success'` \| `'warning'` \| `'info'` | `Tag::with_variant`  |
+| `outline`          | `boolean`                                                                            | `Tag::outline`       |
+| `radius`           | `WithDefault<CodegenTypes.Double, -1.0>`                                             | `Tag::rounded`       |
+| `roundedFull`      | `boolean`                                                                            | `Tag::rounded_full`  |
+| `size`             | `'xsmall'` \| `'small'` \| `'medium'` \| `'large'`                                   | `Tag::with_size`     |
+| `customSize`       | `Double`                                                                             | constructor argument |
+| `kitStyle`         | `string`                                                                             | constructor argument |
 
 ## Events
 

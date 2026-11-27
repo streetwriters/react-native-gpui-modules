@@ -15,6 +15,7 @@ export interface NativeProps extends ViewProps {
   spread?: CodegenTypes.Double;
   reverse?: boolean;
   once?: boolean;
+  kitStyle?: string;
 }
 
 export default codegenNativeComponent<NativeProps>('GpuiKitShimmerText', {

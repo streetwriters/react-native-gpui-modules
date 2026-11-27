@@ -10,7 +10,8 @@ export interface SpinnerProps extends ViewProps {
   icon?: IconName;
   color?: ColorValue;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
-  easing?: 'ease-in-out' | 'linear' | 'quadratic' | 'ease-out-quint';
+  customSize?: number;
+  easing?: 'ease-in-out' | 'linear' | 'quadratic' | 'ease-out-quint' | 'bounce';
 }
 
 export const Spinner = forwardRef<ComponentRef<typeof Native>, SpinnerProps>(
@@ -18,7 +19,9 @@ export const Spinner = forwardRef<ComponentRef<typeof Native>, SpinnerProps>(
     const { style, children, ...rest } = props;
     const heights = { xsmall: 12, small: 14, medium: 16, large: 24 } as const;
     const height =
-      heights[(props.size as keyof typeof heights) ?? 'medium'] ?? 12;
+      props.customSize ??
+      heights[(props.size as keyof typeof heights) ?? 'medium'] ??
+      12;
     const width = height;
     return <Native ref={ref} {...rest} style={[{ height, width }, style]} />;
   },

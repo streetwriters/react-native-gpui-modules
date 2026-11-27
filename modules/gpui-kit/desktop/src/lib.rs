@@ -8,9 +8,10 @@ mod style;
 
 pub fn rn_gpui_register() {
     use gpui::AppContext as _;
-    react_native_gpui::register_asset_source(gpui_kit_assets::Assets);
+    react_native_gpui::register_asset_source(gpui_kit_assets::AllAssets);
     react_native_gpui::register_app_init(std::sync::Arc::new(|cx| {
         gpui_component::init(cx);
+        manual::init(cx);
         gpui_base::Root::register_plugin::<MotionSync>(cx, |_, _| MotionSync { driver: false });
     }));
     react_native_gpui::register_root_wrapper(|inner, window, cx| {

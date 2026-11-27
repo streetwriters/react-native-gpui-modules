@@ -47,7 +47,7 @@ impl GpuiKitSliderSpec for GpuiKitSlider {
         };
         if self.state.is_none() {
             let state = app.new(|_cx| {
-                SliderState::new()
+                let state = SliderState::new()
                     .min(props.minimum() as f32)
                     .max(if props.maximum() > props.minimum() {
                         props.maximum() as f32
@@ -58,7 +58,19 @@ impl GpuiKitSliderSpec for GpuiKitSlider {
                         props.step() as f32
                     } else {
                         1.0
-                    })
+                    });
+                let state = if !props.default_end().is_nan() {
+                    state.default_value(props.default_value() as f32..props.default_end() as f32)
+                } else if !props.default_value().is_nan() {
+                    state.default_value(props.default_value() as f32)
+                } else {
+                    state
+                };
+                if props.logarithmic() {
+                    state.scale(gpui_base::slider::SliderScale::Logarithmic)
+                } else {
+                    state
+                }
             });
             let count = self.count.clone();
             let last = self.last.clone();
@@ -69,25 +81,35 @@ impl GpuiKitSliderSpec for GpuiKitSlider {
                     let _ = (&count, &last);
                     match event {
                         SliderEvent::Change(value) => {
-                            let current = match value {
-                                gpui_component::slider::SliderValue::Single(v) => *v as f64,
-                                gpui_component::slider::SliderValue::Range(low, _) => *low as f64,
+                            let (current, end) = match value {
+                                gpui_component::slider::SliderValue::Single(v) => {
+                                    (*v as f64, *v as f64)
+                                }
+                                gpui_component::slider::SliderValue::Range(low, high) => {
+                                    (*low as f64, *high as f64)
+                                }
                             };
                             count.set(count.get() + 1);
                             *last.borrow_mut() = format!("{:.4}", current);
                             let count = count.get();
                             sender.gpui_kit_slider_change(OnGpuiKitSliderChange {
                                 current: current,
+                                end: end,
                                 event_count: count,
                             });
                         }
                         SliderEvent::Release(value) => {
-                            let current = match value {
-                                gpui_component::slider::SliderValue::Single(v) => *v as f64,
-                                gpui_component::slider::SliderValue::Range(low, _) => *low as f64,
+                            let (current, end) = match value {
+                                gpui_component::slider::SliderValue::Single(v) => {
+                                    (*v as f64, *v as f64)
+                                }
+                                gpui_component::slider::SliderValue::Range(low, high) => {
+                                    (*low as f64, *high as f64)
+                                }
                             };
                             sender.gpui_kit_slider_release(OnGpuiKitSliderRelease {
                                 current: current,
+                                end: end,
                             });
                         }
                         #[allow(unreachable_patterns)]
@@ -124,6 +146,9 @@ impl GpuiKitSliderSpec for GpuiKitSlider {
         }
         if props.reverse() {
             element = element.reverse();
+        }
+        if let Some(style) = crate::style::refinement(props.kit_style()) {
+            gpui::Refineable::refine(gpui::Styled::style(&mut element), &style);
         }
         element.into_any_element()
     }
