@@ -664,7 +664,7 @@ checksum = "ac07cdecf99051d9a5238b80f35af32cdeba5b336e55d957b318b50137e18da5"
 [[package]]
 name = "bench_metrics"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "anyhow",
  "criterion",
@@ -1202,7 +1202,7 @@ dependencies = [
 [[package]]
 name = "collections"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "gpui_util",
  "indexmap",
@@ -1726,7 +1726,7 @@ dependencies = [
 [[package]]
 name = "derive_refineable"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2758,7 +2758,7 @@ dependencies = [
 [[package]]
 name = "gpui"
 version = "0.2.2"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "accesskit",
  "anyhow",
@@ -3041,7 +3041,7 @@ dependencies = [
 [[package]]
 name = "gpui-pre"
 version = "0.3.12"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "gpui",
 ]
@@ -3089,7 +3089,7 @@ dependencies = [
 [[package]]
 name = "gpui-pre-macros"
 version = "0.3.12"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "gpui_macros",
 ]
@@ -3183,7 +3183,7 @@ dependencies = [
 [[package]]
 name = "gpui-pre-sum-tree"
 version = "0.3.12"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "sum_tree",
 ]
@@ -3202,7 +3202,7 @@ dependencies = [
 [[package]]
 name = "gpui_apple"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "anyhow",
  "async-task",
@@ -3239,9 +3239,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "gpui_cpu_renderer"
+version = "0.1.0"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
+dependencies = [
+ "anyhow",
+ "gpui",
+ "image",
+ "log",
+ "rayon",
+ "tiny-skia",
+]
+
+[[package]]
 name = "gpui_ios"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "anyhow",
  "block2 0.6.2",
@@ -3262,7 +3275,7 @@ dependencies = [
 [[package]]
 name = "gpui_linux"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "accesskit",
  "accesskit_unix",
@@ -3307,7 +3320,7 @@ dependencies = [
 [[package]]
 name = "gpui_macos"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "accesskit",
  "accesskit_macos",
@@ -3347,7 +3360,7 @@ dependencies = [
 [[package]]
 name = "gpui_macros"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "heck 0.5.0",
  "proc-macro-crate 3.5.0",
@@ -3359,23 +3372,26 @@ dependencies = [
 [[package]]
 name = "gpui_platform"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
  "gpui",
+ "gpui_apple",
+ "gpui_cpu_renderer",
  "gpui_ios",
  "gpui_linux",
  "gpui_macos",
  "gpui_web",
  "gpui_wgpu",
  "gpui_windows",
+ "log",
 ]
 
 [[package]]
 name = "gpui_shared_string"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "schemars",
  "serde",
@@ -3385,7 +3401,7 @@ dependencies = [
 [[package]]
 name = "gpui_util"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "anyhow",
  "log",
@@ -3395,7 +3411,7 @@ dependencies = [
 [[package]]
 name = "gpui_web"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "anyhow",
  "async-channel",
@@ -3424,7 +3440,7 @@ dependencies = [
 [[package]]
 name = "gpui_wgpu"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "anyhow",
  "ash",
@@ -3452,7 +3468,7 @@ dependencies = [
 [[package]]
 name = "gpui_windows"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "accesskit",
  "accesskit_windows",
@@ -3732,7 +3748,7 @@ dependencies = [
 [[package]]
 name = "http_client"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "anyhow",
  "bytes",
@@ -6682,7 +6698,7 @@ dependencies = [
 [[package]]
 name = "refineable"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "derive_refineable",
 ]
@@ -7098,7 +7114,7 @@ dependencies = [
 [[package]]
 name = "scheduler"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "async-task",
  "backtrace",
@@ -7655,7 +7671,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 [[package]]
 name = "sum_tree"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "heapless",
  "rayon",
@@ -10282,7 +10298,7 @@ dependencies = [
 [[package]]
 name = "ztracing"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 dependencies = [
  "tracing",
  "ztracing_macro",
@@ -10291,7 +10307,7 @@ dependencies = [
 [[package]]
 name = "ztracing_macro"
 version = "0.1.0"
-source = "git+https://github.com/streetwriters/gpui-fast?rev=89860da#89860da9ca3293909bf560a043d7accbc092282d"
+source = "git+https://github.com/streetwriters/gpui-fast?rev=1ad3cc3#1ad3cc360b37b97449a54e21aa3ac4fe781cfd53"
 
 [[package]]
 name = "zune-core"

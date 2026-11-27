@@ -50,7 +50,4 @@ rn-gpui-module = { path = "../../node_modules/@react-native-gpui/core/ReactGpui/
 rn-gpui-module-build = { path = "../../node_modules/@react-native-gpui/core/ReactGpui/rn-gpui-module-build" }
 gpui = { git = "https://github.com/streetwriters/gpui-fast", rev = "1ad3cc3" }
 gpui_platform = { git = "https://github.com/streetwriters/gpui-fast", rev = "1ad3cc3" }
-gpui-pre = { git = "https://github.com/streetwriters/gpui-fast", rev = "1ad3cc3" }
-gpui-pre-macros = { git = "https://github.com/streetwriters/gpui-fast", rev = "1ad3cc3" }
-gpui-pre-sum-tree = { git = "https://github.com/streetwriters/gpui-fast", rev = "1ad3cc3" }
 # End managed by autolink.
